@@ -1,0 +1,33 @@
+# Browsers
+.config/BraveSoftware
+.config/chromium
+.config/google-chrome*
+.config/opera
+.config/vivaldi
+
+# Editors runtime
+.config/Code/*
+!.config/Code/User
+.config/VSCodium/*
+!.config/VSCodium/User
+
+# VS Code / Codium junk
+**/Cache
+**/CachedData
+**/CachedExtensionVSIXs
+**/GPUCache
+**/logs
+**/globalStorage
+**/*.vsix
+
+# Electron / app state
+.config/Electron
+.config/obsidian
+.config/Signal
+.config/Mailspring
+.config/discord
+
+# Databases / hardware
+**/*.db
+**/monitors.xml
+**/kwinoutputconfig.json
