@@ -1,0 +1,170 @@
+[Background]
+image=./walls/digital/a_group_of_people_walking_on_a_snowy_road_with_a_dog.jpg
+wallpaperStyle=cover
+
+[General]
+Number of Actions=0
+
+[KFileDialog Settings]
+detailViewIconSize=48
+
+[PlasmaViews][Panel 125]
+floating=1
+floatingApplets=1
+panelLengthMode=2
+panelOpacity=2
+
+[PlasmaViews][Panel 125][Defaults]
+minLength=467
+thickness=29
+
+[PlasmaViews][Panel 125][Horizontal1969]
+minLength=467
+
+[PlasmaViews][Panel 138]
+alignment=1
+floating=1
+panelLengthMode=1
+panelOpacity=0
+panelVisibility=2
+
+[PlasmaViews][Panel 138][Defaults]
+maxLength=400
+minLength=400
+offset=7
+thickness=34
+
+[PlasmaViews][Panel 138][Horizontal1969]
+maxLength=400
+minLength=400
+offset=7
+
+[PlasmaViews][Panel 140]
+floating=1
+panelLengthMode=1
+panelOpacity=0
+panelVisibility=2
+
+[PlasmaViews][Panel 140][Defaults]
+thickness=50
+
+[PlasmaViews][Panel 145]
+alignment=2
+floating=1
+panelLengthMode=1
+panelOpacity=0
+panelVisibility=3
+
+[PlasmaViews][Panel 145][Defaults]
+thickness=34
+
+[PlasmaViews][Panel 2]
+floating=1
+
+[PlasmaViews][Panel 2][Defaults]
+thickness=44
+
+[PlasmaViews][Panel 215]
+floating=1
+
+[PlasmaViews][Panel 215][Defaults]
+thickness=48
+
+[PlasmaViews][Panel 261]
+floating=1
+panelOpacity=2
+
+[PlasmaViews][Panel 261][Defaults]
+thickness=36
+
+[PlasmaViews][Panel 263]
+floating=0
+panelLengthMode=1
+panelOpacity=2
+panelVisibility=1
+
+[PlasmaViews][Panel 263][Defaults]
+thickness=60
+
+[PlasmaViews][Panel 27]
+floating=1
+
+[PlasmaViews][Panel 27][Defaults]
+thickness=44
+
+[PlasmaViews][Panel 39]
+floating=1
+
+[PlasmaViews][Panel 39][Defaults]
+thickness=44
+
+[PlasmaViews][Panel 4]
+floating=1
+panelLengthMode=1
+panelVisibility=2
+
+[PlasmaViews][Panel 4][Defaults]
+thickness=64
+
+[PlasmaViews][Panel 52]
+floating=1
+panelLengthMode=0
+panelOpacity=2
+panelVisibility=0
+
+[PlasmaViews][Panel 52][Defaults]
+maxLength=2160
+minLength=2160
+offset=0
+thickness=29
+
+[PlasmaViews][Panel 52][Horizontal1969]
+alignment=132
+
+[PlasmaViews][Panel 68]
+floating=1
+
+[PlasmaViews][Panel 68][Defaults]
+thickness=44
+
+[PlasmaViews][Panel 7]
+floating=1
+
+[PlasmaViews][Panel 7][Defaults]
+thickness=44
+
+[PlasmaViews][Panel 73]
+floating=1
+panelLengthMode=0
+panelOpacity=0
+panelVisibility=0
+
+[PlasmaViews][Panel 73][Defaults]
+maxLength=895
+minLength=540
+offset=0
+thickness=58
+
+[PlasmaViews][Panel 73][Horizontal1969]
+alignment=132
+
+[PlasmaViews][Panel 9]
+floating=1
+panelLengthMode=1
+panelVisibility=2
+
+[PlasmaViews][Panel 9][Defaults]
+thickness=64
+
+[PlasmaViews][Panel 97]
+floating=1
+floatingApplets=1
+panelLengthMode=1
+panelOpacity=0
+panelVisibility=1
+
+[PlasmaViews][Panel 97][Defaults]
+thickness=70
+
+[Updates]
+performed=/usr/share/plasma/shells/org.kde.plasma.desktop/contents/updates/migrate_font_weights.js,/usr/share/plasma/shells/org.kde.plasma.desktop/contents/updates/mediaframe_migrate_useBackground_setting.js,/usr/share/plasma/shells/org.kde.plasma.desktop/contents/updates/taskmanager_configUpdate_wheelEnabled.js,/usr/share/plasma/shells/org.kde.plasma.desktop/contents/updates/systemloadviewer_systemmonitor.js,/usr/share/plasma/shells/org.kde.plasma.desktop/contents/updates/digitalclock_migrate_font_settings.js,/usr/share/plasma/shells/org.kde.plasma.desktop/contents/updates/move_desktop_layout_config.js,/usr/share/plasma/shells/org.kde.plasma.desktop/contents/updates/unlock_widgets.js,/usr/share/plasma/shells/org.kde.plasma.desktop/contents/updates/no_middle_click_paste_on_panels.js,/usr/share/plasma/shells/org.kde.plasma.desktop/contents/updates/digitalclock_rename_timezonedisplay_key.js,/usr/share/plasma/shells/org.kde.plasma.desktop/contents/updates/digitalclock_migrate_showseconds_setting.js,/usr/share/plasma/shells/org.kde.plasma.desktop/contents/updates/keyboardlayout_migrateiconsetting.js,/usr/share/plasma/shells/org.kde.plasma.desktop/contents/updates/containmentactions_middlebutton.js,/usr/share/plasma/shells/org.kde.plasma.desktop/contents/updates/keyboardlayout_remove_shortcut.js,/usr/share/plasma/shells/org.kde.plasma.desktop/contents/updates/folderview_fix_recursive_screenmapping.js,/usr/share/plasma/shells/org.kde.plasma.desktop/contents/updates/maintain_existing_desktop_icon_sizes.js,/usr/share/plasma/shells/org.kde.plasma.desktop/contents/updates/klipper_clear_config.js
