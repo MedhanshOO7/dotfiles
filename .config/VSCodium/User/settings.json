@@ -52,5 +52,8 @@
     "editor.autoClosingDelete": "always",
     "terminal.integrated.sendKeybindingsToShell": true,
     "editor.stickyScroll.enabled": false,
-    "git.autofetch": true
+    "git.autofetch": true,
+    "vscode_custom_css.imports": [
+        "/home/medhansh/.config/VSCodium/User/coustom.css"
+    ]
 }
