@@ -175,7 +175,7 @@ Window Raise=none,,Raise Window
 Window Resize=none,,Resize Window
 Window Shrink Horizontal=none,,Shrink Window Horizontally
 Window Shrink Vertical=none,,Shrink Window Vertically
-Window to Desktop 1=none,,Window to Desktop 1
+Window to Desktop 1=Meta+!,,Window to Desktop 1
 Window to Desktop 10=none,,Window to Desktop 10
 Window to Desktop 11=none,,Window to Desktop 11
 Window to Desktop 12=none,,Window to Desktop 12
@@ -186,10 +186,10 @@ Window to Desktop 16=none,,Window to Desktop 16
 Window to Desktop 17=none,,Window to Desktop 17
 Window to Desktop 18=none,,Window to Desktop 18
 Window to Desktop 19=none,,Window to Desktop 19
-Window to Desktop 2=none,,Window to Desktop 2
+Window to Desktop 2=Meta+@,,Window to Desktop 2
 Window to Desktop 20=none,,Window to Desktop 20
-Window to Desktop 3=none,,Window to Desktop 3
-Window to Desktop 4=none,,Window to Desktop 4
+Window to Desktop 3=Meta+#,,Window to Desktop 3
+Window to Desktop 4=Meta+$,,Window to Desktop 4
 Window to Desktop 5=none,,Window to Desktop 5
 Window to Desktop 6=none,,Window to Desktop 6
 Window to Desktop 7=none,,Window to Desktop 7
@@ -359,6 +359,9 @@ _launch=Meta+X
 
 [services][org.kde.krunner.desktop]
 _launch=Search\tAlt+F2
+
+[services][org.kde.plasma-systemmonitor.desktop]
+_launch=Meta+Esc\tCtrl+Shift+Esc
 
 [wacomtablet]
 Map to fullscreen=Meta+Ctrl+F,Meta+Ctrl+F,Map to fullscreen

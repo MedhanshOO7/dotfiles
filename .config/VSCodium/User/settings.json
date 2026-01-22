@@ -51,5 +51,6 @@
     "editor.autoClosingBrackets": "always",
     "editor.autoClosingDelete": "always",
     "terminal.integrated.sendKeybindingsToShell": true,
-    "editor.stickyScroll.enabled": false
+    "editor.stickyScroll.enabled": false,
+    "git.autofetch": true
 }

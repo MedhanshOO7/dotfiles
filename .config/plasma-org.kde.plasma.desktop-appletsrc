@@ -20,8 +20,8 @@ plugin=org.kde.plasma.kickoff
 
 [Containments][263][Applets][264][Configuration]
 PreloadWeight=100
-popupHeight=1049
-popupWidth=1462
+popupHeight=870
+popupWidth=1222
 
 [Containments][263][Applets][264][Configuration][ConfigDialog]
 DialogHeight=798
@@ -69,8 +69,8 @@ AppletOrder=264;266;267;287
 [Containments][96]
 ItemGeometries-1477x923=Applet-215:1215.8,0,448,448,0;Applet-216:1449.62,464,208,224,0;Applet-200:1543.05,805.123,96,80,0;
 ItemGeometries-1969x1231=Applet-250:719.897,399.279,512,160,0;
-ItemGeometries-2048x1280=Applet-271:64,1024,560,176,0;Applet-277:602.456,80,2048,96,0;Applet-281:1488,240,512,240,0;Applet-288:1520,528,208,240,0;Applet-286:1728,528,208,240,0;Applet-289:1520,768,208,256,0;Applet-290:1728,768,208,256,0;
-ItemGeometriesHorizontal=Applet-271:64,1024,560,176,0;Applet-277:602.456,80,2048,96,0;Applet-281:1488,240,512,240,0;Applet-288:1520,528,208,240,0;Applet-286:1728,528,208,240,0;Applet-289:1520,768,208,256,0;Applet-290:1728,768,208,256,0;
+ItemGeometries-2048x1280=Applet-277:0,80,2048,96,0;Applet-271:64,1024,640,176,0;Applet-281:1488,240,512,240,0;Applet-288:1520,528,208,240,0;Applet-286:1728,528,208,240,0;Applet-289:1520,768,208,256,0;Applet-290:1728,768,208,256,0;
+ItemGeometriesHorizontal=Applet-277:0,80,2048,96,0;Applet-271:64,1024,640,176,0;Applet-281:1488,240,512,240,0;Applet-288:1520,528,208,240,0;Applet-286:1728,528,208,240,0;Applet-289:1520,768,208,256,0;Applet-290:1728,768,208,256,0;
 activityId=a7111bf2-f5da-40d6-932f-b62580dc4cc2
 formfactor=0
 immutability=1
