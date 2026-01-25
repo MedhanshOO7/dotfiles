@@ -1,98 +1,132 @@
 #!/usr/bin/env bash
 
-# --- CONFIG ---
-HIST_FILE="$HOME/.cache/rofi-finder-history"
-if [ ! -f "$HIST_FILE" ]; then mkdir -p "$(dirname "$HIST_FILE")"; touch "$HIST_FILE"; fi
+FD=$(command -v fd || command -v fdfind) || exit 1
+HIST="$HOME/.cache/rofi_file_history"
+mkdir -p "$(dirname "$HIST")"
+touch "$HIST"
 
-# --- 1. HANDLE SELECTION ---
+# ---------------- SELECTION ----------------
 if [ -n "$ROFI_INFO" ]; then
-  grep -vxF "$ROFI_INFO" "$HIST_FILE" > "$HIST_FILE.tmp" 2>/dev/null && mv "$HIST_FILE.tmp" "$HIST_FILE"
-  echo "$ROFI_INFO" >> "$HIST_FILE"
-  nohup xdg-open "$ROFI_INFO" > /dev/null 2>&1 &
-  exit 0
-fi
-if [[ "$@" == /* ]] && [ -e "$@" ]; then
-  grep -vxF "$@" "$HIST_FILE" > "$HIST_FILE.tmp" 2>/dev/null && mv "$HIST_FILE.tmp" "$HIST_FILE"
-  echo "$@" >> "$HIST_FILE"
-  nohup xdg-open "$@" > /dev/null 2>&1 &
-  exit 0
-fi
+    FILE="$ROFI_INFO"
 
-# --- 2. DEFINE SOURCE ---
-if [ -z "$@" ]; then
-    INPUT_SOURCE="tac $HIST_FILE 2>/dev/null | head -n 20"
-    echo -en "\0prompt\x1fHistory\n"
-else
-    INPUT_SOURCE="baloosearch6 \"$@\" 2>/dev/null | head -n 60"
-    echo -en "\0prompt\x1fSearch\n"
+    grep -vxF "$FILE" "$HIST" > "$HIST.tmp" 2>/dev/null
+    { echo "$FILE"; cat "$HIST.tmp"; } | head -n 15 > "$HIST"
+    rm -f "$HIST.tmp"
+
+    xdg-open "$FILE" >/dev/null 2>&1 &
+    disown
+    exit 0
 fi
 
-# --- 3. FORMAT & DISPLAY ---
-eval "$INPUT_SOURCE" | perl -pe '
-    chomp; 
-    my $f=$_; 
-    if (-e $f) {
-        my @p=split("/", $f); 
-        my $name=pop(@p); 
-        my $parent=pop(@p) // ""; 
-        
-        # --- CATPPUCCIN MOCHA PALETTE ---
-        my $rosewater="#f5e0dc"; my $flamingo="#f2cdcd"; my $pink="#f5c2e7";
-        my $mauve="#cba6f7";     my $red="#f38ba8";      my $maroon="#eba0ac";
-        my $peach="#fab387";     my $yellow="#f9e2af";   my $green="#a6e3a1";
-        my $teal="#94e2d5";      my $sky="#89dceb";      my $sapphire="#74c7ec";
-        my $blue="#89b4fa";      my $lavender="#b4befe"; my $text="#cdd6f4"; 
-        my $overlay="#6c7086";
+QUERY="$1"
 
-        my $icon = "📄"; 
-        my $color = $text;
-        
-        # --- 1. DEVELOPER FILES ---
-        if    ($name =~ /\.py$/i)       { $icon = "🐍"; $color = $yellow; }
-        elsif ($name =~ /\.(cpp|c|h|hpp)$/i) { $icon = "🇨"; $color = $blue; } # C/C++
-        elsif ($name =~ /\.(js|ts|jsx|tsx)$/i) { $icon = "📜"; $color = $yellow; } # JS
-        elsif ($name =~ /\.rs$/i)       { $icon = "🦀"; $color = $peach; } # Rust
-        elsif ($name =~ /\.go$/i)       { $icon = "🐹"; $color = $teal; } # Go
-        elsif ($name =~ /\.java$/i)     { $icon = "☕"; $color = $maroon; } # Java
-        elsif ($name =~ /\.(rb|ruby)$/i){ $icon = "💎"; $color = $red; } # Ruby
-        elsif ($name =~ /\.(php)$/i)    { $icon = "🐘"; $color = $lavender; } # PHP
-        elsif ($name =~ /\.(html|htm)$/i){ $icon = "🌐"; $color = $peach; }
-        elsif ($name =~ /\.(css|scss)$/i){ $icon = "🎨"; $color = $blue; }
-        elsif ($name =~ /\.(sh|bash|zsh|fish)$/i){ $icon = "🐚"; $color = $green; }
-        elsif ($name =~ /(dockerfile|docker-compose)/i){ $icon = "🐳"; $color = $blue; }
-        elsif ($name =~ /\.(sql|db|sqlite)$/i)   { $icon = "🛢️"; $color = $yellow; }
+# ---------------- SHARED FORMATTER ----------------
+format() {
+    MODE="$1"   # normal | history
+    perl -e '
+        use strict;
+        use warnings;
 
-        # --- 2. DOCUMENTS ---
-        elsif ($name =~ /\.pdf$/i)      { $icon = "📕"; $color = $red; }
-        elsif ($name =~ /\.(doc|docx)$/i){ $icon = "📘"; $color = $blue; }
-        elsif ($name =~ /\.(xls|xlsx|csv)$/i){ $icon = "📊"; $color = $green; }
-        elsif ($name =~ /\.(ppt|pptx)$/i){ $icon = "📢"; $color = $peach; }
-        elsif ($name =~ /\.md$/i)       { $icon = "📓"; $color = $lavender; }
-        elsif ($name =~ /\.(txt|rtf|log)$/i){ $icon = "📝"; $color = $text; }
-        elsif ($name =~ /\.(epub|mobi)$/i){ $icon = "📚"; $color = $rosewater; }
-        elsif ($name =~ /\.(tex|bib)$/i){ $icon = "📜"; $color = $teal; }
+        my $mode = shift @ARGV;
 
-        # --- 3. MEDIA ---
-        elsif ($name =~ /\.(jpg|jpeg|png)$/i){ $icon = "🖼️"; $color = $mauve; }
-        elsif ($name =~ /\.(svg|ai|eps)$/i)  { $icon = "📐"; $color = $peach; }
-        elsif ($name =~ /\.(gif|webp)$/i)    { $icon = "👾"; $color = $pink; }
-        elsif ($name =~ /\.(mp4|mkv|mov)$/i) { $icon = "🎬"; $color = $mauve; }
-        elsif ($name =~ /\.(mp3|wav|flac)$/i){ $icon = "🎧"; $color = $yellow; }
+        while (<STDIN>) {
+            chomp;
+            my $f = $_;
 
-        # --- 4. CONFIG & SYSTEM ---
-        elsif ($name =~ /\.(json|xml|yaml|yml|toml)$/i){ $icon = "🔧"; $color = $sky; }
-        elsif ($name =~ /\.(conf|ini|cfg)$/i){ $icon = "⚙️"; $color = $overlay; }
-        elsif ($name =~ /\.(zip|tar|gz|rar|7z)$/i){ $icon = "📦"; $color = $flamingo; }
-        elsif ($name =~ /\.(iso|img)$/i)     { $icon = "💿"; $color = $pink; }
-        elsif ($name =~ /\.(exe|bin|appimage)$/i){ $icon = "🚀"; $color = $green; }
-        elsif ($name =~ /\.(pem|key|crt)$/i) { $icon = "🔒"; $color = $red; }
-        elsif (-d $f) { $icon = "📂"; $color = $blue; }
+            my @p = split("/", $f);
+            my $name = pop(@p);
+            my $parent = pop(@p) // "root";
 
-        # Escape Special Chars
-        $name =~ s/&/&amp;/g; $name =~ s/</&lt;/g; $name =~ s/>/&gt;/g;
-        $parent =~ s/&/&amp;/g; $parent =~ s/</&lt;/g; $parent =~ s/>/&gt;/g;
-        
-        # Output
-        print "$icon <span color=\"$color\">$name</span> <span color=\"$overlay\" size=\"small\">($parent)</span>\0info\x1f$f\n";
-    }
-    $_=""'
+            # -------- ICON RESOLUTION (NERD FONTS ONLY) --------
+            my $icon = "󰈙";  # generic file
+
+            # Programming languages
+            if    ($name =~ /\.c$/i)        { $icon = "󰙱"; }  # C
+            elsif ($name =~ /\.h$/i)        { $icon = "󰙱"; }  # Header
+            elsif ($name =~ /\.cpp$/i)      { $icon = "󰙲"; }  # C++
+            elsif ($name =~ /\.hpp$/i)      { $icon = "󰙲"; }  # C++ Header
+            elsif ($name =~ /\.rs$/i)       { $icon = "󱘗"; }  # Rust
+            elsif ($name =~ /\.go$/i)       { $icon = "󰟓"; }  # Go
+            elsif ($name =~ /\.py$/i)       { $icon = "󰌠"; }  # Python
+            elsif ($name =~ /\.js$/i)       { $icon = "󰌞"; }  # JavaScript
+            elsif ($name =~ /\.ts$/i)       { $icon = "󰛦"; }  # TypeScript
+            elsif ($name =~ /\.java$/i)     { $icon = "󰬷"; }  # Java
+            elsif ($name =~ /\.sh$/i)       { $icon = "󰆍"; }  # Shell
+            elsif ($name =~ /\.lua$/i)      { $icon = "󰢱"; }  # Lua
+            elsif ($name =~ /\.rb$/i)       { $icon = "󰴭"; }  # Ruby
+            elsif ($name =~ /\.php$/i)      { $icon = "󰌟"; }  # PHP
+
+            # Documents / data
+            elsif ($name =~ /\.pdf$/i)              { $icon = "󰈦"; }
+            elsif ($name =~ /\.(md|txt|log)$/i)     { $icon = "󰈙"; }
+            elsif ($name =~ /\.(json|ya?ml|xml)$/i) { $icon = "󰘦"; }
+            elsif ($name =~ /\.(csv|xls|xlsx|ods)$/i) { $icon = "󰈛"; }
+            elsif ($name =~ /\.(doc|docx|odt|rtf)$/i) { $icon = "󰈬"; }
+
+            # Media
+            elsif ($name =~ /\.(png|jpg|jpeg|gif|svg|webp)$/i) { $icon = "󰋩"; }
+            elsif ($name =~ /\.(mp4|mkv|avi|mov|webm)$/i)      { $icon = "󰕧"; }
+            elsif ($name =~ /\.(mp3|wav|flac|ogg)$/i)          { $icon = "󰎈"; }
+
+            # Archives / binaries
+            elsif ($name =~ /\.(zip|tar|gz|bz2|xz|7z)$/i) { $icon = "󰀼"; }
+            elsif ($name =~ /\.(AppImage|exe|bin|run)$/i) { $icon = "󰆍"; }
+
+            # -------- ESCAPE --------
+            for ($name, $parent) {
+                s/&/&amp;/g;
+                s/</&lt;/g;
+                s/>/&gt;/g;
+            }
+
+            # -------- OUTPUT --------
+            if ($mode eq "history") {
+                print "<span foreground=\"#b0b0b0\">$icon  $name</span> ";
+            } else {
+                print "$icon      $name ";
+            }
+
+            print "<span color=\"#6272a4\" size=\"small\">($parent)</span>\0info\x1f$f\n";
+        }
+    ' "$MODE"
+}
+
+
+
+print_separator() {
+    echo -en "── Recent Files ──────────────────────────\0nonselectable\x1ftrue\n"
+}
+
+# ---------------- HISTORY ----------------
+HISTORY_PRINTED=0
+
+if [ -s "$HIST" ]; then
+    if [ -n "$QUERY" ]; then
+        grep -i "$QUERY" "$HIST" | head -n 5 | format history
+    else
+        head -n 5 "$HIST" | format history
+    fi
+    HISTORY_PRINTED=1
+fi
+
+[ "$HISTORY_PRINTED" -eq 1 ] && print_separator
+
+# ---------------- SEARCH TIERS ----------------
+
+$FD "$QUERY" "$HOME/Downloads" \
+    --type f --hidden --exclude .git --color never 2>/dev/null |
+    head -n 150000 | format normal && exit 0
+
+$FD "$QUERY" "$HOME/Documents" \
+    --type f --hidden --exclude .git --color never 2>/dev/null |
+    head -n 150000 | format normal && exit 0
+
+if [ ${#QUERY} -ge 3 ]; then
+    $FD "$QUERY" "$HOME" \
+        --type f --hidden \
+        --exclude .git --exclude node_modules \
+        --exclude Downloads --exclude Documents \
+        --max-depth 6 \
+        --color never 2>/dev/null |
+        head -n 50 | format normal
+fi

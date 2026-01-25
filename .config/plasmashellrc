@@ -8,11 +8,6 @@ Number of Actions=0
 [KFileDialog Settings]
 detailViewIconSize=48
 
-[PlasmaTransientsConfig]
-PreloadWeight=0
-popupHeight=328
-popupWidth=420
-
 [PlasmaViews][Panel 125]
 floating=1
 floatingApplets=1
