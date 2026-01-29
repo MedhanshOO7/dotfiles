@@ -1,12 +1,18 @@
 [Added Associations]
+application/json=codium.desktop;
 application/schema+json=code.desktop;
+application/x-docbook+xml=codium.desktop;
 application/x-extension-htm=userapp-Firefox-AL6HG3.desktop;firefox.desktop;
 application/x-extension-html=userapp-Firefox-AL6HG3.desktop;firefox.desktop;
 application/x-extension-shtml=userapp-Firefox-AL6HG3.desktop;firefox.desktop;
 application/x-extension-xht=userapp-Firefox-AL6HG3.desktop;firefox.desktop;
 application/x-extension-xhtml=userapp-Firefox-AL6HG3.desktop;firefox.desktop;
+application/x-yaml=codium.desktop;
 application/xhtml+xml=firefox.desktop;org.gnome.Epiphany.desktop;userapp-Firefox-AL6HG3.desktop;
 text/html=firefox.desktop;org.gnome.Epiphany.desktop;userapp-Firefox-AL6HG3.desktop;
+text/markdown=codium.desktop;
+text/plain=codium.desktop;
+text/x-cmake=codium.desktop;
 x-scheme-handler/chrome=firefox.desktop;userapp-Firefox-AL6HG3.desktop;
 x-scheme-handler/http=org.kde.falkon.desktop;firefox.desktop;userapp-Firefox-AL6HG3.desktop;org.gnome.Epiphany.desktop;
 x-scheme-handler/https=org.kde.falkon.desktop;firefox.desktop;userapp-Firefox-AL6HG3.desktop;org.gnome.Epiphany.desktop;
@@ -15,20 +21,26 @@ x-scheme-handler/sms=org.gnome.Shell.Extensions.GSConnect.desktop;
 x-scheme-handler/tel=org.gnome.Shell.Extensions.GSConnect.desktop;
 
 [Default Applications]
+application/json=codium.desktop;
 application/schema+json=code.desktop
+application/x-docbook+xml=codium.desktop;
 application/x-extension-htm=firefox.desktop
 application/x-extension-html=firefox.desktop
 application/x-extension-shtml=firefox.desktop
 application/x-extension-xht=firefox.desktop
 application/x-extension-xhtml=firefox.desktop
+application/x-yaml=codium.desktop;
 application/xhtml+xml=firefox.desktop
 text/html=brave-browser.desktop
+text/markdown=codium.desktop;
+text/plain=codium.desktop;
+text/x-cmake=codium.desktop;
 x-scheme-handler/about=brave-browser.desktop
 x-scheme-handler/chrome=firefox.desktop
 x-scheme-handler/http=brave-browser.desktop
 x-scheme-handler/https=brave-browser.desktop
 x-scheme-handler/mailspring=Mailspring.desktop
 x-scheme-handler/mailto=org.kde.kmail2.desktop;
-x-scheme-handler/unknown=brave-browser.desktop
 x-scheme-handler/sgnl=signal-desktop.desktop
 x-scheme-handler/signalcaptcha=signal-desktop.desktop
+x-scheme-handler/unknown=brave-browser.desktop

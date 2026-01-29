@@ -39,6 +39,9 @@ TopCornerRadius=30
 [Effect-shakecursor]
 Magnification=4
 
+[ElectricBorders]
+BottomLeft=LockScreen
+
 [NightColor]
 Active=true
 NightTemperature=3800

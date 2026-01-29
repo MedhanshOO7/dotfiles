@@ -1,5 +1,5 @@
 # zoxide: smarter cd
 eval "$(zoxide init zsh)"
 
-#muscle-memory optimization
+# muscle-memory optimization
 alias cd='z'

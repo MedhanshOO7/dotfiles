@@ -19,7 +19,4 @@ alias vpnc='protonvpn connect'
 alias vpndc='protonvpn disconnect'
 
 # Editor
-alias code='codium'
-
-#better cd command
-alias z='cd'
+#alias code='codium'

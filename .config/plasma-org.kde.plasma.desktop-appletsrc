@@ -59,7 +59,7 @@ immutability=1
 plugin=org.kde.plasma.clipboard
 
 [Containments][263][Applets][287][Configuration]
-PreloadWeight=65
+PreloadWeight=70
 popupHeight=433
 popupWidth=701
 
@@ -69,8 +69,8 @@ AppletOrder=264;266;267;287
 [Containments][96]
 ItemGeometries-1477x923=Applet-215:1215.8,0,448,448,0;Applet-216:1449.62,464,208,224,0;Applet-200:1543.05,805.123,96,80,0;
 ItemGeometries-1969x1231=Applet-250:719.897,399.279,512,160,0;
-ItemGeometries-2048x1280=Applet-277:0,80,2048,96,0;Applet-271:64,1024,640,176,0;Applet-281:1488,240,512,240,0;Applet-288:1520,528,208,240,0;Applet-286:1728,528,208,240,0;Applet-289:1520,768,208,256,0;Applet-290:1728,768,208,256,0;
-ItemGeometriesHorizontal=Applet-277:0,80,2048,96,0;Applet-271:64,1024,640,176,0;Applet-281:1488,240,512,240,0;Applet-288:1520,528,208,240,0;Applet-286:1728,528,208,240,0;Applet-289:1520,768,208,256,0;Applet-290:1728,768,208,256,0;
+ItemGeometries-2048x1280=Applet-281:1488,16,512,240,0;Applet-288:1520,256,208,240,0;Applet-286:1744,256,208,240,0;Applet-289:1520,496,208,256,0;Applet-290:1744,496,208,256,0;Applet-271:64,1024,640,176,0;Applet-291:1504,752,480,464,0;
+ItemGeometriesHorizontal=Applet-281:1488,16,512,240,0;Applet-288:1520,256,208,240,0;Applet-286:1744,256,208,240,0;Applet-289:1520,496,208,256,0;Applet-290:1744,496,208,256,0;Applet-271:64,1024,640,176,0;Applet-291:1504,752,480,464,0;
 activityId=a7111bf2-f5da-40d6-932f-b62580dc4cc2
 formfactor=0
 immutability=1
@@ -82,22 +82,6 @@ wallpaperplugin=org.kde.image
 [Containments][96][Applets][271]
 immutability=1
 plugin=com.github.prayag2.modernclock
-
-[Containments][96][Applets][277]
-immutability=1
-plugin=org.kde.plasma.catwalk
-
-[Containments][96][Applets][277][Configuration]
-popupHeight=550
-popupWidth=770
-
-[Containments][96][Applets][277][Configuration][ConfigDialog]
-DialogHeight=630
-DialogWidth=810
-
-[Containments][96][Applets][277][Configuration][General]
-idle=2
-updateRateLimit=0
 
 [Containments][96][Applets][281]
 immutability=1
@@ -211,6 +195,10 @@ totalSensors=["network/(?!all).*/network"]
 [Containments][96][Applets][290][Configuration][org.kde.ksysguard.textonly][General]
 groupByTotal=true
 
+[Containments][96][Applets][291]
+immutability=1
+plugin=org.kde.plasma.battery
+
 [Containments][96][ConfigDialog]
 DialogHeight=784
 DialogWidth=1062
@@ -227,7 +215,7 @@ VideoUrls=[{"filename":"file:///home/medhansh/Videos/Sabrina Carpenter Kissing S
 
 [Containments][96][Wallpaper][org.kde.image][General]
 DynamicMode=2
-Image=/home/medhansh/Pictures/walpapers/walls/outrun/a_astronaut_walking_through_a_doorway.jpg
+Image=/home/medhansh/Pictures/walpapers/walls/digital/hot_air_balloons_in_the_sky.jpg
 SlidePaths=/home/medhansh/.local/share/wallpapers/,/usr/share/wallpapers/
 
 [Containments][96][Wallpaper][org.kde.plasma.worldmap][General]
