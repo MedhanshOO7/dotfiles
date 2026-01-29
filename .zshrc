@@ -1,14 +1,15 @@
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
+# ~/.zshrc
 
-# ~/.zshrc — minimal loader
+# 1. Start Instant Prompt IMMEDIATELY
+# if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+#   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+# fi
 
+# 2. Define Directory
 ZSH_MOD_DIR="$HOME/.zsh"
 
+# 3. Load modules in order
+# Removed 10-instant from the loop because it's already handled above
 for file in \
   00-env \
   20-omz \
