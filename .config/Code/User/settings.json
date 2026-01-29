@@ -41,5 +41,9 @@
     "window.menuBarVisibility": "classic",
     "editor.minimap.enabled": false,
     "editor.autoClosingBrackets": "always",
-    "editor.autoClosingDelete": "always"
+    "editor.autoClosingDelete": "always",
+    "telemetry.editStats.enabled": false,
+    "telemetry.feedback.enabled": false,
+    "telemetry.telemetryLevel": "off",
+    "workbench.enableExperiments": false
 }
