@@ -1,0 +1,175 @@
+configuration {
+modi: "drun,calc,emoji";
+    show-icons:                 true;
+    display-drun:               "😒 Apps";
+    display-run:                "💨 Run";
+    display-files:              "😔 Finder";
+    display-window:             "🪟 Window";
+    display-calc:               "📐 Calculator";
+    display-emoji:              "🤣 Emoji";
+    display-wall:               "🌅 Wallpaper";
+    drun-display-format:        "{name}";
+    window-format:              "{w} · {c} · {t}";
+}
+
+* {
+    font: "TikTok Sans 500 18 ";
+
+    /* DRACULA COLORS */
+    bg-col:                     #282a3610;
+    bg-col-light:               #44475a;
+    border-col:                 #bd93f9;
+    selected-col:               #44475a;
+    blue:                       #bd93f9;
+    fg-col:                     #f8f8f2;
+    fg-col2:                    #6272a4;
+    grey:                       #6272a4;
+
+    /* Global Defaults */
+    background-color:           transparent; /* FORCE TRANSPARENCY */
+    text-color:                 @fg-col;
+    margin:                     0px;
+    padding:                    0px;
+}
+
+window {
+    location:                    center;
+    anchor:                      center;
+    fullscreen:                  false;
+    width:                       700px;
+    x-offset:                    0px;
+    y-offset:                    0px;
+
+    enabled:                     true;
+    margin:                      0px;
+    padding:                     0px;
+    border:                      2px;
+    border-radius:               12px;
+    border-color:                @border-col;
+    background-color:            @bg-col;
+    cursor:                      "default";
+}
+
+mainbox {
+    enabled:                     true;
+    spacing:                     10px;
+    margin:                      0px;
+    padding:                     20px;
+    border:                      0px solid;
+    border-radius:               0px;
+    background-color:            transparent;
+    children:                    [ "inputbar", "listview" ];
+}
+
+inputbar {
+
+    enabled:                     true;
+    spacing:                     10px;
+    margin:                      0px;
+    padding:                     12px 16px;
+    border:                      0px;
+    border-radius:               10px;
+    border-color:                @selected-col;
+    background-color:            @bg-col-light;
+    text-color:                  @fg-col;
+    children:                    [ "prompt", "entry" ];
+}
+
+prompt {
+    enabled:                     true;
+    background-color:            inherit;
+    text-color:                  inherit;
+    content:                     ""; /* Search Icon */
+}
+
+entry {
+    enabled:                     true;
+    background-color:            inherit;
+    text-color:                  inherit;
+    cursor:                      text;
+    placeholder:                 "Search...";
+    placeholder-color:           @fg-col2;
+}
+
+listview {
+        font: "TikTok Sans 500 25 ";
+    enabled:                     true;
+    columns:                     5;
+    lines:                       8;
+    cycle:                       true;
+    dynamic:                     true;
+    scrollbar:                   false;
+    layout:                      vertical;
+    reverse:                     false;
+    fixed-height:                true;
+    fixed-columns:               true;
+    
+    spacing:                     5px;
+    margin:                      0px;
+    padding:                     0px;
+    border:                      0px;
+}
+
+/* --- ELEMENT STYLING (The Fix for Beige Bars) --- */
+
+element {
+    enabled:                     true;
+    spacing:                     10px;
+    margin:                      0px;
+    padding:                     8px 12px;
+    border:                      0px solid;
+    border-radius:               8px;
+    background-color:            transparent;
+    text-color:                  @fg-col;
+    cursor:                      pointer;
+}   
+
+/* Force Normal AND Alternate rows to be transparent */
+element normal.normal {
+    background-color:            transparent;
+    text-color:                  @fg-col;
+}
+element alternate.normal {
+    background-color:            transparent; /* THIS REMOVES THE BEIGE BAR */
+    text-color:                  @fg-col;
+}
+
+/* Selected State (Raycast Highlight) */
+element selected.normal {
+    background-color:            @bg-col-light;
+    text-color:                  @blue;
+}
+
+/* Active/Urgent States (Optional but good to have) */
+element normal.active {
+    background-color:            @bg-col-light;
+    text-color:                  @blue;
+}
+element selected.active {
+    background-color:            @bg-col-light;
+    text-color:                  @blue;
+}
+element normal.urgent {
+    background-color:            @urgent;
+    text-color:                  @bg-col;
+}
+
+element-icon {
+    background-color:            transparent;
+    text-color:                  inherit;
+    size:                        24px;
+    cursor:                      inherit;
+}
+
+element-text {
+    font: "TikTok Sans Bold 25";
+    background-color:            transparent;
+    text-color:                  inherit;
+    highlight:                   inherit;
+    cursor:                      inherit;
+    vertical-align:              0.5;
+    horizontal-align:            0.0;
+    
+    /* THE CRITICAL FIX: Explicitly enable markup for text items */
+    markup:                      true; 
+}
