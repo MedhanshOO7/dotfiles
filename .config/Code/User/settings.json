@@ -45,5 +45,8 @@
     "telemetry.editStats.enabled": false,
     "telemetry.feedback.enabled": false,
     "telemetry.telemetryLevel": "off",
-    "workbench.enableExperiments": false
+    "workbench.enableExperiments": false,
+    "livePreview.notifyOnOpenLooseFile": false,
+    "editor.stickyScroll.enabled": false,
+    "python.defaultInterpreterPath": "/home/medhansh/Downloads/learncpp.com/.venv"
 }

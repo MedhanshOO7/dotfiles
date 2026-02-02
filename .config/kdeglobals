@@ -121,7 +121,7 @@ smallestReadableFont=Noto Sans,9,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
 toolBarFont=Noto Sans,11,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
 
 [Icons]
-Theme=candy-icons
+Theme=YAMIS
 
 [KDE]
 AnimationDurationFactor=1.414213562373095
@@ -131,7 +131,7 @@ widgetStyle=kvantum-dark
 
 [KFileDialog Settings]
 Allow Expansion=true
-Automatically select filename extension=true
+Automatically select filename extension=false
 Breadcrumb Navigation=true
 Decoration position=2
 Preview Width=262

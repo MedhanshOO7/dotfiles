@@ -1,5 +1,5 @@
 configuration {
-modi: "drun,calc";
+modi: "drun,calc,emoji";
     show-icons:                 true;
     display-drun:               "😒 Apps";
     display-run:                "💨 Run";

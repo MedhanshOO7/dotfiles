@@ -8,6 +8,16 @@ wmclass=plasmashell org.kde.plasmashell
 wmclasscomplete=true
 wmclassmatch=1
 
+[46c49c9c-d6a1-411f-a336-ebafcd10919d]
+Description=Window settings for signal
+opacityactive=81
+opacityactiverule=2
+title=Signal (1)
+types=1
+wmclass=signal-desktop signal
+wmclasscomplete=true
+wmclassmatch=1
+
 [4f011c92-dbea-49a4-901a-d496bc09faa7]
 Description=Application settings for code
 opacityactive=87
@@ -36,8 +46,8 @@ wmclass=systemsettings
 wmclassmatch=1
 
 [General]
-count=11
-rules=eaf960a0-65c8-4b11-bc7b-9ec3eb1d57a0,71fb6a64-f68b-4c14-83d3-35d9cc03404d,ec4d8b58-df10-4b17-9097-11d4c62197b7,b1df6246-32b0-4804-b11a-7f238a142bce,2f516540-6379-40d8-ad6f-8c7c6021b8d2,a7889d42-7f55-409c-9b73-c8e08f13b776,f8018e91-5f57-44a6-8497-881981eba149,8590855a-030f-44e8-a0a1-b3ca320ddb65,fec7a506-db61-4d53-a085-761472203142,4f011c92-dbea-49a4-901a-d496bc09faa7,c13e1332-ab7c-4dfc-9e96-cddd77799340
+count=13
+rules=46c49c9c-d6a1-411f-a336-ebafcd10919d,eaf960a0-65c8-4b11-bc7b-9ec3eb1d57a0,71fb6a64-f68b-4c14-83d3-35d9cc03404d,ec4d8b58-df10-4b17-9097-11d4c62197b7,b1df6246-32b0-4804-b11a-7f238a142bce,2f516540-6379-40d8-ad6f-8c7c6021b8d2,a7889d42-7f55-409c-9b73-c8e08f13b776,f8018e91-5f57-44a6-8497-881981eba149,8590855a-030f-44e8-a0a1-b3ca320ddb65,fec7a506-db61-4d53-a085-761472203142,4f011c92-dbea-49a4-901a-d496bc09faa7,c13e1332-ab7c-4dfc-9e96-cddd77799340,b2beac15-62d3-40b9-8550-016e84b34f2f
 
 [a7889d42-7f55-409c-9b73-c8e08f13b776]
 Description=Window settings for org.kde.kwrite
@@ -58,6 +68,11 @@ types=1
 wmclass=plasma-discover org.kde.discover
 wmclasscomplete=true
 wmclassmatch=1
+
+[b2beac15-62d3-40b9-8550-016e84b34f2f]
+Description=New window settings
+placementrule=2
+wmclasscomplete=true
 
 [c13e1332-ab7c-4dfc-9e96-cddd77799340]
 Description=Window settings for obsidian

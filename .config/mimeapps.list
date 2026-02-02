@@ -19,6 +19,9 @@ x-scheme-handler/https=org.kde.falkon.desktop;firefox.desktop;userapp-Firefox-AL
 x-scheme-handler/mailto=org.kde.kmail2.desktop;
 x-scheme-handler/sms=org.gnome.Shell.Extensions.GSConnect.desktop;
 x-scheme-handler/tel=org.gnome.Shell.Extensions.GSConnect.desktop;
+x-scheme-handler/mailspring=Mailspring.desktop;
+x-scheme-handler/sgnl=signal-desktop.desktop;signal.desktop;
+x-scheme-handler/signalcaptcha=signal-desktop.desktop;signal.desktop;
 
 [Default Applications]
 application/json=codium.desktop;

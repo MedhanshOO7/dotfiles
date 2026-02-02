@@ -320,7 +320,7 @@ activate widget 201=none,none,Activate Plasma Drawer Widget
 activate widget 202=none,none,Activate KClock Widget
 activate widget 206=none,none,Activate Digital Clock Widget
 activate widget 260=Meta+Alt+Esc,none,Activate Darwin Menu Widget
-activate widget 264=Meta,none,Activate Application Launcher Widget
+activate widget 294=Meta,none,Activate Application Dashboard Widget
 activate widget 3=none,none,Activate Application Launcher Widget
 activate widget 53=none,none,Activate Application Launcher Widget
 activate widget 8=none,none,Activate Application Launcher Widget
@@ -340,16 +340,22 @@ show-barcode=none,,Show Barcode…
 show-on-mouse-pos=Meta+V,Meta+V,Show Clipboard Items at Mouse Position
 switch to next activity=none,,Switch to Next Activity
 switch to previous activity=none,,Switch to Previous Activity
-toggle do not disturb=none,none,Toggle do not disturb
+toggle do not disturb=none,,Toggle do not disturb
 
 [services][brave-gdfaincndogidkdcdkhapmbffkckdkhn-Profile_1.desktop]
 _launch=Meta+Shift
+
+[services][net.local.kde-settings.sh.desktop]
+_launch=Meta+K
 
 [services][net.local.network-manager.sh.desktop]
 _launch=Meta+N
 
 [services][net.local.rofi-2.desktop]
 _launch=Meta+Space
+
+[services][net.local.rofi-3.desktop]
+_launch=Meta+Shift+E
 
 [services][net.local.rofi-power-kde.sh.desktop]
 _launch=Alt+F4

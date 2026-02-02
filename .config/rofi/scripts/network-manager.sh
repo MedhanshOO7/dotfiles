@@ -27,26 +27,49 @@ notify() {
 }
 
 wifi_menu() {
-    notify "Scanning..."
-    LIST=$(nmcli -f SECURITY,BARS,SSID device wifi list | sed 1d | awk '!seen[$0]++')
-    
-    if [[ -z "$LIST" ]]; then
-        notify "No Wi-Fi networks found."
-        return
-    fi
+    LOADING_MSG="Scanning for Wi-Fi..."
+    RESULT_FILE=$(mktemp)
 
-    SELECTION=$(echo "$LIST" | $ROFI_CMD "Wi-Fi Networks")
-    SSID=$(echo "$SELECTION" | awk -F'  +' '{print $NF}')
+    # 1. Trigger the scan and list in the background
+    ( 
+        nmcli device wifi rescan >/dev/null 2>&1
+        nmcli --rescan no -f "SECURITY,BARS,SSID" device wifi list | sed 1d | awk '!seen[$NF]++' > "$RESULT_FILE"
+        pkill -f "rofi .* -p $LOADING_MSG" 
+    ) &
+    BG_PID=$!
 
-    if [[ -n "$SSID" ]]; then
-        PASS=$(rofi -dmenu -password -p "Password for $SSID")
-        if [[ -n "$PASS" ]]; then
-            nmcli device wifi connect "$SSID" password "$PASS" && notify "Connected to $SSID" || notify "Connection Failed"
-        else
-            nmcli device wifi connect "$SSID" && notify "Connected to $SSID" || notify "Connection Failed"
+    # 2. Show the "Please wait" menu immediately
+    echo "Searching..." | $ROFI_CMD "$LOADING_MSG" > /dev/null 2>&1
+
+    # 3. Once the background process finished, check the results
+    if [[ -s "$RESULT_FILE" ]]; then
+        LIST=$(cat "$RESULT_FILE")
+        SELECTION=$(echo "$LIST" | $ROFI_CMD "Wi-Fi Networks")
+        
+        if [[ -n "$SELECTION" ]]; then
+            SSID=$(echo "$SELECTION" | awk -F'  +' '{print $NF}' | xargs)
+            
+            # Check if already known
+            KNOWN_NETWORKS=$(nmcli -t -f NAME connection show)
+            
+            if echo "$KNOWN_NETWORKS" | grep -q "^$SSID$"; then
+                notify "Connecting to known network: $SSID"
+                nmcli connection up "$SSID"
+            else
+                PASS=$(rofi -dmenu -p "Password for $SSID" -password)
+                if [[ -n "$PASS" ]]; then
+                    notify "Connecting to $SSID..."
+                    nmcli device wifi connect "$SSID" password "$PASS"
+                fi
+            fi
         fi
+    else
+        kill $BG_PID 2>/dev/null
+        notify "Scan cancelled or no networks found."
     fi
+    rm "$RESULT_FILE"
 }
+
 
 vpn_menu() {
     STATUS_OUT=$(protonvpn status)

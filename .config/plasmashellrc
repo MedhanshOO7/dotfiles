@@ -80,7 +80,7 @@ thickness=36
 [PlasmaViews][Panel 263]
 floating=0
 panelLengthMode=1
-panelOpacity=2
+panelOpacity=0
 panelVisibility=2
 
 [PlasmaViews][Panel 263][Defaults]
@@ -97,6 +97,36 @@ floating=1
 
 [PlasmaViews][Panel 291][Defaults]
 thickness=36
+
+[PlasmaViews][Panel 295]
+alignment=2
+floating=1
+panelLengthMode=1
+panelOpacity=2
+
+[PlasmaViews][Panel 295][Defaults]
+thickness=48
+
+[PlasmaViews][Panel 317]
+floating=1
+
+[PlasmaViews][Panel 317][Defaults]
+thickness=60
+
+[PlasmaViews][Panel 344]
+alignment=1
+floating=1
+panelLengthMode=1
+
+[PlasmaViews][Panel 344][Defaults]
+thickness=48
+
+[PlasmaViews][Panel 346]
+floating=1
+panelLengthMode=1
+
+[PlasmaViews][Panel 346][Defaults]
+thickness=48
 
 [PlasmaViews][Panel 39]
 floating=1
