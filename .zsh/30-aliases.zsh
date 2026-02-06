@@ -18,5 +18,8 @@ alias vpn='protonvpn'
 alias vpnc='protonvpn connect'
 alias vpndc='protonvpn disconnect'
 
+#zoxide
+alias cdi='zi'
+
 # Editor
 #alias code='codium'

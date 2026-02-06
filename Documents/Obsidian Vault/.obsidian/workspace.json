@@ -20,8 +20,37 @@
               "icon": "lucide-file",
               "title": "What to do Applied Chemistry"
             }
+          },
+          {
+            "id": "2a9efa01174b8ba4",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Kumar Pankaj.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Kumar Pankaj"
+            }
+          },
+          {
+            "id": "eb1e661da45fcbb8",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "SAJO.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "SAJO"
+            }
           }
-        ]
+        ],
+        "currentTab": 2
       }
     ],
     "direction": "vertical"
@@ -201,8 +230,15 @@
       "bases:Create new base": false
     }
   },
-  "active": "7846b6fcd19e5be1",
+  "active": "eb1e661da45fcbb8",
   "lastOpenFiles": [
+    "SAJO.pdf",
+    "SAJO.md",
+    "Kumar Pankaj.md",
+    "Kumar Pankaj.pdf",
+    "Kumar Pankaj.sync-conflict-20260205-220617-3KN6PE3.md",
+    "Kumar Pankaj.sync-conflict-20260205-220440-3KN6PE3.md",
+    "Resources/Sem2/What to do Applied Chemistry.md",
     "Sudiksha.md",
     "C++/Chapter 0 - Introduction - Getting Started/0.2 - Introduction to programs and programming languages.md",
     "Untitled",

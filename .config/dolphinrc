@@ -1,3 +1,11 @@
+[CompactMode]
+IconSize=22
+PreviewSize=64
+
+[DetailsMode]
+IconSize=22
+PreviewSize=64
+
 [ExtractDialog]
 1969x1231 screen: Height=690
 1969x1231 screen: Width=1312
@@ -9,7 +17,9 @@ Version=202
 ViewPropsTimestamp=2025,11,25,16,11,18.484
 
 [IconsMode]
-PreviewSize=112
+IconSize=48
+PreviewSize=128
+TextWidthIndex=2
 
 [KFileDialog Settings]
 Places Icons Auto-resize=false

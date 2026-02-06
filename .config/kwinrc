@@ -50,6 +50,7 @@ blurEnabled=false
 dialogparentEnabled=false
 forceblurEnabled=true
 klearEnabled=true
+kwin4_effect_shapecornersEnabled=false
 screenedgeEnabled=false
 slidebackEnabled=true
 synchronizeskipswitcherEnabled=true

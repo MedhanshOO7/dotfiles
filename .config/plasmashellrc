@@ -78,13 +78,13 @@ panelOpacity=2
 thickness=36
 
 [PlasmaViews][Panel 263]
-floating=0
+floating=1
 panelLengthMode=1
 panelOpacity=0
 panelVisibility=2
 
 [PlasmaViews][Panel 263][Defaults]
-thickness=60
+thickness=72
 
 [PlasmaViews][Panel 27]
 floating=1

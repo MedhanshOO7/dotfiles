@@ -21,3 +21,6 @@ for file in \
 do
   [[ -r "$ZSH_MOD_DIR/$file.zsh" ]] && source "$ZSH_MOD_DIR/$file.zsh"
 done
+# Created by `pipx` on 2026-02-05 09:35:10
+export PATH="$PATH:/home/medhansh/.local/bin"
+export PATH="$HOME/.local/bin:$PATH"
