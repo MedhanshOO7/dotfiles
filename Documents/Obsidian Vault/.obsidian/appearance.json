@@ -1,4 +1,5 @@
 {
   "cssTheme": "Dracula Official",
-  "baseFontSizeAction": true
+  "baseFontSizeAction": true,
+  "baseFontSize": 21
 }

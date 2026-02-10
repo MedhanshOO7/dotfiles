@@ -6,6 +6,7 @@
     "emojiStyle": "native",
     "iconColor": "#ffffff",
     "recentlyUsedIcons": [
+      "MaH",
       "RiNumber2",
       "RiNumber1",
       "SiMan",
@@ -21,8 +22,7 @@
       "LiBook",
       "MaSas",
       "MaFolderResourceOpen",
-      "LiInstagram",
-      "MaMathematica"
+      "LiInstagram"
     ],
     "recentlyUsedIconsSize": 17,
     "rules": [
@@ -132,5 +132,6 @@
   "Study/Quantum Physics": "LiAtom",
   "Study/UHV": "SiMan",
   "Resources/Sem1": "RiNumber1",
-  "Resources/Sem2": "RiNumber2"
+  "Resources/Sem2": "RiNumber2",
+  "Hackathon": "MaH"
 }

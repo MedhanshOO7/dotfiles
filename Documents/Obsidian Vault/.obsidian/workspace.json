@@ -4,49 +4,49 @@
     "type": "split",
     "children": [
       {
-        "id": "f46924c00b659281",
+        "id": "4d944ac80afcb522",
         "type": "tabs",
         "children": [
           {
-            "id": "7846b6fcd19e5be1",
+            "id": "0c12266d97b5724a",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Resources/Sem2/What to do Applied Chemistry.md",
+                "file": "transcripts/qFsj6KL8_nU_summary_wisdom.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "What to do Applied Chemistry"
+              "title": "qFsj6KL8_nU_summary_wisdom"
             }
           },
           {
-            "id": "2a9efa01174b8ba4",
+            "id": "9c73c5892aa1c293",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Kumar Pankaj.md",
+                "file": "BrainStroming.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Kumar Pankaj"
+              "title": "BrainStroming"
             }
           },
           {
-            "id": "eb1e661da45fcbb8",
+            "id": "813767beccf39a7a",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "SAJO.md",
+                "file": "Jayant/hackathon_research_analysis(Neeraj).md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "SAJO"
+              "title": "hackathon_research_analysis(Neeraj)"
             }
           }
         ],
@@ -62,7 +62,7 @@
       {
         "id": "88f68df31a495c54",
         "type": "tabs",
-        "dimension": 64.21188630490956,
+        "dimension": 73.84473197781885,
         "children": [
           {
             "id": "741ff8b1092c6d1f",
@@ -109,7 +109,7 @@
       {
         "id": "8166eb20f3ab8a25",
         "type": "tabs",
-        "dimension": 35.78811369509044,
+        "dimension": 26.155268022181144,
         "children": [
           {
             "id": "2fd5911aec5af100",
@@ -230,18 +230,51 @@
       "bases:Create new base": false
     }
   },
-  "active": "eb1e661da45fcbb8",
+  "active": "741ff8b1092c6d1f",
   "lastOpenFiles": [
-    "SAJO.pdf",
+    "Resources/Sem1/What to do Computers.md",
+    "Resources/Sem1/What to do Maths.md",
+    "Resources/Sem1/What to do PC.md",
+    "Resources/Sem1/What to do Quantum physics.md",
+    "Resources/Sem1/What to do UHV.md",
+    "Jayant/qusno2sol1(Jayant).txt",
+    "Jayant/AI_Volunteer_NGO_Platform_Full_Document.pdf",
+    "Jayant/hackathon_research_analysis(Neeraj).md",
+    "Jayant/qusno2sol1.txt",
+    "Jayant/Unconfirmed 542310.crdownload",
+    "Jayant/Unconfirmed 257231.crdownload",
+    "Something.md",
+    "Jayant/Unconfirmed 838170.crdownload",
+    "Jayant",
+    "Hackathon/_- visual selection 2.png",
+    "Hackathon/_- visual selection.png",
+    "API/Problem.md",
+    "Hackathon/_- visual selection 3.png",
+    "Hackathon/AI Application Infrastructure.md",
+    "Hackathon/BrainStroming.md",
+    "Hackathon/BrainStroming.pdf",
+    "Hackathon/BrainStroming.sync-conflict-20260208-163000-3KN6PE3.md",
+    "Hackathon/Things to know.pdf",
+    "Hackathon/_- visual selection 1.png",
+    "Hackathon/Things to know.md",
+    "Hackathon/Questions.md",
+    "Hackathon",
+    "API/More about them.md",
+    "Questions.md",
+    "Untitled 4.md",
+    "Things to know.md",
+    "BrainStroming.md",
+    "_- visual selection 3.png",
+    "_- visual selection 2.png",
+    "_- visual selection 1.png",
+    "_- visual selection.png",
+    "BrainStroming.sync-conflict-20260208-163000-3KN6PE3.md",
+    "transcripts/qFsj6KL8_nU_summary_wisdom.md",
+    "transcripts/Ok7Q2LGvQPI_summary_wisdom.md",
+    "transcripts/rehehe.md",
     "SAJO.md",
     "Kumar Pankaj.md",
-    "Kumar Pankaj.pdf",
     "Kumar Pankaj.sync-conflict-20260205-220617-3KN6PE3.md",
-    "Kumar Pankaj.sync-conflict-20260205-220440-3KN6PE3.md",
-    "Resources/Sem2/What to do Applied Chemistry.md",
-    "Sudiksha.md",
-    "C++/Chapter 0 - Introduction - Getting Started/0.2 - Introduction to programs and programming languages.md",
-    "Untitled",
-    "C++/Chapter 0 - Introduction - Getting Started/0.3 - Introduction to C-C++.md"
+    "Kumar Pankaj.sync-conflict-20260205-220440-3KN6PE3.md"
   ]
 }
