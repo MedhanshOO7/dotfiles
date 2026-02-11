@@ -117,7 +117,7 @@ XftSubPixel=rgb
 accentColorFromWallpaper=true
 fixed=Hack,11,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
 font=Noto Sans,13,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
-menuFont=Noto Sans,11,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
+menuFont=Noto Sans,15,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
 smallestReadableFont=Noto Sans,9,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
 toolBarFont=Noto Sans,11,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
 

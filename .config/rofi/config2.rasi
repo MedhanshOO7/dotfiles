@@ -1,5 +1,5 @@
 configuration {
-modi: "drun,calc,emoji";
+    modi: "drun,calc,emoji";
     show-icons:                 true;
     display-drun:               "😒 Apps";
     display-run:                "💨 Run";
@@ -62,7 +62,6 @@ mainbox {
 }
 
 inputbar {
-
     enabled:                     true;
     spacing:                     10px;
     margin:                      0px;
@@ -92,7 +91,7 @@ entry {
 }
 
 listview {
-        font: "TikTok Sans 500 25 ";
+    font:                        "TikTok Sans 500 25 ";
     enabled:                     true;
     columns:                     5;
     lines:                       8;
@@ -104,13 +103,16 @@ listview {
     fixed-height:                true;
     fixed-columns:               true;
     
+    /* ADDED: Makes items flow Left-to-Right like a grid */
+    flow:                        horizontal; 
+    
     spacing:                     5px;
     margin:                      0px;
     padding:                     0px;
     border:                      0px;
 }
 
-/* --- ELEMENT STYLING (The Fix for Beige Bars) --- */
+/* --- ELEMENT STYLING --- */
 
 element {
     enabled:                     true;
@@ -130,7 +132,7 @@ element normal.normal {
     text-color:                  @fg-col;
 }
 element alternate.normal {
-    background-color:            transparent; /* THIS REMOVES THE BEIGE BAR */
+    background-color:            transparent;
     text-color:                  @fg-col;
 }
 
@@ -140,7 +142,7 @@ element selected.normal {
     text-color:                  @blue;
 }
 
-/* Active/Urgent States (Optional but good to have) */
+/* Active/Urgent States */
 element normal.active {
     background-color:            @bg-col-light;
     text-color:                  @blue;
@@ -158,18 +160,19 @@ element-icon {
     background-color:            transparent;
     text-color:                  inherit;
     size:                        24px;
-    cursor:                      inherit;
+    cursor:                  inherit;
 }
 
 element-text {
-    font: "TikTok Sans Bold 25";
+    font:                        "TikTok Sans Bold 25";
     background-color:            transparent;
     text-color:                  inherit;
     highlight:                   inherit;
     cursor:                      inherit;
     vertical-align:              0.5;
-    horizontal-align:            0.0;
     
-    /* THE CRITICAL FIX: Explicitly enable markup for text items */
+    /* CHANGED: 0.5 centers the emoji in the grid cell */
+    horizontal-align:            0.5; 
+    
     markup:                      true; 
 }
