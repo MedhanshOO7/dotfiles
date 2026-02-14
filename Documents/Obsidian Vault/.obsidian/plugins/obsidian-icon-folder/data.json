@@ -6,6 +6,9 @@
     "emojiStyle": "native",
     "iconColor": "#ffffff",
     "recentlyUsedIcons": [
+      "MaBashly",
+      "MaFolderLib",
+      "SiJameson",
       "MaH",
       "RiNumber2",
       "RiNumber1",
@@ -19,10 +22,7 @@
       "LiWorkflow",
       "MaWebassembly",
       "🔴",
-      "LiBook",
-      "MaSas",
-      "MaFolderResourceOpen",
-      "LiInstagram"
+      "LiBook"
     ],
     "recentlyUsedIconsSize": 17,
     "rules": [
@@ -133,5 +133,8 @@
   "Study/UHV": "SiMan",
   "Resources/Sem1": "RiNumber1",
   "Resources/Sem2": "RiNumber2",
-  "Hackathon": "MaH"
+  "Hackathon": "MaH",
+  "Jayant": "SiJameson",
+  "transcripts": "MaFolderLib",
+  "bash": "MaBashly"
 }

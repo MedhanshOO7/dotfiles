@@ -13,6 +13,7 @@ DirHistory[$e]=$HOME/Downloads/Exgraction/
 
 [General]
 DoubleClickViewAction=none
+ModifiedStartupSettings=true
 Version=202
 ViewPropsTimestamp=2025,11,25,16,11,18.484
 
