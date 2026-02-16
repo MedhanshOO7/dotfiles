@@ -1,10 +1,14 @@
 [CompactMode]
-IconSize=22
-PreviewSize=64
+IconSize=32
+PreviewSize=80
+
+[ContentDisplay]
+DirectorySizeMode=ContentSize
+RecursiveDirectorySizeLimit=20
 
 [DetailsMode]
-IconSize=22
-PreviewSize=64
+IconSize=32
+PreviewSize=80
 
 [ExtractDialog]
 1969x1231 screen: Height=690
@@ -12,14 +16,22 @@ PreviewSize=64
 DirHistory[$e]=$HOME/Downloads/Exgraction/
 
 [General]
+BrowseThroughArchives=true
 DoubleClickViewAction=none
-ModifiedStartupSettings=true
+DynamicView=true
+EditableUrl=true
+FilterBar=true
+OpenExternallyCalledFolderInNewTab=true
+ShowStatusBar=FullWidth
+ShowToolTips=true
+ShowZoomSlider=true
+UseTabForSwitchingSplitView=true
 Version=202
 ViewPropsTimestamp=2025,11,25,16,11,18.484
 
 [IconsMode]
-IconSize=48
-PreviewSize=96
+IconSize=64
+PreviewSize=112
 TextWidthIndex=2
 
 [KFileDialog Settings]
@@ -36,4 +48,4 @@ IconSize=32
 Plugins=appimagethumbnail,audiothumbnail,glycin-heif,blenderthumbnail,comicbookthumbnail,cursorthumbnail,djvuthumbnail,ebookthumbnail,exrthumbnail,directorythumbnail,fontthumbnail,pothumbnail,imagethumbnail,calligraimagethumbnail,glycin-image-rs,jpegthumbnail,glycin-jxl,kraorathumbnail,windowsexethumbnail,windowsimagethumbnail,mltpreview,mobithumbnail,opendocumentthumbnail,calligrathumbnail,palathumbcreator,gsthumbnail,quithumbnail,rawthumbnail,glycin-svg,svgthumbnail,textthumbnail,itinerarythumbnail,ffmpegthumbs,webarchivethumbnail
 
 [UiSettings]
-ColorScheme=Dracula
+ColorScheme=DraculaPurple

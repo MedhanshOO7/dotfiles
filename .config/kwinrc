@@ -84,10 +84,10 @@ LayoutName=thumbnail_grid
 TouchBorderActivate=4
 
 [Tiling]
-padding=4
+padding=3
 
 [Tiling][4f83d6db-32cd-4347-9257-99bee88830d8][e4953aaf-94a8-462c-a313-e7bdc398f52f]
-tiles={"layoutDirection":"horizontal","tiles":[{"width":0.25},{"width":0.5},{"width":0.25}]}
+tiles={"layoutDirection":"horizontal","tiles":[{"layoutDirection":"vertical","tiles":[{"height":0.5,"layoutDirection":"floating","tiles":[{"height":0.4999999999999997,"width":0.39931640625000003,"x":0.00019531250000000278,"y":1.7737547541862853e-16}]},{"height":0.5}],"width":0.4},{"width":0.6}]}
 
 [Tiling][c3d35f0a-4d80-4244-914f-344420b33338][e4953aaf-94a8-462c-a313-e7bdc398f52f]
 tiles={"layoutDirection":"horizontal","tiles":[{"width":0.25},{"width":0.5},{"width":0.25}]}
