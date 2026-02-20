@@ -6,7 +6,7 @@
     "emojiStyle": "native",
     "iconColor": "#ffffff",
     "recentlyUsedIcons": [
-      "LiInfo",
+      "SiChemex",
       "MaBashly",
       "MaFolderLib",
       "SiJameson",
@@ -137,5 +137,5 @@
   "Jayant": "SiJameson",
   "transcripts": "MaFolderLib",
   "bash": "MaBashly",
-  "C++/index.md": "LiInfo"
+  "Study/Chemistry": "SiChemex"
 }

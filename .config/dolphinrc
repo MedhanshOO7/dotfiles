@@ -1,14 +1,6 @@
-[CompactMode]
-IconSize=32
-PreviewSize=80
-
 [ContentDisplay]
 DirectorySizeMode=ContentSize
 RecursiveDirectorySizeLimit=20
-
-[DetailsMode]
-IconSize=32
-PreviewSize=80
 
 [ExtractDialog]
 1969x1231 screen: Height=690
@@ -19,20 +11,12 @@ DirHistory[$e]=$HOME/Downloads/Exgraction/
 BrowseThroughArchives=true
 DoubleClickViewAction=none
 DynamicView=true
-EditableUrl=true
-FilterBar=true
-OpenExternallyCalledFolderInNewTab=true
-ShowStatusBar=FullWidth
-ShowToolTips=true
-ShowZoomSlider=true
-UseTabForSwitchingSplitView=true
+ModifiedStartupSettings=false
 Version=202
 ViewPropsTimestamp=2025,11,25,16,11,18.484
 
 [IconsMode]
-IconSize=64
 PreviewSize=112
-TextWidthIndex=2
 
 [KFileDialog Settings]
 Places Icons Auto-resize=false

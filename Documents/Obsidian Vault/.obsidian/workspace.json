@@ -4,38 +4,21 @@
     "type": "split",
     "children": [
       {
-        "id": "7f20454d57b5075a",
+        "id": "6c5d6904c72840f8",
         "type": "tabs",
         "children": [
           {
-            "id": "65e513bd71b862bc",
-            "type": "leaf",
-            "state": {
-              "type": "canvas",
-              "state": {
-                "file": "Study Stuff.canvas",
-                "viewState": {
-                  "x": 2097.6284039594134,
-                  "y": 798.8311317796546,
-                  "zoom": -0.3304761296100763
-                }
-              },
-              "icon": "lucide-layout-dashboard",
-              "title": "Study Stuff"
-            }
-          },
-          {
-            "id": "8d4fddc7d0dd29a8",
+            "id": "b3afd52a208ae579",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Resources/Sem2/What to do Applied Chemistry.md",
+                "file": "bash/one.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "What to do Applied Chemistry"
+              "title": "one"
             }
           }
         ]
@@ -113,8 +96,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 248.5110321044922,
-    "collapsed": true
+    "width": 248.5110321044922
   },
   "right": {
     "id": "259718f9d301f35b",
@@ -130,17 +112,17 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Study Stuff.canvas",
+                "file": "C++/Chapter 1 - C++ Basics/1.3 - Introduction to objects and variables.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
                 "showSearch": false,
                 "searchQuery": "",
                 "backlinkCollapsed": false,
-                "unlinkedCollapsed": false
+                "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks for Study Stuff"
+              "title": "Backlinks for 1.3 - Introduction to objects and variables"
             }
           },
           {
@@ -219,19 +201,28 @@
       "bases:Create new base": false
     }
   },
-  "active": "65e513bd71b862bc",
+  "active": "b3afd52a208ae579",
   "lastOpenFiles": [
     "Resources/Sem2/What to do Applied Chemistry.md",
-    "Study Stuff.canvas",
-    "webDev/Video 02 - Your First HTML Website.md",
-    "C++/Appendix A - Miscellaneous Subjects/A.1 - Static and dynamic libraries.md",
+    "Resources/Sem2.zip",
+    "Resources/Sem2.zip.44svtx.part",
+    "Resources/Sem2/What to do Differential Equations and Transforms.md",
+    "Untitled.canvas",
     "bash/one.md",
-    "C++/index.md",
-    "C++/Chapter 1 - C++ Basics/1.1 - Statements and the structure of a program.md",
-    "C++/Chapter 1 - C++ Basics/1.2 - Comments.md",
-    "C++/Chapter 1 - C++ Basics/1.3 - Introduction to objects and variables.md",
-    "C++/Chapter 1 - C++ Basics/1.4 - Variable assignment and initialization.md",
-    "C++/Appendix B - C++ Updates/B.2 - Introduction to C++14.md",
+    "bash/one.pdf",
+    "Study/Chemistry/Chapter 1.md",
+    "Study/Chemistry",
+    "Resources/Sem2/What to do Basic Electrical and Electronics Engineering.md",
+    "To send.md",
+    "he",
+    "Study Stuff.canvas",
+    "Video 07 - Inline and Block Elements.md",
+    "Untitled 7.md",
+    "Untitled 7.sync-conflict-20260216-173154-N4X5WYY.md",
+    "Speech.md",
+    "Something.md",
+    "C++/Chapter 14 - Introduction to Classes/14.2 - Introduction to classes.md",
+    "C++/Chapter 14 - Introduction to Classes/14.1 - Introduction to object-oriented programming.md",
     "SUVIDHA.md",
     "Untitled 2.md",
     "Untitled 3.md",
@@ -243,21 +234,13 @@
     "C++/Chapter 11 - Function Overloading and Function Templates/11.3 - Function overload resolution and ambiguous matches.md",
     "C++/Chapter 11 - Function Overloading and Function Templates/11.2 - Function overload differentiation.md",
     "C++/Chapter 11 - Function Overloading and Function Templates/11.1 - Introduction to function overloading.md",
-    "C++/Chapter 1 - C++ Basics/1.5 - Introduction to iostream: cout, cin, and endl.md",
-    "C++/Chapter.md",
-    "Codes/5 questions.md",
-    "C++/Chapter 21 - Operator Overloading/21.2 - Overloading the arithmetic operators using friend functions.md",
+    "C++/Chapter 1 - C++ Basics/1.4 - Variable assignment and initialization.md",
     "webDev/Video 102 - Tailwind CSS (Deep Dive ",
     "TODO.canvas",
     "Kumar Pankaj.pdf",
     "Ainesh Joshi.pdf",
     "C++/Appendix A - Miscellaneous Subjects/A.1 - Static and dynamic libraries.html",
     "C++/Appendix A - Miscellaneous Subjects/A.2 - Using libraries with Visual Studio.html",
-    "C++/Appendix A - Miscellaneous Subjects/A.4 - C++ FAQ.html",
-    "C++/Appendix B - C++ Updates/B.1 - Introduction to C++11.html",
-    "C++/Appendix B - C++ Updates/B.4 - Introduction to C++20.html",
-    "C++/Appendix B - C++ Updates/B.2 - Introduction to C++14.html",
-    "C++/Appendix B - C++ Updates/B.3 - Introduction to C++17.html",
     "Untitled 1.canvas",
     "Year 206.canvas",
     "Hackathon/_- visual selection 2.png",

@@ -24,3 +24,6 @@ done
 # Created by `pipx` on 2026-02-05 09:35:10
 export PATH="$PATH:/home/medhansh/.local/bin"
 export PATH="$HOME/.local/bin:$PATH"
+
+
+eval "$(atuin init zsh)"

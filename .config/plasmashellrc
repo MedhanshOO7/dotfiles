@@ -8,9 +8,6 @@ Number of Actions=0
 [KFileDialog Settings]
 detailViewIconSize=48
 
-[PlasmaTransientsConfig]
-PreloadWeight=42
-
 [PlasmaViews][Panel 125]
 floating=1
 floatingApplets=1
@@ -130,6 +127,12 @@ panelLengthMode=1
 
 [PlasmaViews][Panel 346][Defaults]
 thickness=48
+
+[PlasmaViews][Panel 378]
+floating=0
+
+[PlasmaViews][Panel 378][Defaults]
+thickness=50
 
 [PlasmaViews][Panel 39]
 floating=1

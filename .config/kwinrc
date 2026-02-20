@@ -51,6 +51,7 @@ dialogparentEnabled=false
 forceblurEnabled=true
 klearEnabled=true
 kwin4_effect_shapecornersEnabled=false
+luisbocanegra.cursor.eyes.kwinscriptEnabled=true
 screenedgeEnabled=false
 slidebackEnabled=true
 synchronizeskipswitcherEnabled=true
