@@ -112,14 +112,14 @@ ColorSchemeHash=3b17c5d56f8f372f0b0b9f709c4579c23e51fe6a
 LastUsedCustomAccentColor=0,211,184
 UseSystemBell=true
 XftAntialias=true
-XftHintStyle=hintfull
-XftSubPixel=rgb
+XftHintStyle=hintslight
+XftSubPixel=none
 accentColorFromWallpaper=true
-fixed=Hack,11,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
-font=Noto Sans,13,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
-menuFont=Noto Sans,11,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
-smallestReadableFont=Noto Sans,9,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
-toolBarFont=Noto Sans,11,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
+fixed=Hack,13,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
+font=Noto Sans,14,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
+menuFont=Noto Sans,13,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
+smallestReadableFont=Noto Sans,11,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
+toolBarFont=Noto Sans,13,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
 
 [Icons]
 Theme=YAMIS
@@ -128,14 +128,14 @@ Theme=YAMIS
 AnimationDurationFactor=1.414213562373095
 LookAndFeelPackage=Dracula
 ShowDeleteCommand=false
-widgetStyle=kvantum-dark
+widgetStyle=Darkly
 
 [KFileDialog Settings]
 Allow Expansion=true
 Automatically select filename extension=false
 Breadcrumb Navigation=true
 Decoration position=2
-Preview Width=276
+Preview Width=277
 Show Full Path=false
 Show Inline Previews=true
 Show Preview=true
@@ -165,7 +165,7 @@ Theme=__custom
 [WM]
 activeBackground=39,39,39
 activeBlend=39,39,39
-activeFont=Noto Sans,11,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
+activeFont=Noto Sans,13,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
 activeForeground=223,223,223
 inactiveBackground=30,30,30
 inactiveBlend=30,30,30

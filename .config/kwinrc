@@ -46,7 +46,7 @@ Active=true
 NightTemperature=3800
 
 [Plugins]
-blurEnabled=false
+blurEnabled=true
 dialogparentEnabled=false
 forceblurEnabled=true
 klearEnabled=true
@@ -81,7 +81,7 @@ Size=30
 userSetOpacity=94
 
 [TabBox]
-LayoutName=thumbnail_grid
+LayoutName=compact
 TouchBorderActivate=4
 
 [Tiling]
@@ -107,5 +107,5 @@ BorderSize=None
 BorderSizeAuto=false
 ButtonsOnLeft=
 ButtonsOnRight=
-library=org.kde.kwin.aurorae
+library=org.kde.kwin.aurorae.v2
 theme=__aurorae__svg__Sweet-Dark-transparent

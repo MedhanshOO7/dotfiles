@@ -98,7 +98,7 @@ wmclassmatch=1
 
 [eaf960a0-65c8-4b11-bc7b-9ec3eb1d57a0]
 Description=Application settings for org.kde.dolphin
-opacityactive=97
+opacityactive=84
 opacityactiverule=2
 wmclass=dolphin org.kde.dolphin
 wmclasscomplete=true
