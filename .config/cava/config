@@ -213,7 +213,7 @@
 # defaults to off since the behaviour in other terminal emulators is unknown
 ; synchronized_sync = 0
 
-# Shaders for sdl_glsl, located in $HOME/.config/cava/shaders
+# Shaders for sdl_glsl, located in /home/medhansh/.config/cava/shaders
 ; vertex_shader = pass_through.vert
 ; fragment_shader = bar_spectrum.frag
 
@@ -278,7 +278,7 @@
 #; blend_direction = 'up'
 
 # use theme file instead of defining colors in this file
-# themes are located in $HOME/.config/cava/themes
+# themes are located in /home/medhansh/.config/cava/themes
 #; theme = 'none'
 
 [color]

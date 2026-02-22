@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Paths - Adjusted to your scripts directory
-DIR="$HOME/.config/rofi/scripts"
+DIR="/home/medhansh/.config/rofi/scripts"
 HIST="$DIR/emoji_history.txt"
 META="$DIR/emoji_metadata.txt"
 

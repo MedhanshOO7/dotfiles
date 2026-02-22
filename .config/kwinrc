@@ -9,15 +9,15 @@ Number=3
 Rows=1
 
 [Effect-better-blur-dx]
-BlurDecorations=true
 BlurMatching=false
 BlurNonMatching=true
-BlurStrength=13
+BlurStrength=12
 Contrast=125
-CornerRadius=30
+CornerRadius=10
 ForceContrastParams=true
 NoiseStrength=2
-WindowClasses=\nbrave
+RefractionTextureRepeatMode=1
+WindowClasses=\nbrave brave-browser
 
 [Effect-blur]
 BlurStrength=12
@@ -46,16 +46,18 @@ Active=true
 NightTemperature=3800
 
 [Plugins]
-blurEnabled=true
+better_blur_dxEnabled=true
+blurEnabled=false
 dialogparentEnabled=false
+dimscreenEnabled=false
 forceblurEnabled=true
+frozenappEnabled=false
 klearEnabled=true
 kwin4_effect_shapecornersEnabled=false
 luisbocanegra.cursor.eyes.kwinscriptEnabled=true
+overviewEnabled=false
 screenedgeEnabled=false
-slidebackEnabled=true
 synchronizeskipswitcherEnabled=true
-trackmouseEnabled=true
 
 [Round-Corners]
 ActiveOutlinePalette=15

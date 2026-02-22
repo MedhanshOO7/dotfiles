@@ -13,10 +13,10 @@ modi: "drun,calc,emoji,window";
 }
 
 * {
-    font: "TikTok Sans 500 15 ";
+    font: "Google Sans Flex 1000 18";
 
     /* DRACULA COLORS */
-    bg-col:                     #282a3610;
+    bg-col:                     rgba(40,42,54,0.4);
     bg-col-light:               #44475a;
     border-col:                 #bd93f9;
     selected-col:               #44475a;

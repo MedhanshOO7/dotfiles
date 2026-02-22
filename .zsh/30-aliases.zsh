@@ -23,3 +23,20 @@ alias cdi='zi'
 
 # Editor
 #alias code='codium'
+
+#yt-dlp
+
+# Best quality video (auto container)
+alias ytv='yt-dlp -f "bv*+ba/b"'
+
+# Best quality forced MKV
+alias ytm='yt-dlp -f "bv*+ba/b" --merge-output-format mkv'
+
+# Video + English subtitles embedded
+alias yts='yt-dlp -f "bv*+ba/b" --write-subs --sub-langs "en" --convert-subs srt --embed-subs --merge-output-format mkv'
+
+# Audio only (best quality m4a)
+alias yta='yt-dlp -x --audio-format m4a --embed-metadata'
+
+# Show available formats
+alias ytf='yt-dlp -F'

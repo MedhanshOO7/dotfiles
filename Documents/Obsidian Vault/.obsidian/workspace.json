@@ -4,21 +4,21 @@
     "type": "split",
     "children": [
       {
-        "id": "6c5d6904c72840f8",
+        "id": "7c07433a90e45aae",
         "type": "tabs",
         "children": [
           {
-            "id": "b3afd52a208ae579",
+            "id": "d9ecb7fe2193d005",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Resources/Sem2/What to do Differential Equations and Transforms.md",
+                "file": "PROJECT_OVERVIEW.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "What to do Differential Equations and Transforms"
+              "title": "PROJECT_OVERVIEW"
             }
           }
         ]
@@ -201,13 +201,14 @@
       "bases:Create new base": false
     }
   },
-  "active": "b3afd52a208ae579",
+  "active": "d9ecb7fe2193d005",
   "lastOpenFiles": [
+    "Codes/OOPS L5&6.md",
+    "Resources/Sem2/What to do Differential Equations and Transforms.md",
     "bash/one.md",
     "Resources/Sem2/What to do Applied Chemistry.md",
     "Resources/Sem2.zip",
     "Resources/Sem2.zip.44svtx.part",
-    "Resources/Sem2/What to do Differential Equations and Transforms.md",
     "Untitled.canvas",
     "bash/one.pdf",
     "Study/Chemistry/Chapter 1.md",

@@ -5,7 +5,7 @@ RecursiveDirectorySizeLimit=20
 [ExtractDialog]
 1969x1231 screen: Height=690
 1969x1231 screen: Width=1312
-DirHistory[$e]=$HOME/Downloads/Exgraction/
+DirHistory[$e]=/home/medhansh/Downloads/Exgraction/
 
 [General]
 BrowseThroughArchives=true

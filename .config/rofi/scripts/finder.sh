@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 FD=$(command -v fd || command -v fdfind) || exit 1
-HIST="$HOME/.cache/rofi_file_history"
+HIST="/home/medhansh/.cache/rofi_file_history"
 mkdir -p "$(dirname "$HIST")"
 touch "$HIST"
 
@@ -113,16 +113,16 @@ fi
 
 # ---------------- SEARCH TIERS ----------------
 
-$FD "$QUERY" "$HOME/Downloads" \
+$FD "$QUERY" "/home/medhansh/Downloads" \
     --type f --hidden --exclude .git --color never 2>/dev/null |
     head -n 150000 | format normal && exit 0
 
-$FD "$QUERY" "$HOME/Documents" \
+$FD "$QUERY" "/home/medhansh/Documents" \
     --type f --hidden --exclude .git --color never 2>/dev/null |
     head -n 150000 | format normal && exit 0
 
 if [ ${#QUERY} -ge 3 ]; then
-    $FD "$QUERY" "$HOME" \
+    $FD "$QUERY" "/home/medhansh" \
         --type f --hidden \
         --exclude .git --exclude node_modules \
         --exclude Downloads --exclude Documents \
