@@ -4,21 +4,24 @@
     "type": "split",
     "children": [
       {
-        "id": "7c07433a90e45aae",
+        "id": "3f58bbeca23e0d15",
         "type": "tabs",
         "children": [
           {
-            "id": "d9ecb7fe2193d005",
+            "id": "9c3b1e4e7a3742c4",
             "type": "leaf",
             "state": {
-              "type": "markdown",
+              "type": "canvas",
               "state": {
-                "file": "PROJECT_OVERVIEW.md",
-                "mode": "source",
-                "source": false
+                "file": "Untitled 2.canvas",
+                "viewState": {
+                  "x": 18,
+                  "y": 244.5,
+                  "zoom": -0.3971254679454602
+                }
               },
-              "icon": "lucide-file",
-              "title": "PROJECT_OVERVIEW"
+              "icon": "lucide-layout-dashboard",
+              "title": "Untitled 2"
             }
           }
         ]
@@ -96,7 +99,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 248.5110321044922
+    "width": 200
   },
   "right": {
     "id": "259718f9d301f35b",
@@ -201,11 +204,14 @@
       "bases:Create new base": false
     }
   },
-  "active": "d9ecb7fe2193d005",
+  "active": "9c3b1e4e7a3742c4",
   "lastOpenFiles": [
-    "Codes/OOPS L5&6.md",
-    "Resources/Sem2/What to do Differential Equations and Transforms.md",
+    "Untitled 8.md",
+    "Untitled 2.canvas",
     "bash/one.md",
+    "Resources/Sem2/What to do Differential Equations and Transforms.md",
+    "PROJECT_OVERVIEW.md",
+    "Codes/OOPS L5&6.md",
     "Resources/Sem2/What to do Applied Chemistry.md",
     "Resources/Sem2.zip",
     "Resources/Sem2.zip.44svtx.part",
@@ -233,9 +239,6 @@
     "C++/Chapter 11 - Function Overloading and Function Templates/11.9 - Non-type template parameters.md",
     "C++/Chapter 11 - Function Overloading and Function Templates/11.4 - Deleting functions.md",
     "C++/Chapter 11 - Function Overloading and Function Templates/11.3 - Function overload resolution and ambiguous matches.md",
-    "C++/Chapter 11 - Function Overloading and Function Templates/11.2 - Function overload differentiation.md",
-    "C++/Chapter 11 - Function Overloading and Function Templates/11.1 - Introduction to function overloading.md",
-    "C++/Chapter 1 - C++ Basics/1.4 - Variable assignment and initialization.md",
     "webDev/Video 102 - Tailwind CSS (Deep Dive ",
     "TODO.canvas",
     "Kumar Pankaj.pdf",

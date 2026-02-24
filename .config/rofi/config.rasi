@@ -13,7 +13,7 @@ modi: "drun,calc,emoji,window";
 }
 
 * {
-    font: "Google Sans Flex 1000 18";
+    font: "Google Sans Flex 1200 17";
 
     /* DRACULA COLORS */
     bg-col:                     rgba(40,42,54,0.4);

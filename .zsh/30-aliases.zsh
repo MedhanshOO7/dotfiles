@@ -26,17 +26,61 @@ alias cdi='zi'
 
 #yt-dlp
 
-# Best quality video (auto container)
-alias ytv='yt-dlp -f "bv*+ba/b"'
+#video Downloading 
+alias ytv='yt-dlp \
+-f "bv*+ba/b" \
+--embed-metadata \
+--add-metadata \
+--embed-thumbnail \
+--write-info-json \
+--write-description \
+--embed-chapters \
+--convert-thumbnails jpg \
+-o "%(title)s.%(ext)s"'
 
-# Best quality forced MKV
-alias ytm='yt-dlp -f "bv*+ba/b" --merge-output-format mkv'
+# video to mvk
+alias ytm='yt-dlp \
+-f "bv*+ba/b" \
+--merge-output-format mkv \
+--embed-metadata \
+--add-metadata \
+--embed-thumbnail \
+--write-info-json \
+--write-description \
+--embed-chapters \
+--convert-thumbnails jpg \
+-o "%(title)s.%(ext)s"'
 
-# Video + English subtitles embedded
-alias yts='yt-dlp -f "bv*+ba/b" --write-subs --sub-langs "en" --convert-subs srt --embed-subs --merge-output-format mkv'
+# video and subtitles
+alias yts='yt-dlp \
+-f "bv*+ba/b" \
+--write-subs \
+--sub-langs "en" \
+--convert-subs srt \
+--embed-subs \
+--merge-output-format mkv \
+--embed-metadata \
+--add-metadata \
+--embed-thumbnail \
+--write-info-json \
+--write-description \
+--embed-chapters \
+--convert-thumbnails jpg \
+-o "%(title)s.%(ext)s"'
 
-# Audio only (best quality m4a)
-alias yta='yt-dlp -x --audio-format m4a --embed-metadata'
+# audio downloading 
+alias yta='yt-dlp \
+-f bestaudio \
+-x \
+--audio-format mp3 \
+--audio-quality 0 \
+--embed-metadata \
+--add-metadata \
+--embed-thumbnail \
+--embed-chapters \
+--convert-thumbnails jpg \
+--parse-metadata "title:%(artist)s - %(title)s" \
+--metadata-from-title "%(artist)s - %(title)s" \
+-o "%(title)s.%(ext)s"'
 
-# Show available formats
-alias ytf='yt-dlp -F'
+
