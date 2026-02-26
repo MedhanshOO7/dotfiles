@@ -6,3 +6,6 @@ mkcd(){
 +c(){
     command git add -u && git commit -m "$@"
     }
+search () {
+    brave --new-tab "https://duckduckgo.com/?q=$(printf "%s" "$*" | sed 's/ /+/g')"
+}

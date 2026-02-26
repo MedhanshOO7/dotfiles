@@ -1,5 +1,7 @@
 {
   "cssTheme": "Dracula Official",
   "baseFontSizeAction": true,
-  "baseFontSize": 14
+  "baseFontSize": 14,
+  "interfaceFontFamily": "Google Sans Flex",
+  "monospaceFontFamily": "FiraCode Nerd Font"
 }

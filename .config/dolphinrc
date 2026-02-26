@@ -1,6 +1,14 @@
+[CompactMode]
+UseSystemFont=false
+ViewFont=Google Sans Flex,14,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
+
 [ContentDisplay]
-DirectorySizeMode=ContentSize
 RecursiveDirectorySizeLimit=20
+
+[DetailsMode]
+IconSize=22
+UseSystemFont=false
+ViewFont=Google Sans Flex,14,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
 
 [ExtractDialog]
 1969x1231 screen: Height=690
@@ -12,11 +20,14 @@ BrowseThroughArchives=true
 DoubleClickViewAction=none
 DynamicView=true
 ModifiedStartupSettings=false
+RememberOpenedTabs=false
 Version=202
 ViewPropsTimestamp=2025,11,25,16,11,18.484
 
 [IconsMode]
 PreviewSize=112
+UseSystemFont=false
+ViewFont=Google Sans Flex,14,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
 
 [KFileDialog Settings]
 Places Icons Auto-resize=false

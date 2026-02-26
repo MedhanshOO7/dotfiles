@@ -4,24 +4,21 @@
     "type": "split",
     "children": [
       {
-        "id": "3f58bbeca23e0d15",
+        "id": "e833a562cf0b9eda",
         "type": "tabs",
         "children": [
           {
-            "id": "9c3b1e4e7a3742c4",
+            "id": "b779dc47401e6837",
             "type": "leaf",
             "state": {
-              "type": "canvas",
+              "type": "markdown",
               "state": {
-                "file": "Untitled 2.canvas",
-                "viewState": {
-                  "x": 18,
-                  "y": 244.5,
-                  "zoom": -0.3971254679454602
-                }
+                "file": "bash/one.md",
+                "mode": "source",
+                "source": false
               },
-              "icon": "lucide-layout-dashboard",
-              "title": "Untitled 2"
+              "icon": "lucide-file",
+              "title": "one"
             }
           }
         ]
@@ -204,11 +201,11 @@
       "bases:Create new base": false
     }
   },
-  "active": "9c3b1e4e7a3742c4",
+  "active": "2fd5911aec5af100",
   "lastOpenFiles": [
-    "Untitled 8.md",
-    "Untitled 2.canvas",
     "bash/one.md",
+    "Untitled 2.canvas",
+    "Untitled 8.md",
     "Resources/Sem2/What to do Differential Equations and Transforms.md",
     "PROJECT_OVERVIEW.md",
     "Codes/OOPS L5&6.md",
