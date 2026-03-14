@@ -34,7 +34,6 @@
     "breadcrumbs.enabled": false,
     "terminal.integrated.mouseWheelZoom": true,
     "editor.mouseWheelZoom": true,
-    "terminal.integrated.fontSize": 19,
     "editor.cursorSmoothCaretAnimation": "on",
     "editor.cursorBlinking": "smooth",
     "editor.smoothScrolling": true,
@@ -48,5 +47,6 @@
     "workbench.enableExperiments": false,
     "livePreview.notifyOnOpenLooseFile": false,
     "editor.stickyScroll.enabled": false,
-    "python.defaultInterpreterPath": "/home/medhansh/Downloads/learncpp.com/.venv"
+    "python.defaultInterpreterPath": "/home/medhansh/Downloads/learncpp.com/.venv",
+    "terminal.integrated.fontSize": 13
 }

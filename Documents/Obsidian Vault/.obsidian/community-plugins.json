@@ -1,5 +1,9 @@
 [
   "obsidian-icon-folder",
   "fast-text-color",
-  "highlightr-plugin"
+  "highlightr-plugin",
+  "obsidian-vimrc-support",
+  "pdf-plus",
+  "code-styler",
+  "file-explorer-plus"
 ]

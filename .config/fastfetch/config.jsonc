@@ -3,18 +3,18 @@
   "logo": {
     "width": 1,
     "type": "file",
-    "source": "/home/medhansh/.fastfetch/ascii.txt",
-    "color": {
-      "1": "#ff79c6",
-      "2": "#f77ccc",
-      "3": "#ef80d3",
-      "4": "#e683d9",
-      "5": "#de86e0",
-      "6": "#d689e6",
-      "7": "#ce8dec",
-      "8": "#c590f3",
-      "9": "#bd93f9"
-    }
+    "source": "/home/medhansh/.fastfetch/ascii.txt"
+    //"color": {
+      //"1": "#ff79c6",
+      //"2": "#f77ccc",
+      //"3": "#ef80d3",
+      //"4": "#e683d9",
+      //"5": "#de86e0",
+      //"6": "#d689e6",
+      //"7": "#ce8dec",
+      //"8": "#c590f3",
+      //"9": "#bd93f9"
+    //}
   },
   "modules": [
     "title",
@@ -50,6 +50,12 @@
     "battery",
     "poweradapter",
     "separator",
+    {
+      "key": "OS Age",
+      "type": "disk",
+      "folders": "/",
+      "format": "{create-time:10} ({days} days)"
+    },
     // "locale",
     "break",
     "colors"

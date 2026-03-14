@@ -4,24 +4,41 @@
     "type": "split",
     "children": [
       {
-        "id": "e833a562cf0b9eda",
+        "id": "500c44bfc5b66409",
         "type": "tabs",
         "children": [
           {
-            "id": "b779dc47401e6837",
+            "id": "cef43c91dd353a27",
+            "type": "leaf",
+            "pinned": true,
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "WORKIN/day_by_day_tracker.md",
+                "mode": "source",
+                "source": false
+              },
+              "pinned": true,
+              "icon": "lucide-file",
+              "title": "day_by_day_tracker"
+            }
+          },
+          {
+            "id": "67d1ef9d773d2fc7",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "bash/one.md",
+                "file": "DSA/BinaryTrees.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "one"
+              "title": "BinaryTrees"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -174,13 +191,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "C++/Chapter 0 - Introduction - Getting Started/0.2 - Introduction to programs and programming languages.md",
+                "file": "DSA/BinaryTrees.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline of 0.2 - Introduction to programs and programming languages"
+              "title": "Outline of BinaryTrees"
             }
           }
         ]
@@ -198,59 +215,65 @@
       "daily-notes:Open today's daily note": false,
       "templates:Insert template": false,
       "command-palette:Open command palette": false,
-      "bases:Create new base": false
+      "bases:Create new base": false,
+      "pdf-plus:PDF++: Toggle auto-copy": false,
+      "pdf-plus:PDF++: Toggle auto-focus": false,
+      "pdf-plus:PDF++: Toggle auto-paste": false
     }
   },
-  "active": "2fd5911aec5af100",
+  "active": "67d1ef9d773d2fc7",
   "lastOpenFiles": [
-    "bash/one.md",
-    "Untitled 2.canvas",
-    "Untitled 8.md",
-    "Resources/Sem2/What to do Differential Equations and Transforms.md",
-    "PROJECT_OVERVIEW.md",
-    "Codes/OOPS L5&6.md",
-    "Resources/Sem2/What to do Applied Chemistry.md",
-    "Resources/Sem2.zip",
-    "Resources/Sem2.zip.44svtx.part",
-    "Untitled.canvas",
-    "bash/one.pdf",
-    "Study/Chemistry/Chapter 1.md",
-    "Study/Chemistry",
+    "Screenshot_20260314_062355_Samsung capture.jpg",
+    "Screenshot_20260314_061603_Samsung capture.jpg",
+    "Screenshot_20260314_055450_Samsung capture 1.jpg",
+    "Screenshot_20260314_055450_Samsung capture.jpg",
+    "WORKIN/day_by_day_tracker.md",
+    "DSA/bt",
+    "DSA/bt.cpp",
+    "DSA/BinaryTrees.md",
+    "DSA",
+    "WORKIN/Overview.md",
+    "WORKIN/Unconfirmed 196602.crdownload",
+    "Resources/Sem2/What to do Engineering Graphics.md",
+    "WORKIN",
+    "Work/Untitled",
+    "Study/BEEE/FINAL REVISION.md",
+    "Study/BEEE/FINAL REVISION.pdf",
+    "Study/BEEE/UNIT -2b.md",
+    "Study/BEEE/UNIT -2a.md",
+    "Study/BEEE/Unconfirmed 654629.crdownload",
+    "Study/BEEE/UNIT -1.md",
+    "Pasted image 20260312055521.png",
     "Resources/Sem2/What to do Basic Electrical and Electronics Engineering.md",
-    "To send.md",
-    "he",
-    "Study Stuff.canvas",
-    "Video 07 - Inline and Block Elements.md",
-    "Untitled 7.md",
-    "Untitled 7.sync-conflict-20260216-173154-N4X5WYY.md",
-    "Speech.md",
-    "Something.md",
-    "C++/Chapter 14 - Introduction to Classes/14.2 - Introduction to classes.md",
-    "C++/Chapter 14 - Introduction to Classes/14.1 - Introduction to object-oriented programming.md",
-    "SUVIDHA.md",
-    "Untitled 2.md",
-    "Untitled 3.md",
-    "C++/Chapter 20 - Functions/20.1 - Function Pointers.md",
-    "C++/Chapter 23 - Object Relationships/23.1 - Object relationships.md",
-    "C++/Chapter 11 - Function Overloading and Function Templates/11.10 - Using function templates in multiple files.md",
-    "C++/Chapter 11 - Function Overloading and Function Templates/11.9 - Non-type template parameters.md",
-    "C++/Chapter 11 - Function Overloading and Function Templates/11.4 - Deleting functions.md",
-    "C++/Chapter 11 - Function Overloading and Function Templates/11.3 - Function overload resolution and ambiguous matches.md",
-    "webDev/Video 102 - Tailwind CSS (Deep Dive ",
-    "TODO.canvas",
-    "Kumar Pankaj.pdf",
-    "Ainesh Joshi.pdf",
-    "C++/Appendix A - Miscellaneous Subjects/A.1 - Static and dynamic libraries.html",
-    "C++/Appendix A - Miscellaneous Subjects/A.2 - Using libraries with Visual Studio.html",
-    "Untitled 1.canvas",
+    "Study/BEEE",
+    "OSINT/Resources/Sem2/What to do Summer Training.md",
+    "Resources/Sem2/What to do Summer Training.md",
+    "Resources/Sem2/What to do Object Oriented Programming.md",
+    "Resources/Sem2/What to do Environment Sciences.md",
+    "Resources/Sem2/What to do Differential Equations and Transforms.md",
+    "Resources/Sem2/What to do Applied Chemistry.md",
+    "Resources/Sem1/What to do UHV.md",
+    "Resources/Sem1/What to do Quantum physics.md",
+    "Resources/Sem1/What to do PC.md",
+    "Resources/Sem1/What to do Maths.md",
+    "Resources/Sem1/What to do Computers.md",
+    "Resources/Sem2.zip",
+    "Resources/QWEN.md",
+    "OSINT/Resources/Sem2/What to do Applied Chemistry.md",
+    "TODO.md",
+    "Study/Chemistry/Isomerism.md",
+    "Study/Chemistry/FInal revision notes.md",
+    "Screenshot_20260311_075122_Samsung capture.jpg",
+    "Screenshot_20260311_075021_Samsung capture 1.jpg",
+    "Screenshot_20260311_075021_Samsung capture.jpg",
+    "Untitled.canvas",
     "Year 206.canvas",
+    "Untitled 2.canvas",
+    "Study Stuff.canvas",
+    "TODO.canvas",
+    "Untitled 1.canvas",
     "Hackathon/_- visual selection 2.png",
     "Hackathon/_- visual selection.png",
-    "Hackathon/_- visual selection 3.png",
-    "Hackathon/_- visual selection 1.png",
-    "_- visual selection 3.png",
-    "_- visual selection 2.png",
-    "_- visual selection 1.png",
-    "_- visual selection.png"
+    "Hackathon/_- visual selection 3.png"
   ]
 }

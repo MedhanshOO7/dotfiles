@@ -26,7 +26,7 @@ Toggle Screen Reader On and Off=Meta+Alt+S,Meta+Alt+S,Toggle Screen Reader On an
 _k_friendly_name=Accessibility
 
 [kmix]
-_k_friendly_name=KMix
+_k_friendly_name=Audio Volume
 decrease_microphone_volume=Microphone Volume Down,Microphone Volume Down,Decrease Microphone Volume
 decrease_volume=Volume Down,Volume Down,Decrease Volume
 decrease_volume_small=Shift+Volume Down,Shift+Volume Down,Decrease Volume by 1%
@@ -377,6 +377,9 @@ _launch=Meta+Shift+E
 _launch=Alt+F4
 
 [services][net.local.rofi.desktop]
+_launch=none
+
+[services][net.local.vicinae.desktop]
 _launch=Alt+Space
 
 [services][net.local.wch.sh.desktop]
@@ -387,6 +390,10 @@ _launch=Search\tAlt+F2
 
 [services][org.kde.plasma-systemmonitor.desktop]
 _launch=Meta+Esc\tCtrl+Shift+Esc
+
+[services][org.kde.spectacle.desktop]
+CurrentMonitorScreenShot=
+OpenWithoutScreenshot=
 
 [wacomtablet]
 Map to fullscreen=Meta+Ctrl+F,Meta+Ctrl+F,Map to fullscreen

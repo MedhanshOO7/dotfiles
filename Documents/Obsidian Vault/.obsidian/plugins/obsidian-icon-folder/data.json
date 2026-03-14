@@ -6,6 +6,12 @@
     "emojiStyle": "native",
     "iconColor": "#ffffff",
     "recentlyUsedIcons": [
+      "LiGamepad",
+      "SiWire",
+      "MaFolderResourceOpen",
+      "SiArchlinux",
+      "MaObjectiveCpp",
+      "SiLibreofficemath",
       "SiChemex",
       "MaBashly",
       "MaFolderLib",
@@ -21,10 +27,9 @@
       "SiFi",
       "MaAntlr",
       "LiWorkflow",
-      "MaWebassembly",
-      "🔴"
+      "MaWebassembly"
     ],
-    "recentlyUsedIconsSize": 17,
+    "recentlyUsedIconsSize": 25,
     "rules": [
       {
         "rule": "\\.md$",
@@ -75,7 +80,7 @@
     "iconIdentifier": ":",
     "lucideIconPackType": "native",
     "debugMode": false,
-    "useInternalPlugins": false
+    "useInternalPlugins": true
   },
   "API": "MaFolderApi",
   "C++": "MaCpp",
@@ -85,8 +90,6 @@
   "ML": "MaPython",
   "ML/Statistics": "MaMathematica",
   "OSINT": "LiInstagram",
-  "Resources": "MaFolderResourceOpen",
-  "SIH": "MaSas",
   "Study": "LiBook",
   "Team Red": "🔴",
   "webDev": "MaWebassembly",
@@ -131,11 +134,18 @@
   "Study/Programming Fundamentals": "LiCode",
   "Study/Quantum Physics": "LiAtom",
   "Study/UHV": "SiMan",
-  "Resources/Sem1": "RiNumber1",
-  "Resources/Sem2": "RiNumber2",
   "Hackathon": "MaH",
   "Jayant": "SiJameson",
   "transcripts": "MaFolderLib",
   "bash": "MaBashly",
-  "Study/Chemistry": "SiChemex"
+  "Study/Chemistry": "SiChemex",
+  "SIH": "MaSas",
+  "Study/Differential Equations": "SiLibreofficemath",
+  "Study/OOPS": "MaObjectiveCpp",
+  "ARCH": "SiArchlinux",
+  "Resources": "MaFolderResourceOpen",
+  "Resources/Sem1": "RiNumber1",
+  "Resources/Sem2": "RiNumber2",
+  "Study/BEEE": "SiWire",
+  "GAME": "LiGamepad"
 }

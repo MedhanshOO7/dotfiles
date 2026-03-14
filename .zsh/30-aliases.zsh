@@ -1,3 +1,6 @@
+#fastfetch
+alias ff='fastfetch'
+
 # File manager
 alias files="dolphin"
 
@@ -83,4 +86,5 @@ alias yta='yt-dlp \
 --metadata-from-title "%(artist)s - %(title)s" \
 -o "%(title)s.%(ext)s"'
 
-
+#system Update
+alias update='sudo pacman -Syu && yay'

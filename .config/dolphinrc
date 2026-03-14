@@ -7,6 +7,7 @@ RecursiveDirectorySizeLimit=20
 
 [DetailsMode]
 IconSize=22
+PreviewSize=96
 UseSystemFont=false
 ViewFont=Google Sans Flex,14,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
 
@@ -43,4 +44,4 @@ IconSize=32
 Plugins=appimagethumbnail,audiothumbnail,glycin-heif,blenderthumbnail,comicbookthumbnail,cursorthumbnail,djvuthumbnail,ebookthumbnail,exrthumbnail,directorythumbnail,fontthumbnail,pothumbnail,imagethumbnail,calligraimagethumbnail,glycin-image-rs,jpegthumbnail,glycin-jxl,kraorathumbnail,windowsexethumbnail,windowsimagethumbnail,mltpreview,mobithumbnail,opendocumentthumbnail,calligrathumbnail,palathumbcreator,gsthumbnail,quithumbnail,rawthumbnail,glycin-svg,svgthumbnail,textthumbnail,itinerarythumbnail,ffmpegthumbs,webarchivethumbnail
 
 [UiSettings]
-ColorScheme=DraculaPurple
+ColorScheme=MaterialYouDark_darker_titlebar2
