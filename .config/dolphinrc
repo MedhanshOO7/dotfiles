@@ -7,7 +7,7 @@ RecursiveDirectorySizeLimit=20
 
 [DetailsMode]
 IconSize=22
-PreviewSize=96
+PreviewSize=128
 UseSystemFont=false
 ViewFont=Google Sans Flex,14,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
 

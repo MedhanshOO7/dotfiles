@@ -4,11 +4,11 @@
     "type": "split",
     "children": [
       {
-        "id": "500c44bfc5b66409",
+        "id": "73079aae8206ba78",
         "type": "tabs",
         "children": [
           {
-            "id": "cef43c91dd353a27",
+            "id": "5246601e4d99de12",
             "type": "leaf",
             "pinned": true,
             "state": {
@@ -24,21 +24,20 @@
             }
           },
           {
-            "id": "67d1ef9d773d2fc7",
+            "id": "a7baa942a7898e7d",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "DSA/BinaryTrees.md",
+                "file": "DSA/BurnATree.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "BinaryTrees"
+              "title": "BurnATree"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -113,7 +112,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 200
+    "width": 220.50599670410156
   },
   "right": {
     "id": "259718f9d301f35b",
@@ -129,7 +128,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "C++/Chapter 1 - C++ Basics/1.3 - Introduction to objects and variables.md",
+                "file": "WORKIN/day_by_day_tracker.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -139,7 +138,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks for 1.3 - Introduction to objects and variables"
+              "title": "Backlinks for day_by_day_tracker"
             }
           },
           {
@@ -191,13 +190,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "DSA/BinaryTrees.md",
+                "file": "WORKIN/day_by_day_tracker.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline of BinaryTrees"
+              "title": "Outline of day_by_day_tracker"
             }
           }
         ]
@@ -215,37 +214,49 @@
       "daily-notes:Open today's daily note": false,
       "templates:Insert template": false,
       "command-palette:Open command palette": false,
-      "bases:Create new base": false,
-      "pdf-plus:PDF++: Toggle auto-copy": false,
-      "pdf-plus:PDF++: Toggle auto-focus": false,
-      "pdf-plus:PDF++: Toggle auto-paste": false
+      "bases:Create new base": false
     }
   },
-  "active": "67d1ef9d773d2fc7",
+  "active": "5246601e4d99de12",
   "lastOpenFiles": [
-    "Screenshot_20260314_062355_Samsung capture.jpg",
-    "Screenshot_20260314_061603_Samsung capture.jpg",
-    "Screenshot_20260314_055450_Samsung capture 1.jpg",
-    "Screenshot_20260314_055450_Samsung capture.jpg",
+    "DSA/BurnATree.md",
     "WORKIN/day_by_day_tracker.md",
+    "Screenshot_20260322_032937_Samsung capture.jpg",
+    "DSA/binaryTreeQuests4.md",
+    "Screenshot_20260322_022009_IntentResolver.jpg",
+    "DSA/binaryTreeQuests1.md",
+    "DSA/BinaryTreesQuest3.md",
+    "Screenshot_20260322_014717_Samsung capture.jpg",
+    "Screenshot_20260322_013917_Samsung capture.jpg",
+    "Screenshot_20260322_004435_Samsung capture.jpg",
+    "Screenshot_20260322_001245_IntentResolver.jpg",
+    "DSA/binaryTreeQuests2.md",
+    "Screenshot_20260321_223608_Samsung capture.jpg",
+    "DSA/recursions/introduction.md",
+    "DSA/recursions",
+    "Screenshot_20260318_040504_Samsung capture.jpg",
+    "bash/one.md",
+    "bash/one.pdf",
+    "bash/bash.pdf",
+    "Screenshot_20260317_001527_Samsung capture.jpg",
+    "Untitled 10.md",
+    "Screenshot_20260316_205603_Samsung capture.jpg",
+    "DSA/zsh",
+    "DSA/BinaryTrees.md",
+    "JS/Functions.md",
+    "JS",
     "DSA/bt",
     "DSA/bt.cpp",
-    "DSA/BinaryTrees.md",
     "DSA",
     "WORKIN/Overview.md",
     "WORKIN/Unconfirmed 196602.crdownload",
     "Resources/Sem2/What to do Engineering Graphics.md",
     "WORKIN",
-    "Work/Untitled",
     "Study/BEEE/FINAL REVISION.md",
-    "Study/BEEE/FINAL REVISION.pdf",
     "Study/BEEE/UNIT -2b.md",
     "Study/BEEE/UNIT -2a.md",
-    "Study/BEEE/Unconfirmed 654629.crdownload",
     "Study/BEEE/UNIT -1.md",
-    "Pasted image 20260312055521.png",
     "Resources/Sem2/What to do Basic Electrical and Electronics Engineering.md",
-    "Study/BEEE",
     "OSINT/Resources/Sem2/What to do Summer Training.md",
     "Resources/Sem2/What to do Summer Training.md",
     "Resources/Sem2/What to do Object Oriented Programming.md",
@@ -253,27 +264,11 @@
     "Resources/Sem2/What to do Differential Equations and Transforms.md",
     "Resources/Sem2/What to do Applied Chemistry.md",
     "Resources/Sem1/What to do UHV.md",
-    "Resources/Sem1/What to do Quantum physics.md",
-    "Resources/Sem1/What to do PC.md",
-    "Resources/Sem1/What to do Maths.md",
-    "Resources/Sem1/What to do Computers.md",
-    "Resources/Sem2.zip",
-    "Resources/QWEN.md",
-    "OSINT/Resources/Sem2/What to do Applied Chemistry.md",
-    "TODO.md",
-    "Study/Chemistry/Isomerism.md",
-    "Study/Chemistry/FInal revision notes.md",
-    "Screenshot_20260311_075122_Samsung capture.jpg",
-    "Screenshot_20260311_075021_Samsung capture 1.jpg",
-    "Screenshot_20260311_075021_Samsung capture.jpg",
     "Untitled.canvas",
     "Year 206.canvas",
     "Untitled 2.canvas",
     "Study Stuff.canvas",
     "TODO.canvas",
-    "Untitled 1.canvas",
-    "Hackathon/_- visual selection 2.png",
-    "Hackathon/_- visual selection.png",
-    "Hackathon/_- visual selection 3.png"
+    "Untitled 1.canvas"
   ]
 }

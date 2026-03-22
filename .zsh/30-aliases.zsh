@@ -88,3 +88,8 @@ alias yta='yt-dlp \
 
 #system Update
 alias update='sudo pacman -Syu && yay'
+
+
+
+
+

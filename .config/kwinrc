@@ -13,15 +13,17 @@ BlurMatching=false
 BlurNonMatching=true
 BlurStrength=12
 Contrast=125
-CornerRadius=10
 ForceContrastParams=true
 NoiseStrength=2
+RefractionMode=1
+RefractionStrength=10
 RefractionTextureRepeatMode=1
 WindowClasses=\nbrave brave-browser
 
 [Effect-blur]
-BlurStrength=12
-NoiseStrength=0
+BlurStrength=13
+NoiseStrength=14
+Saturation=346
 
 [Effect-blurplus]
 BlurMatching=false
@@ -47,7 +49,8 @@ NightTemperature=3800
 
 [Plugins]
 better_blur_dxEnabled=true
-blurEnabled=false
+blurEnabled=true
+desktopchangeosdEnabled=true
 dialogparentEnabled=false
 dimscreenEnabled=false
 forceblurEnabled=true
@@ -83,7 +86,6 @@ Size=30
 userSetOpacity=94
 
 [TabBox]
-LayoutName=compact
 TouchBorderActivate=4
 
 [Tiling][4f83d6db-32cd-4347-9257-99bee88830d8][e4953aaf-94a8-462c-a313-e7bdc398f52f]

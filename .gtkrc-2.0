@@ -1,13 +1,14 @@
+gtk-enable-event-sounds=0
 gtk-enable-animations=1
-gtk-theme-name="Tahoe-Dark"
+gtk-theme-name="Breeze-Dark"
 gtk-primary-button-warps-slider=1
 gtk-toolbar-style=3
 gtk-menu-images=1
 gtk-button-images=1
 gtk-cursor-blink-time=1000
 gtk-cursor-blink=1
-gtk-cursor-theme-size=24
-gtk-cursor-theme-name="Dracula-cursors"
+gtk-cursor-theme-size=32
+gtk-cursor-theme-name="Bibata-Modern-Classic"
 gtk-sound-theme-name="__custom"
 gtk-icon-theme-name="YAMIS"
 gtk-font-name="Google Sans Flex,  14"

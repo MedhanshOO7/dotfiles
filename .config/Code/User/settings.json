@@ -48,5 +48,20 @@
     "livePreview.notifyOnOpenLooseFile": false,
     "editor.stickyScroll.enabled": false,
     "python.defaultInterpreterPath": "/home/medhansh/Downloads/learncpp.com/.venv",
-    "terminal.integrated.fontSize": 13
+    "terminal.integrated.fontSize": 13,
+    "vim.useSystemClipboard": true,
+    "vim.handleKeys": {
+        "<C-a>": false,
+        "<C-f>": false,
+        "<C-h>": false,
+        "<C-z>": false,
+        "<C-c>": false,
+        "<C-x>": false,
+        "<C-w>": false,
+        "<C-S-l>": false,
+        "<C-v>": false,
+        "<C-b>": false,
+        "<C-l>": false,
+    },
+    "makefile.configureOnOpen": true
 }

@@ -19,3 +19,20 @@ search () {
         yay -S "$1"
     fi
 }
+-S(){
+    printf 'Uninstalling, %s ...' $1
+    sudo pacman -Rns $1
+}
+
+-R(){
+    printf 'Uninstalling, %s ...' $1
+    sudo pacman -Rns $1
+}
+
+
+vman() { 
+    man "$@" | vim -c "set ft=man" -; 
+}   
+
+
+
