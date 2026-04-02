@@ -12,7 +12,7 @@
     "files.autoSaveDelay": 500,
     "code-runner.runInTerminal": true,
     "editor.formatOnSave": true,
-    "workbench.colorTheme": "Dracula Theme Soft",
+    "workbench.colorTheme": "Catppuccin Mocha",
     "workbench.colorCustomizations": {
         // "sideBar.background": "#252733",
         // "panel.background": "#252733",

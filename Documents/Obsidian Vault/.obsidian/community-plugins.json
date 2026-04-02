@@ -3,6 +3,10 @@
   "fast-text-color",
   "highlightr-plugin",
   "obsidian-vimrc-support",
-  "code-styler",
-  "file-explorer-plus"
+  "file-explorer-plus",
+  "table-editor-obsidian",
+  "obsidian-charts",
+  "callout-manager",
+  "obsidian-style-settings",
+  "code-styler"
 ]

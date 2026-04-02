@@ -4,18 +4,18 @@
     "type": "split",
     "children": [
       {
-        "id": "73079aae8206ba78",
+        "id": "2c8a733bf8a1630c",
         "type": "tabs",
         "children": [
           {
-            "id": "5246601e4d99de12",
+            "id": "768fc22b37fd293f",
             "type": "leaf",
             "pinned": true,
             "state": {
               "type": "markdown",
               "state": {
                 "file": "WORKIN/day_by_day_tracker.md",
-                "mode": "source",
+                "mode": "preview",
                 "source": false
               },
               "pinned": true,
@@ -24,20 +24,49 @@
             }
           },
           {
-            "id": "a7baa942a7898e7d",
+            "id": "2b7d847d942011d4",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "DSA/BurnATree.md",
+                "file": "WORKIN/Overview.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "BurnATree"
+              "title": "Overview"
+            }
+          },
+          {
+            "id": "0284e2d4034b659e",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "DSA/heaps/heaps.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "heaps"
+            }
+          },
+          {
+            "id": "66ae5ddd5a53e5cf",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "DSA/heaps/heapQuestion1.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "heapQuestion1"
             }
           }
-        ]
+        ],
+        "currentTab": 3
       }
     ],
     "direction": "vertical"
@@ -190,16 +219,27 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "WORKIN/day_by_day_tracker.md",
+                "file": "DSA/heaps/heapQuestion1.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline of day_by_day_tracker"
+              "title": "Outline of heapQuestion1"
+            }
+          },
+          {
+            "id": "f7a8d70880e10370",
+            "type": "leaf",
+            "state": {
+              "type": "advanced-tables-toolbar",
+              "state": {},
+              "icon": "spreadsheet",
+              "title": "Advanced Tables"
             }
           }
-        ]
+        ],
+        "currentTab": 5
       }
     ],
     "direction": "horizontal",
@@ -214,61 +254,65 @@
       "daily-notes:Open today's daily note": false,
       "templates:Insert template": false,
       "command-palette:Open command palette": false,
-      "bases:Create new base": false
+      "bases:Create new base": false,
+      "markdown-importer:Open format converter": false,
+      "table-editor-obsidian:Advanced Tables Toolbar": false,
+      "callout-manager:Insert Callout": false
     }
   },
-  "active": "5246601e4d99de12",
+  "active": "66ae5ddd5a53e5cf",
   "lastOpenFiles": [
-    "DSA/BurnATree.md",
+    "DSA/heaps/heaps.md",
+    "DSA/heaps/heapQuestion1.md",
+    "OOPS/8. Memory Layout.md",
+    "OOPS/0.a initilization list.md~",
+    "OOPS/0.a initilization list.md",
+    "OOPS/4. Inheritance.md~",
+    "ChatGPT Image Apr 1, 2026, 06_45_40 AM.png",
+    "OOPS/7. Variables & There types.md",
+    "OOPS/1. Introduction.md",
+    "OOPS/6. Abstraction.md",
+    "OOPS/5. Polymorphism.md",
+    "OOPS/4. Inheritance.md",
+    "OOPS/3. Encapsulation.md",
+    "OOPS/2. Intro to Class.md",
     "WORKIN/day_by_day_tracker.md",
-    "Screenshot_20260322_032937_Samsung capture.jpg",
-    "DSA/binaryTreeQuests4.md",
-    "Screenshot_20260322_022009_IntentResolver.jpg",
-    "DSA/binaryTreeQuests1.md",
-    "DSA/BinaryTreesQuest3.md",
-    "Screenshot_20260322_014717_Samsung capture.jpg",
-    "Screenshot_20260322_013917_Samsung capture.jpg",
-    "Screenshot_20260322_004435_Samsung capture.jpg",
-    "Screenshot_20260322_001245_IntentResolver.jpg",
-    "DSA/binaryTreeQuests2.md",
-    "Screenshot_20260321_223608_Samsung capture.jpg",
-    "DSA/recursions/introduction.md",
-    "DSA/recursions",
-    "Screenshot_20260318_040504_Samsung capture.jpg",
-    "bash/one.md",
-    "bash/one.pdf",
-    "bash/bash.pdf",
-    "Screenshot_20260317_001527_Samsung capture.jpg",
-    "Untitled 10.md",
-    "Screenshot_20260316_205603_Samsung capture.jpg",
-    "DSA/zsh",
-    "DSA/BinaryTrees.md",
-    "JS/Functions.md",
-    "JS",
-    "DSA/bt",
-    "DSA/bt.cpp",
-    "DSA",
     "WORKIN/Overview.md",
-    "WORKIN/Unconfirmed 196602.crdownload",
-    "Resources/Sem2/What to do Engineering Graphics.md",
-    "WORKIN",
-    "Study/BEEE/FINAL REVISION.md",
-    "Study/BEEE/UNIT -2b.md",
-    "Study/BEEE/UNIT -2a.md",
-    "Study/BEEE/UNIT -1.md",
-    "Resources/Sem2/What to do Basic Electrical and Electronics Engineering.md",
-    "OSINT/Resources/Sem2/What to do Summer Training.md",
-    "Resources/Sem2/What to do Summer Training.md",
-    "Resources/Sem2/What to do Object Oriented Programming.md",
-    "Resources/Sem2/What to do Environment Sciences.md",
+    "bash/one.md",
+    "bash/Untitled.md",
+    "Cyber/Lecture 1.md",
+    "GAME/Basics - II.md",
+    "GAME/ECS.md",
+    "bash/bash.pdf",
     "Resources/Sem2/What to do Differential Equations and Transforms.md",
-    "Resources/Sem2/What to do Applied Chemistry.md",
-    "Resources/Sem1/What to do UHV.md",
+    "Resources/Sem2/What to do Basic Electrical and Electronics Engineering.md",
+    "DSA/binarySearchTrees/largestBST.md",
+    "DSA/binarySearchTrees/Binary Search Tree and its implementation.md",
+    "DSA/binarySearchTrees/Merge2BST.md",
+    "DSA/binarySearchTrees/largestBST.md~",
+    "DSA/binarySearchTrees/Merge2BST.md~",
+    "Screenshot_20260324_225440_Samsung capture.jpg",
+    "To send.md",
+    "TODO.canvas",
+    "DSA/binaryTree/BurnATree.md",
+    "DSA/binaryTree/BinaryTreesQuest3.md",
+    "Pasted image 20260326014015.png",
+    "OOPS",
+    "Pasted image 20260324015042.png",
+    "Pasted image 20260323005057.png",
+    "Study/Chemistry/3.1.26 Chapter - 1.pdf",
+    "DSA/binarySearchTrees",
+    "DSA/binaryTree/bt",
+    "DSA/binaryTree/bt.cpp",
+    "Screenshot_20260322_235228_Samsung capture.jpg",
+    "Screenshot_20260322_231602_Samsung Notes.jpg",
+    "Screenshot_20260322_032937_Samsung capture.jpg",
+    "Screenshot_20260322_022009_IntentResolver.jpg",
+    "Screenshot_20260322_014717_Samsung capture.jpg",
     "Untitled.canvas",
     "Year 206.canvas",
     "Untitled 2.canvas",
     "Study Stuff.canvas",
-    "TODO.canvas",
     "Untitled 1.canvas"
   ]
 }

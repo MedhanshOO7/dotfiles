@@ -26,18 +26,58 @@ export FZF_DEFAULT_OPTS=$'
 --border=rounded
 --preview-window=right:60%:wrap
 --preview=\'
+printf "\033_Ga=d,d=A\033\\\\"
+
+IMG_HEIGHT=18
+META_LINES=6
+DIVIDER=$(printf "%-${FZF_PREVIEW_COLUMNS}s" "" | tr " " "─")
+RESET="\033[0m"
+LABEL="\033[38;2;140;170;238m"
+VALUE="\033[38;2;198;208;245m"
+ICON="\033[38;2;166;209;137m"
+
+meta() {
+  echo -e "${ICON}$1${RESET}  ${LABEL}$2${RESET}  ${VALUE}$3${RESET}"
+}
+
+pad_to_bottom() {
+  local used=$1
+  local remaining=$((FZF_PREVIEW_LINES - used - META_LINES - 1))
+  [ $remaining -gt 0 ] && printf "\n%.0s" $(seq 1 $remaining)
+}
+
 if [ -d {} ]; then
-  eza --icons --tree --level=2 --color=always {}
+  eza --icons --tree --level=2 --color=always {} | head -n $((FZF_PREVIEW_LINES - META_LINES - 1))
+  pad_to_bottom $((FZF_PREVIEW_LINES - META_LINES - 1))
+  echo "$DIVIDER"
+  meta "📁" "name:    " "$(basename {})"
+  meta "📦" "items:   " "$(ls {} | wc -l)"
+  meta "💾" "size:    " "$(du -sh {} 2>/dev/null | cut -f1)"
+  meta "🕒" "modified:" "$(date -r {} "+%Y-%m-%d %H:%M")"
 else
   case {} in
     *.png|*.jpg|*.jpeg|*.webp|*.gif)
-      kitty +kitten icat --clear --transfer-mode=memory --stdin no {} ;;
+      kitty +kitten icat --transfer-mode=memory --stdin no --scale-up \
+        --place ${FZF_PREVIEW_COLUMNS}x${IMG_HEIGHT}@0x0 {} 2>/dev/null
+      pad_to_bottom $IMG_HEIGHT
+      echo "$DIVIDER"
+      meta "🖼 " "name:    " "$(basename {})"
+      meta "💾" "size:    " "$(du -sh {} | cut -f1)"
+      meta "📐" "dims:    " "$(identify -format "%wx%h" {} 2>/dev/null || echo "N/A")"
+      meta "🕒" "modified:" "$(date -r {} "+%Y-%m-%d %H:%M")" ;;
     *)
       if file --mime {} | grep -q binary; then
         echo "Binary file"
+        pad_to_bottom 1
       else
-        bat --color=always --line-range=:300 {}
-      fi ;;
+        bat --color=always --line-range=:$((FZF_PREVIEW_LINES - META_LINES - 1)) {} 2>/dev/null
+        pad_to_bottom $((FZF_PREVIEW_LINES - META_LINES - 1))
+      fi
+      echo "$DIVIDER"
+      meta "📄" "name:    " "$(basename {})"
+      meta "💾" "size:    " "$(du -sh {} | cut -f1)"
+      meta "🔖" "type:    " "$(file --mime-type -b {})"
+      meta "🕒" "modified:" "$(date -r {} "+%Y-%m-%d %H:%M")" ;;
   esac
 fi
 \'

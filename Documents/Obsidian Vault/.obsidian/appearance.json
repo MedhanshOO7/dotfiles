@@ -1,7 +1,9 @@
 {
-  "cssTheme": "Dracula Official",
+  "cssTheme": "Catppuccin",
   "baseFontSizeAction": true,
-  "baseFontSize": 18,
+  "baseFontSize": 19,
   "interfaceFontFamily": "Google Sans Flex",
-  "monospaceFontFamily": "FiraCode Nerd Font"
+  "monospaceFontFamily": "FiraCode Nerd Font",
+  "textFontFamily": "Google Sans Flex",
+  "accentColor": ""
 }

@@ -89,7 +89,15 @@ alias yta='yt-dlp \
 #system Update
 alias update='sudo pacman -Syu && yay'
 
+# vim
+alias vi='nvim'
+alias vim='nvim'
+alias v='nvim'
 
+# for the laptop related settings
+source "${0:A:h}/100-setting.zsh"
 
+# help to remember all the commands
+alias guide='~/.predatorThings | less -R'
 
 

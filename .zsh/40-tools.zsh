@@ -34,5 +34,34 @@ vman() {
     man "$@" | vim -c "set ft=man" -; 
 }   
 
+help(){
+    bash -c "help $@"
+}
+
+open_nvim(){
+    nvim .
+    zle reset-prompt
+}
+open_config(){
+    nvim ~/.zsh
+    zle reset-prompt
+}
+source_config(){
+    echo "Sourcing......."
+    source ~/.zshrc
+    zle reset-prompt
+    echo "Sourced again"
+}
+
+# Regesting the widgets 
+zle -N open_nvim
+zle -N open_config
+zle -N source_config
+
+# Key binds
+bindkey '^g' open_nvim
+bindkey '^o' open_config
+bindkey '^[.' open_config
+bindkey '^[s' source_config
 
 

@@ -5,7 +5,8 @@ AllowTearing=false
 Id_1=c3d35f0a-4d80-4244-914f-344420b33338
 Id_2=f78edac5-bb3a-4417-a696-d15111efde65
 Id_3=4f83d6db-32cd-4347-9257-99bee88830d8
-Number=3
+Id_4=a09ac090-5f74-4252-8f41-78d1e9d05c03
+Number=4
 Rows=1
 
 [Effect-better-blur-dx]
@@ -50,7 +51,7 @@ NightTemperature=3800
 [Plugins]
 better_blur_dxEnabled=true
 blurEnabled=true
-desktopchangeosdEnabled=true
+desktopchangeosdEnabled=false
 dialogparentEnabled=false
 dimscreenEnabled=false
 forceblurEnabled=true
@@ -60,7 +61,7 @@ kwin4_effect_shapecornersEnabled=false
 luisbocanegra.cursor.eyes.kwinscriptEnabled=true
 overviewEnabled=false
 screenedgeEnabled=false
-synchronizeskipswitcherEnabled=true
+synchronizeskipswitcherEnabled=false
 
 [Round-Corners]
 ActiveOutlinePalette=15
@@ -88,12 +89,32 @@ userSetOpacity=94
 [TabBox]
 TouchBorderActivate=4
 
+[Tiling][4f83d6db-32cd-4347-9257-99bee88830d8][a98eaf6d-4322-4995-9332-8981931f9dc7]
+padding=4
+tiles={"layoutDirection":"horizontal","tiles":[{"width":0.25},{"width":0.5},{"width":0.25}]}
+
 [Tiling][4f83d6db-32cd-4347-9257-99bee88830d8][e4953aaf-94a8-462c-a313-e7bdc398f52f]
 padding=4
 tiles={"layoutDirection":"horizontal","tiles":[{"layoutDirection":"vertical","tiles":[{"height":0.5,"layoutDirection":"floating","tiles":[{"height":0.4999999999999997,"width":0.39931640625000003,"x":0.00019531250000000278,"y":1.7737547541862853e-16}]},{"height":0.5}],"width":0.4},{"width":0.6}]}
 
+[Tiling][a09ac090-5f74-4252-8f41-78d1e9d05c03][a98eaf6d-4322-4995-9332-8981931f9dc7]
+padding=4
+tiles={"layoutDirection":"horizontal","tiles":[{"width":0.25},{"width":0.5},{"width":0.25}]}
+
+[Tiling][a09ac090-5f74-4252-8f41-78d1e9d05c03][e4953aaf-94a8-462c-a313-e7bdc398f52f]
+padding=4
+tiles={"layoutDirection":"horizontal","tiles":[{"width":0.25},{"width":0.5},{"width":0.25}]}
+
+[Tiling][c3d35f0a-4d80-4244-914f-344420b33338][a98eaf6d-4322-4995-9332-8981931f9dc7]
+padding=4
+tiles={"layoutDirection":"horizontal","tiles":[{"width":0.25},{"width":0.5},{"width":0.25}]}
+
 [Tiling][c3d35f0a-4d80-4244-914f-344420b33338][e4953aaf-94a8-462c-a313-e7bdc398f52f]
 padding=3
+tiles={"layoutDirection":"horizontal","tiles":[{"width":0.25},{"width":0.5},{"width":0.25}]}
+
+[Tiling][f78edac5-bb3a-4417-a696-d15111efde65][a98eaf6d-4322-4995-9332-8981931f9dc7]
+padding=4
 tiles={"layoutDirection":"horizontal","tiles":[{"width":0.25},{"width":0.5},{"width":0.25}]}
 
 [Tiling][f78edac5-bb3a-4417-a696-d15111efde65][e4953aaf-94a8-462c-a313-e7bdc398f52f]
@@ -105,6 +126,7 @@ Left=ShowDesktop
 
 [Wayland]
 InputMethod[$e]=/usr/share/applications/fcitx5-wayland-launcher.desktop
+VirtualKeyboardEnabled=true
 
 [org.kde.kdecoration2]
 BorderSize=None
@@ -112,4 +134,4 @@ BorderSizeAuto=false
 ButtonsOnLeft=
 ButtonsOnRight=
 library=org.kde.kwin.aurorae.v2
-theme=__aurorae__svg__Sweet-Dark-transparent
+theme=__aurorae__svg__Materia-Dark

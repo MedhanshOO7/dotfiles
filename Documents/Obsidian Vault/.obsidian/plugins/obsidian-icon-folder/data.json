@@ -6,6 +6,11 @@
     "emojiStyle": "native",
     "iconColor": "#ffffff",
     "recentlyUsedIcons": [
+      "SiBookstack",
+      "MaJavascript",
+      "RiLoopLeftFill",
+      "LiBinary",
+      "LiTrees",
       "SiThealgorithms",
       "LiGamepad",
       "SiWire",
@@ -25,10 +30,7 @@
       "LiCode",
       "RiEnglishInput",
       "SiOkta",
-      "SiFi",
-      "MaAntlr",
-      "LiWorkflow",
-      "MaWebassembly"
+      "SiFi"
     ],
     "recentlyUsedIconsSize": 25,
     "rules": [
@@ -152,5 +154,11 @@
   "DSA": {
     "iconName": "SiThealgorithms",
     "iconColor": "#ebf91f"
-  }
+  },
+  "DSA/binaryTree": "LiTrees",
+  "DSA/binarySearchTrees": "LiBinary",
+  "DSA/recursions": "RiLoopLeftFill",
+  "JS": "MaJavascript",
+  "OOPS": "MaObjectiveCpp",
+  "DSA/heaps": "SiBookstack"
 }

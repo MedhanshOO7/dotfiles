@@ -26,7 +26,7 @@ Version=202
 ViewPropsTimestamp=2025,11,25,16,11,18.484
 
 [IconsMode]
-PreviewSize=112
+PreviewSize=144
 UseSystemFont=false
 ViewFont=Google Sans Flex,14,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
 
@@ -44,4 +44,4 @@ IconSize=32
 Plugins=appimagethumbnail,audiothumbnail,glycin-heif,blenderthumbnail,comicbookthumbnail,cursorthumbnail,djvuthumbnail,ebookthumbnail,exrthumbnail,directorythumbnail,fontthumbnail,pothumbnail,imagethumbnail,calligraimagethumbnail,glycin-image-rs,jpegthumbnail,glycin-jxl,kraorathumbnail,windowsexethumbnail,windowsimagethumbnail,mltpreview,mobithumbnail,opendocumentthumbnail,calligrathumbnail,palathumbcreator,gsthumbnail,quithumbnail,rawthumbnail,glycin-svg,svgthumbnail,textthumbnail,itinerarythumbnail,ffmpegthumbs,webarchivethumbnail
 
 [UiSettings]
-ColorScheme=MaterialYouDark_darker_titlebar2
+ColorScheme=Kvantum
