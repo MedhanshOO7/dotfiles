@@ -33,3 +33,4 @@
 **/kwinoutputconfig.json
 .config/gtk-3.0/
 .config/gtk-4.0/
+.vim/plugged/

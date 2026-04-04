@@ -94,7 +94,7 @@ alias update='sudo pacman -Syu && yay'
 # vim
 alias vi='nvim'
 alias vim='nvim'
-alias v='nvim'
+alias v='vim'
 
 # for the laptop related settings
 source "${0:A:h}/100-setting.zsh"
