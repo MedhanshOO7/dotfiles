@@ -1,3 +1,5 @@
+#the important one
+alias cls='clear'
 #fastfetch
 alias ff='fastfetch'
 
