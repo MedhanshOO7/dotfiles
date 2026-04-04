@@ -1,0 +1,92 @@
+# ---- C++ custom snippets ----
+
+# main — competitive / general
+snippet main
+	#include <bits/stdc++.h>
+	using namespace std;
+	
+	int main() {
+	    ios_base::sync_with_stdio(false);
+	    cin.tie(NULL);
+	
+	    ${1:// code here}
+	
+	    return 0;
+	}
+
+# mainc — clean main (no competitive headers)
+snippet mainc
+	#include <iostream>
+	#include <string>
+	
+	int main(int argc, char* argv[]) {
+	    ${1:// code here}
+	    return 0;
+	}
+
+# cls — class with constructor/destructor
+snippet cls
+	class ${1:ClassName} {
+	public:
+	    ${1:ClassName}(${2});
+	    ~${1:ClassName}();
+	
+	private:
+	    ${3:// members}
+	};
+
+# st — struct
+snippet st
+	struct ${1:Name} {
+	    ${2:// fields}
+	};
+
+# vec — vector loop
+snippet vec
+	for (const auto& ${1:item} : ${2:container}) {
+	    ${3:// body}
+	}
+
+# fori — indexed for loop
+snippet fori
+	for (int ${1:i} = 0; ${1:i} < ${2:n}; ++${1:i}) {
+	    ${3:// body}
+	}
+
+# guard — header guard
+snippet guard
+	#ifndef ${1:HEADER_H}
+	#define ${1:HEADER_H}
+	
+	${2:// content}
+	
+	#endif // ${1:HEADER_H}
+
+# pr — printf
+snippet pr
+	printf("${1:%s}\n"${2:, });
+
+# cout
+snippet co
+	std::cout << ${1:val} << "\n";
+
+# ptr — smart pointer
+snippet uptr
+	std::unique_ptr<${1:Type}> ${2:ptr} = std::make_unique<${1:Type}>(${3});
+
+snippet sptr
+	std::shared_ptr<${1:Type}> ${2:ptr} = std::make_shared<${1:Type}>(${3});
+
+# lam — lambda
+snippet lam
+	auto ${1:fn} = [${2:&}](${3}) {
+	    ${4:// body}
+	};
+
+# try/catch
+snippet try
+	try {
+	    ${1:// code}
+	} catch (const std::exception& e) {
+	    std::cerr << e.what() << "\n";
+	}

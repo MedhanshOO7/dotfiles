@@ -1,0 +1,12 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhistcnt =2
+let g:netrw_dirhist_2='/home/medhansh/.zsh'
+let g:netrw_dirhist_1='/home/medhansh'
+let g:netrw_dirhist_0='/home/medhansh/.zsh'
+let g:netrw_dirhist_9='/home/medhansh'
+let g:netrw_dirhist_8='/home/medhansh/.zsh'
+let g:netrw_dirhist_7='/home/medhansh'
+let g:netrw_dirhist_6='/home/medhansh/.config/hypr/hyprland'
+let g:netrw_dirhist_5='/home/medhansh/.config/hypr'
+let g:netrw_dirhist_4='/home/medhansh/.config/hypr/custom'
+let g:netrw_dirhist_3='/home/medhansh/.config/hypr'
