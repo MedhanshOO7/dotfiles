@@ -1,0 +1,106 @@
+{
+  "command-palette:open": [
+    {
+      "modifiers": [
+        "Mod"
+      ],
+      "key": "P"
+    },
+    {
+      "modifiers": [
+        "Mod"
+      ],
+      "key": " "
+    }
+  ],
+  "highlightr-plugin:Red": [
+    {
+      "modifiers": [
+        "Alt",
+        "Mod"
+      ],
+      "key": "1"
+    }
+  ],
+  "highlightr-plugin:Blue": [
+    {
+      "modifiers": [
+        "Alt",
+        "Mod"
+      ],
+      "key": "2"
+    }
+  ],
+  "highlightr-plugin:Yellow": [
+    {
+      "modifiers": [
+        "Alt",
+        "Mod"
+      ],
+      "key": "3"
+    }
+  ],
+  "highlightr-plugin:Green": [
+    {
+      "modifiers": [
+        "Alt",
+        "Mod"
+      ],
+      "key": "4"
+    }
+  ],
+  "highlightr-plugin:Grey": [
+    {
+      "modifiers": [
+        "Alt",
+        "Mod"
+      ],
+      "key": "5"
+    }
+  ],
+  "highlightr-plugin:Pink": [
+    {
+      "modifiers": [
+        "Alt",
+        "Mod"
+      ],
+      "key": "6"
+    }
+  ],
+  "highlightr-plugin:Orange": [
+    {
+      "modifiers": [
+        "Alt",
+        "Mod"
+      ],
+      "key": "7"
+    }
+  ],
+  "highlightr-plugin:Purple": [
+    {
+      "modifiers": [
+        "Alt",
+        "Mod"
+      ],
+      "key": "8"
+    }
+  ],
+  "highlightr-plugin:Cyan": [
+    {
+      "modifiers": [
+        "Alt",
+        "Mod"
+      ],
+      "key": "9"
+    }
+  ],
+  "fast-text-color:change-text-color": [
+    {
+      "modifiers": [
+        "Mod",
+        "Shift"
+      ],
+      "key": "1"
+    }
+  ]
+}

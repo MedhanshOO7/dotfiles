@@ -1,0 +1,19 @@
+{
+  "callouts": {
+    "custom": [],
+    "settings": {
+      "question": [
+        {
+          "changes": {
+            "icon": "lucide-shield-question-mark"
+          }
+        }
+      ]
+    }
+  },
+  "calloutDetection": {
+    "obsidian": true,
+    "theme": true,
+    "snippet": true
+  }
+}
