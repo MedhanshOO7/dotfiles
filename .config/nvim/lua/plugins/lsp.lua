@@ -1,27 +1,43 @@
 return {
     "neovim/nvim-lspconfig",
     dependencies = {
-        "hrsh7th/nvim-cmp",
         "hrsh7th/cmp-nvim-lsp",
+        "folke/lazydev.nvim",
     },
     config = function()
-        local caps = require("cmp_nvim_lsp").default_capabilities()
-
-        vim.lsp.config["clangd"] = {
-            capabilities = caps,
+        local capabilities = require("cmp_nvim_lsp").default_capabilities()
+        local float_border = {
+            { "╭", "LspFloatBorder" },
+            { "─", "LspFloatBorder" },
+            { "╮", "LspFloatBorder" },
+            { "│", "LspFloatBorder" },
+            { "╯", "LspFloatBorder" },
+            { "─", "LspFloatBorder" },
+            { "╰", "LspFloatBorder" },
+            { "│", "LspFloatBorder" },
         }
 
-        vim.lsp.enable("clangd")
-        vim.api.nvim_create_autocmd("BufWritePre", {
-            callback = function()
-                vim.lsp.buf.format({ async = false })
-            end,
+        vim.api.nvim_set_hl(0, "LspFloatBorder", { fg = "#ffffff", bg = "NONE" })
+
+        require("lazydev").setup({
+            library = {
+                { path = "${3rd}/luv/library", words = { "vim%.uv" } },
+            },
         })
+
         vim.diagnostic.config({
             virtual_text = {
-                prefix = "●", -- cleaner than default
+                prefix = "●",
+                spacing = 2,
             },
-            signs = true,
+            signs = {
+                text = {
+                    [vim.diagnostic.severity.ERROR] = "✘",
+                    [vim.diagnostic.severity.WARN] = "▲",
+                    [vim.diagnostic.severity.HINT] = "⚑",
+                    [vim.diagnostic.severity.INFO] = "»",
+                },
+            },
             underline = true,
             update_in_insert = false,
             severity_sort = true,
@@ -30,57 +46,63 @@ return {
                 source = "always",
             },
         })
-        vim.fn.sign_define("DiagnosticSignError", { text = "✘" })
-        vim.fn.sign_define("DiagnosticSignWarn",  { text = "▲" })
-        vim.fn.sign_define("DiagnosticSignHint",  { text = "⚑" })
-        vim.fn.sign_define("DiagnosticSignInfo",  { text = "»" })
 
-        -- javascript and related
-        vim.lsp.config["ts_ls"] = {}
-        vim.lsp.enable("ts_ls")
-        -- python
+        vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
+            border = float_border,
+            focusable = false,
+            max_width = math.floor(vim.o.columns * 0.40),
+            max_height = math.floor(vim.o.lines * 0.25),
+        })
 
-        vim.lsp.config["pylsp"] = {}
-        vim.lsp.enable("pylsp")
-        -- bash
-        vim.lsp.config["bashls"] = {}
-        vim.lsp.enable("bashls")
-        -- html
-        vim.lsp.config["html"] = {}
-        vim.lsp.enable("html")
+        vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {
+            border = float_border,
+            focusable = false,
+            max_width = math.floor(vim.o.columns * 0.35),
+            max_height = math.floor(vim.o.lines * 0.20),
+        })
 
-        vim.lsp.config["cssls"] = {}
-        vim.lsp.enable("cssls")
-        --lua
-vim.lsp.config["luals"] = {
-  root_markers = { ".git" }, -- KEEP SIMPLE
-  settings = {
-    Lua = {
-      runtime = { version = "LuaJIT" },
-      diagnostics = {
-        globals = { "vim" },
-      },
-      workspace = {
-        library = vim.api.nvim_get_runtime_file("", true),
-        checkThirdParty = false,
-      },
-      telemetry = { enable = false },
-    },
-  },
-}
+        local servers = {
+            bashls = {},
+            clangd = {},
+            cssls = {},
+            html = {},
+            jsonls = {},
+            lua_ls = {
+                settings = {
+                    Lua = {
+                        runtime = { version = "LuaJIT" },
+                        diagnostics = {
+                            globals = { "vim" },
+                        },
+                        workspace = {
+                            checkThirdParty = false,
+                            library = vim.api.nvim_get_runtime_file("", true),
+                        },
+                        telemetry = { enable = false },
+                    },
+                },
+            },
+            pylsp = {},
+            ts_ls = {},
+        }
 
--- FORCE attach for config files
-vim.api.nvim_create_autocmd("FileType", {
-  pattern = "lua",
-  callback = function()
-    vim.lsp.start({
-      name = "luals",
-      cmd = { "lua-language-server" },
-    })
-  end,
-})
+        for server, config in pairs(servers) do
+            config.capabilities = capabilities
+            vim.lsp.config(server, config)
+            vim.lsp.enable(server)
+        end
 
+        vim.api.nvim_create_autocmd("LspAttach", {
+            callback = function(event)
+                local opts = { buffer = event.buf }
 
+                vim.keymap.set("n", "<leader>ds", vim.diagnostic.open_float,
+                    vim.tbl_extend("force", opts, { desc = "Explain the problem on this line" }))
+                vim.keymap.set("n", "[d", vim.diagnostic.goto_prev,
+                    vim.tbl_extend("force", opts, { desc = "Go to the previous problem" }))
+                vim.keymap.set("n", "]d", vim.diagnostic.goto_next,
+                    vim.tbl_extend("force", opts, { desc = "Go to the next problem" }))
+            end,
+        })
     end,
-
 }

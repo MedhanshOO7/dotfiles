@@ -9,14 +9,16 @@ return {
                     timeout = 2000, -- 2 seconds
 
                     max_width = function()
-                        return math.floor(vim.o.columns * 0.15) -- 15% width
+                        return math.floor(vim.o.columns * 0.40)
+                    end,
+
+                    max_height = function()
+                        return math.floor(vim.o.lines * 0.40)
                     end,
 
                     stages = "fade",    -- smooth disappear
                     render = "compact", -- smaller layout
                 })
-
-                vim.notify = require("notify")
             end,
         },
     },

@@ -6,12 +6,13 @@ opt.number         = true  -- show absolute line numbers
 opt.relativenumber = true  -- show relative line numbers (great for motions)
 opt.signcolumn     = "yes" -- always show the sign column (prevents layout jumps)
 opt.cursorline     = true  -- highlight the current line
-opt.scrolloff      = 8     -- keep 8 lines visible above/below cursor
-opt.sidescrolloff  = 8     -- keep 8 columns visible left/right
+opt.scrolloff      = 0     -- no vertical cursor padding
+opt.sidescrolloff  = 0     -- no horizontal cursor padding
 opt.wrap           = false -- don't wrap long lines
 opt.colorcolumn    = "80"  -- ruler at column 80  (adjust to taste)
 opt.showmode       = false -- mode is shown in the statusline instead
 opt.cmdheight      = 1     -- command bar height
+opt.laststatus     = 3     -- single statusline across all windows
 
 -- ── Indentation ─────────────────────────────────────────────
 opt.expandtab      = true -- convert tabs → spaces
@@ -38,20 +39,31 @@ opt.swapfile       = false                              -- no swap files
 opt.backup         = false                              -- no backup files
 opt.undofile       = true                               -- persist undo history across sessions
 opt.undodir        = vim.fn.stdpath("state") .. "/undo" -- undo dir location
+opt.confirm        = true                               -- prompt before losing unsaved work
 
 -- ── Completion & menus ──────────────────────────────────────
 opt.completeopt    = { "menuone", "noselect" } -- nvim-cmp friendly
 opt.pumheight      = 10                        -- max items in popup menu
 opt.shortmess:append("c")                      -- suppress completion messages
+opt.updatetime     = 250                       -- snappier diagnostics and git updates
+opt.timeoutlen     = 300                       -- faster which-key popup and mappings
 
 -- ── Clipboard ───────────────────────────────────────────────
 opt.clipboard      = "unnamedplus" -- sync with system clipboard
 
 -- ── Folding (Treesitter-ready) ───────────────────────────────
 opt.foldmethod     = "expr"
-opt.foldexpr       = "nvim_treesitter#foldexpr()"
-opt.foldlevel      = 99 -- open all folds by default
+opt.foldexpr       = "v:lua.vim.treesitter.foldexpr()"
+opt.foldenable     = true
+opt.foldlevel      = 99 -- keep folds open by default
 opt.foldlevelstart = 99
+opt.foldnestmax    = 6
+opt.foldcolumn     = "1"
+opt.fillchars:append({
+    foldopen = "",
+    foldclose = "",
+    foldsep = " ",
+})
 
 -- ── Misc ────────────────────────────────────────────────────
 opt.mouse          = "a"  -- enable mouse in all modes
@@ -65,32 +77,52 @@ opt.listchars      = {    -- … configured as:
 opt.formatoptions:remove("cro") -- stop auto-inserting comment leaders
 opt.iskeyword:append("-")       -- treat hyphenated-words as one word
 
-
-------NETRW-------------
--- Tree style
+-- Keep netrw available as a fallback with familiar directory listings.
 vim.g.netrw_liststyle = 3
-
--- Size of the sidebar
 vim.g.netrw_winsize = 25
-
--- Remove banner
 vim.g.netrw_banner = 0
-
--- Better sorting (dirs first)
 vim.g.netrw_sort_sequence = "[\\/]$,*,\\.o$,\\.obj$,\\.pyc$,\\.class$"
-
--- Faster browsing
 vim.g.netrw_fastbrowse = 2
-
--- Keep working directory stable
 vim.g.netrw_keepdir = 0
 
-vim.cmd("hi Directory guifg=#8be9fd gui=bold") -- Dracula cyan
-vim.opt.cursorline = true
+local language_group = vim.api.nvim_create_augroup("language_defaults", { clear = true })
 
+vim.api.nvim_create_autocmd("FileType", {
+    group = language_group,
+    pattern = { "markdown", "text", "gitcommit" },
+    callback = function()
+        vim.opt_local.wrap = true
+        vim.opt_local.linebreak = true
+        vim.opt_local.spell = true
+        vim.opt_local.spelllang = { "en" }
+        vim.opt_local.conceallevel = 2
+        vim.opt_local.colorcolumn = "0"
+        vim.opt_local.list = false
+        vim.opt_local.signcolumn = "no"
+        vim.opt_local.number = false
+        vim.opt_local.relativenumber = false
+        vim.opt_local.foldmethod = "manual"
+        vim.opt_local.foldexpr = "0"
+        vim.opt_local.foldcolumn = "0"
+    end,
+})
 
--- Neo-tree (modern explorer)
-vim.keymap.set("n", "<C-b>", ":Neotree toggle<CR>", { silent = true })
+vim.api.nvim_create_autocmd("FileType", {
+    group = language_group,
+    pattern = { "javascript", "typescript", "javascriptreact", "typescriptreact", "html", "css", "json", "markdown", "yaml" },
+    callback = function()
+        vim.opt_local.shiftwidth = 2
+        vim.opt_local.tabstop = 2
+        vim.opt_local.softtabstop = 2
+    end,
+})
 
--- Netrw (classic)
-vim.keymap.set("n", "<leader>e", ":Explore<CR>", { silent = true })
+vim.api.nvim_create_autocmd("FileType", {
+    group = language_group,
+    pattern = { "c", "cpp", "lua", "python", "sh" },
+    callback = function()
+        vim.opt_local.shiftwidth = 4
+        vim.opt_local.tabstop = 4
+        vim.opt_local.softtabstop = 4
+    end,
+})

@@ -11,18 +11,13 @@ return {
                 cpp = { "clang_format" },
                 python = { "black" },
                 javascript = { "prettier" },
+                typescript = { "prettier" },
+                typescriptreact = { "prettier" },
+                javascriptreact = { "prettier" },
+                json = { "prettier" },
+                lua = { "stylua" },
                 sh = { "shfmt" },
             },
-
-            format_on_save = {
-                timeout_ms = 500,
-                lsp_fallback = true,
-            },
         })
-
-        -- manual format
-        vim.keymap.set("n", "<leader>f", function()
-            conform.format({ async = true })
-        end)
     end,
 }
