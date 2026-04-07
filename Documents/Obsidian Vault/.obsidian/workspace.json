@@ -29,12 +29,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "OOPS/9.a.File Handling.md",
+                "file": "OOPS/9.b File Handling.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "9.a.File Handling"
+              "title": "9.b File Handling"
             }
           }
         ],
@@ -191,13 +191,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "OOPS/9.a.File Handling.md",
+                "file": "OOPS/9.b File Handling.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline of 9.a.File Handling"
+              "title": "Outline of 9.b File Handling"
             }
           },
           {
@@ -234,9 +234,13 @@
   },
   "active": "45b900ac86396728",
   "lastOpenFiles": [
-    "OOPS/9.b File Handling.md",
-    "WORKIN/day_by_day_tracker.md",
     "OOPS/9.a.File Handling.md",
+    "OOPS/9.b File Handling.md",
+    "Agentic AI/Python Notes Basics.md",
+    "Agentic AI/First 5.md",
+    "Agentic AI/Roadmap.md",
+    "Agentic AI",
+    "WORKIN/day_by_day_tracker.md",
     "Study/BEEE/Viva typeshi.md",
     "Study/BEEE/Viva typeshi.pdf",
     "Resources/Sem2/What to do Basic Electrical and Electronics Engineering.md",
@@ -262,9 +266,6 @@
     "GAME/Basics - II.md",
     "GAME/ECS.md",
     "bash/bash.pdf",
-    "Resources/Sem2/What to do Differential Equations and Transforms.md",
-    "DSA/binarySearchTrees/largestBST.md",
-    "DSA/binarySearchTrees/Binary Search Tree and its implementation.md",
     "DSA/binarySearchTrees/largestBST.md~",
     "DSA/binarySearchTrees/Merge2BST.md~",
     "Screenshot_20260324_225440_Samsung capture.jpg",
@@ -275,7 +276,6 @@
     "Pasted image 20260323005057.png",
     "Study/Chemistry/3.1.26 Chapter - 1.pdf",
     "DSA/binarySearchTrees",
-    "DSA/binaryTree/bt",
     "Screenshot_20260322_235228_Samsung capture.jpg",
     "Screenshot_20260322_231602_Samsung Notes.jpg",
     "Screenshot_20260322_032937_Samsung capture.jpg",

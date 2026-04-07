@@ -392,6 +392,10 @@ _launch=Search\tAlt+F2
 [services][org.kde.plasma-systemmonitor.desktop]
 _launch=Meta+Esc\tCtrl+Shift+Esc
 
+[services][org.kde.spectacle.desktop]
+CurrentMonitorScreenShot=
+OpenWithoutScreenshot=
+
 [wacomtablet]
 Map to fullscreen=Meta+Ctrl+F,Meta+Ctrl+F,Map to fullscreen
 Map to screen 1=Meta+Ctrl+1,Meta+Ctrl+1,Map to screen 1
