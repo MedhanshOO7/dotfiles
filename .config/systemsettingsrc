@@ -1,15 +1,15 @@
 [KDiskFree]
 Device=100
 Free=80
-Full%=52
+Full%=66
 HeaderSectionIndices=0,1,2,3,4,5,6,7
-Icon=52
+Icon=66
 MountPoint=120
 Size=80
 SortColumn=0
 SortOrder=0
 Type=80
-UsageBar=373
+UsageBar=597
 
 [systemsettings_sidebar_mode]
 HighlightNonDefaultSettings=true

@@ -62,6 +62,15 @@
         "<C-v>": false,
         "<C-b>": false,
         "<C-l>": false,
+        "<C-k>": false,
+        "<C-1>": false,
+        "<C-2>": false,
+        "<C-3>": false,
+        "<C-4>": false,
     },
-    "makefile.configureOnOpen": true
+    "makefile.configureOnOpen": true,
+    "git.enableSmartCommit": true,
+    "workbench.browser.showInTitleBar": true,
+    "git.confirmSync": false,
+    "interactiveWindow.executeWithShiftEnter": true
 }

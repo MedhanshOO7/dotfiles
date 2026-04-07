@@ -103,3 +103,28 @@ end, { desc = "Format file", silent = true })
 -- RUN (Code Runner)
 vim.keymap.set("n", "<leader>r", ":RunCode<CR>", { desc = "Run code", silent = true })
 vim.keymap.set("n", "<C-b>", ":RunCode<CR>", { desc = "Run code", silent = true })
+
+vim.keymap.set("n", "<Tab>", ":BufferLineCycleNext<CR>")
+vim.keymap.set("n", "<S-Tab>", ":BufferLineCyclePrev<CR>")
+vim.keymap.set("n", "<leader>x", ":bdelete<CR>")
+
+vim.keymap.set("n", "]h", ":Gitsigns next_hunk<CR>")
+vim.keymap.set("n", "[h", ":Gitsigns prev_hunk<CR>")
+vim.keymap.set("n", "<leader>hs", ":Gitsigns stage_hunk<CR>")
+vim.keymap.set("n", "<leader>hr", ":Gitsigns reset_hunk<CR>")
+vim.keymap.set("n", "<leader>hb", ":Gitsigns blame_line<CR>")
+
+-- Command palette (VS Code style)
+vim.keymap.set("n", "<leader>p", ":Telescope commands<CR>")
+
+-- Find files
+vim.keymap.set("n", "<leader>ff", ":Telescope find_files<CR>")
+
+-- Live grep
+vim.keymap.set("n", "<leader>fg", ":Telescope live_grep<CR>")
+
+-- Buffers
+vim.keymap.set("n", "<leader>fb", ":Telescope buffers<CR>")
+
+-- Keymaps explorer
+vim.keymap.set("n", "<leader>fk", ":Telescope keymaps<CR>")

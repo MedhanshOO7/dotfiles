@@ -55,5 +55,6 @@
     "git.autofetch": true,
     "vscode_custom_css.imports": [
         "/home/medhansh/.config/VSCodium/User/coustom.css"
-    ]
+    ],
+    "workbench.browser.showInTitleBar": true
 }
