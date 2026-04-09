@@ -33,16 +33,9 @@ return {
         -- vim.cmd(string.format([[highlight Headline5Fg guifg=%s gui=bold]], colors.color5_bg))
         -- vim.cmd(string.format([[highlight Headline6Fg guifg=%s gui=bold]], colors.color6_bg))
 
-        -- force treesitter highlighting for markdown buffers
-        vim.api.nvim_create_autocmd("FileType", {
-            pattern = "markdown",
-            callback = function()
-                vim.treesitter.start()
-            end,
-        })
     end,
     opts = {
-        restart_highlighter = true,
+        restart_highlighter = false,
         heading = {
             sign = false,
             icons = { "󰎤 ", "󰎧 ", "󰎪 ", "󰎭 ", "󰎱 ", "󰎳 " },

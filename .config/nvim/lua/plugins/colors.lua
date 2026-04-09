@@ -40,4 +40,18 @@ return {
             disable_background = true,
         },
     },
+    {
+        "Mofiqul/vscode.nvim",
+        lazy = false,
+        priority = 1000,
+        opts = {
+            italic_comments = true,
+            disable_nvimtree_bg = true,
+        },
+    },
+    {
+        "kvrohit/mellow.nvim",
+        lazy = false,
+        priority = 1000,
+    },
 }

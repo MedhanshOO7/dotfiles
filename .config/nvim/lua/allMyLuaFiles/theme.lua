@@ -8,13 +8,15 @@ M.themes = {
     "catppuccin-frappe",
     "catppuccin-macchiato",
     "catppuccin-mocha",
+    "vscode",
+    "mellow",
     "dracula",
     "tokyonight",
     "gruvbox",
     "rose-pine",
 }
 
-M.default_theme = "catppuccin"
+M.default_theme = "vscode"
 M.default_transparency = false
 
 local function current_index()

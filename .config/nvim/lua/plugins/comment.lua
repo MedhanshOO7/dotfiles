@@ -22,8 +22,8 @@ return {
         },
 
         mappings = {
-            basic = true,
-            extra = true,
+            basic = false,
+            extra = false,
         },
 
         pre_hook = nil,

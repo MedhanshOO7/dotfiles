@@ -7,6 +7,7 @@ return {
             config = function()
                 require("notify").setup({
                     timeout = 2000, -- 2 seconds
+                    background_colour = "#1e1e2e",
 
                     max_width = function()
                         return math.floor(vim.o.columns * 0.40)
@@ -25,14 +26,53 @@ return {
     config = function()
         require("noice").setup({
             cmdline = {
+                enabled = true,
                 view = "cmdline_popup",
             },
             messages = {
                 view = "notify",
             },
             popupmenu = {
-                enabled = true,
-                backend = "nui",
+                enabled = false,
+            },
+            lsp = {
+                hover = {
+                    enabled = true,
+                    view = nil, -- use default view
+                    opts = {
+                        max_width = math.floor(vim.o.columns * 0.40),
+                        max_height = math.floor(vim.o.lines * 0.25),
+                    },
+                },
+                signature = {
+                    enabled = true,
+                    auto_open = {
+                        enabled = true,
+                        trigger = true, -- Automatically show signature help when typing a function call
+                        luasnip = true, -- Will open signature help when jumping to Luasnip insert nodes
+                        throttle = 50,  -- Debounce lsp signature help request by 50ms
+                    },
+                    view = nil, -- use default view
+                    opts = {
+                        max_width = math.floor(vim.o.columns * 0.40),
+                        max_height = math.floor(vim.o.lines * 0.15),
+                    },
+                },
+            },
+            views = {
+                hover = {
+                    border = {
+                        style = "rounded",
+                    },
+                    position = { row = 2, col = 2 },
+                    size = {
+                        max_width = math.floor(vim.o.columns * 0.45),
+                        max_height = math.floor(vim.o.lines * 0.30),
+                    },
+                },
+            },
+            presets = {
+                command_palette = true,
             },
         })
     end

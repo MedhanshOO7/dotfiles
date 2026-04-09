@@ -9,44 +9,51 @@ return {
         },
         config = function()
             local dap = require("dap")
-            local dapui = require("dapui")
             local mason_path = vim.fn.stdpath("data") .. "/mason/packages"
+            local dapui_ok, dapui = pcall(require, "dapui")
+            local virtual_text_ok, dap_virtual_text = pcall(require, "nvim-dap-virtual-text")
+            local js_debug_ok, dap_vscode_js = pcall(require, "dap-vscode-js")
 
             local codelldb_path = mason_path .. "/codelldb/extension/adapter/codelldb"
             local js_debug_cmd = mason_path .. "/js-debug-adapter/js-debug-adapter"
 
-            require("nvim-dap-virtual-text").setup({})
-            dapui.setup({
-                layouts = {
-                    {
-                        elements = {
-                            { id = "scopes", size = 0.45 },
-                            { id = "breakpoints", size = 0.2 },
-                            { id = "stacks", size = 0.2 },
-                            { id = "watches", size = 0.15 },
-                        },
-                        position = "right",
-                        size = 48,
-                    },
-                    {
-                        elements = {
-                            { id = "repl", size = 0.5 },
-                            { id = "console", size = 0.5 },
-                        },
-                        position = "bottom",
-                        size = 12,
-                    },
-                },
-            })
+            if virtual_text_ok then
+                dap_virtual_text.setup({})
+            end
 
-            dap.listeners.after.event_initialized["dapui_config"] = function()
-                dapui.open()
-            end
-            dap.listeners.before.event_terminated["dapui_config"] = function()
-                dapui.close()
-            end
-            dap.listeners.before.event_exited["dapui_config"] = function()
-                dapui.close()
+            if dapui_ok then
+                dapui.setup({
+                    layouts = {
+                        {
+                            elements = {
+                                { id = "scopes", size = 0.45 },
+                                { id = "breakpoints", size = 0.2 },
+                                { id = "stacks", size = 0.2 },
+                                { id = "watches", size = 0.15 },
+                            },
+                            position = "right",
+                            size = 48,
+                        },
+                        {
+                            elements = {
+                                { id = "repl", size = 0.5 },
+                                { id = "console", size = 0.5 },
+                            },
+                            position = "bottom",
+                            size = 12,
+                        },
+                    },
+                })
+
+                dap.listeners.after.event_initialized["dapui_config"] = function()
+                    dapui.open()
+                end
+                dap.listeners.before.event_terminated["dapui_config"] = function()
+                    dapui.close()
+                end
+                dap.listeners.before.event_exited["dapui_config"] = function()
+                    dapui.close()
+                end
             end
 
             if vim.fn.executable(codelldb_path) == 1 then
@@ -85,8 +92,8 @@ return {
                 end
             end
 
-            if vim.fn.executable(js_debug_cmd) == 1 then
-                require("dap-vscode-js").setup({
+            if js_debug_ok and vim.fn.executable(js_debug_cmd) == 1 then
+                dap_vscode_js.setup({
                     debugger_cmd = { js_debug_cmd },
                     adapters = {
                         "pwa-node",

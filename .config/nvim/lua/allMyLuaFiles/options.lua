@@ -3,13 +3,13 @@ local opt          = vim.opt
 -- ── Appearance ──────────────────────────────────────────────
 opt.termguicolors  = true  -- 24-bit RGB colours (needed by most themes)
 opt.number         = true  -- show absolute line numbers
-opt.relativenumber = true  -- show relative line numbers (great for motions)
+opt.relativenumber = false -- VS Code-style absolute line numbers
 opt.signcolumn     = "yes" -- always show the sign column (prevents layout jumps)
 opt.cursorline     = true  -- highlight the current line
-opt.scrolloff      = 0     -- no vertical cursor padding
+opt.scrolloff      = 3     -- keep a little context around the cursor
 opt.sidescrolloff  = 0     -- no horizontal cursor padding
 opt.wrap           = false -- don't wrap long lines
-opt.colorcolumn    = "80"  -- ruler at column 80  (adjust to taste)
+opt.colorcolumn    = "0"   -- no hard ruler by default
 opt.showmode       = false -- mode is shown in the statusline instead
 opt.cmdheight      = 1     -- command bar height
 opt.laststatus     = 3     -- single statusline across all windows
@@ -47,6 +47,7 @@ opt.pumheight      = 10                        -- max items in popup menu
 opt.shortmess:append("c")                      -- suppress completion messages
 opt.updatetime     = 250                       -- snappier diagnostics and git updates
 opt.timeoutlen     = 300                       -- faster which-key popup and mappings
+opt.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"
 
 -- ── Clipboard ───────────────────────────────────────────────
 opt.clipboard      = "unnamedplus" -- sync with system clipboard
@@ -58,7 +59,7 @@ opt.foldenable     = true
 opt.foldlevel      = 99 -- keep folds open by default
 opt.foldlevelstart = 99
 opt.foldnestmax    = 6
-opt.foldcolumn     = "1"
+opt.foldcolumn     = "0"
 opt.fillchars:append({
     foldopen = "",
     foldclose = "",
@@ -68,7 +69,7 @@ opt.fillchars:append({
 -- ── Misc ────────────────────────────────────────────────────
 opt.mouse          = "a"  -- enable mouse in all modes
 opt.breakindent    = true -- wrapped lines preserve indentation
-opt.list           = true -- show invisible characters …
+opt.list           = false -- keep whitespace guides hidden by default
 opt.listchars      = {    -- … configured as:
     tab   = "» ",
     trail = "·",

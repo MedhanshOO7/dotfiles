@@ -7,8 +7,12 @@ return {
         "nvim-tree/nvim-web-devicons",
     },
     config = function()
+        local function explorer_width()
+            return math.max(20, math.floor(vim.o.columns * 0.15))
+        end
+
         require("neo-tree").setup({
-            close_if_last_window = true,
+            close_if_last_window = false,
             popup_border_style = "rounded",
             enable_git_status = true,
             enable_diagnostics = true,
@@ -27,13 +31,15 @@ return {
 
             window = {
                 position = "left",
-                width = 34,
+                width = explorer_width(),
                 mappings = {
                     ["<cr>"] = "open",
+                    ["<space>"] = "none",
                     ["l"] = "open",
                     ["h"] = "close_node",
                     ["-"] = "navigate_up",
-                    ["z"] = "toggle_node",
+                    ["o"] = "none",
+                    ["z"] = "none",
                     ["%"] = {
                         "add",
                         config = {
@@ -51,6 +57,7 @@ return {
             default_component_configs = {
                 indent = {
                     padding = 1,
+                    with_markers = false,
                 },
                 icon = {
                     folder_closed = "",
@@ -66,6 +73,23 @@ return {
                     },
                 },
             },
+            source_selector = {
+                winbar = false,
+                statusline = false,
+            },
+        })
+
+        vim.api.nvim_create_autocmd("VimResized", {
+            group = vim.api.nvim_create_augroup("neo_tree_dynamic_width", { clear = true }),
+            callback = function()
+                local width = explorer_width()
+                for _, win in ipairs(vim.api.nvim_list_wins()) do
+                    local buf = vim.api.nvim_win_get_buf(win)
+                    if vim.bo[buf].filetype == "neo-tree" then
+                        pcall(vim.api.nvim_win_set_width, win, width)
+                    end
+                end
+            end,
         })
     end,
 }

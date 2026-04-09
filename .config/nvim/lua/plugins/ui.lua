@@ -23,4 +23,12 @@ return {
             require("telescope").load_extension("ui-select")
         end,
     },
+    {
+        "karb94/neoscroll.nvim",
+        config = function()
+            require("neoscroll").setup({
+                easing_function = "quadratic", -- smooth
+            })
+        end,
+    },
 }

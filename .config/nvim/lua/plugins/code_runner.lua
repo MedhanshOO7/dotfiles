@@ -2,12 +2,15 @@ return {
     "CRAG666/code_runner.nvim",
     config = function()
         require("code_runner").setup({
-            mode = "term",
+            mode = "float",
             focus = true,
             startinsert = true,
-            term = {
-                position = "belowright",
-                size = 12,
+            float = {
+                border = "rounded",
+                width = 0.8,
+                height = 0.8,
+                x = 0.5,
+                y = 0.5,
             },
             filetype = {
                 c = "cd $dir && gcc -std=c11 -Wall -Wextra $fileName -o $fileNameWithoutExt && ./$fileNameWithoutExt",

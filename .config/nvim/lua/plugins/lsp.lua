@@ -47,19 +47,25 @@ return {
             },
         })
 
-        vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
-            border = float_border,
-            focusable = false,
-            max_width = math.floor(vim.o.columns * 0.40),
-            max_height = math.floor(vim.o.lines * 0.25),
-        })
+        vim.lsp.handlers["textDocument/hover"] = function(err, result, ctx, config)
+            config = vim.tbl_deep_extend("force", config or {}, {
+                border = float_border,
+                focusable = false,
+                max_width = math.floor(vim.o.columns * 0.40),
+                max_height = math.floor(vim.o.lines * 0.25),
+            })
+            return vim.lsp.handlers.hover(err, result, ctx, config)
+        end
 
-        vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {
-            border = float_border,
-            focusable = false,
-            max_width = math.floor(vim.o.columns * 0.35),
-            max_height = math.floor(vim.o.lines * 0.20),
-        })
+        vim.lsp.handlers["textDocument/signatureHelp"] = function(err, result, ctx, config)
+            config = vim.tbl_deep_extend("force", config or {}, {
+                border = float_border,
+                focusable = false,
+                max_width = math.floor(vim.o.columns * 0.40),
+                max_height = math.floor(vim.o.lines * 0.25),
+            })
+            return vim.lsp.handlers.signature_help(err, result, ctx, config)
+        end
 
         local servers = {
             bashls = {},
@@ -102,6 +108,19 @@ return {
                     vim.tbl_extend("force", opts, { desc = "Go to the previous problem" }))
                 vim.keymap.set("n", "]d", vim.diagnostic.goto_next,
                     vim.tbl_extend("force", opts, { desc = "Go to the next problem" }))
+
+                -- Enable inlay hints if supported
+                local client = vim.lsp.get_client_by_id(event.data.client_id)
+                local navic_ok, navic = pcall(require, "nvim-navic")
+                if client and navic_ok and client:supports_method("textDocument/documentSymbol") then
+                    navic.attach(client, event.buf)
+                end
+
+                if client and client:supports_method("textDocument/inlayHint") then
+                    if vim.lsp.inlay_hint then
+                        vim.lsp.inlay_hint.enable(true, { bufnr = event.buf })
+                    end
+                end
             end,
         })
     end,
