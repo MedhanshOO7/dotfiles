@@ -292,6 +292,7 @@ A14A23AFDECBF2B381E3A858CC42FA2C-toggle=none,none,Toggle extension
 B12EE8A9EB9FB391BA9FF6B620A920E0-openManage=none,none,Manage
 B12EE8A9EB9FB391BA9FF6B620A920E0-reload=none,none,Reload
 B12EE8A9EB9FB391BA9FF6B620A920E0-styleDisableAll=none,none,Turn all styles off
+C0FAB3AFA80983ACC7BA968738591312-=,none,Electron shortcut\s
 E71DEF0E5BD22446AB99B23821A7C533-launch-element-picker=none,none,Enter element picker mode
 E71DEF0E5BD22446AB99B23821A7C533-launch-element-zapper=none,none,Enter element zapper mode
 E71DEF0E5BD22446AB99B23821A7C533-launch-logger=none,none,Open the logger

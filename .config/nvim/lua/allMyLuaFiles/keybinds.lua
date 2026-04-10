@@ -172,9 +172,12 @@ map("n", "<leader>li", vim.lsp.buf.implementation, { desc = "Jump to the impleme
 map("n", "<leader>lh", vim.lsp.buf.hover, { desc = "Show documentation for the symbol under the cursor" })
 map("n", "<leader>rn", vim.lsp.buf.rename, { desc = "Rename this symbol everywhere" })
 map({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, { desc = "Show suggested code fixes and actions" })
-map("n", "<leader>cf", function()
+local function format_current_file()
     require("conform").format({ async = true, lsp_fallback = true })
-end, { desc = "Format the current file" })
+end
+
+map("n", "<leader>f", format_current_file, { desc = "Format the current file" })
+map("n", "<leader>cf", format_current_file, { desc = "Format the current file" })
 
 local lsp_enabled = true
 

@@ -37,7 +37,7 @@ return {
             { "<leader>dt", desc = "Stop debugging" },
             { "<leader>du", desc = "Open the debugger panels" },
 
-            { "<leader>f", group = "Files, find, and format" },
+            { "<leader>f", desc = "Format the current file" },
             { "<leader>fM", desc = "Close every fold in the file" },
             { "<leader>fR", desc = "Open every fold in the file" },
             { "<leader>fa", desc = "Toggle the fold under the cursor" },

@@ -38,6 +38,35 @@ help(){
     bash -c "help $@"
 }
 
+update() {
+    set -e
+
+    echo " Updating keyring..."
+    sudo pacman -Sy --noconfirm archlinux-keyring || {
+        echo "Keyring update failed"; return 1;
+    }
+
+    echo " Updating mirrors..."
+    sudo reflector --latest 10 --sort rate --save /etc/pacman.d/mirrorlist || {
+        echo "Reflector failed, continuing with existing mirrors..."
+    }
+
+    echo " Upgrading system (pacman)..."
+    sudo pacman -Syu --noconfirm || {
+        echo "Pacman upgrade failed"; return 1;
+    }
+
+    echo " Upgrading AUR (yay)..."
+    yay -Sua --noconfirm || {
+        echo "Yay upgrade failed"; return 1;
+    }
+
+    echo " Cleaning cache..."
+    yay -Yc --noconfirm
+
+    echo " System fully updated."
+}
+
 open_nvim(){
     nvim .
     zle reset-prompt

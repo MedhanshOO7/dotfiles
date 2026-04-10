@@ -89,7 +89,7 @@ alias yta='yt-dlp \
 -o "%(title)s.%(ext)s"'
 
 #system Update
-alias update='sudo pacman -Syu && yay && sudo npm update -g'
+# alias update='sudo pacman -Syu && yay && sudo npm update -g'
 
 # vim
 alias vi='nvim'
