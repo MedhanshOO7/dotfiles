@@ -8,7 +8,7 @@ return {
     },
     config = function()
         local function explorer_width()
-            return math.max(20, math.floor(vim.o.columns * 0.15))
+            return math.max(26, math.floor(vim.o.columns * 0.18))
         end
 
         require("neo-tree").setup({
@@ -39,6 +39,10 @@ return {
                     ["h"] = "close_node",
                     ["-"] = "navigate_up",
                     ["o"] = "none",
+                    ["s"] = "open_vsplit",
+                    ["S"] = "open_split",
+                    ["P"] = { "toggle_preview", config = { use_float = true } },
+                    ["H"] = "toggle_hidden",
                     ["z"] = "none",
                     ["%"] = {
                         "add",
@@ -60,10 +64,13 @@ return {
                     with_markers = false,
                 },
                 icon = {
-                    folder_closed = "",
-                    folder_open = "",
+                    folder_closed = "󰉋",
+                    folder_open = "󰝰",
+                    folder_empty = "󰉖",
+                    default = "󰈔",
                 },
                 git_status = {
+                    align = "right",
                     symbols = {
                         added = "✚",
                         modified = "",

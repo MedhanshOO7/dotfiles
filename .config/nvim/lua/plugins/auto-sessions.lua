@@ -5,6 +5,8 @@ return {
 
         auto_session.setup({
             auto_restore = false,
+            auto_save = true,
+            auto_create = true,
             suppressed_dirs = { "~/", "~/Dev/", "~/Downloads", "~/Documents", "~/Desktop/" },
         })
 

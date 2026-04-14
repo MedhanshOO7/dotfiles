@@ -59,6 +59,7 @@ return {
         code = {
             sign = false,
             width = "block",
+            min_width = 30,
             right_pad = 1,
         },
         bullet = {

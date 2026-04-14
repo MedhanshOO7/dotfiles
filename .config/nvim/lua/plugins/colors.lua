@@ -1,22 +1,28 @@
 return {
     {
-        "catppuccin/nvim",
-        name = "catppuccin",
-        priority = 1000,
-        config = function()
-            require("allMyLuaFiles.theme").setup()
-        end,
-    },
-    {
         "folke/tokyonight.nvim",
         lazy = false,
         priority = 1000,
         opts = {
+            style = "night",
             styles = {
-                sidebars = "transparent",
-                floats = "transparent",
+                comments = { italic = false },
+                keywords = { italic = false },
+                sidebars = "dark",
+                floats = "dark",
             },
         },
+    },
+    {
+        "rose-pine/neovim",
+        name = "rose-pine",
+        lazy = false,
+        priority = 1000,
+    },
+    {
+        "rebelot/kanagawa.nvim",
+        lazy = false,
+        priority = 1000,
     },
     {
         "ellisonleao/gruvbox.nvim",
@@ -32,26 +38,30 @@ return {
         priority = 1000,
     },
     {
-        "rose-pine/neovim",
-        name = "rose-pine",
+        "sainnhe/everforest",
         lazy = false,
         priority = 1000,
-        opts = {
-            disable_background = true,
-        },
     },
     {
         "Mofiqul/vscode.nvim",
         lazy = false,
         priority = 1000,
         opts = {
-            italic_comments = true,
-            disable_nvimtree_bg = true,
+            italic_comments = false,
         },
     },
     {
-        "kvrohit/mellow.nvim",
+        "EdenEast/nightfox.nvim",
         lazy = false,
         priority = 1000,
+    },
+    {
+        "catppuccin/nvim",
+        name = "catppuccin",
+        lazy = false,
+        priority = 900,
+        config = function()
+            require("allMyLuaFiles.theme").setup()
+        end,
     },
 }

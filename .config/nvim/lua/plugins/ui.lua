@@ -5,11 +5,17 @@ return {
         opts = {
             input = {
                 border = "rounded",
+                win_options = {
+                    winblend = 0,
+                },
             },
             select = {
                 backend = { "telescope", "builtin" },
                 builtin = {
                     border = "rounded",
+                    win_options = {
+                        winblend = 0,
+                    },
                 },
             },
         },
@@ -27,7 +33,10 @@ return {
         "karb94/neoscroll.nvim",
         config = function()
             require("neoscroll").setup({
-                easing_function = "quadratic", -- smooth
+                easing_function = "cubic", -- smooth but still responsive
+                hide_cursor = true,
+                stop_eof = true,
+                respect_scrolloff = true,
             })
         end,
     },

@@ -9,6 +9,15 @@ return {
                 max_height = 16,
                 default_detail = 1,
             },
+            component_aliases = {
+                default = {
+                    { "display_duration", detail_level = 2 },
+                    "on_output_summarize",
+                    "on_result_diagnostics",
+                    "on_complete_notify",
+                    "default",
+                },
+            },
         })
 
         local overseer = require("overseer")
@@ -40,6 +49,7 @@ return {
                     cwd = dir,
                     components = {
                         { "default" },
+                        { "open_output", direction = "float", focus = true, on_start = "always", on_complete = "failure" },
                     },
                 }
             end,

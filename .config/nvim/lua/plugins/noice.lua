@@ -7,7 +7,7 @@ return {
             config = function()
                 require("notify").setup({
                     timeout = 2000, -- 2 seconds
-                    background_colour = "#1e1e2e",
+                    top_down = false,
 
                     max_width = function()
                         return math.floor(vim.o.columns * 0.40)
@@ -28,6 +28,14 @@ return {
             cmdline = {
                 enabled = true,
                 view = "cmdline_popup",
+                format = {
+                    cmdline = { icon = "" },
+                    search_down = { icon = " " },
+                    search_up = { icon = " " },
+                    filter = { icon = "$" },
+                    lua = { icon = "" },
+                    help = { icon = "?" },
+                },
             },
             messages = {
                 view = "notify",
@@ -73,6 +81,8 @@ return {
             },
             presets = {
                 command_palette = true,
+                long_message_to_split = true,
+                lsp_doc_border = true,
             },
         })
     end

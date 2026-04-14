@@ -21,6 +21,7 @@ opt.tabstop        = 4    -- how wide a real <Tab> looks
 opt.softtabstop    = 4    -- how wide <Tab>/<BS> feel in insert mode
 opt.smartindent    = true -- auto-indent new lines based on context
 opt.shiftround     = true -- round indents to nearest shiftwidth multiple
+opt.backspace      = { "indent", "eol", "start" } -- make <BS> work across autoindent and line joins
 
 -- ── Search ──────────────────────────────────────────────────
 opt.hlsearch       = true -- highlight all search matches
@@ -47,6 +48,8 @@ opt.pumheight      = 10                        -- max items in popup menu
 opt.shortmess:append("c")                      -- suppress completion messages
 opt.updatetime     = 250                       -- snappier diagnostics and git updates
 opt.timeoutlen     = 300                       -- faster which-key popup and mappings
+opt.splitkeep      = "screen"                  -- avoid layout jumps when opening or closing splits
+opt.inccommand     = "split"                   -- preview substitutions live
 opt.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"
 
 -- ── Clipboard ───────────────────────────────────────────────
