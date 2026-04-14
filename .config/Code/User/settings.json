@@ -73,4 +73,6 @@
     "workbench.browser.showInTitleBar": true,
     "git.confirmSync": false,
     "interactiveWindow.executeWithShiftEnter": true
+,
+  "material-code.primaryColor": "#FA3145"
 }

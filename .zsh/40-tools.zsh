@@ -1,12 +1,12 @@
 # External tools go here (direnv, pyenv, etc.)
-mkcd(){
+mkcd() {
     command mkdir "$1" && cd "$1"
-} 
+}
 
-+c(){
++c() {
     command git add -u && git commit -m "$@"
-    }
-search () {
+}
+search() {
     brave --new-tab "https://duckduckgo.com/?q=$(printf "%s" "$*" | sed 's/ /+/g')"
 }
 
@@ -19,70 +19,92 @@ search () {
         yay -S "$1"
     fi
 }
--S(){
+-S() {
     printf 'Uninstalling, %s ...' $1
     sudo pacman -Rns $1
 }
 
--R(){
+-R() {
     printf 'Uninstalling, %s ...' $1
     sudo pacman -Rns $1
 }
 
+vman() {
+    man "$@" | vim -c "set ft=man" -
+}
 
-vman() { 
-    man "$@" | vim -c "set ft=man" -; 
-}   
-
-help(){
+help() {
     bash -c "help $@"
 }
 
 update() {
-    set -e
 
-    echo " Updating keyring..."
-    sudo pacman -Sy --noconfirm archlinux-keyring || {
-        echo "Keyring update failed"; return 1;
+    echo "Updating keyring..."
+    sudo pacman -S --noconfirm archlinux-keyring || {
+        echo "Keyring update failed"
+        return 1
     }
 
-    echo " Updating mirrors..."
-    sudo reflector --latest 10 --sort rate --save /etc/pacman.d/mirrorlist || {
-        echo "Reflector failed, continuing with existing mirrors..."
-    }
+    echo "Updating mirrors..."
+    if command -v reflector &>/dev/null; then
+        sudo reflector --country India --latest 20 --fastest 5 --sort rate --save /etc/pacman.d/mirrorlist || {
+            echo "Reflector failed, continuing with existing mirrors..."
+        }
+    else
+        echo "reflector not found, skipping mirror update..."
+    fi
 
-    echo " Upgrading system (pacman)..."
+    echo "Upgrading system (pacman)..."
     sudo pacman -Syu --noconfirm || {
-        echo "Pacman upgrade failed"; return 1;
+        echo "Pacman upgrade failed"
+        return 1
     }
 
-    echo " Upgrading AUR (yay)..."
-    yay -Sua --noconfirm || {
-        echo "Yay upgrade failed"; return 1;
-    }
+    echo "Upgrading AUR (yay)..."
+    if command -v yay &>/dev/null; then
+        yay -Sua --noconfirm || {
+            echo "Yay upgrade failed"
+            return 1
+        }
 
-    echo " Cleaning cache..."
-    yay -Yc --noconfirm
+        echo "Removing orphans..."
+        yay -Yc --noconfirm
 
-    echo " System fully updated."
+        echo "Cleaning cache..."
+        yay -Sc --noconfirm
+    else
+        echo "yay not found, skipping AUR updates..."
+    fi
+
+    echo "Updating global npm packages..."
+    if command -v npm &>/dev/null; then
+        npm update -g || {
+            echo "npm update failed"
+            return 1
+        }
+    else
+        echo "npm not found, skipping..."
+    fi
+
+    echo "System fully updated."
 }
 
-open_nvim(){
+open_nvim() {
     nvim .
     zle reset-prompt
 }
-open_config(){
+open_config() {
     nvim ~/.zsh
     zle reset-prompt
 }
-source_config(){
+source_config() {
     echo "Sourcing......."
     source ~/.zshrc
     zle reset-prompt
     echo "Sourced again"
 }
 
-# Regesting the widgets 
+# Regesting the widgets
 zle -N open_nvim
 zle -N open_config
 zle -N source_config
@@ -92,5 +114,3 @@ bindkey '^g' open_nvim
 bindkey '^o' open_config
 bindkey '^[.' open_config
 bindkey '^[s' source_config
-
-
