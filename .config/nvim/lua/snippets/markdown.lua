@@ -5,10 +5,11 @@ local i = ls.insert_node
 
 ls.add_snippets("markdown", {
 
-    s("```", {
-        t({ "```cpp fold title:'" }),
-        i(1, "title"),
-        t({ "'", "", "```" }),
-    }),
-
+	s("```", {
+		t("```"),
+		i(1, "cpp"), -- first jump (language)
+		t(" fold title:'"),
+		i(2, "title"), -- second jump
+		t({ "'", "", "```" }),
+	}),
 })
