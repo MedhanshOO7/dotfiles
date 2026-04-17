@@ -22,7 +22,25 @@ return {
             { "│", "LspFloatBorder" },
         }
 
-        vim.api.nvim_set_hl(0, "LspFloatBorder", { fg = "#ffffff", bg = "NONE" })
+        local function hl_fg(group)
+            local ok, hl = pcall(vim.api.nvim_get_hl, 0, { name = group, link = false })
+            return (ok and hl.fg) and string.format("#%06x", hl.fg) or nil
+        end
+
+        local function apply_highlights()
+            vim.api.nvim_set_hl(0, "LspFloatBorder", {
+                fg = hl_fg("FloatBorder") or hl_fg("WinSeparator") or hl_fg("NormalFloat"),
+                bg = "NONE",
+            })
+        end
+
+        apply_highlights()
+
+        vim.api.nvim_create_autocmd("ColorScheme", {
+            group = vim.api.nvim_create_augroup("nvim_lsp_theme_sync", { clear = true }),
+            pattern = "*",
+            callback = apply_highlights,
+        })
 
         local function bordered(config)
             return vim.tbl_deep_extend("force", config or {}, {

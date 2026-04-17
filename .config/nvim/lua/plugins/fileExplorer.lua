@@ -16,7 +16,6 @@ return {
             popup_border_style = "rounded",
             enable_git_status = true,
             enable_diagnostics = true,
-
             filesystem = {
                 filtered_items = {
                     visible = false,
@@ -28,7 +27,6 @@ return {
                 hijack_netrw_behavior = "open_default",
                 use_libuv_file_watcher = true,
             },
-
             window = {
                 position = "left",
                 width = explorer_width(),
@@ -57,7 +55,6 @@ return {
                     ["?"] = "show_help",
                 },
             },
-
             default_component_configs = {
                 indent = {
                     padding = 1,
@@ -73,7 +70,7 @@ return {
                     align = "right",
                     symbols = {
                         added = "✚",
-                        modified = "",
+                        modified = "",
                         deleted = "✖",
                         renamed = "➜",
                         untracked = "★",
@@ -84,6 +81,27 @@ return {
                 winbar = false,
                 statusline = false,
             },
+        })
+
+        -- Sync neo-tree background with current theme on every colorscheme change
+        local function sync_neotree_hl()
+            vim.api.nvim_set_hl(0, "NeoTreeNormal",         { link = "Normal" })
+            vim.api.nvim_set_hl(0, "NeoTreeNormalNC",       { link = "NormalNC" })
+            vim.api.nvim_set_hl(0, "NeoTreeEndOfBuffer",    { link = "EndOfBuffer" })
+            vim.api.nvim_set_hl(0, "NeoTreeWinSeparator",   { link = "WinSeparator" })
+            vim.api.nvim_set_hl(0, "NeoTreeStatusLine",     { link = "StatusLine" })
+            vim.api.nvim_set_hl(0, "NeoTreeStatusLineNC",   { link = "StatusLineNC" })
+            vim.api.nvim_set_hl(0, "NeoTreeVertSplit",      { link = "VertSplit" })
+            vim.api.nvim_set_hl(0, "NeoTreeFloatBorder",    { link = "FloatBorder" })
+            vim.api.nvim_set_hl(0, "NeoTreeFloatTitle",     { link = "FloatTitle" })
+        end
+
+        sync_neotree_hl()
+
+        vim.api.nvim_create_autocmd("ColorScheme", {
+            group = vim.api.nvim_create_augroup("neo_tree_theme_sync", { clear = true }),
+            pattern = "*",
+            callback = sync_neotree_hl,
         })
 
         vim.api.nvim_create_autocmd("VimResized", {

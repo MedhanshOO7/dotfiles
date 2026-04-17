@@ -8,23 +8,41 @@ return {
         local bufferline = require("bufferline")
         local bufferline_group = vim.api.nvim_create_augroup("dynamic_bufferline_theme", { clear = true })
 
-        local function hl(name, key, fallback)
+        local function hl_hex(name, key)
             local ok, value = pcall(vim.api.nvim_get_hl, 0, { name = name, link = false })
             if ok and value and value[key] then
                 return string.format("#%06x", value[key])
             end
+        end
 
-            return fallback
+        local function first_hl_hex(groups, key)
+            for _, group in ipairs(groups) do
+                local value = hl_hex(group, key)
+                if value then
+                    return value
+                end
+            end
         end
 
         local function hex_to_rgb(hex)
-            hex = (hex or "#000000"):gsub("#", "")
+            if not hex then
+                return nil, nil, nil
+            end
+
+            hex = hex:gsub("#", "")
+            if #hex ~= 6 then
+                return nil, nil, nil
+            end
+
             return tonumber(hex:sub(1, 2), 16), tonumber(hex:sub(3, 4), 16), tonumber(hex:sub(5, 6), 16)
         end
 
         local function blend(top, bottom, alpha)
             local tr, tg, tb = hex_to_rgb(top)
             local br, bg, bb = hex_to_rgb(bottom)
+            if not (tr and tg and tb and br and bg and bb) then
+                return bottom or top
+            end
 
             local function channel(foreground, background)
                 return math.floor((alpha * foreground) + ((1 - alpha) * background) + 0.5)
@@ -38,14 +56,15 @@ return {
             )
         end
 
-        local function apply()
-            local normal_bg = hl("Normal", "bg", "#1a1b26")
-            local normal_fg = hl("Normal", "fg", "#c0caf5")
-            local comment_fg = hl("Comment", "fg", "#565f89")
-            local accent_fg = hl("Function", "fg", hl("Identifier", "fg", "#7aa2f7"))
-            local inactive_bg = blend(comment_fg, normal_bg, 0.10)
-            local visible_bg = blend(comment_fg, normal_bg, 0.18)
-            local separator_fg = blend(comment_fg, normal_bg, 0.35)
+        local function apply_highlights()
+            local base_bg = first_hl_hex({ "TabLineFill", "StatusLine", "NormalFloat", "Normal", "Pmenu" }, "bg")
+            local normal_bg = base_bg or "NONE"
+            local normal_fg = first_hl_hex({ "Normal", "StatusLine", "TabLineSel", "Title", "Identifier" }, "fg")
+            local comment_fg = first_hl_hex({ "Comment", "LineNr", "NonText", "StatusLineNC" }, "fg") or normal_fg
+            local accent_fg = first_hl_hex({ "Function", "Identifier", "Title", "Special" }, "fg") or normal_fg
+            local inactive_bg = blend(comment_fg or normal_fg, base_bg, 0.10) or normal_bg
+            local visible_bg = blend(comment_fg or normal_fg, base_bg, 0.18) or normal_bg
+            local separator_fg = blend(comment_fg or normal_fg, base_bg, 0.35) or comment_fg or normal_fg
 
             vim.opt.showtabline = 2
 
@@ -174,12 +193,14 @@ return {
             })
         end
 
-        apply()
+        apply_highlights()
 
         vim.api.nvim_create_autocmd("ColorScheme", {
             group = bufferline_group,
+            pattern = "*",
             callback = function()
-                vim.schedule(apply)
+                apply_highlights()
+                vim.schedule(apply_highlights)
             end,
         })
     end

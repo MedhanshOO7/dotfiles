@@ -5,9 +5,19 @@ return {
         {
             "rcarriga/nvim-notify",
             config = function()
+                local function hl_bg_hex(name)
+                    local ok, hl = pcall(vim.api.nvim_get_hl, 0, { name = name, link = false })
+                    if not ok or not hl or not hl.bg then
+                        return nil
+                    end
+
+                    return string.format("#%06x", hl.bg)
+                end
+
                 require("notify").setup({
                     timeout = 2000, -- 2 seconds
                     top_down = false,
+                    background_colour = hl_bg_hex("NotifyBackground") or hl_bg_hex("NormalFloat") or hl_bg_hex("Normal") or "#000000",
 
                     max_width = function()
                         return math.floor(vim.o.columns * 0.40)

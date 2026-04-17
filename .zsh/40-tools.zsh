@@ -78,7 +78,7 @@ update() {
 
     echo "Updating global npm packages..."
     if command -v npm &>/dev/null; then
-        npm update -g || {
+        sudo npm update -g || {
             echo "npm update failed"
             return 1
         }

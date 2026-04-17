@@ -1,64 +1,115 @@
 return {
     "nvim-tree/nvim-web-devicons",
     lazy = false,
-    opts = function()
-        local slate = "#7a88cf"
-        local aqua = "#7dcfff"
-        local mint = "#9ecea8"
-        local gold = "#e0af68"
-        local rose = "#f7768e"
-        local peach = "#ff9e64"
-        local frost = "#89b4fa"
-        local lilac = "#bb9af7"
-        local sky = "#73daca"
+    config = function()
+        local devicons = require("nvim-web-devicons")
 
-        return {
+        local function resolve_group(groups)
+            for _, group in ipairs(groups) do
+                local ok, hl = pcall(vim.api.nvim_get_hl, 0, { name = group, link = false })
+                if ok and hl and not vim.tbl_isempty(hl) then
+                    return group
+                end
+            end
+        end
+
+        local function set_devicon_link(name, groups)
+            local target = resolve_group(groups)
+            if target then
+                vim.api.nvim_set_hl(0, "DevIcon" .. name, { link = target })
+            end
+        end
+
+        local function apply_highlights()
+            set_devicon_link("Default", { "Directory", "Normal" })
+            set_devicon_link("GitIgnore", { "DiagnosticWarn", "Special" })
+            set_devicon_link("GitAttributes", { "DiagnosticWarn", "Special" })
+            set_devicon_link("Zshrc", { "String", "Identifier" })
+            set_devicon_link("Bashrc", { "Constant", "Special" })
+            set_devicon_link("Readme", { "Function", "Special" })
+            set_devicon_link("License", { "Constant", "Special" })
+            set_devicon_link("InitLua", { "Function", "Identifier" })
+            set_devicon_link("LazyLock", { "Statement", "Special" })
+            set_devicon_link("PackageJson", { "String", "Identifier" })
+            set_devicon_link("TsConfig", { "Function", "Type" })
+            set_devicon_link("TailwindConfigJs", { "Type", "Special" })
+            set_devicon_link("TailwindConfigTs", { "Type", "Special" })
+            set_devicon_link("Dockerfile", { "Function", "Special" })
+            set_devicon_link("Lua", { "Function", "Identifier" })
+            set_devicon_link("Markdown", { "Function", "Special" })
+            set_devicon_link("Text", { "Directory", "Normal" })
+            set_devicon_link("Json", { "Constant", "Special" })
+            set_devicon_link("Toml", { "Constant", "Special" })
+            set_devicon_link("Yaml", { "Constant", "Special" })
+            set_devicon_link("Yml", { "Constant", "Special" })
+            set_devicon_link("Sh", { "String", "Identifier" })
+            set_devicon_link("Zsh", { "String", "Identifier" })
+            set_devicon_link("Bash", { "Constant", "Special" })
+            set_devicon_link("Js", { "Constant", "Special" })
+            set_devicon_link("Jsx", { "Function", "Special" })
+            set_devicon_link("Ts", { "Function", "Type" })
+            set_devicon_link("Tsx", { "Type", "Special" })
+            set_devicon_link("Html", { "Constant", "Special" })
+            set_devicon_link("Css", { "Function", "Identifier" })
+            set_devicon_link("Python", { "Constant", "Special" })
+            set_devicon_link("Rust", { "Constant", "Special" })
+            set_devicon_link("Go", { "Type", "Special" })
+        end
+
+        devicons.setup({
             default = true,
             color_icons = true,
             strict = true,
             override = {
                 default_icon = {
                     icon = "󰈔",
-                    color = slate,
                     name = "Default",
                 },
             },
             override_by_filename = {
-                [".gitignore"] = { icon = "", color = rose, name = "GitIgnore" },
-                [".gitattributes"] = { icon = "", color = rose, name = "GitAttributes" },
-                [".zshrc"] = { icon = "", color = mint, name = "Zshrc" },
-                [".bashrc"] = { icon = "", color = peach, name = "Bashrc" },
-                ["README.md"] = { icon = "󰍔", color = aqua, name = "Readme" },
-                ["LICENSE"] = { icon = "󰿃", color = gold, name = "License" },
-                ["init.lua"] = { icon = "", color = frost, name = "InitLua" },
-                ["lazy-lock.json"] = { icon = "󰒲", color = lilac, name = "LazyLock" },
-                ["package.json"] = { icon = "󰎙", color = mint, name = "PackageJson" },
-                ["tsconfig.json"] = { icon = "", color = aqua, name = "TsConfig" },
-                ["tailwind.config.js"] = { icon = "󱏿", color = sky, name = "TailwindConfigJs" },
-                ["tailwind.config.ts"] = { icon = "󱏿", color = sky, name = "TailwindConfigTs" },
-                ["Dockerfile"] = { icon = "󰡨", color = aqua, name = "Dockerfile" },
+                [".gitignore"] = { icon = "", name = "GitIgnore" },
+                [".gitattributes"] = { icon = "", name = "GitAttributes" },
+                [".zshrc"] = { icon = "", name = "Zshrc" },
+                [".bashrc"] = { icon = "", name = "Bashrc" },
+                ["README.md"] = { icon = "󰍔", name = "Readme" },
+                ["LICENSE"] = { icon = "󰿃", name = "License" },
+                ["init.lua"] = { icon = "", name = "InitLua" },
+                ["lazy-lock.json"] = { icon = "󰒲", name = "LazyLock" },
+                ["package.json"] = { icon = "󰎙", name = "PackageJson" },
+                ["tsconfig.json"] = { icon = "", name = "TsConfig" },
+                ["tailwind.config.js"] = { icon = "󱏿", name = "TailwindConfigJs" },
+                ["tailwind.config.ts"] = { icon = "󱏿", name = "TailwindConfigTs" },
+                ["Dockerfile"] = { icon = "󰡨", name = "Dockerfile" },
             },
             override_by_extension = {
-                lua = { icon = "", color = frost, name = "Lua" },
-                md = { icon = "󰍔", color = aqua, name = "Markdown" },
-                txt = { icon = "󰈙", color = slate, name = "Text" },
-                json = { icon = "󰘦", color = gold, name = "Json" },
-                toml = { icon = "󰰤", color = peach, name = "Toml" },
-                yaml = { icon = "󰈙", color = gold, name = "Yaml" },
-                yml = { icon = "󰈙", color = gold, name = "Yml" },
-                sh = { icon = "", color = mint, name = "Sh" },
-                zsh = { icon = "", color = mint, name = "Zsh" },
-                bash = { icon = "", color = peach, name = "Bash" },
-                js = { icon = "", color = gold, name = "Js" },
-                jsx = { icon = "", color = aqua, name = "Jsx" },
-                ts = { icon = "", color = aqua, name = "Ts" },
-                tsx = { icon = "", color = sky, name = "Tsx" },
-                html = { icon = "", color = peach, name = "Html" },
-                css = { icon = "", color = frost, name = "Css" },
-                py = { icon = "", color = gold, name = "Python" },
-                rs = { icon = "", color = peach, name = "Rust" },
-                go = { icon = "", color = sky, name = "Go" },
+                lua = { icon = "", name = "Lua" },
+                md = { icon = "󰍔", name = "Markdown" },
+                txt = { icon = "󰈙", name = "Text" },
+                json = { icon = "󰘦", name = "Json" },
+                toml = { icon = "󰰤", name = "Toml" },
+                yaml = { icon = "󰈙", name = "Yaml" },
+                yml = { icon = "󰈙", name = "Yml" },
+                sh = { icon = "", name = "Sh" },
+                zsh = { icon = "", name = "Zsh" },
+                bash = { icon = "", name = "Bash" },
+                js = { icon = "", name = "Js" },
+                jsx = { icon = "", name = "Jsx" },
+                ts = { icon = "", name = "Ts" },
+                tsx = { icon = "", name = "Tsx" },
+                html = { icon = "", name = "Html" },
+                css = { icon = "", name = "Css" },
+                py = { icon = "", name = "Python" },
+                rs = { icon = "", name = "Rust" },
+                go = { icon = "", name = "Go" },
             },
-        }
+        })
+
+        apply_highlights()
+
+        vim.api.nvim_create_autocmd("ColorScheme", {
+            group = vim.api.nvim_create_augroup("devicons_theme_sync_user", { clear = true }),
+            pattern = "*",
+            callback = apply_highlights,
+        })
     end,
 }

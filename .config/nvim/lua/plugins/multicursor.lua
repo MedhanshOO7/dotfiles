@@ -26,12 +26,22 @@ return {
             end)
         end)
 
-        vim.api.nvim_set_hl(0, "MultiCursorCursor", { reverse = true })
-        vim.api.nvim_set_hl(0, "MultiCursorVisual", { link = "Visual" })
-        vim.api.nvim_set_hl(0, "MultiCursorSign", { link = "SignColumn" })
-        vim.api.nvim_set_hl(0, "MultiCursorMatchPreview", { link = "Search" })
-        vim.api.nvim_set_hl(0, "MultiCursorDisabledCursor", { reverse = true })
-        vim.api.nvim_set_hl(0, "MultiCursorDisabledVisual", { link = "Visual" })
-        vim.api.nvim_set_hl(0, "MultiCursorDisabledSign", { link = "SignColumn" })
+        local function apply_highlights()
+            vim.api.nvim_set_hl(0, "MultiCursorCursor", { reverse = true })
+            vim.api.nvim_set_hl(0, "MultiCursorVisual", { link = "Visual" })
+            vim.api.nvim_set_hl(0, "MultiCursorSign", { link = "SignColumn" })
+            vim.api.nvim_set_hl(0, "MultiCursorMatchPreview", { link = "Search" })
+            vim.api.nvim_set_hl(0, "MultiCursorDisabledCursor", { reverse = true })
+            vim.api.nvim_set_hl(0, "MultiCursorDisabledVisual", { link = "Visual" })
+            vim.api.nvim_set_hl(0, "MultiCursorDisabledSign", { link = "SignColumn" })
+        end
+
+        apply_highlights()
+
+        vim.api.nvim_create_autocmd("ColorScheme", {
+            group = vim.api.nvim_create_augroup("multicursor_theme_sync_user", { clear = true }),
+            pattern = "*",
+            callback = apply_highlights,
+        })
     end,
 }

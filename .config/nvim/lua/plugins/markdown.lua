@@ -3,42 +3,99 @@ return {
     enabled = true,
     dependencies = {
         "nvim-treesitter/nvim-treesitter",
-        "nvim-tree/nvim-web-devicons"
+        "nvim-tree/nvim-web-devicons",
     },
-    ---@module 'render-markdown'
     ft = { "markdown", "norg", "rmd", "org" },
     init = function()
-        -- Define colors
-        local color1_bg = "#ff757f"
-        local color2_bg = "#4fd6be"
-        local color3_bg = "#7dcfff"
-        local color4_bg = "#ff9e64"
-        local color5_bg = "#7aa2f7"
-        local color6_bg = "#c0caf5"
-        local color_fg = "#1F2335"
+        local function resolve_group(groups)
+            for _, group in ipairs(groups) do
+                local ok, hl = pcall(vim.api.nvim_get_hl, 0, { name = group, link = false })
+                if ok and hl and not vim.tbl_isempty(hl) then
+                    return group
+                end
+            end
+        end
 
-        -- Heading background
-        -- vim.cmd(string.format([[highlight Headline1Bg guifg=%s guibg=%s gui=bold]], color_fg, color1_bg))
-        -- vim.cmd(string.format([[highlight Headline2Bg guifg=%s guibg=%s gui=bold]], color_fg, color2_bg))
-        -- vim.cmd(string.format([[highlight Headline3Bg guifg=%s guibg=%s gui=bold]], color_fg, color3_bg))
-        -- vim.cmd(string.format([[highlight Headline4Bg guifg=%s guibg=%s gui=bold]], color_fg, color4_bg))
-        -- vim.cmd(string.format([[highlight Headline5Bg guifg=%s guibg=%s gui=bold]], color_fg, color5_bg))
-        -- vim.cmd(string.format([[highlight Headline6Bg guifg=%s guibg=%s gui=bold]], color_fg, color6_bg))
+        local function hl_bg(group)
+            local ok, hl = pcall(vim.api.nvim_get_hl, 0, { name = group, link = false })
+            return (ok and hl.bg) and string.format("#%06x", hl.bg) or nil
+        end
 
-        -- Heading fg
-        -- vim.cmd(string.format([[highlight Headline1Fg guifg=%s gui=bold]], colors.color1_bg))
-        -- vim.cmd(string.format([[highlight Headline2Fg guifg=%s gui=bold]], colors.color2_bg))
-        -- vim.cmd(string.format([[highlight Headline3Fg guifg=%s gui=bold]], colors.color3_bg))
-        -- vim.cmd(string.format([[highlight Headline4Fg guifg=%s gui=bold]], colors.color4_bg))
-        -- vim.cmd(string.format([[highlight Headline5Fg guifg=%s gui=bold]], colors.color5_bg))
-        -- vim.cmd(string.format([[highlight Headline6Fg guifg=%s gui=bold]], colors.color6_bg))
+        local function hl_fg(group)
+            local ok, hl = pcall(vim.api.nvim_get_hl, 0, { name = group, link = false })
+            return (ok and hl.fg) and string.format("#%06x", hl.fg) or nil
+        end
 
+        local function first_hl_bg(groups)
+            for _, group in ipairs(groups) do
+                local value = hl_bg(group)
+                if value then
+                    return value
+                end
+            end
+        end
+
+        local function set_highlights()
+            local head_groups = {
+                { "@markup.heading.1.markdown", "Function", "Title" },
+                { "@markup.heading.2.markdown", "String", "Title" },
+                { "@markup.heading.3.markdown", "Constant", "Title" },
+                { "@markup.heading.4.markdown", "Identifier", "Title" },
+                { "@markup.heading.5.markdown", "Special", "Title" },
+                { "@markup.heading.6.markdown", "Statement", "Title" },
+            }
+
+            local normal_bg = first_hl_bg({ "Normal", "NormalFloat", "ColorColumn" }) or "NONE"
+
+            for i, groups in ipairs(head_groups) do
+                local target = resolve_group(groups)
+                local fg = target and hl_fg(target) or nil
+                local headline_bg = {
+                    fg = normal_bg,
+                    bold = true,
+                }
+
+                if fg then
+                    headline_bg.bg = fg
+                end
+
+                vim.api.nvim_set_hl(0, "Headline" .. i .. "Bg", headline_bg)
+
+                if target then
+                    vim.api.nvim_set_hl(0, "Headline" .. i .. "Fg", { link = target })
+                else
+                    vim.api.nvim_set_hl(0, "Headline" .. i .. "Fg", { bold = true })
+                end
+            end
+
+            vim.api.nvim_set_hl(0, "RenderMarkdownCode",       { link = "ColorColumn" })
+            vim.api.nvim_set_hl(0, "RenderMarkdownCodeInline", { link = "Visual" })
+
+            vim.api.nvim_set_hl(0, "RenderMarkdownChecked",   { link = "DiagnosticOk" })
+            vim.api.nvim_set_hl(0, "RenderMarkdownUnchecked", { link = "DiagnosticHint" })
+
+            vim.api.nvim_set_hl(0, "RenderMarkdownBullet",    { link = "Special" })
+            vim.api.nvim_set_hl(0, "RenderMarkdownQuote",     { link = "Comment" })
+            vim.api.nvim_set_hl(0, "RenderMarkdownDash",      { link = "LineNr" })
+            vim.api.nvim_set_hl(0, "RenderMarkdownLink",      { link = "Underlined" })
+        end
+
+        -- Apply on startup
+        set_highlights()
+
+        -- Re-apply on every theme change
+        vim.api.nvim_create_autocmd("ColorScheme", {
+            group = vim.api.nvim_create_augroup("render_markdown_theme_sync", { clear = true }),
+            pattern = "*",
+            callback = set_highlights,
+        })
     end,
+
     opts = {
         restart_highlighter = false,
         heading = {
             sign = false,
-            icons = { "󰎤 ", "󰎧 ", "󰎪 ", "󰎭 ", "󰎱 ", "󰎳 " },
+            icons = { "󰎤 ", "󰎧 ", "󰪛 ", "󰎭 ", "󰎱 ", "󰎳 " },
             backgrounds = {
                 "Headline1Bg",
                 "Headline2Bg",
@@ -63,26 +120,18 @@ return {
             right_pad = 1,
         },
         bullet = {
-            -- Turn on / off list bullet rendering
             enabled = true,
         },
         checkbox = {
-            -- Turn on / off checkbox state rendering
             enabled = true,
             unchecked = {
-                -- Replaces '[ ]' of 'task_list_marker_unchecked'
                 icon = "   󰄱 ",
-                -- Highlight for the unchecked icon
                 highlight = "RenderMarkdownUnchecked",
-                -- Highlight for item associated with unchecked checkbox
                 scope_highlight = nil,
             },
             checked = {
-                -- Replaces '[x]' of 'task_list_marker_checked'
                 icon = "   󰱒 ",
-                -- Highlight for the checked icon
                 highlight = "RenderMarkdownChecked",
-                -- Highlight for item associated with checked checkbox
                 scope_highlight = nil,
             },
         },

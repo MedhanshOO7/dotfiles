@@ -16,7 +16,7 @@ return {
                     vim.keymap.set("i", "<CR>", "<CR><cmd>AutolistNewBullet<CR>", opts)
                     vim.keymap.set("n", "o", "o<cmd>AutolistNewBullet<CR>", opts)
                     vim.keymap.set("n", "O", "O<cmd>AutolistNewBulletBefore<CR>", opts)
-                    vim.keymap.set("n", "<leader>mr", "<cmd>AutolistRecalculate<CR>",
+                    vim.keymap.set("n", "<leader>Mr", "<cmd>AutolistRecalculate<CR>",
                         vim.tbl_extend("force", opts, { desc = "Fix markdown list numbering" }))
                 end,
             })
