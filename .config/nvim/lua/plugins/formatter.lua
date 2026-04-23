@@ -4,6 +4,7 @@ return {
 
     config = function()
         local conform = require("conform")
+        vim.g.autoformat_enabled = false
 
         conform.setup({
             formatters_by_ft = {
@@ -16,8 +17,25 @@ return {
                 javascriptreact = { "prettier" },
                 json = { "prettier" },
                 lua = { "stylua" },
+                markdown = { "prettier" },
                 sh = { "shfmt" },
+                yaml = { "prettier" },
             },
+            format_on_save = function(bufnr)
+                if not vim.g.autoformat_enabled or vim.b[bufnr].autoformat_enabled == false then
+                    return nil
+                end
+
+                return {
+                    timeout_ms = 500,
+                    lsp_fallback = true,
+                }
+            end,
         })
+
+        vim.api.nvim_create_user_command("FormatToggle", function()
+            vim.g.autoformat_enabled = not vim.g.autoformat_enabled
+            vim.notify(vim.g.autoformat_enabled and "Format on save is on" or "Format on save is off")
+        end, { desc = "Toggle format on save" })
     end,
 }

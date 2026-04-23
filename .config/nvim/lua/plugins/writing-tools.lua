@@ -24,6 +24,7 @@ return {
     },
     {
         "stevearc/aerial.nvim",
+        cmd = { "AerialToggle", "AerialNavToggle" },
         dependencies = {
             "nvim-treesitter/nvim-treesitter",
             "nvim-tree/nvim-web-devicons",
@@ -42,6 +43,7 @@ return {
     },
     {
         "folke/twilight.nvim",
+        cmd = "Twilight",
         config = function()
             require("twilight").setup({
                 dimming = {

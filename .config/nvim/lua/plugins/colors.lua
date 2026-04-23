@@ -1,8 +1,7 @@
 return {
     {
         "folke/tokyonight.nvim",
-        lazy = false,
-        priority = 1000,
+        lazy = true,
         opts = {
             style = "night",
             styles = {
@@ -16,52 +15,41 @@ return {
     {
         "rose-pine/neovim",
         name = "rose-pine",
-        lazy = false,
-        priority = 1000,
+        lazy = true,
     },
     {
         "rebelot/kanagawa.nvim",
-        lazy = false,
-        priority = 1000,
+        lazy = true,
     },
     {
         "ellisonleao/gruvbox.nvim",
-        lazy = false,
-        priority = 1000,
+        lazy = true,
         opts = {
             contrast = "hard",
         },
     },
     {
         "Mofiqul/dracula.nvim",
-        lazy = false,
-        priority = 1000,
+        lazy = true,
     },
     {
         "sainnhe/everforest",
-        lazy = false,
-        priority = 1000,
+        lazy = true,
     },
     {
         "Mofiqul/vscode.nvim",
-        lazy = false,
-        priority = 1000,
+        lazy = true,
         opts = {
             italic_comments = false,
         },
     },
     {
         "EdenEast/nightfox.nvim",
-        lazy = false,
-        priority = 1000,
+        lazy = true,
     },
     {
         "catppuccin/nvim",
         name = "catppuccin",
-        lazy = false,
-        priority = 900,
-        config = function()
-            require("allMyLuaFiles.theme").setup()
-        end,
+        lazy = true,
     },
 }

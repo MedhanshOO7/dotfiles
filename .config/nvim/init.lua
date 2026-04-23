@@ -7,9 +7,10 @@ vim.g.python3_host_prog = vim.fn.expand("~/.venvs/neovim/bin/python")
 
 vim.opt.runtimepath:append(vim.fn.stdpath("data") .. "/site")
 
-require("allMyLuaFiles.options")
-require("allMyLuaFiles.keybinds")
-require("allMyLuaFiles.lazy")
+require("core.options")
+require("core.lazy")
+require("utils.theme").setup()
+require("core.keymaps")
 
 vim.opt.conceallevel = 2
 vim.opt.concealcursor = "nc"

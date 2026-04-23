@@ -10,7 +10,6 @@ gtk-cursor-blink=1
 gtk-cursor-theme-size=32
 gtk-cursor-theme-name="Bibata-Modern-Classic"
 gtk-sound-theme-name="__custom"
-gtk-icon-theme-name="YAMIS"
+gtk-icon-theme-name="breeze-plus-dark"
 gtk-font-name="Google Sans Flex,  14"
 
-gtk-modules=appmenu-gtk-module

@@ -1,5 +1,6 @@
 return {
     "folke/noice.nvim",
+    event = "VeryLazy",
     dependencies = {
         "MunifTanjim/nui.nvim",
         {
@@ -55,7 +56,7 @@ return {
             },
             lsp = {
                 hover = {
-                    enabled = true,
+                    enabled = false,
                     view = nil, -- use default view
                     opts = {
                         max_width = math.floor(vim.o.columns * 0.40),
@@ -63,7 +64,7 @@ return {
                     },
                 },
                 signature = {
-                    enabled = true,
+                    enabled = false,
                     auto_open = {
                         enabled = true,
                         trigger = true, -- Automatically show signature help when typing a function call
@@ -92,7 +93,7 @@ return {
             presets = {
                 command_palette = true,
                 long_message_to_split = true,
-                lsp_doc_border = true,
+                lsp_doc_border = false,
             },
         })
     end

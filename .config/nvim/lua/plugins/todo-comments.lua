@@ -1,5 +1,6 @@
 return {
     "folke/todo-comments.nvim",
+    cmd = { "TodoTelescope", "TodoTrouble", "TodoLocList", "TodoQuickFix" },
     dependencies = {
         "nvim-lua/plenary.nvim",
     },

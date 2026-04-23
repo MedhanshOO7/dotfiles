@@ -1,41 +1,21 @@
 return {
     {
         "mason-org/mason.nvim",
-        config = function()
-            require("mason").setup({
-                ui = {
-                    border = "rounded",
-                    icons = {
-                        package_installed = "✓",
-                        package_pending = "➜",
-                        package_uninstalled = "✗",
-                    },
-                },
-            })
-        end,
-    },
-    {
-        "mason-org/mason-lspconfig.nvim",
-        dependencies = {
-            "mason-org/mason.nvim",
-            "neovim/nvim-lspconfig",
-        },
+        cmd = "Mason",
         opts = {
-            ensure_installed = {
-                "bashls",
-                "clangd",
-                "cssls",
-                "html",
-                "jsonls",
-                "lua_ls",
-                "pylsp",
-                "ts_ls",
+            ui = {
+                border = "rounded",
+                icons = {
+                    package_installed = "✓",
+                    package_pending = "➜",
+                    package_uninstalled = "✗",
+                },
             },
-            automatic_enable = false,
         },
     },
     {
         "WhoIsSethDaniel/mason-tool-installer.nvim",
+        event = "VeryLazy",
         dependencies = {
             "mason-org/mason.nvim",
         },
@@ -44,8 +24,12 @@ return {
                 "black",
                 "codelldb",
                 "clang-format",
+                "eslint_d",
                 "js-debug-adapter",
+                "markdownlint",
                 "prettier",
+                "ruff",
+                "shellcheck",
                 "shfmt",
                 "stylua",
             },

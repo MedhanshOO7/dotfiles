@@ -1,18 +1,20 @@
 return {
     "hrsh7th/nvim-cmp",
+    event = "InsertEnter",
     dependencies = {
         "hrsh7th/cmp-nvim-lsp",
+        "hrsh7th/cmp-nvim-lua",
         "hrsh7th/cmp-buffer",
         "hrsh7th/cmp-path",
         "L3MON4D3/LuaSnip",
         "saadparwaiz1/cmp_luasnip",
-        "rafamadriz/friendly-snippets",
         "onsails/lspkind.nvim",
     },
     config = function()
         local cmp = require("cmp")
         local luasnip = require("luasnip")
         local lspkind = require("lspkind")
+        local compare = require("cmp.config.compare")
 
         local function hl_fg(group)
             local ok, hl = pcall(vim.api.nvim_get_hl, 0, { name = group, link = false })
@@ -35,28 +37,20 @@ return {
             callback = apply_highlights,
         })
 
-        -- LOAD SNIPPETS (IMPORTANT)
-        require("luasnip.loaders.from_vscode").lazy_load()
-        require("luasnip.loaders.from_lua").load({
-            paths = "~/.config/nvim/lua/snippets"
-        })
-
         cmp.setup({
             completion = {
                 completeopt = "menu,menuone,noinsert",
             },
             preselect = cmp.PreselectMode.None,
-
             snippet = {
                 expand = function(args)
                     luasnip.lsp_expand(args.body)
                 end,
             },
-
             mapping = cmp.mapping.preset.insert({
                 ["<C-Space>"] = cmp.mapping.complete(),
                 ["<C-e>"] = cmp.mapping.abort(),
-                ["<CR>"] = cmp.mapping.confirm({ select = true }),
+                ["<CR>"] = cmp.mapping.confirm({ select = false }),
                 ["<C-d>"] = cmp.mapping(function()
                     if cmp.visible_docs() then
                         cmp.close_docs()
@@ -78,17 +72,15 @@ return {
                         cmp.complete()
                     end
                 end, { "i", "s" }),
-
                 ["<Tab>"] = cmp.mapping(function(fallback)
-                    -- Keep <Tab> predictable for indentation. Completion
-                    -- navigation moves to <C-n>/<C-p> so Tab can insert spaces.
-                    if luasnip.expand_or_locally_jumpable() then
+                    if cmp.visible() then
+                        cmp.confirm({ select = true })
+                    elseif luasnip.expand_or_locally_jumpable() then
                         luasnip.expand_or_jump()
                     else
                         fallback()
                     end
                 end, { "i", "s" }),
-
                 ["<S-Tab>"] = cmp.mapping(function(fallback)
                     if luasnip.locally_jumpable(-1) then
                         luasnip.jump(-1)
@@ -97,27 +89,37 @@ return {
                     end
                 end, { "i", "s" }),
             }),
-
             sources = {
                 { name = "nvim_lsp" },
+                { name = "nvim_lua" },
                 { name = "luasnip" },
                 { name = "path" },
                 { name = "buffer" },
             },
-
+            sorting = {
+                priority_weight = 2,
+                comparators = {
+                    compare.exact,
+                    compare.score,
+                    compare.recently_used,
+                    compare.locality,
+                    compare.kind,
+                    compare.sort_text,
+                    compare.length,
+                    compare.order,
+                },
+            },
             formatting = {
                 format = lspkind.cmp_format({
                     mode = "symbol_text",
                     maxwidth = 50,
                 }),
             },
-
             view = {
                 docs = {
                     auto_open = false,
                 },
             },
-
             window = {
                 completion = {
                     border = "rounded",

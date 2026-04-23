@@ -1,10 +1,11 @@
 return {
     "akinsho/toggleterm.nvim",
     version = "*",
+    cmd = { "ToggleTerm", "TermExec" },
     config = function()
         require("toggleterm").setup({
-            direction = "float",
             open_mapping = [[<C-`>]],
+            direction = "float",
             start_in_insert = true,
             persist_mode = true,
             persist_size = true,

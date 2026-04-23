@@ -1,6 +1,7 @@
 return {
     "jake-stewart/multicursor.nvim",
     branch = "1.0",
+    event = "VeryLazy",
     config = function()
         local mc = require("multicursor-nvim")
 
@@ -14,8 +15,8 @@ return {
         mc.addKeymapLayer(function(layer_set)
             layer_set({ "n", "x" }, "<Left>", mc.prevCursor)
             layer_set({ "n", "x" }, "<Right>", mc.nextCursor)
-            layer_set({ "n", "x" }, "<C-q>", mc.toggleCursor)
-            layer_set({ "n", "x" }, "<leader>mx", mc.deleteCursor)
+            layer_set({ "n", "x" }, "<leader>Mt", mc.toggleCursor)
+            layer_set({ "n", "x" }, "<leader>Mx", mc.deleteCursor)
 
             layer_set("n", "<Esc>", function()
                 if not mc.cursorsEnabled() then

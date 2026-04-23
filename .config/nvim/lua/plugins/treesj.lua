@@ -1,5 +1,6 @@
 return {
     "Wansmer/treesj",
+    event = "VeryLazy",
     dependencies = {
         "nvim-treesitter/nvim-treesitter",
     },

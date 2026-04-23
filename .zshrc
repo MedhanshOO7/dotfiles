@@ -2,7 +2,7 @@
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+    source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
 # ~/.zshrc
@@ -18,20 +18,19 @@ ZSH_MOD_DIR="$HOME/.zsh"
 # 3. Load modules in order
 # Removed 10-instant from the loop because it's already handled above
 for file in \
-  00-env \
-  20-omz \
-  30-aliases \
-  35-zoxide \
-  40-tools \
-  90-prompt \
-  95-startup
-do
-  [[ -r "$ZSH_MOD_DIR/$file.zsh" ]] && source "$ZSH_MOD_DIR/$file.zsh"
+    00-env \
+    20-omz \
+    30-aliases \
+    35-zoxide \
+    40-tools \
+    90-prompt \
+    95-startup; do
+    [[ -r "$ZSH_MOD_DIR/$file.zsh" ]] && source "$ZSH_MOD_DIR/$file.zsh"
 done
 
 eval "$(fzf --zsh)"
 
-zstyle ':completion:*' menu no  
+zstyle ':completion:*' menu no
 zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza --icons $realpath'
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
@@ -42,3 +41,4 @@ export PATH="$PATH:/home/medhansh/.lmstudio/bin"
 # End of LM Studio CLI section
 
 export PATH="$HOME/.local/bin:$PATH"
+[[ -f ~/.p10k-colors.zsh ]] && source ~/.p10k-colors.zsh

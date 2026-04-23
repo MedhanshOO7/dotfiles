@@ -1,5 +1,6 @@
 return {
     "stevearc/overseer.nvim",
+    cmd = { "OverseerRun", "OverseerToggle", "OverseerQuickAction", "OverseerLoadBundle" },
     config = function()
         require("overseer").setup({
             strategy = "toggleterm",
@@ -35,12 +36,12 @@ return {
                 local compiler = vim.bo.filetype == "c" and "gcc" or "g++"
                 local standard = vim.bo.filetype == "c" and "-std=c11" or "-std=c++20"
                 local command = string.format(
-                    "%s %s -Wall -Wextra %q -o %q && %q",
+                    "%s %s -Wall -Wextra %s -o %s && %s",
                     compiler,
                     standard,
-                    file,
-                    exe,
-                    exe
+                    vim.fn.shellescape(file),
+                    vim.fn.shellescape(exe),
+                    vim.fn.shellescape(exe)
                 )
 
                 return {
