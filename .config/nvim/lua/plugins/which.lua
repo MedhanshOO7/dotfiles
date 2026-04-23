@@ -28,7 +28,7 @@ return {
             { "<leader>u", group = "UI and theme" },
             { "<leader>w", group = "Windows and sessions" },
             { "<leader>x", group = "Diagnostics and lists" },
-            { "<leader>z", group = "Writing" },
+            { "<leader>z", group = "Brainstorm Mode" },
         })
     end,
 }
