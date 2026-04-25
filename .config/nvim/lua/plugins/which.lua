@@ -29,6 +29,8 @@ return {
             { "<leader>w", group = "Windows and sessions" },
             { "<leader>x", group = "Diagnostics and lists" },
             { "<leader>z", group = "Brainstorm Mode" },
+            { "<C-M-Down>", desc = "Add cursor below", mode = { "n", "x" } },
+            { "<C-M-Up>", desc = "Add cursor above", mode = { "n", "x" } },
         })
     end,
 }
