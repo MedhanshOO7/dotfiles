@@ -10,7 +10,7 @@ alias files="dolphin"
 alias clip="wl-copy"
 
 # Modern ls (eza)
-alias ls='eza --icons --sort=extension --group-directories-first --git'
+alias ls='eza --icons --sort=extension --git --only-files && eza --icons --sort=name --git --only-dirs'
 alias ll='eza -lah --icons --group-directories-first --git --time-style=long-iso'
 alias la='eza -a'
 alias lt='eza --tree --level=2 --icons --group-directories-first'
