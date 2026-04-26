@@ -31,19 +31,40 @@ _U_FAILED_OPTIONAL=()
 
 _u_log() {
     local severity="$1"   # info | warn | ok | err
-    local critical="$2"   # 1 = critical, 0 = optional
+    local critical="$2"
     local title="$3"
     local body="$4"
 
-    local urgency icon color_prefix
+    local urgency icon timeout emoji formatted_body
+
     case "$severity" in
-        info) urgency="low";      icon="$_U_ICON_INFO" ;;
-        warn) urgency="normal";   icon="$_U_ICON_WARN" ;;
-        ok)   urgency="normal";   icon="$_U_ICON_OK"   ;;
-        err)  urgency="critical"; icon="$_U_ICON_ERR"  ;;
+        info)
+            urgency="low"
+            icon="software-update-available"
+            timeout=2000
+            emoji="→"
+            ;;
+        warn)
+            urgency="normal"
+            icon="dialog-warning"
+            timeout=5000
+            emoji="⚠"
+            ;;
+        ok)
+            urgency="low"
+            icon="software-update-available"
+            timeout=2000
+            emoji="✓"
+            ;;
+        err)
+            urgency="critical"
+            icon="dialog-error"
+            timeout=0
+            emoji="✗"
+            ;;
     esac
 
-    # Terminal output
+    # ── Terminal output (unchanged behavior)
     case "$severity" in
         info) echo "  → $title: $body" ;;
         warn) echo "  ⚠ $title: $body" >&2 ;;
@@ -51,18 +72,27 @@ _u_log() {
         err)  echo "  ✗ $title: $body" >&2 ;;
     esac
 
-    # Desktop notification
-    [[ "$_U_MODE" == "gui" ]] && \
-        notify-send -u "$urgency" -i "$icon" -a "System Update" "$title" "$body"
+    # ── Format body (rich style)
+    formatted_body="<b>$emoji $body</b>"
 
-    # Zenity progress feed
+    # ── GUI notification
+    if [[ "$_U_MODE" == "gui" ]]; then
+        notify-send \
+            -u "$urgency" \
+            -i "$icon" \
+            -a "System Update" \
+            -t "$timeout" \
+            "$title" \
+            "$formatted_body"
+    fi
+
+    # ── Zenity progress (unchanged)
     if [[ "$_U_MODE" == "gui" && -n "$_U_FIFO" && "$_U_TOTAL" -gt 0 ]]; then
         local pct=$(( _U_STEP * 100 / _U_TOTAL ))
         (( pct > 99 )) && pct=99
         printf '%s\n# %s\n' "$pct" "$title: $body" > "$_U_FIFO"
     fi
 }
-
 # ═══════════════════════════════════════════════════════════════
 # Step runner — wraps a command with logging + error handling
 #
