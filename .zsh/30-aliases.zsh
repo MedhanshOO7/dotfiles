@@ -4,8 +4,7 @@ alias cls='clear'
 alias ff='fastfetch'
 
 # File manager
-alias files="dolphin"
-
+alias files="nautilus --no-desktop & disown"
 # Clipboard
 alias clip="wl-copy"
 

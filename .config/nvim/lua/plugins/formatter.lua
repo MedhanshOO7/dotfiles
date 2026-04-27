@@ -4,7 +4,6 @@ return {
 
     config = function()
         local conform = require("conform")
-        vim.g.autoformat_enabled = false
 
         conform.setup({
             formatters_by_ft = {
@@ -20,6 +19,17 @@ return {
                 markdown = { "prettier" },
                 sh = { "shfmt" },
                 yaml = { "prettier" },
+            },
+            formatters = {
+                prettier = {
+                    args = { "--stdin-filepath", "$FILENAME", "--tab-width", "4" },
+                },
+                stylua = {
+                    args = { "--indent-type", "Spaces", "--indent-width", "4", "-" },
+                },
+                clang_format = {
+                    prepend_args = { "--style={IndentWidth: 4}" },
+                },
             },
             format_on_save = function(bufnr)
                 if not vim.g.autoformat_enabled or vim.b[bufnr].autoformat_enabled == false then

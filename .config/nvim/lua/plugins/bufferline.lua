@@ -1,210 +1,156 @@
 return {
-	"akinsho/bufferline.nvim",
-	event = "VeryLazy",
-	dependencies = {
-		"nvim-tree/nvim-web-devicons",
-	},
-	config = function()
-		local bufferline = require("bufferline")
-		local bufferline_group = vim.api.nvim_create_augroup("dynamic_bufferline_theme", { clear = true })
+    "romgrk/barbar.nvim",
+    event = "VeryLazy",
+    dependencies = { "nvim-tree/nvim-web-devicons" },
+    init = function()
+        vim.g.barbar_auto_setup = false
+    end,
+    config = function()
+        local function hl_hex(name, key)
+            local ok, val = pcall(vim.api.nvim_get_hl, 0, { name = name, link = false })
+            if ok and val and val[key] then
+                return string.format("#%06x", val[key])
+            end
+        end
 
-		local function hl_hex(name, key)
-			local ok, value = pcall(vim.api.nvim_get_hl, 0, { name = name, link = false })
-			if ok and value and value[key] then
-				return string.format("#%06x", value[key])
-			end
-		end
+        local function first_hl(groups, key)
+            for _, g in ipairs(groups) do
+                local v = hl_hex(g, key)
+                if v then
+                    return v
+                end
+            end
+        end
 
-		local function first_hl_hex(groups, key)
-			for _, group in ipairs(groups) do
-				local value = hl_hex(group, key)
-				if value then
-					return value
-				end
-			end
-		end
+        local function apply()
+            local base_bg = first_hl({ "Normal", "NormalFloat" }, "bg") or "#1e1e2e"
+            local mantle = first_hl({ "TabLineFill", "StatusLine" }, "bg") or "#181825"
+            local text = first_hl({ "Normal" }, "fg") or "#cdd6f4"
+            local muted = first_hl({ "Comment", "LineNr" }, "fg") or "#6c7086"
+            local subtext = first_hl({ "NonText", "StatusLineNC" }, "fg") or "#a6adc8"
+            local accent = first_hl({ "Function", "Special", "Identifier" }, "fg") or "#b4befe"
+            local error_fg = first_hl({ "DiagnosticError", "ErrorMsg" }, "fg") or "#f38ba8"
+            local warn_fg = first_hl({ "DiagnosticWarn", "WarningMsg" }, "fg") or "#fab387"
+            local modified = first_hl({ "DiagnosticWarn", "String" }, "fg") or "#f9e2af"
 
-		local function hex_to_rgb(hex)
-			if not hex then
-				return nil, nil, nil
-			end
+            -- inactive clearly darker than active
+            local inactive_bg = mantle
 
-			hex = hex:gsub("#", "")
-			if #hex ~= 6 then
-				return nil, nil, nil
-			end
+            local set = vim.api.nvim_set_hl
 
-			return tonumber(hex:sub(1, 2), 16), tonumber(hex:sub(3, 4), 16), tonumber(hex:sub(5, 6), 16)
-		end
+            -- active — underdouble for thick line, | prefix via sign
+            set(0, "BufferCurrent", { fg = text, bg = base_bg, bold = true, underdouble = true, sp = accent })
+            set(0, "BufferCurrentIndex", { fg = accent, bg = base_bg, underdouble = true, sp = accent })
+            set(0, "BufferCurrentMod", { fg = modified, bg = base_bg, bold = true, underdouble = true, sp = accent })
+            set(0, "BufferCurrentSign", { fg = accent, bg = base_bg, underdouble = true, sp = accent })
+            set(0, "BufferCurrentTarget", { fg = error_fg, bg = base_bg, bold = true })
+            set(0, "BufferCurrentIcon", { bg = base_bg, underdouble = true, sp = accent })
+            set(0, "BufferCurrentERROR", { fg = error_fg, bg = base_bg, underdouble = true, sp = accent })
+            set(0, "BufferCurrentWARN", { fg = warn_fg, bg = base_bg, underdouble = true, sp = accent })
 
-		local function blend(top, bottom, alpha)
-			local tr, tg, tb = hex_to_rgb(top)
-			local br, bg, bb = hex_to_rgb(bottom)
-			if not (tr and tg and tb and br and bg and bb) then
-				return bottom or top
-			end
+            -- inactive — clearly dimmed
+            set(0, "BufferInactive", { fg = muted, bg = inactive_bg })
+            set(0, "BufferInactiveIndex", { fg = muted, bg = inactive_bg })
+            set(0, "BufferInactiveMod", { fg = modified, bg = inactive_bg })
+            set(0, "BufferInactiveSign", { fg = muted, bg = inactive_bg })
+            set(0, "BufferInactiveTarget", { fg = error_fg, bg = inactive_bg })
+            set(0, "BufferInactiveIcon", { bg = inactive_bg })
+            set(0, "BufferInactiveERROR", { fg = error_fg, bg = inactive_bg })
+            set(0, "BufferInactiveWARN", { fg = warn_fg, bg = inactive_bg })
 
-			local function channel(foreground, background)
-				return math.floor((alpha * foreground) + ((1 - alpha) * background) + 0.5)
-			end
+            -- visible (split)
+            set(0, "BufferVisible", { fg = subtext, bg = inactive_bg })
+            set(0, "BufferVisibleIndex", { fg = subtext, bg = inactive_bg })
+            set(0, "BufferVisibleMod", { fg = modified, bg = inactive_bg })
+            set(0, "BufferVisibleSign", { fg = subtext, bg = inactive_bg })
+            set(0, "BufferVisibleTarget", { fg = error_fg, bg = inactive_bg })
+            set(0, "BufferVisibleERROR", { fg = error_fg, bg = inactive_bg })
+            set(0, "BufferVisibleWARN", { fg = warn_fg, bg = inactive_bg })
 
-			return string.format("#%02x%02x%02x", channel(tr, br), channel(tg, bg), channel(tb, bb))
-		end
+            set(0, "BufferTabpageFill", { bg = mantle })
+            set(0, "BufferTabpages", { fg = accent, bg = mantle, bold = true })
+        end
 
-		local function apply_highlights()
-			local base_bg = first_hl_hex({ "TabLineFill", "StatusLine", "NormalFloat", "Normal", "Pmenu" }, "bg")
-			local normal_bg = base_bg or "NONE"
-			local normal_fg = first_hl_hex({ "Normal", "StatusLine", "TabLineSel", "Title", "Identifier" }, "fg")
-			local comment_fg = first_hl_hex({ "Comment", "LineNr", "NonText", "StatusLineNC" }, "fg") or normal_fg
-			local accent_fg = first_hl_hex({ "Function", "Identifier", "Title", "Special" }, "fg") or normal_fg
-			local inactive_bg = blend(comment_fg or normal_fg, base_bg, 0.10) or normal_bg
-			local visible_bg = blend(comment_fg or normal_fg, base_bg, 0.18) or normal_bg
-			local separator_fg = blend(comment_fg or normal_fg, base_bg, 0.35) or comment_fg or normal_fg
+        require("barbar").setup({
+            animation = true,
+            auto_hide = 1,
+            tabpages = false,
+            clickable = true,
+            focus_on_close = "left",
+            maximum_padding = 2,
+            minimum_padding = 1,
+            maximum_length = 25,
+            minimum_length = 0,
+            insert_at_end = true,
+            semantic_letters = true,
+            sort = { ignore_case = true },
 
-			vim.opt.showtabline = 1
+            icons = {
+                buffer_index = false,
+                buffer_number = false,
+                button = false,
+                modified = { button = "●" },
+                filetype = { enabled = true, custom_colors = false },
+                -- | left indicator + clean right
+                separator = { left = "▎", right = " " },
+                separator_at_end = false,
+                pinned = { button = "", filename = true },
+                diagnostics = {
+                    [vim.diagnostic.severity.ERROR] = { enabled = true, icon = " " },
+                    [vim.diagnostic.severity.WARN] = { enabled = true, icon = " " },
+                    [vim.diagnostic.severity.INFO] = { enabled = false },
+                    [vim.diagnostic.severity.HINT] = { enabled = false },
+                },
+                gitsigns = {
+                    added = { enabled = false },
+                    changed = { enabled = false },
+                    deleted = { enabled = false },
+                },
+                current = { buffer_index = false },
+                inactive = { button = false },
+                visible = { modified = { buffer_number = false } },
+            },
 
-			bufferline.setup({
-				options = {
-					mode = "buffers",
-					style_preset = bufferline.style_preset.no_italic,
-					separator_style = { "|", "|" },
-					diagnostics = "nvim_lsp",
-					custom_areas = {
-						left = function()
-							return {
-								{
-									underline = true,
-								},
-							}
-						end,
-					},
-					color_icons = true,
-					indicator = {
-						style = "underline",
-					},
-					numbers = "none",
-					show_buffer_close_icons = false,
-					show_close_icon = false,
-					always_show_bufferline = false,
-					show_tab_indicators = false,
-					tab_size = 18,
-					max_name_length = 25,
-					truncate_names = false,
-					hover = {
-						enabled = true,
-						delay = 120,
-						reveal = { "close" },
-					},
-					persist_buffer_sort = true,
-					sort_by = "insert_after_current",
-					modified_icon = "●",
-					diagnostics_indicator = function(count, level)
-						local icon = level:match("error") and " " or " "
-						return " " .. icon .. count
-					end,
-					offsets = {
-						{
-							filetype = "neo-tree",
-							text = "Explorer",
-							highlight = "Directory",
-							text_align = "left",
-							separator = true,
-						},
-					},
-				},
-				highlights = {
-					fill = {
-						bg = normal_bg,
-					},
-					background = {
-						fg = comment_fg,
-						bg = inactive_bg,
-					},
-					buffer_visible = {
-						fg = normal_fg,
-						bg = visible_bg,
-					},
-					buffer_selected = {
-						fg = normal_fg,
-						bg = normal_bg,
-						bold = true,
-					},
-					separator = {
-						fg = separator_fg,
-						bg = normal_bg,
-					},
-					separator_visible = {
-						fg = separator_fg,
-						bg = visible_bg,
-					},
-					separator_selected = {
-						fg = separator_fg,
-						bg = normal_bg,
-					},
-					indicator_selected = {
-						fg = accent_fg,
-						bg = normal_bg,
-					},
-					modified = {
-						fg = comment_fg,
-						bg = inactive_bg,
-					},
-					modified_visible = {
-						fg = accent_fg,
-						bg = visible_bg,
-					},
-					modified_selected = {
-						fg = accent_fg,
-						bg = normal_bg,
-					},
-					close_button = {
-						fg = comment_fg,
-						bg = inactive_bg,
-					},
-					close_button_visible = {
-						fg = comment_fg,
-						bg = visible_bg,
-					},
-					close_button_selected = {
-						fg = accent_fg,
-						bg = normal_bg,
-					},
-					duplicate = {
-						fg = comment_fg,
-						bg = inactive_bg,
-						italic = false,
-					},
-					duplicate_visible = {
-						fg = comment_fg,
-						bg = visible_bg,
-						italic = false,
-					},
-					duplicate_selected = {
-						fg = normal_fg,
-						bg = normal_bg,
-						italic = false,
-					},
-					tab_separator = {
-						fg = separator_fg,
-						bg = inactive_bg,
-					},
-					tab_separator_selected = {
-						fg = separator_fg,
-						bg = normal_bg,
-					},
-				},
-			})
-		end
+            sidebar_filetypes = {
+                ["neo-tree"] = {
+                    event = "BufWipeout",
+                    text = "  Explorer",
+                    align = "left",
+                },
+            },
 
-		apply_highlights()
+            highlight_alternate = false,
+            highlight_inactive_file_icons = false,
+            highlight_visible = true,
+        })
 
-		vim.api.nvim_create_autocmd("ColorScheme", {
-			group = bufferline_group,
-			pattern = "*",
-			callback = function()
-				apply_highlights()
-				vim.schedule(apply_highlights)
-			end,
-		})
-	end,
+        apply()
+
+        vim.api.nvim_create_autocmd("ColorScheme", {
+            group = vim.api.nvim_create_augroup("barbar_dynamic_hl", { clear = true }),
+            pattern = "*",
+            callback = function()
+                apply()
+                vim.schedule(apply)
+            end,
+        })
+
+        local map = vim.keymap.set
+        local opts = { noremap = true, silent = true }
+
+        for i = 1, 9 do
+            map("n", "<C-" .. i .. ">", "<Cmd>BufferGoto " .. i .. "<CR>", opts)
+        end
+
+        map("n", "<C-0>", "<Cmd>BufferLast<CR>", opts)
+        map("n", "<C-,>", "<Cmd>BufferPrevious<CR>", opts)
+        map("n", "<C-.>", "<Cmd>BufferNext<CR>", opts)
+        map("n", "<C-<>", "<Cmd>BufferMovePrevious<CR>", opts)
+        map("n", "<C->>", "<Cmd>BufferMoveNext<CR>", opts)
+        map("n", "<C-w>", "<Cmd>BufferClose<CR>", opts)
+        map("n", "<C-W>", "<Cmd>BufferCloseAllButCurrent<CR>", opts)
+        map("n", "<C-p>", "<Cmd>BufferPin<CR>", opts)
+        map("n", "<leader>bp", "<Cmd>BufferPick<CR>", opts)
+        map("n", "<leader>bd", "<Cmd>BufferPickDelete<CR>", opts)
+    end,
 }

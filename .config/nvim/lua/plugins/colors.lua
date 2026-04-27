@@ -52,4 +52,9 @@ return {
         name = "catppuccin",
         lazy = true,
     },
+    {
+        "AlphaTechnolog/pywal.nvim",
+        name = "pywal",
+        lazy = true,
+    },
 }

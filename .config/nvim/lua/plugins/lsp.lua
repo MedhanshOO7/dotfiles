@@ -20,20 +20,15 @@ return {
         }
 
         local float_border = {
-            { "╭", "LspFloatBorder" },
-            { "─", "LspFloatBorder" },
-            { "╮", "LspFloatBorder" },
-            { "│", "LspFloatBorder" },
-            { "╯", "LspFloatBorder" },
-            { "─", "LspFloatBorder" },
-            { "╰", "LspFloatBorder" },
-            { "│", "LspFloatBorder" },
+            { "╭", "FloatBorder" },
+            { "─", "FloatBorder" },
+            { "╮", "FloatBorder" },
+            { "│", "FloatBorder" },
+            { "╯", "FloatBorder" },
+            { "─", "FloatBorder" },
+            { "╰", "FloatBorder" },
+            { "│", "FloatBorder" },
         }
-
-        local function hl_fg(group)
-            local ok, hl = pcall(vim.api.nvim_get_hl, 0, { name = group, link = false })
-            return (ok and hl.fg) and string.format("#%06x", hl.fg) or nil
-        end
 
         local function bordered(config)
             return vim.tbl_deep_extend("force", config or {}, {
@@ -41,13 +36,6 @@ return {
                 focusable = false,
                 max_width = math.floor(vim.o.columns * 0.40),
                 max_height = math.floor(vim.o.lines * 0.25),
-            })
-        end
-
-        local function apply_highlights()
-            vim.api.nvim_set_hl(0, "LspFloatBorder", {
-                fg = hl_fg("FloatBorder") or hl_fg("WinSeparator") or hl_fg("NormalFloat"),
-                bg = "NONE",
             })
         end
 
@@ -61,14 +49,6 @@ return {
             vim.lsp.inlay_hint.enable(not enabled, { bufnr = bufnr })
             vim.notify(not enabled and "Inlay hints are on" or "Inlay hints are off")
         end
-
-        apply_highlights()
-
-        vim.api.nvim_create_autocmd("ColorScheme", {
-            group = vim.api.nvim_create_augroup("nvim_lsp_theme_sync", { clear = true }),
-            pattern = "*",
-            callback = apply_highlights,
-        })
 
         local lazydev_ok, lazydev = pcall(require, "lazydev")
         if lazydev_ok then
