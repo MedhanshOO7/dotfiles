@@ -1,6 +1,6 @@
 [ColorEffects:Disabled]
 ChangeSelectionColor=
-Color=#1d1d23
+Color=#1f201f
 ColorAmount=0.5
 ColorEffect=3
 ContrastAmount=0
@@ -11,7 +11,7 @@ IntensityEffect=0
 
 [ColorEffects:Inactive]
 ChangeSelectionColor=true
-Color=#0e0e13
+Color=#0a0b0b
 ColorAmount=0.025
 ColorEffect=0
 ContrastAmount=0.1
@@ -21,120 +21,120 @@ IntensityAmount=0
 IntensityEffect=0
 
 [Colors:Button]
-BackgroundAlternate=#46464f
-BackgroundNormal=#28272d
-DecorationFocus=#babffc
-DecorationHover=#babffc
-ForegroundActive=#e4e1e9
-ForegroundInactive=#91909a
+BackgroundAlternate=#464746
+BackgroundNormal=#272827
+DecorationFocus=#b9cbc1
+DecorationHover=#b9cbc1
+ForegroundActive=#e3e2e0
+ForegroundInactive=#91918f
 ForegroundLink=#8fc9fc
 ForegroundNegative=#ffb3b4
 ForegroundNeutral=#fcb38a
-ForegroundNormal=#e4e1e9
+ForegroundNormal=#e3e2e0
 ForegroundPositive=#00e479
 ForegroundVisited=#ebb2ff
 
 [Colors:Complementary]
-BackgroundAlternate=#131318
-BackgroundNormal=#1d1d23
-DecorationFocus=#babffc
-DecorationHover=#babffc
-ForegroundActive=#e4e1e9
-ForegroundInactive=#91909a
+BackgroundAlternate=#121413
+BackgroundNormal=#1f201f
+DecorationFocus=#b9cbc1
+DecorationHover=#b9cbc1
+ForegroundActive=#e3e2e0
+ForegroundInactive=#91918f
 ForegroundLink=#8fc9fc
 ForegroundNegative=#ffb3b4
 ForegroundNeutral=#fcb38a
-ForegroundNormal=#c7c5d0
+ForegroundNormal=#c7c6c4
 ForegroundPositive=#00e479
 ForegroundVisited=#ebb2ff
 
 [Colors:Header]
-BackgroundAlternate=#1d1d23
-BackgroundNormal=#1d1d23
-DecorationFocus=#babffc
-DecorationHover=#babffc
-ForegroundActive=#e4e1e9
-ForegroundInactive=#91909a
+BackgroundAlternate=#1f201f
+BackgroundNormal=#1f201f
+DecorationFocus=#b9cbc1
+DecorationHover=#b9cbc1
+ForegroundActive=#e3e2e0
+ForegroundInactive=#91918f
 ForegroundLink=#8fc9fc
 ForegroundNegative=#ffb3b4
 ForegroundNeutral=#fcb38a
-ForegroundNormal=#c7c5d0
+ForegroundNormal=#c7c6c4
 ForegroundPositive=#00e479
 ForegroundVisited=#ebb2ff
 
 [Colors:Header][Inactive]
-BackgroundAlternate=#1d1d23
-BackgroundNormal=#1d1d23
-DecorationFocus=#babffc
-DecorationHover=#babffc
-ForegroundActive=#e4e1e9
-ForegroundInactive=#91909a
+BackgroundAlternate=#1f201f
+BackgroundNormal=#1f201f
+DecorationFocus=#b9cbc1
+DecorationHover=#b9cbc1
+ForegroundActive=#e3e2e0
+ForegroundInactive=#91918f
 ForegroundLink=#8fc9fc
 ForegroundNegative=#ffb3b4
 ForegroundNeutral=#fcb38a
-ForegroundNormal=#c7c5d0
+ForegroundNormal=#c7c6c4
 ForegroundPositive=#00e479
 ForegroundVisited=#ebb2ff
 
 [Colors:Selection]
-BackgroundAlternate=#babffc
-BackgroundNormal=#babffc
-DecorationFocus=#babffc
-DecorationHover=#c2c1da
-ForegroundActive=#262b61
-ForegroundInactive=#262b61
+BackgroundAlternate=#b9cbc1
+BackgroundNormal=#b9cbc1
+DecorationFocus=#b9cbc1
+DecorationHover=#bfc9c2
+ForegroundActive=#24342d
+ForegroundInactive=#24342d
 ForegroundLink=#004b73
 ForegroundNegative=#920023
 ForegroundNeutral=#753400
-ForegroundNormal=#262b61
+ForegroundNormal=#24342d
 ForegroundPositive=#005228
 ForegroundVisited=#74009f
 
 [Colors:Tooltip]
-BackgroundAlternate=#46464f
-BackgroundNormal=#1d1d23
-DecorationFocus=#babffc
-DecorationHover=#babffc
-ForegroundActive=#e4e1e9
-ForegroundInactive=#91909a
+BackgroundAlternate=#464746
+BackgroundNormal=#1f201f
+DecorationFocus=#b9cbc1
+DecorationHover=#b9cbc1
+ForegroundActive=#e3e2e0
+ForegroundInactive=#91918f
 ForegroundLink=#8fc9fc
 ForegroundNegative=#ffb3b4
 ForegroundNeutral=#fcb38a
-ForegroundNormal=#e4e1e9
+ForegroundNormal=#e3e2e0
 ForegroundPositive=#00e479
 ForegroundVisited=#ebb2ff
 
 [Colors:View]
-BackgroundAlternate=#1d1d23
-BackgroundNormal=#131318
-DecorationFocus=#babffc
-DecorationHover=#545a92
-ForegroundActive=#e4e1e9
-ForegroundInactive=#91909a
+BackgroundAlternate=#1f201f
+BackgroundNormal=#121413
+DecorationFocus=#b9cbc1
+DecorationHover=#52625a
+ForegroundActive=#e3e2e0
+ForegroundInactive=#91918f
 ForegroundLink=#8fc9fc
 ForegroundNegative=#ffb3b4
 ForegroundNeutral=#fcb38a
-ForegroundNormal=#e4e1e9
+ForegroundNormal=#e3e2e0
 ForegroundPositive=#00e479
 ForegroundVisited=#ebb2ff
 
 [Colors:Window]
-BackgroundAlternate=#46464f
-BackgroundNormal=#1d1d23
-DecorationFocus=#babffc
-DecorationHover=#babffc
+BackgroundAlternate=#464746
+BackgroundNormal=#1f201f
+DecorationFocus=#b9cbc1
+DecorationHover=#b9cbc1
 ForegroundActive=#8fc9fc
-ForegroundInactive=#91909a
+ForegroundInactive=#91918f
 ForegroundLink=#8fc9fc
 ForegroundNegative=#ffb3b4
 ForegroundNeutral=#fcb38a
-ForegroundNormal=#c7c5d0
+ForegroundNormal=#c7c6c4
 ForegroundPositive=#00e479
 ForegroundVisited=#ebb2ff
 
 [General]
 ColorScheme=MaterialYouDark
-ColorSchemeHash=3167513e408236aae7c0048f7fe7e312a949649e
+ColorSchemeHash=a7e4bf4ecd6fece1cc23164b1865ab1ae8966121
 LastUsedCustomAccentColor=184,117,220
 TerminalApplication=kitty -1
 XftHintStyle=hintslight
@@ -154,7 +154,7 @@ frameContrast=0.2
 widgetStyle=Darkly
 
 [KFileDialog Settings]
-Allow Expansion=false
+Allow Expansion=true
 Automatically select filename extension=true
 Breadcrumb Navigation=true
 Decoration position=2
@@ -168,17 +168,16 @@ Sort directories first=true
 Sort hidden files last=false
 Sort reversed=false
 Speedbar Width=168
-View Style=Simple
+View Style=DetailTree
 
 [Sounds]
 Theme=freedesktop
 
 [WM]
-activeBackground=50,50,56
+activeBackground=52,53,52
 activeBlend=252,252,252
 activeFont=Google Sans Flex,10,-1,5,500,0,0,0,0,0,0,0,0,0,0,1,Medium
-activeForeground=228,225,233
-inactiveBackground=66,67,87
+activeForeground=227,226,224
+inactiveBackground=64,73,68
 inactiveBlend=161,169,177
-inactiveForeground=225,224,249
-
+inactiveForeground=219,229,222

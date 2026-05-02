@@ -1,112 +1,68 @@
+/* =============================================================================
+   Rofi config.rasi — tuned for end-4 / dots-hyprland (Material You)
+   Font: JetBrains Mono Nerd Font
+   Colors: pulled from matugen-generated colors so they always match your wall
+   ============================================================================= */
+
 configuration {
-    modi: "drun,calc,emoji,window";
-    show-icons: true;
-    display-drun: "😒 Apps";
-    display-run: "💨 Run";
-    display-files: "😔 Finder";
-    display-window: "🪟 Window";
-    display-calc: "📐 Calculator";
-    display-emoji: "🤣 Emoji";
-    display-wall: "🌅 Wallpaper";
-    drun-display-format: "{name}";
-    window-format: "{w} · {c} · {t}";
+    /* ── Modes ─────────────────────────────────────────────────────────────── */
+    modi:                       "drun,run,filebrowser,window";
+    combi-modi:                 "drun,run";
+
+    /* ── Font ───────────────────────────────────────────────────────────────── */
+    font:                       "JetBrains Mono Nerd Font 13";
+
+    /* ── Icons ──────────────────────────────────────────────────────────────── */
+    show-icons:                 true;
+    icon-theme:                 "Papirus-Dark";
+    drun-display-format:        "{name}";
+    drun-icon-fallback:         true;
+
+    /* ── Display labels ─────────────────────────────────────────────────────── */
+    display-drun:               "  Apps";
+    display-run:                "  Run";
+    display-filebrowser:        "  Files";
+    display-window:             "  Windows";
+
+    /* ── Search behaviour ───────────────────────────────────────────────────── */
+    case-sensitive:             false;
+    sort:                       true;
+    sorting-method:             "fzf";
+    matching:                   "fuzzy";
+    tokenize:                   true;
+
+    /* ── Mouse ──────────────────────────────────────────────────────────────── */
+    hover-select:               true;
+    me-select-entry:            "MouseSecondary";
+    me-accept-entry:            "MousePrimary";
+
+    /* ── History / cache ────────────────────────────────────────────────────── */
+    disable-history:            false;
+    max-history-size:           25;
+
+    /* ── Misc ───────────────────────────────────────────────────────────────── */
+    terminal:                   "kitty";
+    ssh-command:                "{terminal} -e {ssh-client} {host} [-p {port}]";
+    run-command:                "{cmd}";
+    run-shell-command:          "{terminal} -e {cmd}";
+    window-format:              "{w}  ·  {c}  ·  {t}";
+
+    /* ── Keybindings ────────────────────────────────────────────────────────── */
+    kb-primary-paste:           "Control+V,Shift+Insert";
+    kb-secondary-paste:         "Control+v";
+    kb-clear-line:              "Control+w";
+    kb-move-front:              "Control+a";
+    kb-move-end:                "Control+e";
+    kb-remove-word-back:        "Control+Alt+h,Control+BackSpace";
+    kb-accept-entry:            "Return,KP_Enter";
+    kb-remove-to-eol:           "Control+k";
+    kb-mode-next:               "Shift+Right,Control+Tab";
+    kb-mode-previous:           "Shift+Left,Control+Shift+Tab";
+    kb-row-up:                  "Up,Control+p";
+    kb-row-down:                "Down,Control+n";
+    kb-page-prev:               "Page_Up";
+    kb-page-next:               "Page_Down";
+    kb-cancel:                  "Escape,Control+g,Control+bracketleft";
 }
 
-* {
-    font: "Google Sans Flex 900 17";
-
-    bg-col: rgba(40,42,54,0.4);
-    bg-col-light: #44475a;
-    border-col: #bd93f9;
-    selected-col: #44475a;
-    blue: #bd93f9;
-    fg-col: #f8f8f2;
-    fg-col2: #6272a4;
-    grey: #6272a4;
-
-    background-color: transparent;
-    text-color: @fg-col;
-    margin: 0px;
-    padding: 0px;
-}
-
-window {
-    location: center;
-    anchor: center;
-    fullscreen: false;
-    width: 700px;
-    border: 2px;
-    border-radius: 12px;
-    border-color: @border-col;
-    background-color: @bg-col;
-}
-
-mainbox {
-    spacing: 10px;
-    padding: 20px;
-    background-color: transparent;
-    children: [ "inputbar", "listview" ];
-}
-
-inputbar {
-    spacing: 10px;
-    padding: 12px 16px;
-    border-radius: 10px;
-    background-color: @bg-col-light;
-    children: [ "prompt", "entry" ];
-}
-
-prompt {
-    content: "";
-}
-
-entry {
-    placeholder: "Search...";
-    placeholder-color: @fg-col2;
-}
-
-listview {
-    columns: 1;
-    lines: 8;
-    cycle: true;
-    dynamic: true;
-    scrollbar: false;
-    layout: vertical;
-    spacing: 5px;
-}
-
-element {
-    spacing: 10px;
-    padding: 8px 12px;
-    border-radius: 8px;
-    background-color: transparent;
-    text-color: @fg-col;
-}
-
-element normal.normal {
-    background-color: transparent;
-}
-element alternate.normal {
-    background-color: transparent;
-}
-element selected.normal {
-    background-color: @bg-col-light;
-    text-color: @blue;
-}
-
-element-icon {
-    size: 24px;
-    background-color: transparent;
-}
-
-element-text,
-element-text normal.normal,
-element-text alternate.normal,
-element-text selected.normal,
-element-text normal.active,
-element-text selected.active {
-    background-color: transparent;
-    text-color: inherit;
-    highlight: inherit;
-    markup: true;
-}
+@theme "~/.config/rofi/theme.rasi"

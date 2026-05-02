@@ -2,6 +2,34 @@ return {
     "nvim-neo-tree/neo-tree.nvim",
     branch = "v3.x",
     cmd = "Neotree",
+    init = function()
+        local group = vim.api.nvim_create_augroup("neo_tree_start_directory", { clear = true })
+
+        vim.api.nvim_create_autocmd("VimEnter", {
+            group = group,
+            callback = function()
+                if vim.fn.argc(-1) ~= 1 then
+                    return
+                end
+
+                local arg = vim.fn.argv(0)
+                if arg == "" then
+                    return
+                end
+
+                local dir = vim.fn.fnamemodify(arg, ":p")
+                if vim.fn.isdirectory(dir) ~= 1 then
+                    return
+                end
+
+                vim.cmd("Neotree current dir=" .. vim.fn.fnameescape(dir))
+
+                if vim.bo.filetype == "netrw" then
+                    vim.cmd("bwipeout")
+                end
+            end,
+        })
+    end,
     dependencies = {
         "nvim-lua/plenary.nvim",
         "MunifTanjim/nui.nvim",

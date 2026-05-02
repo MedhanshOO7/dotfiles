@@ -137,6 +137,7 @@ return {
             { "<leader>np", desc = "Markdown preview" },
             { "<leader>nP", desc = "Professional mode" },
             { "<leader>nr", desc = "Recalculate autolist" },
+            { "<leader>ns", desc = "Strikeout text", mode = { "n", "v" } },
             { "<leader>nt", desc = "Twilight" },
             { "<leader>nw", desc = "Writing mode toggle" },
             { "<leader>nz", desc = "Zen Mode" },
@@ -163,6 +164,7 @@ return {
             { "<leader>up", desc = "Prev theme" },
             { "<leader>ut", desc = "Theme picker" },
             { "<leader>uy", desc = "Toggle transparency" },
+            { "<leader>uw", desc = "Toggle text wrap" },
 
             -- Windows and sessions
             { "<leader>wc", desc = "Close window" },

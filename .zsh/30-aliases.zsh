@@ -4,12 +4,12 @@ alias cls='clear'
 alias ff='fastfetch'
 
 # File manager
-alias files="nautilus --no-desktop & disown"
+alias files="nautilus "
 # Clipboard
 alias clip="wl-copy"
 
 # Modern ls (eza)
-alias ls='eza --icons --sort=extension --git --only-files && eza --icons --sort=name --git --only-dirs'
+alias ls='eza --icons --git --group-directories-last'
 alias ll='eza -lah --icons --group-directories-first --git --time-style=long-iso'
 alias la='eza -a'
 alias lt='eza --tree --level=2 --icons --group-directories-first'
@@ -101,4 +101,4 @@ source "${0:A:h}/100-setting.zsh"
 # help to remember all the commands
 alias guide='~/.predatorThings | less -R'
 
-
+alias todo=\"/home/medhansh/.conky/todo/todo.sh\"
