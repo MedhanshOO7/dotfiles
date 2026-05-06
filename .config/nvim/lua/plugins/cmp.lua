@@ -90,6 +90,8 @@ return {
                 end, { "i", "s" }),
             }),
             sources = {
+                { name = "obsidian", priority = 10 },
+                { name = "obsidian_new", priority = 9 },
                 { name = "nvim_lsp" },
                 { name = "nvim_lua" },
                 { name = "luasnip" },

@@ -25,6 +25,7 @@ return {
             { "<leader>m", group = "Molten" },
             { "<leader>M", group = "Multicursor" },
             { "<leader>n", group = "Notes and writing" },
+            { "<leader>o", group = "Obsidian" },
             { "<leader>s", group = "Search and jump" },
             { "<leader>t", group = "Terminal and tasks" },
             { "<leader>u", group = "UI and theme" },
@@ -142,6 +143,17 @@ return {
             { "<leader>nw", desc = "Writing mode toggle" },
             { "<leader>nz", desc = "Zen Mode" },
 
+            -- Obsidian
+            { "<leader>ob", desc = "Show backlinks" },
+            { "<leader>of", desc = "Find notes" },
+            { "<leader>oi", desc = "Paste image" },
+            { "<leader>ol", desc = "Show links", mode = { "n", "v" } },
+            { "<leader>on", desc = "New note", mode = { "n", "v" } },
+            { "<leader>os", desc = "Search notes" },
+            { "<leader>ot", desc = "Today's daily note" },
+            { "<leader>oy", desc = "Yesterday's daily note" },
+            { "<leader>ch", desc = "Toggle checkbox (Obsidian)" },
+
             -- Search and jump
             { "<leader>sr", desc = "Search and replace", mode = { "n", "x" } },
             { "<leader>sB", desc = "Search in current file" },
@@ -162,6 +174,7 @@ return {
             { "<leader>uf", desc = "Toggle auto-format" },
             { "<leader>un", desc = "Next theme" },
             { "<leader>up", desc = "Prev theme" },
+            { "<leader>us", desc = "Toggle spell check" },
             { "<leader>ut", desc = "Theme picker" },
             { "<leader>uy", desc = "Toggle transparency" },
             { "<leader>uw", desc = "Toggle text wrap" },

@@ -27,6 +27,7 @@ return {
                 "eslint_d",
                 "js-debug-adapter",
                 "markdownlint",
+                "marksman",
                 "prettier",
                 "ruff",
                 "shellcheck",

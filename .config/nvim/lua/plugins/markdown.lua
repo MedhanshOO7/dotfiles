@@ -5,7 +5,7 @@ return {
         "nvim-treesitter/nvim-treesitter",
         "nvim-tree/nvim-web-devicons",
     },
-    ft = { "markdown", "norg", "rmd", "org" },
+    event = { "BufReadPre *.md", "BufNewFile *.md" },
     init = function()
         local function resolve_group(groups)
             for _, group in ipairs(groups) do
@@ -68,16 +68,24 @@ return {
                 end
             end
 
-            vim.api.nvim_set_hl(0, "RenderMarkdownCode",       { link = "ColorColumn" })
+            vim.api.nvim_set_hl(0, "RenderMarkdownCode", { link = "ColorColumn" })
             vim.api.nvim_set_hl(0, "RenderMarkdownCodeInline", { link = "Visual" })
 
-            vim.api.nvim_set_hl(0, "RenderMarkdownChecked",   { link = "DiagnosticOk" })
+            vim.api.nvim_set_hl(0, "RenderMarkdownChecked", { link = "DiagnosticOk" })
             vim.api.nvim_set_hl(0, "RenderMarkdownUnchecked", { link = "DiagnosticHint" })
 
-            vim.api.nvim_set_hl(0, "RenderMarkdownBullet",    { link = "Special" })
-            vim.api.nvim_set_hl(0, "RenderMarkdownQuote",     { link = "Comment" })
-            vim.api.nvim_set_hl(0, "RenderMarkdownDash",      { link = "LineNr" })
-            vim.api.nvim_set_hl(0, "RenderMarkdownLink",      { link = "Underlined" })
+            vim.api.nvim_set_hl(0, "RenderMarkdownBullet", { link = "Special" })
+            vim.api.nvim_set_hl(0, "RenderMarkdownQuote", { link = "Comment" })
+            vim.api.nvim_set_hl(0, "RenderMarkdownDash", { link = "LineNr" })
+            vim.api.nvim_set_hl(0, "RenderMarkdownLink", { link = "Underlined" })
+
+            -- Callouts and Checkboxes
+            vim.api.nvim_set_hl(0, "RenderMarkdownTodo", { link = "DiagnosticInfo" })
+            vim.api.nvim_set_hl(0, "RenderMarkdownImportant", { link = "DiagnosticWarn" })
+            vim.api.nvim_set_hl(0, "RenderMarkdownInfo", { link = "DiagnosticInfo" })
+            vim.api.nvim_set_hl(0, "RenderMarkdownSuccess", { link = "DiagnosticOk" })
+            vim.api.nvim_set_hl(0, "RenderMarkdownWarn", { link = "DiagnosticWarn" })
+            vim.api.nvim_set_hl(0, "RenderMarkdownError", { link = "DiagnosticError" })
         end
 
         -- Apply on startup
@@ -92,6 +100,7 @@ return {
     end,
 
     opts = {
+        render_modes = true,
         restart_highlighter = false,
         heading = {
             sign = false,
@@ -104,14 +113,6 @@ return {
                 "Headline5Bg",
                 "Headline6Bg",
             },
-            foregrounds = {
-                "Headline1Fg",
-                "Headline2Fg",
-                "Headline3Fg",
-                "Headline4Fg",
-                "Headline5Fg",
-                "Headline6Fg",
-            },
         },
         code = {
             sign = false,
@@ -121,18 +122,53 @@ return {
         },
         bullet = {
             enabled = true,
+            icons = { "●", "○", "◆", "◇" },
         },
         checkbox = {
             enabled = true,
             unchecked = {
-                icon = "   󰄱 ",
+                icon = "󰄱 ",
                 highlight = "RenderMarkdownUnchecked",
-                scope_highlight = nil,
             },
             checked = {
-                icon = "   󰱒 ",
+                icon = "󰱒 ",
                 highlight = "RenderMarkdownChecked",
-                scope_highlight = nil,
+            },
+            custom = {
+                todo = { raw = "[-]", rendered = "󰥔 ", highlight = "RenderMarkdownTodo" },
+                important = { raw = "[!]", rendered = "󰀦 ", highlight = "RenderMarkdownImportant" },
+            },
+        },
+        callout = {
+            -- Obsidian-style callouts
+            note = { raw = "[!NOTE]", rendered = "󰋽 Note", highlight = "RenderMarkdownInfo" },
+            tip = { raw = "[!TIP]", rendered = "󰌶 Tip", highlight = "RenderMarkdownSuccess" },
+            important = { raw = "[!IMPORTANT]", rendered = "󰅾 Important", highlight = "RenderMarkdownWarn" },
+            warning = { raw = "[!WARNING]", rendered = "󰀦 Warning", highlight = "RenderMarkdownWarn" },
+            caution = { raw = "[!CAUTION]", rendered = "󰳦 Caution", highlight = "RenderMarkdownError" },
+            abstract = { raw = "[!ABSTRACT]", rendered = "󰨸 Abstract", highlight = "RenderMarkdownInfo" },
+            todo = { raw = "[!TODO]", rendered = "󰗡 Todo", highlight = "RenderMarkdownInfo" },
+            success = { raw = "[!SUCCESS]", rendered = "󰄬 Success", highlight = "RenderMarkdownSuccess" },
+            question = { raw = "[!QUESTION]", rendered = "󰘥 Question", highlight = "RenderMarkdownWarn" },
+            failure = { raw = "[!FAILURE]", rendered = "󰅖 Failure", highlight = "RenderMarkdownError" },
+            danger = { raw = "[!DANGER]", rendered = "󱐌 Danger", highlight = "RenderMarkdownError" },
+            bug = { raw = "[!BUG]", rendered = "󰨰 Bug", highlight = "RenderMarkdownError" },
+            example = { raw = "[!EXAMPLE]", rendered = "󰉹 Example", highlight = "RenderMarkdownInfo" },
+            quote = { raw = "[!QUOTE]", rendered = "󱆧 Quote", highlight = "RenderMarkdownQuote" },
+        },
+        pipe_table = {
+            enabled = true,
+            preset = "round",
+            alignment_indicator = "━",
+        },
+        win_options = {
+            conceallevel = {
+                default = vim.api.nvim_get_option_value("conceallevel", {}),
+                rendered = 2,
+            },
+            concealcursor = {
+                default = vim.api.nvim_get_option_value("concealcursor", {}),
+                rendered = "nv",
             },
         },
     },

@@ -31,6 +31,7 @@ end
 vim.opt.runtimepath:append(vim.fn.stdpath("data") .. "/site")
 
 require("core.options")
+require("core.autocmds")
 require("core.lazy")
 require("utils.theme").setup()
 require("core.keymaps")

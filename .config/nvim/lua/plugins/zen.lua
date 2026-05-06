@@ -1,22 +1,23 @@
 return {
     "folke/zen-mode.nvim",
     cmd = "ZenMode",
-    config = function()
-        require("zen-mode").setup({
-            window = {
-                width = 1,
-                options = {
-                    number = false,
-                    relativenumber = false,
-                },
+    opts = {
+        window = {
+            backdrop = 0, -- Keep the background transparent
+            width = 95,
+            options = {
+                signcolumn = "no",
+                number = true,
+                relativenumber = true,
+                colorcolumn = "",
             },
-            plugins = {
-                options = {
-                    enabled = true,
-                    ruler = false,
-                    showcmd = false,
-                },
+        },
+        plugins = {
+            options = {
+                enabled = true,
+                laststatus = 0,
             },
-        })
-    end,
+            twilight = { enabled = false }, -- Disable Twilight by default in ZenMode
+        },
+    },
 }

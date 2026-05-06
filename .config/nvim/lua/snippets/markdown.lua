@@ -12,4 +12,22 @@ ls.add_snippets("markdown", {
 		i(2, "title"), -- second jump
 		t({ "'", "", "```" }),
 	}),
+
+    -- Callouts
+    s("note", {
+        t({ "> [!NOTE]", "> " }),
+        i(1),
+    }),
+    s("tip", {
+        t({ "> [!TIP]", "> " }),
+        i(1),
+    }),
+    s("warn", {
+        t({ "> [!WARNING]", "> " }),
+        i(1),
+    }),
+    s("todo", {
+        t({ "> [!TODO]", "> " }),
+        i(1),
+    }),
 })
