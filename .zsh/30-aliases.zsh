@@ -9,7 +9,7 @@ alias files="nautilus "
 alias clip="wl-copy"
 
 # Modern ls (eza)
-alias ls='eza --icons --git --group-directories-last'
+# alias for `ls` is defined in the tools one
 alias ll='eza -lah --icons --group-directories-first --git --time-style=long-iso'
 alias la='eza -a'
 alias lt='eza --tree --level=2 --icons --group-directories-first'

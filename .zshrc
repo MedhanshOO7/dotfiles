@@ -42,3 +42,5 @@ export PATH="$PATH:/home/medhansh/.lmstudio/bin"
 
 export PATH="$HOME/.local/bin:$PATH"
 [[ -f ~/.p10k-colors.zsh ]] && source ~/.p10k-colors.zsh
+export CLAUDE_CODE_USE_BEDROCK=1
+export AWS_REGION=us-east-1

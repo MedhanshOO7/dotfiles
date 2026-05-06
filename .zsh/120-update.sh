@@ -24,6 +24,8 @@ _U_TOTAL=0
 _U_FIFO=""
 _U_ZENITY_PID=""
 _U_FAILED_OPTIONAL=()
+_U_GUI_FD_OPEN=0       # FIX #6: track whether fd 4 is open
+_U_SUDO_BG_PID=""      # FIX #8: background sudo keepalive pid
 
 # ═══════════════════════════════════════════════════════════════
 # Core logging — single implementation, mode-aware
@@ -64,7 +66,7 @@ _u_log() {
             ;;
     esac
 
-    # ── Terminal output (unchanged behavior)
+    # ── Terminal output
     case "$severity" in
         info) echo "  → $title: $body" ;;
         warn) echo "  ⚠ $title: $body" >&2 ;;
@@ -86,13 +88,15 @@ _u_log() {
             "$formatted_body"
     fi
 
-    # ── Zenity progress (unchanged)
-    if [[ "$_U_MODE" == "gui" && -n "$_U_FIFO" && "$_U_TOTAL" -gt 0 ]]; then
+    # ── Zenity progress
+    # FIX #6: only write to fd 4 if it was successfully opened
+    if [[ "$_U_MODE" == "gui" && "$_U_GUI_FD_OPEN" == "1" && "$_U_TOTAL" -gt 0 ]]; then
         local pct=$(( _U_STEP * 100 / _U_TOTAL ))
         (( pct > 99 )) && pct=99
-        printf '%s\n# %s\n' "$pct" "$title: $body" > "$_U_FIFO"
+        printf '%s\n# %s\n' "$pct" "$title: $body" >&4
     fi
 }
+
 # ═══════════════════════════════════════════════════════════════
 # Step runner — wraps a command with logging + error handling
 #
@@ -104,7 +108,6 @@ _u_step() {
     local title="$1";    shift
     local body_ok="$1";  shift
     local body_fail="$1"; shift
-    # consume "--"
     [[ "$1" == "--" ]] && shift
 
     (( _U_STEP++ ))
@@ -122,7 +125,7 @@ _u_step() {
         else
             _u_log warn 0 "$title failed" "$body_fail — continuing."
             _U_FAILED_OPTIONAL+=("$title")
-            return 0   # non-critical: don't abort
+            return 0
         fi
     fi
 }
@@ -131,20 +134,32 @@ _u_step() {
 # Hooks (pre/post — user-overridable)
 # ═══════════════════════════════════════════════════════════════
 
-update_pre_hook()  { :; }   # override in ~/.config/update.conf
+update_pre_hook() { :; }   # override in ~/.config/update.conf
 
+# FIX #3: added sudo to make install
+# FIX #4: each sub-step returns a distinct non-zero code so callers can tell
+#          which phase failed; wrapper in _u_core reports it properly
 update_post_hook() {
     local repo_dir="$HOME/.local/src/Linuwu-Sense"
 
     echo "  → Linuwu-Sense: Sync + install"
 
     if [[ -d "$repo_dir/.git" ]]; then
-        git -C "$repo_dir" pull || return 1
+        if ! git -C "$repo_dir" pull; then
+            echo "  ✗ Linuwu-Sense: git pull failed" >&2
+            return 1
+        fi
     else
-        git clone https://github.com/0x7375646F/Linuwu-Sense.git "$repo_dir" || return 1
+        if ! git clone https://github.com/0x7375646F/Linuwu-Sense.git "$repo_dir"; then
+            echo "  ✗ Linuwu-Sense: git clone failed" >&2
+            return 2
+        fi
     fi
 
-    make -C "$repo_dir" install || return 1
+    if ! sudo make -C "$repo_dir" install; then      # FIX #3: sudo added
+        echo "  ✗ Linuwu-Sense: make install failed" >&2
+        return 3
+    fi
 }
 
 _u_snapshot() {
@@ -175,17 +190,39 @@ _u_auth() {
             _u_log warn 0 "Cancelled" "No password provided."
             return 1
         }
-        # validate + cache — never store the variable beyond this scope
         if ! echo "$pass" | sudo -S -v 2>/dev/null; then
             zenity --error --title="Authentication Failed" \
                 --text="Incorrect password. Update aborted." --width=320 2>/dev/null
             _u_log err 1 "Auth failed" "Incorrect password."
+            unset pass
             return 1
         fi
         unset pass
     else
-        # CLI: just refresh ticket, prompt natively if needed
         sudo -v || { echo "Authentication failed."; return 1; }
+    fi
+
+    # FIX #8: keep sudo ticket alive in the background for the full run
+    _u_sudo_keepalive_start
+}
+
+# ── FIX #8: sudo keepalive helpers ──────────────────────────────
+
+_u_sudo_keepalive_start() {
+    (
+        while true; do
+            sudo -n -v 2>/dev/null
+            sleep 60
+        done
+    ) &
+    _U_SUDO_BG_PID=$!
+}
+
+_u_sudo_keepalive_stop() {
+    if [[ -n "$_U_SUDO_BG_PID" ]]; then
+        kill "$_U_SUDO_BG_PID" 2>/dev/null
+        wait "$_U_SUDO_BG_PID" 2>/dev/null
+        _U_SUDO_BG_PID=""
     fi
 }
 
@@ -197,6 +234,10 @@ _u_gui_start() {
     _U_FIFO=$(mktemp -u /tmp/update_progress.XXXXXX)
     mkfifo "$_U_FIFO"
 
+    # FIX #5: open the write end BEFORE launching zenity so it never sees EOF
+    exec 4>"$_U_FIFO"
+    _U_GUI_FD_OPEN=1
+
     zenity --progress \
         --title="System Update" \
         --text="Initializing..." \
@@ -206,14 +247,12 @@ _u_gui_start() {
         --auto-close \
         --no-cancel < "$_U_FIFO" 2>/dev/null &
     _U_ZENITY_PID=$!
-
-    # Keep fifo open (prevents EOF closing zenity prematurely)
-    exec 4>"$_U_FIFO"
 }
 
 _u_gui_finish() {
     printf '100\n# Done!\n' >&4
     exec 4>&-
+    _U_GUI_FD_OPEN=0
     rm -f "$_U_FIFO"
     wait "$_U_ZENITY_PID" 2>/dev/null
 
@@ -230,10 +269,13 @@ _u_gui_finish() {
 }
 
 _u_cleanup() {
-    # Called on critical failure — close GUI gracefully
-    if [[ "$_U_MODE" == "gui" && -n "$_U_ZENITY_PID" ]]; then
+    _u_sudo_keepalive_stop   # FIX #8
+
+    # FIX #6: only close fd 4 and signal zenity if the GUI fd was actually opened
+    if [[ "$_U_MODE" == "gui" && "$_U_GUI_FD_OPEN" == "1" ]]; then
         printf '100\n# Update failed.\n' >&4 2>/dev/null
-        exec 4>&- 2>/dev/null
+        exec 4>&-
+        _U_GUI_FD_OPEN=0
         rm -f "$_U_FIFO"
         wait "$_U_ZENITY_PID" 2>/dev/null
         zenity --error \
@@ -248,22 +290,24 @@ _u_cleanup() {
 # ═══════════════════════════════════════════════════════════════
 
 _u_core() {
-    local pacman_flags=( -S --noconfirm )
+    # FIX #1: replaced &&...|| anti-pattern with a proper if/else
+    local pacman_flags=( -S )
     local syu_flags=( -Syu )
-    [[ "$UPDATE_CONFIRM" == "1" ]] && {
-        pacman_flags=( -S )
-        syu_flags=( -Syu )
-    } || {
-        pacman_flags+=()
+    if [[ "$UPDATE_CONFIRM" != "1" ]]; then
+        pacman_flags+=( --noconfirm )
         syu_flags+=( --noconfirm )
-    }
+    fi
 
-    # Count total steps for progress (static analysis)
-    _U_TOTAL=3   # keyring + pacman + summary always run
-    command -v reflector        &>/dev/null && (( _U_TOTAL++ ))
-    command -v "$UPDATE_AUR_TOOL" &>/dev/null && (( _U_TOTAL += 3 ))  # upgrade + orphans + cache
-    [[ "$UPDATE_NPM" == "1" ]] && command -v npm &>/dev/null && (( _U_TOTAL++ ))
+    # FIX #7: count steps accurately
+    # Base steps: keyring + pacman + summary = 3
+    _U_TOTAL=3
     [[ "$UPDATE_SNAPSHOT" == "1" ]] && (( _U_TOTAL++ ))
+    command -v reflector              &>/dev/null && (( _U_TOTAL++ ))
+    if command -v "$UPDATE_AUR_TOOL"  &>/dev/null; then
+        (( _U_TOTAL += 3 ))   # upgrade + orphans + cache
+    fi
+    [[ "$UPDATE_NPM" == "1" ]] && command -v npm &>/dev/null && (( _U_TOTAL++ ))
+    (( _U_TOTAL++ ))   # post-hook always runs (counted as one step)
 
     # ── Pre-hook & snapshot ──────────────────────────────────
     update_pre_hook
@@ -274,7 +318,7 @@ _u_core() {
         sudo pacman "${pacman_flags[@]}" archlinux-keyring \
         || return 1
 
-    # ── Mirrors [NON-CRITICAL but loud on failure] ───────────
+    # ── Mirrors [NON-CRITICAL] ───────────────────────────────
     if command -v reflector &>/dev/null; then
         _u_step 0 "Mirrors" "Updated via reflector" \
             "reflector failed — update quality may be reduced" -- \
@@ -282,7 +326,7 @@ _u_core() {
                 --country "$UPDATE_COUNTRY" \
                 --latest 20 --fastest 5 --sort rate \
                 --save /etc/pacman.d/mirrorlist
-        # loud extra warning if mirrors failed
+
         if [[ " ${_U_FAILED_OPTIONAL[*]} " == *"Mirrors"* ]]; then
             _u_log warn 0 "Mirrors" "Proceeding with potentially stale mirrors — update may be slower or fetch older packages."
         fi
@@ -293,7 +337,7 @@ _u_core() {
         sudo pacman "${syu_flags[@]}" \
         || return 1
 
-    # ── AUR [NON-CRITICAL but warn loudly] ──────────────────
+    # ── AUR [NON-CRITICAL] ──────────────────────────────────
     if command -v "$UPDATE_AUR_TOOL" &>/dev/null; then
         _u_step 0 "AUR upgrade" "AUR packages updated" \
             "AUR upgrade failed — system may be partially updated" -- \
@@ -316,8 +360,15 @@ _u_core() {
             sudo npm update -g
     fi
 
-    # ── Post-hook ────────────────────────────────────────────
-    update_post_hook
+    # ── Post-hook [NON-CRITICAL] ─────────────────────────────
+    # FIX #2: now wrapped in _u_step so failures are caught and reported
+    _u_step 0 "Linuwu-Sense" "Synced and installed" \
+        "clone/build failed — check output above" -- \
+        update_post_hook
+
+    if [[ " ${_U_FAILED_OPTIONAL[*]} " == *"Linuwu-Sense"* ]]; then
+        _u_log warn 0 "Linuwu-Sense" "Run 'update_post_hook' manually to retry."
+    fi
 
     # ── Summary ──────────────────────────────────────────────
     (( _U_STEP++ ))
@@ -327,6 +378,8 @@ _u_core() {
     else
         _u_log ok 0 "System fully updated" "All steps succeeded."
     fi
+
+    _u_sudo_keepalive_stop   # FIX #8: clean up keepalive on success too
 }
 
 # ═══════════════════════════════════════════════════════════════
@@ -337,6 +390,7 @@ update() {
     _U_MODE="cli"
     _U_STEP=0
     _U_FAILED_OPTIONAL=()
+    _U_GUI_FD_OPEN=0
 
     echo "=== System Update ==="
     _u_auth || return 1
@@ -347,8 +401,9 @@ updateG() {
     _U_MODE="gui"
     _U_STEP=0
     _U_FAILED_OPTIONAL=()
+    _U_GUI_FD_OPEN=0
 
-    _u_auth  || return 1
+    _u_auth      || return 1
     _u_gui_start
     _u_core
     _u_gui_finish

@@ -3,6 +3,15 @@ mkcd() {
     command mkdir "$1" && cd "$1"
 }
 
+unalias ls
+ls() {
+    local target="${@:-.}"
+
+    eza --color=always --icons --git --sort=name --only-files $target
+    echo
+    eza --color=always --icons --git --sort=name --only-dirs $target
+}
+
 +c() {
     command git add -u && git commit -m "$@"
 }
@@ -10,7 +19,7 @@ search() {
     brave --new-tab "https://duckduckgo.com/?q=$(printf "%s" "$*" | sed 's/ /+/g')"
 }
 # UPGRADE SCRIPT
-source  /home/medhansh/.zsh/120-update.sh
+source /home/medhansh/.zsh/120-update.sh
 #
 +S() {
     if pacman -Si "$1" &>/dev/null; then

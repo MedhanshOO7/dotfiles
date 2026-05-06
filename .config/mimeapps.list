@@ -123,3 +123,4 @@ image/webp=org.kde.gwenview.desktop
 image/svg+xml=org.kde.gwenview.desktop
 image/bmp=org.kde.gwenview.desktop
 image/tiff=org.kde.gwenview.desktop
+x-scheme-handler/claude-cli=claude-code-url-handler.desktop
