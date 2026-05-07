@@ -21,6 +21,7 @@ return {
             { "<leader>f", group = "Find" },
             { "<leader>g", group = "Git" },
             { "<leader>h", group = "Harpoon" },
+            { "<leader>hv", group = "Helpview" },
             { "<leader>l", group = "LSP" },
             { "<leader>m", group = "Molten" },
             { "<leader>M", group = "Multicursor" },

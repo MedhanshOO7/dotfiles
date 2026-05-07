@@ -58,10 +58,9 @@ open_config() {
 }
 
 source_config() {
-    echo "Sourcing......."
+    echo "Sourcing.......\n"
     source ~/.zshrc
     zle reset-prompt
-    echo "Sourced again\n"
 }
 
 # Regesting the widgets

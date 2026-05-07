@@ -3,7 +3,6 @@ export ZSH="$HOME/.oh-my-zsh"
 export PATH="$(npm config get prefix)/bin:$PATH"
 alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 
-
 # man page colors (Catppuccin Frappe)
 export LESS_TERMCAP_mb=$'\e[1;31m'
 export LESS_TERMCAP_md=$'\e[1;38;5;111m'
@@ -13,6 +12,8 @@ export LESS_TERMCAP_so=$'\e[48;5;60;38;5;223m'
 export LESS_TERMCAP_ue=$'\e[0m'
 export LESS_TERMCAP_us=$'\e[38;5;150m'
 export MANPAGER='nvim +Man!'
+export PAGER='nvim'
+export GROFF_NO_SGR=1
 
 # FZF
 export FZF_DEFAULT_OPTS=$'
@@ -25,7 +26,7 @@ export FZF_DEFAULT_OPTS=$'
 --padding=2%
 --border=rounded
 --preview-window=right:60%:wrap
---preview=\'
+--preview=\':Man printf
 # --- enhanced preview (static colors, dynamic content) ---
 printf "\033_Ga=d,d=A\033\\\\" 2>/dev/null
 
