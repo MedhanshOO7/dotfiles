@@ -4,7 +4,7 @@ alias cls='clear'
 alias ff='fastfetch'
 
 # File manager
-alias files="nautilus "
+alias files="nautilus > /dev/null 2>&1 & disown"
 # Clipboard
 alias clip="wl-copy"
 

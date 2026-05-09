@@ -1,19 +1,10 @@
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-    source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
-
 # ~/.zshrc
 #
-# 1. Start Instant Prompt IMMEDIATELY
-# if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-#   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-# fi
+# 1. Define Directory dynamically
+ZSH_MOD_DIR="${ZDOTDIR:-$HOME}/.zsh"
 
-# 2. Define Directory
-ZSH_MOD_DIR="$HOME/.zsh"
+# 2. Disable Oh My Zsh auto-updates (prevents console output)
+DISABLE_AUTO_UPDATE="true"
 
 # 3. Load modules in order
 # Removed 10-instant from the loop because it's already handled above
@@ -33,14 +24,20 @@ eval "$(fzf --zsh)"
 zstyle ':completion:*' menu no
 zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza --icons $realpath'
 
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-
 # Added by LM Studio CLI (lms)
 export PATH="$PATH:/home/medhansh/.lmstudio/bin"
 # End of LM Studio CLI section
 
 export PATH="$HOME/.local/bin:$PATH"
-[[ -f ~/.p10k-colors.zsh ]] && source ~/.p10k-colors.zsh
+[[ -f "${ZDOTDIR:-$HOME}/.p10k-colors.zsh" ]] && source "${ZDOTDIR:-$HOME}/.p10k-colors.zsh"
 export CLAUDE_CODE_USE_BEDROCK=1
 export AWS_REGION=us-east-1
+
+# Hyprland dots configuration
+source ~/.config/zshrc.d/dots-hyprland.zsh
+xport AWS_REGION=us-east-1
+
+# Hyprland dots configuration
+source ~/.config/zshrc.d/dots-hyprland.zsh
+figuration
+source ~/.config/zshrc.d/dots-hyprland.zsh

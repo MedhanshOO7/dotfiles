@@ -3,23 +3,19 @@ mkcd() {
     command mkdir "$1" && cd "$1"
 }
 
-unalias ls
+unalias ls 2>/dev/null
 ls() {
-    local target="${@:-.}"
-
-    eza --color=always --icons --git --sort=name --only-files $target
-    echo
-    eza --color=always --icons --git --sort=name --only-dirs $target
+    eza --color=always --icons --git --group-directories-first "$@"
 }
 
 +c() {
     command git add -u && git commit -m "$@"
 }
 search() {
-    brave --new-tab "https://duckduckgo.com/?q=$(printf "%s" "$*" | sed 's/ /+/g')"
+    brave --new-tab "https://duckduckgo.com/?q=$(printf "%s" "$*" | sed 's/ /+/g')" > /dev/null 2>&1 &
 }
-# UPGRADE SCRIPT
-source /home/medhansh/.zsh/120-update.sh
+# UPGRADE SCRIPT - Using variable for portability
+source "$ZSH_MOD_DIR/120-update.sh"
 #
 +S() {
     if pacman -Si "$1" &>/dev/null; then

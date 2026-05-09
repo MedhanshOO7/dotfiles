@@ -1,6 +1,6 @@
 # Core environment
 export ZSH="$HOME/.oh-my-zsh"
-export PATH="$(npm config get prefix)/bin:$PATH"
+# Redundant npm path removed (already in PATH)
 alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 
 # man page colors (Catppuccin Frappe)

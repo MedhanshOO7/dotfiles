@@ -1,1 +1,3 @@
-[[ -f ~/.p10k.zsh ]] && source ~/.p10k.zsh
+# Starship Prompt Initialization
+eval "$(starship init zsh)"
+
