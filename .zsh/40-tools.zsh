@@ -15,7 +15,6 @@ search() {
     brave --new-tab "https://duckduckgo.com/?q=$(printf "%s" "$*" | sed 's/ /+/g')" > /dev/null 2>&1 &
 }
 # UPGRADE SCRIPT - Using variable for portability
-source "$ZSH_MOD_DIR/120-update.sh"
 #
 +S() {
     if pacman -Si "$1" &>/dev/null; then

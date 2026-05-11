@@ -1,3 +1,5 @@
+MenuBar=Disabled
+
 [DetailsMode]
 PreviewSize=32
 
@@ -8,6 +10,7 @@ ShowStatusBar=FullWidth
 Version=202
 
 [IconsMode]
+IconSize=64
 PreviewSize=80
 
 [KFileDialog Settings]

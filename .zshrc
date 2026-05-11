@@ -32,12 +32,7 @@ export PATH="$HOME/.local/bin:$PATH"
 [[ -f "${ZDOTDIR:-$HOME}/.p10k-colors.zsh" ]] && source "${ZDOTDIR:-$HOME}/.p10k-colors.zsh"
 export CLAUDE_CODE_USE_BEDROCK=1
 export AWS_REGION=us-east-1
-
 # Hyprland dots configuration
 source ~/.config/zshrc.d/dots-hyprland.zsh
-xport AWS_REGION=us-east-1
 
-# Hyprland dots configuration
-source ~/.config/zshrc.d/dots-hyprland.zsh
-figuration
-source ~/.config/zshrc.d/dots-hyprland.zsh
+export AWS_REGION=us-east-1

@@ -1,13 +1,26 @@
+#!/usr/bin/env bash
 # ═══════════════════════════════════════════════════════════════
 # update.sh — Arch system updater (CLI + GUI)
+#
+# Install:
+#   chmod +x ~/.local/bin/update.sh
+#
+# Add to ~/.zshrc / ~/.bashrc:
+#
+# Never source this file — run it directly.
 # ═══════════════════════════════════════════════════════════════
 
 # ── Configuration (override in ~/.config/update.conf) ──────────
 UPDATE_COUNTRY="${UPDATE_COUNTRY:-India}"
 UPDATE_CONFIRM="${UPDATE_CONFIRM:-0}"          # 0 = --noconfirm
 UPDATE_AUR_TOOL="${UPDATE_AUR_TOOL:-yay}"
-UPDATE_SNAPSHOT="${UPDATE_SNAPSHOT:-0}"        # 1 = attempt snapper
+UPDATE_SNAPSHOT="${UPDATE_SNAPSHOT:-0}"        # 1 = attempt snapper/timeshift
 UPDATE_NPM="${UPDATE_NPM:-1}"
+UPDATE_PIP="${UPDATE_PIP:-0}"                  # NEW: 1 = pip list --outdated upgrade
+UPDATE_CARGO="${UPDATE_CARGO:-0}"             # NEW: 1 = cargo install-update -a
+UPDATE_LOG="${UPDATE_LOG:-1}"                  # NEW: 1 = write log to file
+UPDATE_LOG_DIR="${UPDATE_LOG_DIR:-$HOME/.local/share/update-logs}"
+UPDATE_DRY_RUN="${UPDATE_DRY_RUN:-0}"         # NEW: 1 = print steps, run nothing
 
 [[ -f ~/.config/update.conf ]] && source ~/.config/update.conf
 
@@ -18,17 +31,18 @@ readonly _U_ICON_ERR="dialog-error"
 readonly _U_ICON_WARN="dialog-warning"
 
 # ── Runtime state ───────────────────────────────────────────────
-_U_MODE="cli"          # cli | gui
+_U_MODE="cli"
 _U_STEP=0
 _U_TOTAL=0
 _U_FIFO=""
 _U_ZENITY_PID=""
 _U_FAILED_OPTIONAL=()
-_U_GUI_FD_OPEN=0       # FIX #6: track whether fd 4 is open
-_U_SUDO_BG_PID=""      # FIX #8: background sudo keepalive pid
+_U_GUI_FD_OPEN=0
+_U_SUDO_BG_PID=""
+_U_LOG_FILE=""           # NEW: active log path for this run
 
 # ═══════════════════════════════════════════════════════════════
-# Core logging — single implementation, mode-aware
+# Logging — mode-aware (terminal + notify-send + zenity + file)
 # ═══════════════════════════════════════════════════════════════
 
 _u_log() {
@@ -37,47 +51,39 @@ _u_log() {
     local title="$3"
     local body="$4"
 
-    local urgency icon timeout emoji formatted_body
+    local urgency icon timeout emoji
 
     case "$severity" in
-        info)
-            urgency="low"
-            icon="software-update-available"
-            timeout=2000
-            emoji="→"
-            ;;
-        warn)
-            urgency="normal"
-            icon="dialog-warning"
-            timeout=5000
-            emoji="⚠"
-            ;;
-        ok)
-            urgency="low"
-            icon="software-update-available"
-            timeout=2000
-            emoji="✓"
-            ;;
-        err)
-            urgency="critical"
-            icon="dialog-error"
-            timeout=0
-            emoji="✗"
-            ;;
+        info) urgency="low";      icon="$_U_ICON_INFO"; timeout=2000; emoji="→" ;;
+        warn) urgency="normal";   icon="$_U_ICON_WARN"; timeout=5000; emoji="⚠" ;;
+        ok)   urgency="low";      icon="$_U_ICON_OK";   timeout=2000; emoji="✓" ;;
+        err)  urgency="critical"; icon="$_U_ICON_ERR";  timeout=0;    emoji="✗" ;;
     esac
 
-    # ── Terminal output
+    # ── Terminal output ──────────────────────────────────────
+    local line
     case "$severity" in
-        info) echo "  → $title: $body" ;;
-        warn) echo "  ⚠ $title: $body" >&2 ;;
-        ok)   echo "  ✓ $title" ;;
-        err)  echo "  ✗ $title: $body" >&2 ;;
+        info) line="  → $title: $body" ;;
+        warn) line="  ⚠ $title: $body" ;;
+        ok)   line="  ✓ $title: $body" ;;
+        err)  line="  ✗ $title: $body" ;;
     esac
 
-    # ── Format body (rich style)
-    formatted_body="<b>$emoji $body</b>"
+    if [[ "$severity" == "warn" || "$severity" == "err" ]]; then
+        echo "$line" >&2
+    else
+        echo "$line"
+    fi
 
-    # ── GUI notification
+    # ── File log ────────────────────────────────────────────
+    # NEW: write timestamped log if enabled and log file is set
+    if [[ "$UPDATE_LOG" == "1" && -n "$_U_LOG_FILE" ]]; then
+        printf '[%s] [%-4s] %s: %s\n' \
+            "$(date '+%H:%M:%S')" "${severity^^}" "$title" "$body" \
+            >> "$_U_LOG_FILE"
+    fi
+
+    # ── Desktop notification ─────────────────────────────────
     if [[ "$_U_MODE" == "gui" ]]; then
         notify-send \
             -u "$urgency" \
@@ -85,11 +91,11 @@ _u_log() {
             -a "System Update" \
             -t "$timeout" \
             "$title" \
-            "$formatted_body"
+            "<b>$emoji $body</b>"
     fi
 
-    # ── Zenity progress
-    # FIX #6: only write to fd 4 if it was successfully opened
+    # ── Zenity progress bar ──────────────────────────────────
+    # Only write if fd 4 is actually open AND we have a valid total
     if [[ "$_U_MODE" == "gui" && "$_U_GUI_FD_OPEN" == "1" && "$_U_TOTAL" -gt 0 ]]; then
         local pct=$(( _U_STEP * 100 / _U_TOTAL ))
         (( pct > 99 )) && pct=99
@@ -98,7 +104,7 @@ _u_log() {
 }
 
 # ═══════════════════════════════════════════════════════════════
-# Step runner — wraps a command with logging + error handling
+# Step runner
 #
 # Usage: _u_step <critical:0|1> <title> <body_ok> <body_fail> -- cmd args...
 # ═══════════════════════════════════════════════════════════════
@@ -111,6 +117,13 @@ _u_step() {
     [[ "$1" == "--" ]] && shift
 
     (( _U_STEP++ ))
+
+    # NEW: dry-run mode — print what would run and return success
+    if [[ "$UPDATE_DRY_RUN" == "1" ]]; then
+        _u_log info "$critical" "[DRY-RUN] $title" "would run: $*"
+        return 0
+    fi
+
     _u_log info "$critical" "$title" "..."
 
     if "$@"; then
@@ -119,11 +132,11 @@ _u_step() {
     else
         local rc=$?
         if [[ "$critical" == "1" ]]; then
-            _u_log err 1 "$title failed" "$body_fail (exit $rc)"
+            _u_log err 1 "$title" "$body_fail (exit $rc)"
             _u_cleanup
             return 1
         else
-            _u_log warn 0 "$title failed" "$body_fail — continuing."
+            _u_log warn 0 "$title" "$body_fail — continuing."
             _U_FAILED_OPTIONAL+=("$title")
             return 0
         fi
@@ -131,14 +144,11 @@ _u_step() {
 }
 
 # ═══════════════════════════════════════════════════════════════
-# Hooks (pre/post — user-overridable)
+# Hooks (user-overridable in ~/.config/update.conf)
 # ═══════════════════════════════════════════════════════════════
 
-update_pre_hook() { :; }   # override in ~/.config/update.conf
+update_pre_hook()  { :; }
 
-# FIX #3: added sudo to make install
-# FIX #4: each sub-step returns a distinct non-zero code so callers can tell
-#          which phase failed; wrapper in _u_core reports it properly
 update_post_hook() {
     local repo_dir="$HOME/.local/src/Linuwu-Sense"
 
@@ -156,33 +166,42 @@ update_post_hook() {
         fi
     fi
 
-    if ! sudo make -C "$repo_dir" install; then      # FIX #3: sudo added
+    if ! sudo make -C "$repo_dir" install; then
         echo "  ✗ Linuwu-Sense: make install failed" >&2
         return 3
     fi
 }
 
+# ═══════════════════════════════════════════════════════════════
+# Snapshot helper
+# ═══════════════════════════════════════════════════════════════
+
 _u_snapshot() {
-    if [[ "$UPDATE_SNAPSHOT" == "1" ]]; then
-        if command -v snapper &>/dev/null; then
-            _u_step 0 "Snapshot" "Pre-update snapshot created" \
-                "snapper failed — continuing without snapshot" -- \
-                sudo snapper -c root create --description "pre-update" --cleanup-algorithm number
-        elif command -v timeshift &>/dev/null; then
-            _u_step 0 "Snapshot" "Timeshift snapshot created" \
-                "timeshift failed — continuing without snapshot" -- \
-                sudo timeshift --create --comments "pre-update" --scripted
-        else
-            _u_log warn 0 "Snapshot" "No snapper/timeshift found — skipping."
-        fi
+    [[ "$UPDATE_SNAPSHOT" != "1" ]] && return 0
+
+    if command -v snapper &>/dev/null; then
+        _u_step 0 "Snapshot" "Pre-update snapshot created" \
+            "snapper failed — continuing without snapshot" -- \
+            sudo snapper -c root create --description "pre-update" --cleanup-algorithm number
+    elif command -v timeshift &>/dev/null; then
+        _u_step 0 "Snapshot" "Timeshift snapshot created" \
+            "timeshift failed — continuing without snapshot" -- \
+            sudo timeshift --create --comments "pre-update" --scripted
+    else
+        _u_log warn 0 "Snapshot" "No snapper/timeshift found — skipping."
     fi
 }
 
 # ═══════════════════════════════════════════════════════════════
-# Auth — single point, both modes
+# Auth — single point for both modes
 # ═══════════════════════════════════════════════════════════════
 
 _u_auth() {
+    if [[ "$UPDATE_DRY_RUN" == "1" ]]; then
+        _u_log info 0 "Auth" "Dry-run: skipping authentication."
+        return 0
+    fi
+
     if [[ "$_U_MODE" == "gui" ]]; then
         local pass
         pass=$(zenity --password --title="System Update — Authentication" --width=340 2>/dev/null)
@@ -190,10 +209,12 @@ _u_auth() {
             _u_log warn 0 "Cancelled" "No password provided."
             return 1
         }
-        if ! echo "$pass" | sudo -S -v 2>/dev/null; then
+
+        # FIX: use 'sudo -S true' — more portable than -S -v for stdin auth
+        if ! echo "$pass" | sudo -S true 2>/dev/null; then
             zenity --error --title="Authentication Failed" \
                 --text="Incorrect password. Update aborted." --width=320 2>/dev/null
-            _u_log err 1 "Auth failed" "Incorrect password."
+            _u_log err 1 "Auth" "Incorrect password."
             unset pass
             return 1
         fi
@@ -202,24 +223,18 @@ _u_auth() {
         sudo -v || { echo "Authentication failed."; return 1; }
     fi
 
-    # FIX #8: keep sudo ticket alive in the background for the full run
     _u_sudo_keepalive_start
 }
 
-# ── FIX #8: sudo keepalive helpers ──────────────────────────────
+# ── sudo keepalive ───────────────────────────────────────────────
 
 _u_sudo_keepalive_start() {
-    (
-        while true; do
-            sudo -n -v 2>/dev/null
-            sleep 60
-        done
-    ) &
+    ( while true; do sudo -n -v 2>/dev/null; sleep 60; done ) &
     _U_SUDO_BG_PID=$!
 }
 
 _u_sudo_keepalive_stop() {
-    if [[ -n "$_U_SUDO_BG_PID" ]]; then
+    if [[ -n "${_U_SUDO_BG_PID:-}" ]]; then
         kill "$_U_SUDO_BG_PID" 2>/dev/null
         wait "$_U_SUDO_BG_PID" 2>/dev/null
         _U_SUDO_BG_PID=""
@@ -234,16 +249,18 @@ _u_gui_start() {
     _U_FIFO=$(mktemp -u /tmp/update_progress.XXXXXX)
     mkfifo "$_U_FIFO"
 
-    # FIX #5: open the write end BEFORE launching zenity so it never sees EOF
+    # Open the write-end BEFORE launching zenity so it never sees a premature EOF.
     exec 4>"$_U_FIFO"
     _U_GUI_FD_OPEN=1
 
+    # FIX: removed --pulsate so real percentages are shown.
+    # --pulsate ignores all percentage input and conflicts with --auto-close
+    # when used with real progress updates.
     zenity --progress \
         --title="System Update" \
         --text="Initializing..." \
         --percentage=0 \
         --width=480 \
-        --pulsate \
         --auto-close \
         --no-cancel < "$_U_FIFO" 2>/dev/null &
     _U_ZENITY_PID=$!
@@ -261,17 +278,19 @@ _u_gui_finish() {
         summary+=$'\n\nNon-critical failures:\n'
         summary+="$(printf '  • %s\n' "${_U_FAILED_OPTIONAL[@]}")"
     fi
+    [[ -n "$_U_LOG_FILE" ]] && summary+=$"\n\nLog saved to:\n$_U_LOG_FILE"
 
+    # FIX: do NOT background this — wait so the dialog is actually shown
     zenity --info \
         --title="System Update" \
         --text="<b>Done!</b>\n\n$summary" \
-        --width=360 2>/dev/null &
+        --width=360 2>/dev/null
 }
 
 _u_cleanup() {
-    _u_sudo_keepalive_stop   # FIX #8
+    _u_sudo_keepalive_stop
 
-    # FIX #6: only close fd 4 and signal zenity if the GUI fd was actually opened
+    # FIX: only touch fd 4 / zenity if the GUI fd was actually opened
     if [[ "$_U_MODE" == "gui" && "$_U_GUI_FD_OPEN" == "1" ]]; then
         printf '100\n# Update failed.\n' >&4 2>/dev/null
         exec 4>&-
@@ -281,16 +300,55 @@ _u_cleanup() {
         zenity --error \
             --title="Update Failed" \
             --text="A critical step failed. Check your terminal for details." \
-            --width=340 2>/dev/null &
+            --width=340 2>/dev/null
     fi
 }
 
 # ═══════════════════════════════════════════════════════════════
-# Core update logic — ONE implementation, used by both commands
+# Log file initialisation
+# ═══════════════════════════════════════════════════════════════
+
+_u_log_init() {
+    [[ "$UPDATE_LOG" != "1" ]] && return 0
+    mkdir -p "$UPDATE_LOG_DIR" || {
+        echo "  ⚠ Could not create log dir $UPDATE_LOG_DIR — logging disabled." >&2
+        UPDATE_LOG=0
+        return 0
+    }
+    _U_LOG_FILE="$UPDATE_LOG_DIR/update-$(date '+%Y-%m-%d_%H-%M-%S').log"
+    printf '# update.sh log — %s\n# mode=%s dry-run=%s\n\n' \
+        "$(date)" "$_U_MODE" "$UPDATE_DRY_RUN" > "$_U_LOG_FILE"
+}
+
+# ═══════════════════════════════════════════════════════════════
+# Step counting — centralised so _U_TOTAL is always accurate
+# ═══════════════════════════════════════════════════════════════
+
+_u_count_steps() {
+    # Fixed mandatory steps: keyring + system upgrade + summary = 3
+    _U_TOTAL=3
+
+    # Optional conditional steps
+    [[ "$UPDATE_SNAPSHOT" == "1" ]] && (( _U_TOTAL++ ))
+
+    command -v reflector &>/dev/null && (( _U_TOTAL++ ))
+
+    if command -v "$UPDATE_AUR_TOOL" &>/dev/null; then
+        (( _U_TOTAL += 3 ))   # aur upgrade + orphans + cache
+    fi
+
+    [[ "$UPDATE_NPM" == "1" ]]   && command -v npm   &>/dev/null && (( _U_TOTAL++ ))
+    [[ "$UPDATE_PIP" == "1" ]]   && command -v pip   &>/dev/null && (( _U_TOTAL++ ))  # NEW
+    [[ "$UPDATE_CARGO" == "1" ]] && command -v cargo &>/dev/null && (( _U_TOTAL++ ))  # NEW
+
+    (( _U_TOTAL++ ))   # post-hook (always attempted)
+}
+
+# ═══════════════════════════════════════════════════════════════
+# Core update logic
 # ═══════════════════════════════════════════════════════════════
 
 _u_core() {
-    # FIX #1: replaced &&...|| anti-pattern with a proper if/else
     local pacman_flags=( -S )
     local syu_flags=( -Syu )
     if [[ "$UPDATE_CONFIRM" != "1" ]]; then
@@ -298,19 +356,16 @@ _u_core() {
         syu_flags+=( --noconfirm )
     fi
 
-    # FIX #7: count steps accurately
-    # Base steps: keyring + pacman + summary = 3
-    _U_TOTAL=3
-    [[ "$UPDATE_SNAPSHOT" == "1" ]] && (( _U_TOTAL++ ))
-    command -v reflector              &>/dev/null && (( _U_TOTAL++ ))
-    if command -v "$UPDATE_AUR_TOOL"  &>/dev/null; then
-        (( _U_TOTAL += 3 ))   # upgrade + orphans + cache
-    fi
-    [[ "$UPDATE_NPM" == "1" ]] && command -v npm &>/dev/null && (( _U_TOTAL++ ))
-    (( _U_TOTAL++ ))   # post-hook always runs (counted as one step)
+    _u_count_steps
+    _u_log_init
 
-    # ── Pre-hook & snapshot ──────────────────────────────────
+    [[ "$UPDATE_DRY_RUN" == "1" ]] && \
+        _u_log info 0 "Dry-run" "No changes will be made. Steps planned: $_U_TOTAL"
+
+    # ── Pre-hook ─────────────────────────────────────────────
     update_pre_hook
+
+    # ── Snapshot ─────────────────────────────────────────────
     _u_snapshot
 
     # ── Keyring [CRITICAL] ───────────────────────────────────
@@ -328,7 +383,8 @@ _u_core() {
                 --save /etc/pacman.d/mirrorlist
 
         if [[ " ${_U_FAILED_OPTIONAL[*]} " == *"Mirrors"* ]]; then
-            _u_log warn 0 "Mirrors" "Proceeding with potentially stale mirrors — update may be slower or fetch older packages."
+            _u_log warn 0 "Mirrors" \
+                "Proceeding with potentially stale mirrors — update may be slower or fetch older packages."
         fi
     fi
 
@@ -344,7 +400,8 @@ _u_core() {
             "$UPDATE_AUR_TOOL" -Sua --noconfirm
 
         if [[ " ${_U_FAILED_OPTIONAL[*]} " == *"AUR upgrade"* ]]; then
-            _u_log warn 0 "AUR" "Partial AUR failure on Arch can cause library mismatches. Run '${UPDATE_AUR_TOOL} -Sua' manually to resolve."
+            _u_log warn 0 "AUR" \
+                "Partial AUR failure can cause library mismatches. Run '${UPDATE_AUR_TOOL} -Sua' manually."
         fi
 
         _u_step 0 "Orphans" "Removed unused dependencies" "Orphan removal failed" -- \
@@ -360,8 +417,27 @@ _u_core() {
             sudo npm update -g
     fi
 
+    # ── pip [NON-CRITICAL] — NEW ─────────────────────────────
+    if [[ "$UPDATE_PIP" == "1" ]] && command -v pip &>/dev/null; then
+        _u_step 0 "pip globals" "Outdated global packages upgraded" "pip upgrade failed" -- \
+            bash -c 'pip list --outdated --format=freeze 2>/dev/null \
+                | cut -d= -f1 \
+                | xargs -r pip install --upgrade 2>&1'
+    fi
+
+    # ── cargo [NON-CRITICAL] — NEW ───────────────────────────
+    if [[ "$UPDATE_CARGO" == "1" ]] && command -v cargo &>/dev/null; then
+        if cargo install-update --version &>/dev/null 2>&1; then
+            _u_step 0 "cargo crates" "Installed crates updated" \
+                "cargo install-update -a failed" -- \
+                cargo install-update -a
+        else
+            _u_log warn 0 "cargo" \
+                "cargo-update not installed. Run: cargo install cargo-update"
+        fi
+    fi
+
     # ── Post-hook [NON-CRITICAL] ─────────────────────────────
-    # FIX #2: now wrapped in _u_step so failures are caught and reported
     _u_step 0 "Linuwu-Sense" "Synced and installed" \
         "clone/build failed — check output above" -- \
         update_post_hook
@@ -371,40 +447,97 @@ _u_core() {
     fi
 
     # ── Summary ──────────────────────────────────────────────
+    # FIX: increment step counter so pct reaches 100 for the summary notification
     (( _U_STEP++ ))
+
     if [[ ${#_U_FAILED_OPTIONAL[@]} -gt 0 ]]; then
         _u_log warn 0 "Update complete" \
             "Non-critical failures: ${_U_FAILED_OPTIONAL[*]}"
     else
-        _u_log ok 0 "System fully updated" "All steps succeeded."
+        _u_log ok 0 "Update complete" "All steps succeeded."
     fi
 
-    _u_sudo_keepalive_stop   # FIX #8: clean up keepalive on success too
+    [[ -n "$_U_LOG_FILE" ]] && \
+        _u_log info 0 "Log" "Saved to $_U_LOG_FILE"
+
+    _u_sudo_keepalive_stop
 }
 
 # ═══════════════════════════════════════════════════════════════
-# Public commands
+# Entry point — dispatch only; never sourced
 # ═══════════════════════════════════════════════════════════════
 
-update() {
-    _U_MODE="cli"
-    _U_STEP=0
-    _U_FAILED_OPTIONAL=()
-    _U_GUI_FD_OPEN=0
+_u_usage() {
+    cat >&2 <<'EOF'
+Usage: update.sh <command>
 
-    echo "=== System Update ==="
-    _u_auth || return 1
-    _u_core
+Commands:
+  cli   Run the full update in the terminal
+  gui   Run the full update with a Zenity progress window
+  dry   Dry-run: print every planned step without executing anything
+
+Alias suggestions for ~/.zshrc or ~/.bashrc:
+  alias update='~/.local/bin/update.sh cli'
+  alias updateG='~/.local/bin/update.sh gui'
+  alias update-dry='~/.local/bin/update.sh dry'
+EOF
 }
 
-updateG() {
-    _U_MODE="gui"
-    _U_STEP=0
-    _U_FAILED_OPTIONAL=()
-    _U_GUI_FD_OPEN=0
+main() {
+    local cmd="${1:-}"
 
-    _u_auth      || return 1
-    _u_gui_start
-    _u_core
-    _u_gui_finish
+    case "$cmd" in
+        cli)
+            _U_MODE="cli"
+            _U_STEP=0
+            _U_FAILED_OPTIONAL=()
+            _U_GUI_FD_OPEN=0
+            _U_LOG_FILE=""
+
+            echo "=== System Update ==="
+            _u_auth || exit 1
+            _u_core
+            ;;
+
+        gui)
+            _U_MODE="gui"
+            _U_STEP=0
+            _U_FAILED_OPTIONAL=()
+            _U_GUI_FD_OPEN=0
+            _U_LOG_FILE=""
+
+            _u_auth      || exit 1
+            _u_gui_start
+            # Only call finish on success — cleanup already runs on critical failure
+            if _u_core; then
+                _u_gui_finish
+            fi
+            ;;
+
+        dry)
+            UPDATE_DRY_RUN=1
+            _U_MODE="cli"
+            _U_STEP=0
+            _U_FAILED_OPTIONAL=()
+            _U_GUI_FD_OPEN=0
+            _U_LOG_FILE=""
+
+            echo "=== System Update [DRY-RUN — no changes will be made] ==="
+            _u_auth || exit 1
+            _u_core
+            ;;
+
+        ""|--help|-h)
+            _u_usage
+            exit 0
+            ;;
+
+        *)
+            echo "update.sh: unknown command '$cmd'" >&2
+            _u_usage
+            exit 1
+            ;;
+    esac
 }
+
+main "$@"

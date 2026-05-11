@@ -89,6 +89,9 @@ alias yta='yt-dlp \
 
 #system Update
 # alias update='sudo pacman -Syu && yay && sudo npm update -g'
+alias update='~/.zsh/120-update.sh cli'
+alias updateG='~/.zsh/120-update.sh gui'
+alias update-dry='~/.zsh/120-update.sh dry'
 
 # vim
 alias vi='nvim'
