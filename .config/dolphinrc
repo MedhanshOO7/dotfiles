@@ -1,5 +1,3 @@
-MenuBar=Disabled
-
 [DetailsMode]
 PreviewSize=32
 
@@ -8,10 +6,6 @@ GlobalViewProps=false
 ShowFullPath=true
 ShowStatusBar=FullWidth
 Version=202
-
-[IconsMode]
-IconSize=64
-PreviewSize=80
 
 [KFileDialog Settings]
 Places Icons Auto-resize=false

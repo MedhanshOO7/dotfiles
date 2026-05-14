@@ -1,22 +1,24 @@
 #!/usr/bin/env bash
+
 CONFIG_FILE="$HOME/.config/illogical-impulse/config.json"
 JSON_PATH=".screenRecord.savePath"
+
 CUSTOM_PATH=$(jq -r "$JSON_PATH" "$CONFIG_FILE" 2>/dev/null)
+
 RECORDING_DIR=""
+
 if [[ -n "$CUSTOM_PATH" ]]; then
     RECORDING_DIR="$CUSTOM_PATH"
 else
-    RECORDING_DIR="$HOME/Videos"
+    RECORDING_DIR="$HOME/Videos" # Use default path
 fi
 
 getdate() {
     date '+%Y-%m-%d_%H.%M.%S'
 }
-
 getaudiooutput() {
-    echo "default_output"
+    pactl list sources | grep 'Name' | grep 'monitor' | cut -d ' ' -f2
 }
-
 getactivemonitor() {
     hyprctl monitors -j | jq -r '.[] | select(.focused == true) | .name'
 }
@@ -24,11 +26,11 @@ getactivemonitor() {
 mkdir -p "$RECORDING_DIR"
 cd "$RECORDING_DIR" || exit
 
+# parse --region <value> without modifying $@ so other flags like --fullscreen still work
+ARGS=("$@")
 MANUAL_REGION=""
 SOUND_FLAG=0
 FULLSCREEN_FLAG=0
-ARGS=("$@")
-
 for ((i=0;i<${#ARGS[@]};i++)); do
     if [[ "${ARGS[i]}" == "--region" ]]; then
         if (( i+1 < ${#ARGS[@]} )); then
@@ -44,24 +46,19 @@ for ((i=0;i<${#ARGS[@]};i++)); do
     fi
 done
 
-if pgrep -f gpu-screen-recorder > /dev/null; then
-    pkill -f gpu-screen-recorder
-    sleep 0.5
-    LAST_FILE=$(ls -t "$RECORDING_DIR"/*.mp4 2>/dev/null | head -1)
-    action=$(notify-send "Recording Stopped" "$LAST_FILE" -a 'Recorder' --action="open=Open in VLC" --wait)
-    if [[ "$action" == "open" ]]; then
-        vlc "$LAST_FILE" & disown
-    fi
+if pgrep wf-recorder > /dev/null; then
+    notify-send "Recording Stopped" "Stopped" -a 'Recorder' &
+    pkill wf-recorder &
 else
-    OUTFILE='./recording_'"$(getdate)"'.mp4'
     if [[ $FULLSCREEN_FLAG -eq 1 ]]; then
-        notify-send "Starting recording" "$OUTFILE" -a 'Recorder' & disown
+        notify-send "Starting recording" 'recording_'"$(getdate)"'.mp4' -a 'Recorder' & disown
         if [[ $SOUND_FLAG -eq 1 ]]; then
-            gpu-screen-recorder -w "$(getactivemonitor)" -f 60 -a "$(getaudiooutput)" -o "$OUTFILE"
+            wf-recorder -o "$(getactivemonitor)" --pixel-format yuv420p -f './recording_'"$(getdate)"'.mp4' -t --audio="$(getaudiooutput)"
         else
-            gpu-screen-recorder -w "$(getactivemonitor)" -f 60 -o "$OUTFILE"
+            wf-recorder -o "$(getactivemonitor)" --pixel-format yuv420p -f './recording_'"$(getdate)"'.mp4' -t
         fi
     else
+        # If a manual region was provided via --region, use it; otherwise run slurp as before.
         if [[ -n "$MANUAL_REGION" ]]; then
             region="$MANUAL_REGION"
         else
@@ -70,13 +67,12 @@ else
                 exit 1
             fi
         fi
-        read -r x y w h <<< "$(echo "$region" | sed 's/,/ /;s/x/ /;s/+/ /')"
-        GSR_REGION="${w}x${h}+${x}+${y}"
-        notify-send "Starting recording" "$OUTFILE" -a 'Recorder' & disown
+
+        notify-send "Starting recording" 'recording_'"$(getdate)"'.mp4' -a 'Recorder' & disown
         if [[ $SOUND_FLAG -eq 1 ]]; then
-            gpu-screen-recorder -w region -region "$GSR_REGION" -f 60 -a "$(getaudiooutput)" -o "$OUTFILE"
+            wf-recorder --pixel-format yuv420p -f './recording_'"$(getdate)"'.mp4' -t --geometry "$region" --audio="$(getaudiooutput)"
         else
-            gpu-screen-recorder -w region -region "$GSR_REGION" -f 60 -o "$OUTFILE"
+            wf-recorder --pixel-format yuv420p -f './recording_'"$(getdate)"'.mp4' -t --geometry "$region"
         fi
     fi
 fi
