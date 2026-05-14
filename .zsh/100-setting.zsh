@@ -35,6 +35,23 @@ alias kb-red='echo ff0000,ff0000,ff0000,ff0000,100 | sudo tee $_KB/per_zone_mode
 alias kb-blue='echo 0000ff,0000ff,0000ff,0000ff,100 | sudo tee $_KB/per_zone_mode > /dev/null'
 alias kb-green='echo 00ff00,00ff00,00ff00,00ff00,100 | sudo tee $_KB/per_zone_mode > /dev/null'
 alias kb-color='_kb_color(){ echo "$1" | sudo tee $_KB/per_zone_mode > /dev/null; }; _kb_color'
+alias kb-sync='
+WALL=$(jq -r ".wallpaper" ~/.cache/wal/colors.json)
+
+COLOR=$(magick "$WALL" \
+-resize 100x100 \
+-colors 6 \
+-format "%c" histogram:info:- \
+| sort -nr \
+| head -1 \
+| grep -o "#[0-9A-Fa-f]\{6\}" \
+| tr -d "#" \
+| tr "[:upper:]" "[:lower:]")
+
+printf "%s,%s,%s,%s,100" \
+"$COLOR" "$COLOR" "$COLOR" "$COLOR" \
+| sudo tee $_KB/per_zone_mode > /dev/null
+'
 
 # RGB Effects (mode, speed, brightness, direction, R, G, B)
 # Modes: 0=static 1=breathing 2=neon 3=wave 4=shifting 5=zoom 6=meteor 7=twinkling
@@ -55,7 +72,7 @@ alias kb-timeout-off='echo 0 | sudo tee $_PS/backlight_timeout > /dev/null'
 alias kb-timeout-get='cat $_PS/backlight_timeout'
 
 # ── Battery ─────────────────────────────────────────────────
-alias bat-limit-on='echo 1 | sudo tee $_PS/battery_limiter > /dev/null'   # limit charge to 80%
+alias bat-limit-on='echo 1 | sudo tee $_PS/battery_limiter > /dev/null' # limit charge to 80%
 alias bat-limit-off='echo 0 | sudo tee $_PS/battery_limiter > /dev/null'
 alias bat-limit-get='cat $_PS/battery_limiter'
 
@@ -65,7 +82,7 @@ alias bat-calibrate-get='cat $_PS/battery_calibration'
 
 # ── USB Charging (when laptop is off) ───────────────────────
 alias usb-charge-off='echo 0 | sudo tee $_PS/usb_charging > /dev/null'
-alias usb-charge-10='echo 10 | sudo tee $_PS/usb_charging > /dev/null'    # charge until bat < 10%
+alias usb-charge-10='echo 10 | sudo tee $_PS/usb_charging > /dev/null' # charge until bat < 10%
 alias usb-charge-20='echo 20 | sudo tee $_PS/usb_charging > /dev/null'
 alias usb-charge-30='echo 30 | sudo tee $_PS/usb_charging > /dev/null'
 alias usb-charge-get='cat $_PS/usb_charging'
