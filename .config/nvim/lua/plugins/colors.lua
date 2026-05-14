@@ -57,4 +57,14 @@ return {
         name = "pywal",
         lazy = true,
     },
+    {
+        "scottmckendry/cyberdream.nvim",
+        lazy = true,
+        opts = {
+            transparent = true,
+            italic_comments = false,
+            hide_fillchars = true,
+            borderless_telescope = false,
+        },
+    },
 }

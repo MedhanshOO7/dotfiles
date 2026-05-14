@@ -123,19 +123,14 @@ return {
                 },
             },
             window = {
-                completion = {
+                completion = cmp.config.window.bordered({
                     border = "rounded",
                     winhighlight = "Normal:Normal,FloatBorder:FloatBorder,CursorLine:Visual,Search:None",
-                },
-                documentation = {
+                }),
+                documentation = cmp.config.window.bordered({
                     border = "rounded",
-                    max_width = math.floor(vim.o.columns * 0.35),
-                    max_height = math.floor(vim.o.lines * 0.25),
                     winhighlight = "NormalFloat:CmpDocNormal,FloatBorder:CmpDocBorder",
-                    winblend = 5,
-                    col_offset = 1,
-                    zindex = 50,
-                },
+                }),
             },
         })
     end,
