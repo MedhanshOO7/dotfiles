@@ -18,20 +18,24 @@ return {
                 path_display = { "truncate" },
                 sorting_strategy = "ascending",
                 layout_strategy = "horizontal",
-                border = true,
-                file_ignore_patterns = {
-                    "%.git/",
-                    "node_modules/",
-                    "dist/",
-                    "build/",
-                },
                 layout_config = {
-                    prompt_position = "top",
-                    width = 0.92,
-                    height = 0.88,
                     horizontal = {
-                        preview_width = 0.58,
+                        prompt_position = "top",
+                        preview_width = 0.55,
+                        results_width = 0.8,
                     },
+                    vertical = {
+                        mirror = false,
+                    },
+                    width = 0.87,
+                    height = 0.80,
+                    preview_cutoff = 120,
+                },
+                border = true,
+                borderchars = {
+                    prompt = { "─", "│", " ", "│", "╭", "╮", "│", "│" },
+                    results = { "─", "│", "─", "│", "├", "┤", "╯", "╰" },
+                    preview = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
                 },
                 mappings = {
                     i = {

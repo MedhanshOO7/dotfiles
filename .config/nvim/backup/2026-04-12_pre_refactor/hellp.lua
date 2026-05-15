@@ -1,4 +1,0 @@
--- require
-
-
---print("Hello, world!")

@@ -10,7 +10,8 @@ return {
                 },
             },
             select = {
-                backend = { "telescope", "builtin" },
+                enabled = true,
+                backend = { "telescope", "fzf_lua", "fzf", "builtin", "nui" },
                 builtin = {
                     border = "rounded",
                     win_options = {

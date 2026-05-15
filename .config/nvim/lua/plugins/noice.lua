@@ -52,9 +52,13 @@ return {
                 view = "notify",
             },
             popupmenu = {
-                enabled = false,
+                enabled = true, -- Enable nice popupmenu
+                backend = "nui",
             },
             lsp = {
+                progress = {
+                    enabled = false, -- Using fidget instead
+                },
                 hover = {
                     enabled = true,
                     view = nil, -- use default view

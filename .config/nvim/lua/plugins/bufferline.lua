@@ -88,13 +88,13 @@ return {
             icons = {
                 buffer_index = false,
                 buffer_number = false,
-                button = false,
+                button = "",
                 modified = { button = "●" },
                 filetype = { enabled = true, custom_colors = false },
                 -- | left indicator + clean right
                 separator = { left = "▎", right = " " },
                 separator_at_end = false,
-                pinned = { button = "", filename = true },
+                pinned = { button = "", filename = true },
                 diagnostics = {
                     [vim.diagnostic.severity.ERROR] = { enabled = true, icon = " " },
                     [vim.diagnostic.severity.WARN] = { enabled = true, icon = " " },
@@ -107,7 +107,7 @@ return {
                     deleted = { enabled = false },
                 },
                 current = { buffer_index = false },
-                inactive = { button = false },
+                inactive = { button = "×" },
                 visible = { modified = { buffer_number = false } },
             },
 

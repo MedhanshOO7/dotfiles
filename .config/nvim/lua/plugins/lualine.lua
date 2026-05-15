@@ -22,8 +22,8 @@ return {
                 options = {
                     theme = "auto",
                     globalstatus = true,
-                    section_separators = { left = "", right = "" },
-                    component_separators = { left = "│", right = "│" },
+                    section_separators = { left = "", right = "" },
+                    component_separators = { left = "", right = "" },
                     always_divide_middle = false,
                     disabled_filetypes = {
                         winbar = { "neo-tree", "Trouble", "toggleterm", "aerial" },
@@ -33,6 +33,8 @@ return {
                     lualine_a = {
                         {
                             "mode",
+                            separator = { left = "" },
+                            right_padding = 2,
                             fmt = function(value)
                                 return value:sub(1, 1)
                             end,
@@ -70,7 +72,9 @@ return {
                         "filetype",
                     },
                     lualine_y = { "progress", "fileencoding", "fileformat" },
-                    lualine_z = { "location" },
+                    lualine_z = {
+                        { "location", separator = { right = "" }, left_padding = 2 },
+                    },
                 },
                 inactive_sections = {
                     lualine_a = {},

@@ -1,6 +1,12 @@
 return {
     "stevearc/overseer.nvim",
     cmd = { "OverseerRun", "OverseerToggle", "OverseerQuickAction", "OverseerLoadBundle" },
+    keys = {
+        { "<leader>tt", "<cmd>OverseerToggle<cr>", desc = "Open or close the task list" },
+        { "<leader>tr", "<cmd>OverseerRun<cr>", desc = "Choose and run a project task" },
+        { "<leader>ta", "<cmd>OverseerQuickAction<cr>", desc = "Run a task action on the current item" },
+        { "<leader>tl", "<cmd>OverseerLoadBundle<cr>", desc = "Load saved task runs" },
+    },
     config = function()
         require("overseer").setup({
             strategy = "toggleterm",

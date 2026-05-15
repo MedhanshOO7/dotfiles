@@ -8,6 +8,9 @@ return {
     opts = {
         delay = 200,
         preset = "classic",
+        win = {
+            border = "rounded",
+        },
     },
     config = function(_, opts)
         local wk = require("which-key")

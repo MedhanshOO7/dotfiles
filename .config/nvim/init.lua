@@ -1,5 +1,15 @@
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
+
+-- ── Safety Gutter for Headless Mode & Plugins ───────────────────
+-- Ensures core highlights exist early to prevent crashes in plugins
+-- that calculate color blends (like snacks.nvim) before the theme loads.
+if #vim.api.nvim_list_uis() == 0 then
+    vim.api.nvim_set_hl(0, "Normal", { fg = "#ffffff", bg = "#000000" })
+    vim.api.nvim_set_hl(0, "NormalFloat", { link = "Normal" })
+    vim.api.nvim_set_hl(0, "FloatBorder", { fg = "#ffffff" })
+end
+
 vim.g.autoformat_enabled = false
 vim.g.loaded_node_provider = 0
 vim.g.loaded_perl_provider = 0
