@@ -10,11 +10,11 @@ add_newline = false
 # $directory $fill $git_branch $cmd_duration
 #  $character"""
 format = """
-$cmd_duration $directory$git_branch
+$cmd_duration $directory $hostname$username$git_branch$fill$python
   $character"""
 
 [fill]
-symbol = '-'
+symbol = ' '
 style = 'fg:245'
 
 # Replace the "❯" symbol in the prompt with "➜"
@@ -54,7 +54,7 @@ renamed = " ✍️ "
 deleted = " 🗑 "
 
 [hostname]
-ssh_only = false
+ssh_only = true
 format =  "[•$hostname](bg:252 bold fg:235)[](bold fg:252)"
 trim_at = ".companyname.com"
 disabled = false
@@ -76,7 +76,7 @@ time_format = "%T"
 [username]
 style_user = "bold bg:252 fg:235"
 style_root = "red bold"
-format = "[](bold fg:252)[$user]($style)"
+format = "[](bold fg:252)[$user]($style)[](bold fg:252)"
 disabled = false
 show_always = true
 
@@ -101,3 +101,9 @@ format = '[](bold fg:255)[󰉋 → $path]($style)[](bold fg:255)'
 [cmd_duration]
 min_time = 0
 format = '[](bold fg:252)[󰪢 $duration](bold bg:252 fg:235)[](bold fg:252)'
+
+[python]
+symbol = "󰌠 "
+style = "bg:252 fg:235"
+format = '[](bold fg:252)[$symbol$version]($style)[](bold fg:252)'
+pyenv_version_name = false
