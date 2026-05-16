@@ -21,6 +21,7 @@ UPDATE_CARGO="${UPDATE_CARGO:-0}"             # NEW: 1 = cargo install-update -a
 UPDATE_LOG="${UPDATE_LOG:-1}"                  # NEW: 1 = write log to file
 UPDATE_LOG_DIR="${UPDATE_LOG_DIR:-$HOME/.local/share/update-logs}"
 UPDATE_DRY_RUN="${UPDATE_DRY_RUN:-0}"         # NEW: 1 = print steps, run nothing
+UPDATE_NOTIFY="${UPDATE_NOTIFY:-1}"           # 1 = desktop notifications in all modes
 
 [[ -f ~/.config/update.conf ]] && source ~/.config/update.conf
 
@@ -76,26 +77,39 @@ _u_log() {
     fi
 
     # ── File log ────────────────────────────────────────────
-    # NEW: write timestamped log if enabled and log file is set
     if [[ "$UPDATE_LOG" == "1" && -n "$_U_LOG_FILE" ]]; then
         printf '[%s] [%-4s] %s: %s\n' \
             "$(date '+%H:%M:%S')" "${severity^^}" "$title" "$body" \
             >> "$_U_LOG_FILE"
     fi
 
-    # ── Desktop notification ─────────────────────────────────
-    if [[ "$_U_MODE" == "gui" ]]; then
-        notify-send \
-            -u "$urgency" \
-            -i "$icon" \
-            -a "System Update" \
-            -t "$timeout" \
-            "$title" \
-            "<b>$emoji $body</b>"
+    # ── Desktop notification (cli + gui) ────────────────────
+    # Fires in all modes when UPDATE_NOTIFY=1 and notify-send is available.
+    # In gui mode, only step completions (ok/warn/err) are notified to avoid
+    # flooding — the zenity bar already covers live "..." progress updates.
+    # In cli mode, all severities are notified so the user gets real-time
+    # feedback even without a progress window.
+    if [[ "$UPDATE_NOTIFY" == "1" ]] && command -v notify-send &>/dev/null; then
+        local _do_notify=0
+        if [[ "$_U_MODE" == "cli" ]]; then
+            _do_notify=1
+        elif [[ "$_U_MODE" == "gui" && "$severity" != "info" ]]; then
+            # gui: skip the "..." info pings — zenity bar already shows those
+            _do_notify=1
+        fi
+
+        if [[ "$_do_notify" == "1" ]]; then
+            notify-send \
+                -u "$urgency" \
+                -i "$icon" \
+                -a "System Update" \
+                -t "$timeout" \
+                "$title" \
+                "<b>$emoji $body</b>"
+        fi
     fi
 
     # ── Zenity progress bar ──────────────────────────────────
-    # Only write if fd 4 is actually open AND we have a valid total
     if [[ "$_U_MODE" == "gui" && "$_U_GUI_FD_OPEN" == "1" && "$_U_TOTAL" -gt 0 ]]; then
         local pct=$(( _U_STEP * 100 / _U_TOTAL ))
         (( pct > 99 )) && pct=99
@@ -118,7 +132,6 @@ _u_step() {
 
     (( _U_STEP++ ))
 
-    # NEW: dry-run mode — print what would run and return success
     if [[ "$UPDATE_DRY_RUN" == "1" ]]; then
         _u_log info "$critical" "[DRY-RUN] $title" "would run: $*"
         return 0
@@ -210,7 +223,6 @@ _u_auth() {
             return 1
         }
 
-        # FIX: use 'sudo -S true' — more portable than -S -v for stdin auth
         if ! echo "$pass" | sudo -S true 2>/dev/null; then
             zenity --error --title="Authentication Failed" \
                 --text="Incorrect password. Update aborted." --width=320 2>/dev/null
@@ -249,13 +261,9 @@ _u_gui_start() {
     _U_FIFO=$(mktemp -u /tmp/update_progress.XXXXXX)
     mkfifo "$_U_FIFO"
 
-    # Open the write-end BEFORE launching zenity so it never sees a premature EOF.
     exec 4>"$_U_FIFO"
     _U_GUI_FD_OPEN=1
 
-    # FIX: removed --pulsate so real percentages are shown.
-    # --pulsate ignores all percentage input and conflicts with --auto-close
-    # when used with real progress updates.
     zenity --progress \
         --title="System Update" \
         --text="Initializing..." \
@@ -280,7 +288,6 @@ _u_gui_finish() {
     fi
     [[ -n "$_U_LOG_FILE" ]] && summary+=$"\n\nLog saved to:\n$_U_LOG_FILE"
 
-    # FIX: do NOT background this — wait so the dialog is actually shown
     zenity --info \
         --title="System Update" \
         --text="<b>Done!</b>\n\n$summary" \
@@ -290,7 +297,6 @@ _u_gui_finish() {
 _u_cleanup() {
     _u_sudo_keepalive_stop
 
-    # FIX: only touch fd 4 / zenity if the GUI fd was actually opened
     if [[ "$_U_MODE" == "gui" && "$_U_GUI_FD_OPEN" == "1" ]]; then
         printf '100\n# Update failed.\n' >&4 2>/dev/null
         exec 4>&-
@@ -325,23 +331,21 @@ _u_log_init() {
 # ═══════════════════════════════════════════════════════════════
 
 _u_count_steps() {
-    # Fixed mandatory steps: keyring + system upgrade + summary = 3
     _U_TOTAL=3
 
-    # Optional conditional steps
     [[ "$UPDATE_SNAPSHOT" == "1" ]] && (( _U_TOTAL++ ))
 
     command -v reflector &>/dev/null && (( _U_TOTAL++ ))
 
     if command -v "$UPDATE_AUR_TOOL" &>/dev/null; then
-        (( _U_TOTAL += 3 ))   # aur upgrade + orphans + cache
+        (( _U_TOTAL += 3 ))
     fi
 
     [[ "$UPDATE_NPM" == "1" ]]   && command -v npm   &>/dev/null && (( _U_TOTAL++ ))
-    [[ "$UPDATE_PIP" == "1" ]]   && command -v pip   &>/dev/null && (( _U_TOTAL++ ))  # NEW
-    [[ "$UPDATE_CARGO" == "1" ]] && command -v cargo &>/dev/null && (( _U_TOTAL++ ))  # NEW
+    [[ "$UPDATE_PIP" == "1" ]]   && command -v pip   &>/dev/null && (( _U_TOTAL++ ))
+    [[ "$UPDATE_CARGO" == "1" ]] && command -v cargo &>/dev/null && (( _U_TOTAL++ ))
 
-    (( _U_TOTAL++ ))   # post-hook (always attempted)
+    (( _U_TOTAL++ ))   # post-hook
 }
 
 # ═══════════════════════════════════════════════════════════════
@@ -417,7 +421,7 @@ _u_core() {
             sudo npm update -g
     fi
 
-    # ── pip [NON-CRITICAL] — NEW ─────────────────────────────
+    # ── pip [NON-CRITICAL] ───────────────────────────────────
     if [[ "$UPDATE_PIP" == "1" ]] && command -v pip &>/dev/null; then
         _u_step 0 "pip globals" "Outdated global packages upgraded" "pip upgrade failed" -- \
             bash -c 'pip list --outdated --format=freeze 2>/dev/null \
@@ -425,7 +429,7 @@ _u_core() {
                 | xargs -r pip install --upgrade 2>&1'
     fi
 
-    # ── cargo [NON-CRITICAL] — NEW ───────────────────────────
+    # ── cargo [NON-CRITICAL] ─────────────────────────────────
     if [[ "$UPDATE_CARGO" == "1" ]] && command -v cargo &>/dev/null; then
         if cargo install-update --version &>/dev/null 2>&1; then
             _u_step 0 "cargo crates" "Installed crates updated" \
@@ -447,7 +451,6 @@ _u_core() {
     fi
 
     # ── Summary ──────────────────────────────────────────────
-    # FIX: increment step counter so pct reaches 100 for the summary notification
     (( _U_STEP++ ))
 
     if [[ ${#_U_FAILED_OPTIONAL[@]} -gt 0 ]]; then
@@ -480,6 +483,10 @@ Alias suggestions for ~/.zshrc or ~/.bashrc:
   alias update='~/.local/bin/update.sh cli'
   alias updateG='~/.local/bin/update.sh gui'
   alias update-dry='~/.local/bin/update.sh dry'
+
+Configuration (~/.config/update.conf):
+  UPDATE_NOTIFY=1   # 1 = desktop notifications in all modes (default)
+                    # 0 = disable all notify-send calls
 EOF
 }
 
@@ -508,7 +515,6 @@ main() {
 
             _u_auth      || exit 1
             _u_gui_start
-            # Only call finish on success — cleanup already runs on critical failure
             if _u_core; then
                 _u_gui_finish
             fi

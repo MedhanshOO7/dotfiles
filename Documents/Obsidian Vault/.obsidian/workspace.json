@@ -29,30 +29,16 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "BEEE-Project/knowladge.md",
-                "mode": "source",
+                "file": "Study/Differential Equations/UNIT_II.md",
+                "mode": "preview",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "knowladge"
-            }
-          },
-          {
-            "id": "b2fb8a9567a7bdaa",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Study/8.5+ SGPA MASTER PLAN.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "8.5+ SGPA MASTER PLAN"
+              "title": "UNIT_II"
             }
           }
         ],
-        "currentTab": 2
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -127,7 +113,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 213.00382614135742
+    "width": 213.00382614135742,
+    "collapsed": true
   },
   "right": {
     "id": "259718f9d301f35b",
@@ -205,13 +192,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Study/8.5+ SGPA MASTER PLAN.md",
+                "file": "Study/Differential Equations/UNIT_II.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline of 8.5+ SGPA MASTER PLAN"
+              "title": "Outline of UNIT_II"
             }
           },
           {
@@ -246,10 +233,12 @@
       "callout-manager:Insert Callout": false
     }
   },
-  "active": "b2fb8a9567a7bdaa",
+  "active": "be415413532db9e6",
   "lastOpenFiles": [
-    "OOPS/5. Polymorphism.md",
+    "BEEE-Project/knowladge.md",
+    "Study/Differential Equations/UNIT_II.md",
     "Study/8.5+ SGPA MASTER PLAN.md",
+    "OOPS/5. Polymorphism.md",
     "OOPS/8. Memory Layout.md",
     "8. Memory Layout.pdf",
     "OOPS/9.a.File Handling.md",
@@ -267,7 +256,6 @@
     "bash/one.md",
     "bash/one.md~",
     "BEEE-Project/Practial.md",
-    "BEEE-Project/knowladge.md",
     "BEEE-Project/knowladge.pdf",
     "BEEE-Project/Practial.pdf",
     "BEEE Project.md",
@@ -278,7 +266,6 @@
     "OOPS/3. Encapsulation.md",
     "OOPS/4. Inheritance.md",
     "OOPS/1. Introduction.md",
-    "OOPS/0.a initilization list.md",
     "Agentic AI",
     "Study/BEEE/Viva typeshi.pdf",
     "OOPS/0.a initilization list.md~",

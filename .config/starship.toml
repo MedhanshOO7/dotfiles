@@ -104,6 +104,6 @@ format = '[](bold fg:252)[󰪢 $duration](bold bg:252 fg:235)[](bold fg:25
 
 [python]
 symbol = "󰌠 "
-style = "bg:252 fg:235"
-format = '[](bold fg:252)[$symbol$version]($style)[](bold fg:252)'
+style = "bg:#306998 fg:#FFE873"
+format = '[](bold fg:#3776AB)[$symbol$version]($style)[](bold fg:#3776AB)'
 pyenv_version_name = false
