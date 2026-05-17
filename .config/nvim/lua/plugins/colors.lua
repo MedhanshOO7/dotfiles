@@ -67,4 +67,11 @@ return {
             borderless_telescope = false,
         },
     },
+    { "marko-cerovac/material.nvim", lazy = true },
+    { "sainnhe/gruvbox-material", lazy = true },
+    { "shaunsingh/nord.nvim", lazy = true },
+    { "savq/melange-nvim", name = "melange", lazy = true },
+    { "tanvirtin/monokai.nvim", lazy = true },
+    { "olimorris/onedarkpro.nvim", lazy = true },
+    { "nyoom-engineering/oxocarbon.nvim", lazy = true },
 }
