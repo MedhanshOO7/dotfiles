@@ -1,0 +1,451 @@
+
+==============================================================================
+auto-session:                                                               ✅
+
+Setup ~
+- ✅ OK setup() called
+
+Lazy.nvim settings ~
+- ✅ OK Lazy.nvim support is enabled
+- ✅ OK auto-session is not lazy loaded
+
+Config ~
+- ✅ OK No config issues detected
+
+Current Config ~
+- {
+    auto_create = true,
+    auto_restore = false,
+    auto_save = true,
+    suppressed_dirs = { "~/", "~/Dev/", "~/Downloads", "~/Documents", "~/Desktop/" }
+  }
+
+General Info ~
+- Session directory: /home/medhansh/.local/share/nvim/sessions/
+- Current session: 
+- Current session file: 
+- Selected picker: telescope
+
+==============================================================================
+helpview:                                                                   ✅
+
+💻 Neovim: ~
+- ✅ OK Version: `0.12.2`
+
+💡 Parsers: ~
+- ✅ OK `nvim-treesitter/nvim-treesitter` found.
+- ✅ OK ` vimdoc` parser was found.
+
+✨ Icon providers: ~
+- ✅ OK `nvim-tree/nvim-web-devicons` found.
+- ✅ OK `echasnovski/mini.icons` found.
+
+🚧 Configuration: ~
+- ✅ OK No errors found!
+
+==============================================================================
+lazy:                                                                       ✅
+
+lazy.nvim ~
+- {lazy.nvim} version `11.17.5`
+- ✅ OK {git} `version 2.54.0`
+- ✅ OK no existing packages found by other package managers
+- ✅ OK packer_compiled.lua not found
+
+luarocks ~
+- ✅ OK luarocks disabled
+
+==============================================================================
+nvim-treesitter:                                                            ✅
+
+Requirements ~
+- ✅ OK Neovim was compiled with tree-sitter runtime ABI version 15 (required >=13).
+- ✅ OK tree-sitter-cli 0.26.8 (/usr/bin/tree-sitter)
+- ✅ OK tar 1.35.0 (/usr/bin/tar)
+- ✅ OK curl 8.20.0 (/usr/bin/curl)
+  curl 8.20.0 (x86_64-pc-linux-gnu) libcurl/8.20.0 OpenSSL/3.6.2 zlib/1.3.2 brotli/1.2.0 zstd/1.5.7 libidn2/2.3.8 libpsl/0.21.5 libssh2/1.11.1 nghttp2/1.69.0 ngtcp2/1.22.1 nghttp3/1.15.0 mit-krb5/1.21.3
+  Release-Date: 2026-04-29
+  Protocols: dict file ftp ftps gopher gophers http https imap imaps ipfs ipns mqtt mqtts pop3 pop3s rtsp scp sftp smtp smtps telnet tftp ws wss
+  Features: alt-svc AsynchDNS brotli GSS-API HSTS HTTP2 HTTP3 HTTPS-proxy IDN IPv6 Kerberos Largefile libz PSL SPNEGO SSL threadsafe TLS-SRP UnixSockets zstd
+
+OS Info ~
+- sysname: Linux
+- version: #1 SMP PREEMPT_DYNAMIC Fri, 15 May 2026 15:01:51 +0000
+- release: 6.18.31-1-lts
+- machine: x86_64
+
+Install directory for parsers and queries ~
+- /home/medhansh/.local/share/nvim/site
+- ✅ OK is writable.
+- ✅ OK is in runtimepath.
+
+Installed languages     H L F I J ~
+- bash                  ✓ ✓ ✓ ✓ ✓
+- c                     ✓ ✓ ✓ ✓ ✓
+- cpp                   ✓ ✓ ✓ ✓ ✓
+- css                   ✓ . ✓ ✓ ✓
+- ecma
+- html                  ✓ ✓ ✓ ✓ ✓
+- html_tags
+- javascript            ✓ ✓ ✓ ✓ ✓
+- json                  ✓ ✓ ✓ ✓ ✓
+- jsx
+- lua                   ✓ ✓ ✓ ✓ ✓
+- markdown              ✓ . ✓ ✓ ✓
+- markdown_inline       ✓ . . . ✓
+- python                ✓ ✓ ✓ ✓ ✓
+- tsx                   ✓ ✓ ✓ ✓ ✓
+- typescript            ✓ ✓ ✓ ✓ ✓
+- vim                   ✓ ✓ ✓ . ✓
+- vimdoc                ✓ . . . ✓
+
+  Legend: [H]ighlights, [L]ocals, [F]olds, [I]ndents, In[J]ections ~
+
+==============================================================================
+snacks:                                                                   1 ❌
+
+Snacks ~
+- ✅ OK setup called
+- ❌ ERROR Failed to run healthcheck for "snacks" plugin. Exception:
+  ...cal/share/nvim/lazy/snacks.nvim/lua/snacks/util/init.lua:187: attempt to index local 'fg' (a nil value)
+
+
+==============================================================================
+telescope:                                                                  ✅
+
+Checking for required plugins ~
+- ✅ OK plenary installed.
+
+Checking external dependencies ~
+- ✅ OK rg: found ripgrep 15.1.0
+- ✅ OK fd: found fd 10.4.2
+
+===== Installed extensions ===== ~
+
+Telescope Extension: `fzf` ~
+- ✅ OK lib working as expected
+- ✅ OK file_sorter correctly configured
+- ✅ OK generic_sorter correctly configured
+
+Telescope Extension: `session-lens` ~
+- No healthcheck provided
+
+Telescope Extension: `ui-select` ~
+- No healthcheck provided
+
+==============================================================================
+vim.deprecated:                                                             ✅
+
+- ✅ OK No deprecated functions detected
+
+==============================================================================
+vim.health:                                                                 ✅
+
+System Info ~
+- ✅ OK Up to date (0.12.2)
+- Nvim version: `v0.12.2` 
+- Operating system: Linux 6.18.31-1-lts
+- Terminal: kitty
+- $TERM: xterm-256color
+
+Configuration ~
+- ✅ OK no issues found
+
+Runtime ~
+- ✅ OK $VIMRUNTIME: /usr/share/nvim/runtime
+
+Performance ~
+- ✅ OK Build type: RelWithDebInfo
+
+Remote Plugins ~
+- ✅ OK Up to date
+
+Terminal ~
+- key_backspace (kbs) terminfo entry: `key_backspace=^H`
+- key_dc (kdch1) terminfo entry: `key_dc=\E[3~`
+- $COLORTERM="truecolor"
+
+External Tools ~
+- ✅ OK ripgrep 15.1.0 (/usr/bin/rg)
+- ✅ OK vim.ui.open: handler found (xdg-open)
+- ✅ OK git version 2.54.0 (/usr/bin/git)
+- ✅ OK curl 8.20.0 (/usr/bin/curl)
+  curl 8.20.0 (x86_64-pc-linux-gnu) libcurl/8.20.0 OpenSSL/3.6.2 zlib/1.3.2 brotli/1.2.0 zstd/1.5.7 libidn2/2.3.8 libpsl/0.21.5 libssh2/1.11.1 nghttp2/1.69.0 ngtcp2/1.22.1 nghttp3/1.15.0 mit-krb5/1.21.3
+  Release-Date: 2026-04-29
+  Protocols: dict file ftp ftps gopher gophers http https imap imaps ipfs ipns mqtt mqtts pop3 pop3s rtsp scp sftp smtp smtps telnet tftp ws wss
+  Features: alt-svc AsynchDNS brotli GSS-API HSTS HTTP2 HTTP3 HTTPS-proxy IDN IPv6 Kerberos Largefile libz PSL SPNEGO SSL threadsafe TLS-SRP UnixSockets zstd
+
+==============================================================================
+vim.lsp:                                                                    ✅
+
+- LSP log level : WARN
+- Log path: /home/medhansh/.local/state/nvim/lsp.log
+- Log size: 22774 KB
+
+vim.lsp: Active Features ~
+
+vim.lsp: Active Clients ~
+- No active clients
+
+vim.lsp: Enabled Configurations ~
+
+vim.lsp: File Watcher ~
+- file watching "(workspace/didChangeWatchedFiles)" disabled on all clients
+
+vim.lsp: Position Encodings ~
+- No active clients
+
+==============================================================================
+vim.pack:                                                                   ✅
+
+vim.pack: basics ~
+- ✅ OK `vim.pack` is not used
+
+==============================================================================
+vim.provider:                                                               ✅
+
+Clipboard (optional) ~
+- ✅ OK Clipboard tool found: wl-copy
+
+Node.js provider (optional) ~
+- Disabled (loaded_node_provider=0).
+
+Perl provider (optional) ~
+- Disabled (loaded_perl_provider=0).
+
+Python 3 provider (optional) ~
+- Using: g:python3_host_prog = "/home/medhansh/.venvs/neovim/bin/python"
+- Executable: /home/medhansh/.venvs/neovim/bin/python
+- Python version: 3.14.5
+- pynvim version: 0.6.0
+- ✅ OK Latest pynvim is installed.
+
+Python virtualenv ~
+- ✅ OK no $VIRTUAL_ENV
+
+Ruby provider (optional) ~
+- Disabled (loaded_ruby_provider=0).
+
+==============================================================================
+vim.treesitter:                                                             ✅
+
+Treesitter features ~
+- Treesitter ABI support: min 13, max 15
+- WASM parser support: false
+
+Treesitter parsers ~
+- ✅ OK Parser: bash                      ABI: 15, path: /home/medhansh/.local/share/nvim/site/parser/bash.so
+- ✅ OK Parser: c                         ABI: 15, path: /home/medhansh/.local/share/nvim/site/parser/c.so
+- ✅ OK Parser: c                    (not loaded), path: /usr/share/nvim/runtime/parser/c.so
+- ✅ OK Parser: cpp                       ABI: 15, path: /home/medhansh/.local/share/nvim/site/parser/cpp.so
+- ✅ OK Parser: css                       ABI: 15, path: /home/medhansh/.local/share/nvim/site/parser/css.so
+- ✅ OK Parser: html                      ABI: 14, path: /home/medhansh/.local/share/nvim/site/parser/html.so
+- ✅ OK Parser: javascript                ABI: 15, path: /home/medhansh/.local/share/nvim/site/parser/javascript.so
+- ✅ OK Parser: json                      ABI: 14, path: /home/medhansh/.local/share/nvim/site/parser/json.so
+- ✅ OK Parser: lua                       ABI: 15, path: /home/medhansh/.local/share/nvim/site/parser/lua.so
+- ✅ OK Parser: lua                  (not loaded), path: /usr/share/nvim/runtime/parser/lua.so
+- ✅ OK Parser: markdown                  ABI: 15, path: /home/medhansh/.local/share/nvim/site/parser/markdown.so
+- ✅ OK Parser: markdown             (not loaded), path: /usr/share/nvim/runtime/parser/markdown.so
+- ✅ OK Parser: markdown_inline           ABI: 15, path: /home/medhansh/.local/share/nvim/site/parser/markdown_inline.so
+- ✅ OK Parser: markdown_inline      (not loaded), path: /usr/share/nvim/runtime/parser/markdown_inline.so
+- ✅ OK Parser: python                    ABI: 15, path: /home/medhansh/.local/share/nvim/site/parser/python.so
+- ✅ OK Parser: query                     ABI: 15, path: /usr/share/nvim/runtime/parser/query.so
+- ✅ OK Parser: tsx                       ABI: 14, path: /home/medhansh/.local/share/nvim/site/parser/tsx.so
+- ✅ OK Parser: typescript                ABI: 14, path: /home/medhansh/.local/share/nvim/site/parser/typescript.so
+- ✅ OK Parser: vim                       ABI: 15, path: /home/medhansh/.local/share/nvim/site/parser/vim.so
+- ✅ OK Parser: vim                  (not loaded), path: /usr/share/nvim/runtime/parser/vim.so
+- ✅ OK Parser: vimdoc                    ABI: 15, path: /home/medhansh/.local/share/nvim/site/parser/vimdoc.so
+- ✅ OK Parser: vimdoc               (not loaded), path: /usr/share/nvim/runtime/parser/vimdoc.so
+
+Treesitter queries ~
+- ✅ OK apex            textobjects     /home/medhansh/.local/share/nvim/lazy/nvim-treesitter-textobjects/queries/apex
+- ✅ OK astro           textobjects     /home/medhansh/.local/share/nvim/lazy/nvim-treesitter-textobjects/queries/astro
+- ✅ OK bash            folds           /home/medhansh/.local/share/nvim/site/queries/bash
+- ✅ OK bash            highlights      /home/medhansh/.local/share/nvim/site/queries/bash
+- ✅ OK bash            indents         /home/medhansh/.local/share/nvim/site/queries/bash
+- ✅ OK bash            injections      /home/medhansh/.local/share/nvim/site/queries/bash
+- ✅ OK bash            locals          /home/medhansh/.local/share/nvim/site/queries/bash
+- ✅ OK bash            textobjects     /home/medhansh/.local/share/nvim/lazy/nvim-treesitter-textobjects/queries/bash
+- ✅ OK bibtex          textobjects     /home/medhansh/.local/share/nvim/lazy/nvim-treesitter-textobjects/queries/bibtex
+- ✅ OK c               folds           /home/medhansh/.local/share/nvim/site/queries/c
+- ✅ OK c               folds           /usr/share/nvim/runtime/queries/c
+- ✅ OK c               highlights      /home/medhansh/.local/share/nvim/site/queries/c
+- ✅ OK c               highlights      /usr/share/nvim/runtime/queries/c
+- ✅ OK c               indents         /home/medhansh/.local/share/nvim/site/queries/c
+- ✅ OK c               injections      /home/medhansh/.local/share/nvim/site/queries/c
+- ✅ OK c               injections      /usr/share/nvim/runtime/queries/c
+- ✅ OK c               locals          /home/medhansh/.local/share/nvim/site/queries/c
+- ✅ OK c               textobjects     /home/medhansh/.local/share/nvim/lazy/nvim-treesitter-textobjects/queries/c
+- ✅ OK c_sharp         textobjects     /home/medhansh/.local/share/nvim/lazy/nvim-treesitter-textobjects/queries/c_sharp
+- ✅ OK cmake           textobjects     /home/medhansh/.local/share/nvim/lazy/nvim-treesitter-textobjects/queries/cmake
+- ✅ OK cpp             folds           /home/medhansh/.local/share/nvim/site/queries/cpp
+- ✅ OK cpp             highlights      /home/medhansh/.local/share/nvim/site/queries/cpp
+- ✅ OK cpp             indents         /home/medhansh/.local/share/nvim/site/queries/cpp
+- ✅ OK cpp             injections      /home/medhansh/.local/share/nvim/site/queries/cpp
+- ✅ OK cpp             locals          /home/medhansh/.local/share/nvim/site/queries/cpp
+- ✅ OK cpp             textobjects     /home/medhansh/.local/share/nvim/lazy/nvim-treesitter-textobjects/queries/cpp
+- ✅ OK css             folds           /home/medhansh/.local/share/nvim/site/queries/css
+- ✅ OK css             highlights      /home/medhansh/.local/share/nvim/site/queries/css
+- ✅ OK css             images          /home/medhansh/.local/share/nvim/lazy/snacks.nvim/queries/css
+- ✅ OK css             indents         /home/medhansh/.local/share/nvim/site/queries/css
+- ✅ OK css             injections      /home/medhansh/.local/share/nvim/site/queries/css
+- ✅ OK css             textobjects     /home/medhansh/.local/share/nvim/lazy/nvim-treesitter-textobjects/queries/css
+- ✅ OK cuda            textobjects     /home/medhansh/.local/share/nvim/lazy/nvim-treesitter-textobjects/queries/cuda
+- ✅ OK dart            textobjects     /home/medhansh/.local/share/nvim/lazy/nvim-treesitter-textobjects/queries/dart
+- ✅ OK dockerfile      textobjects     /home/medhansh/.local/share/nvim/lazy/nvim-treesitter-textobjects/queries/dockerfile
+- ✅ OK ecma            folds           /home/medhansh/.local/share/nvim/site/queries/ecma
+- ✅ OK ecma            highlights      /home/medhansh/.local/share/nvim/site/queries/ecma
+- ✅ OK ecma            indents         /home/medhansh/.local/share/nvim/site/queries/ecma
+- ✅ OK ecma            injections      /home/medhansh/.local/share/nvim/site/queries/ecma
+- ✅ OK ecma            locals          /home/medhansh/.local/share/nvim/site/queries/ecma
+- ✅ OK ecma            textobjects     /home/medhansh/.local/share/nvim/lazy/nvim-treesitter-textobjects/queries/ecma
+- ✅ OK elixir          textobjects     /home/medhansh/.local/share/nvim/lazy/nvim-treesitter-textobjects/queries/elixir
+- ✅ OK elm             textobjects     /home/medhansh/.local/share/nvim/lazy/nvim-treesitter-textobjects/queries/elm
+- ✅ OK enforce         textobjects     /home/medhansh/.local/share/nvim/lazy/nvim-treesitter-textobjects/queries/enforce
+- ✅ OK fennel          textobjects     /home/medhansh/.local/share/nvim/lazy/nvim-treesitter-textobjects/queries/fennel
+- ✅ OK fish            textobjects     /home/medhansh/.local/share/nvim/lazy/nvim-treesitter-textobjects/queries/fish
+- ✅ OK foam            textobjects     /home/medhansh/.local/share/nvim/lazy/nvim-treesitter-textobjects/queries/foam
+- ✅ OK gdscript        textobjects     /home/medhansh/.local/share/nvim/lazy/nvim-treesitter-textobjects/queries/gdscript
+- ✅ OK git_config      textobjects     /home/medhansh/.local/share/nvim/lazy/nvim-treesitter-textobjects/queries/git_config
+- ✅ OK gleam           textobjects     /home/medhansh/.local/share/nvim/lazy/nvim-treesitter-textobjects/queries/gleam
+- ✅ OK glimmer         textobjects     /home/medhansh/.local/share/nvim/lazy/nvim-treesitter-textobjects/queries/glimmer
+- ✅ OK glsl            textobjects     /home/medhansh/.local/share/nvim/lazy/nvim-treesitter-textobjects/queries/glsl
+- ✅ OK go              textobjects     /home/medhansh/.local/share/nvim/lazy/nvim-treesitter-textobjects/queries/go
+- ✅ OK hack            textobjects     /home/medhansh/.local/share/nvim/lazy/nvim-treesitter-textobjects/queries/hack
+- ✅ OK haskell         textobjects     /home/medhansh/.local/share/nvim/lazy/nvim-treesitter-textobjects/queries/haskell
+- ✅ OK hcl             textobjects     /home/medhansh/.local/share/nvim/lazy/nvim-treesitter-textobjects/queries/hcl
+- ✅ OK heex            textobjects     /home/medhansh/.local/share/nvim/lazy/nvim-treesitter-textobjects/queries/heex
+- ✅ OK hlsl            textobjects     /home/medhansh/.local/share/nvim/lazy/nvim-treesitter-textobjects/queries/hlsl
+- ✅ OK html            folds           /home/medhansh/.local/share/nvim/site/queries/html
+- ✅ OK html            highlights      /home/medhansh/.local/share/nvim/site/queries/html
+- ✅ OK html            images          /home/medhansh/.local/share/nvim/lazy/snacks.nvim/queries/html
+- ✅ OK html            indents         /home/medhansh/.local/share/nvim/site/queries/html
+- ✅ OK html            injections      /home/medhansh/.local/share/nvim/site/queries/html
+- ✅ OK html            locals          /home/medhansh/.local/share/nvim/site/queries/html
+- ✅ OK html            textobjects     /home/medhansh/.local/share/nvim/lazy/nvim-treesitter-textobjects/queries/html
+- ✅ OK html_tags       highlights      /home/medhansh/.local/share/nvim/site/queries/html_tags
+- ✅ OK html_tags       indents         /home/medhansh/.local/share/nvim/site/queries/html_tags
+- ✅ OK html_tags       injections      /home/medhansh/.local/share/nvim/site/queries/html_tags
+- ✅ OK inko            textobjects     /home/medhansh/.local/share/nvim/lazy/nvim-treesitter-textobjects/queries/inko
+- ✅ OK java            textobjects     /home/medhansh/.local/share/nvim/lazy/nvim-treesitter-textobjects/queries/java
+- ✅ OK javascript      folds           /home/medhansh/.local/share/nvim/site/queries/javascript
+- ✅ OK javascript      highlights      /home/medhansh/.local/share/nvim/site/queries/javascript
+- ✅ OK javascript      images          /home/medhansh/.local/share/nvim/lazy/snacks.nvim/queries/javascript
+- ✅ OK javascript      indents         /home/medhansh/.local/share/nvim/site/queries/javascript
+- ✅ OK javascript      injections      /home/medhansh/.local/share/nvim/site/queries/javascript
+- ✅ OK javascript      locals          /home/medhansh/.local/share/nvim/site/queries/javascript
+- ✅ OK javascript      textobjects     /home/medhansh/.local/share/nvim/lazy/nvim-treesitter-textobjects/queries/javascript
+- ✅ OK json            folds           /home/medhansh/.local/share/nvim/site/queries/json
+- ✅ OK json            highlights      /home/medhansh/.local/share/nvim/site/queries/json
+- ✅ OK json            indents         /home/medhansh/.local/share/nvim/site/queries/json
+- ✅ OK json            injections      /home/medhansh/.local/share/nvim/site/queries/json
+- ✅ OK json            locals          /home/medhansh/.local/share/nvim/site/queries/json
+- ✅ OK json            textobjects     /home/medhansh/.local/share/nvim/lazy/nvim-treesitter-textobjects/queries/json
+- ✅ OK jsx             folds           /home/medhansh/.local/share/nvim/site/queries/jsx
+- ✅ OK jsx             highlights      /home/medhansh/.local/share/nvim/site/queries/jsx
+- ✅ OK jsx             indents         /home/medhansh/.local/share/nvim/site/queries/jsx
+- ✅ OK jsx             injections      /home/medhansh/.local/share/nvim/site/queries/jsx
+- ✅ OK jsx             textobjects     /home/medhansh/.local/share/nvim/lazy/nvim-treesitter-textobjects/queries/jsx
+- ✅ OK julia           textobjects     /home/medhansh/.local/share/nvim/lazy/nvim-treesitter-textobjects/queries/julia
+- ✅ OK kotlin          textobjects     /home/medhansh/.local/share/nvim/lazy/nvim-treesitter-textobjects/queries/kotlin
+- ✅ OK latex           images          /home/medhansh/.local/share/nvim/lazy/snacks.nvim/queries/latex
+- ✅ OK latex           textobjects     /home/medhansh/.local/share/nvim/lazy/nvim-treesitter-textobjects/queries/latex
+- ✅ OK lua             folds           /home/medhansh/.local/share/nvim/site/queries/lua
+- ✅ OK lua             folds           /usr/share/nvim/runtime/queries/lua
+- ✅ OK lua             highlights      /home/medhansh/.local/share/nvim/site/queries/lua
+- ✅ OK lua             highlights      /home/medhansh/.local/share/nvim/lazy/snacks.nvim/queries/lua
+- ✅ OK lua             highlights      /usr/share/nvim/runtime/queries/lua
+- ✅ OK lua             indents         /home/medhansh/.local/share/nvim/site/queries/lua
+- ✅ OK lua             injections      /home/medhansh/.local/share/nvim/site/queries/lua
+- ✅ OK lua             injections      /home/medhansh/.local/share/nvim/lazy/snacks.nvim/queries/lua
+- ✅ OK lua             injections      /usr/share/nvim/runtime/queries/lua
+- ✅ OK lua             locals          /home/medhansh/.local/share/nvim/site/queries/lua
+- ✅ OK lua             textobjects     /home/medhansh/.local/share/nvim/lazy/nvim-treesitter-textobjects/queries/lua
+- ✅ OK markdown        folds           /home/medhansh/.local/share/nvim/site/queries/markdown
+- ✅ OK markdown        folds           /usr/share/nvim/runtime/queries/markdown
+- ✅ OK markdown        highlights      /home/medhansh/.local/share/nvim/site/queries/markdown
+- ✅ OK markdown        highlights      /usr/share/nvim/runtime/queries/markdown
+- ✅ OK markdown        images          /home/medhansh/.local/share/nvim/lazy/snacks.nvim/queries/markdown
+- ✅ OK markdown        indents         /home/medhansh/.local/share/nvim/site/queries/markdown
+- ✅ OK markdown        injections      /home/medhansh/.local/share/nvim/site/queries/markdown
+- ✅ OK markdown        injections      /home/medhansh/.local/share/nvim/lazy/snacks.nvim/queries/markdown
+- ✅ OK markdown        injections      /usr/share/nvim/runtime/queries/markdown
+- ✅ OK markdown        textobjects     /home/medhansh/.local/share/nvim/lazy/nvim-treesitter-textobjects/queries/markdown
+- ✅ OK markdown_inline highlights      /home/medhansh/.local/share/nvim/site/queries/markdown_inline
+- ✅ OK markdown_inline highlights      /usr/share/nvim/runtime/queries/markdown_inline
+- ✅ OK markdown_inline images          /home/medhansh/.local/share/nvim/lazy/snacks.nvim/queries/markdown_inline
+- ✅ OK markdown_inline injections      /home/medhansh/.local/share/nvim/site/queries/markdown_inline
+- ✅ OK markdown_inline injections      /usr/share/nvim/runtime/queries/markdown_inline
+- ✅ OK matlab          textobjects     /home/medhansh/.local/share/nvim/lazy/nvim-treesitter-textobjects/queries/matlab
+- ✅ OK nasm            textobjects     /home/medhansh/.local/share/nvim/lazy/nvim-treesitter-textobjects/queries/nasm
+- ✅ OK nim             textobjects     /home/medhansh/.local/share/nvim/lazy/nvim-treesitter-textobjects/queries/nim
+- ✅ OK nix             textobjects     /home/medhansh/.local/share/nvim/lazy/nvim-treesitter-textobjects/queries/nix
+- ✅ OK norg            images          /home/medhansh/.local/share/nvim/lazy/snacks.nvim/queries/norg
+- ✅ OK ocaml           textobjects     /home/medhansh/.local/share/nvim/lazy/nvim-treesitter-textobjects/queries/ocaml
+- ✅ OK odin            textobjects     /home/medhansh/.local/share/nvim/lazy/nvim-treesitter-textobjects/queries/odin
+- ✅ OK perl            textobjects     /home/medhansh/.local/share/nvim/lazy/nvim-treesitter-textobjects/queries/perl
+- ✅ OK php             textobjects     /home/medhansh/.local/share/nvim/lazy/nvim-treesitter-textobjects/queries/php
+- ✅ OK php_only        textobjects     /home/medhansh/.local/share/nvim/lazy/nvim-treesitter-textobjects/queries/php_only
+- ✅ OK python          folds           /home/medhansh/.local/share/nvim/site/queries/python
+- ✅ OK python          highlights      /home/medhansh/.local/share/nvim/site/queries/python
+- ✅ OK python          indents         /home/medhansh/.local/share/nvim/site/queries/python
+- ✅ OK python          injections      /home/medhansh/.local/share/nvim/site/queries/python
+- ✅ OK python          locals          /home/medhansh/.local/share/nvim/site/queries/python
+- ✅ OK python          textobjects     /home/medhansh/.local/share/nvim/lazy/nvim-treesitter-textobjects/queries/python
+- ✅ OK ql              textobjects     /home/medhansh/.local/share/nvim/lazy/nvim-treesitter-textobjects/queries/ql
+- ✅ OK query           folds           /usr/share/nvim/runtime/queries/query
+- ✅ OK query           highlights      /usr/share/nvim/runtime/queries/query
+- ✅ OK query           textobjects     /home/medhansh/.local/share/nvim/lazy/nvim-treesitter-textobjects/queries/query
+- ✅ OK r               textobjects     /home/medhansh/.local/share/nvim/lazy/nvim-treesitter-textobjects/queries/r
+- ✅ OK readline        textobjects     /home/medhansh/.local/share/nvim/lazy/nvim-treesitter-textobjects/queries/readline
+- ✅ OK rst             textobjects     /home/medhansh/.local/share/nvim/lazy/nvim-treesitter-textobjects/queries/rst
+- ✅ OK ruby            textobjects     /home/medhansh/.local/share/nvim/lazy/nvim-treesitter-textobjects/queries/ruby
+- ✅ OK rust            textobjects     /home/medhansh/.local/share/nvim/lazy/nvim-treesitter-textobjects/queries/rust
+- ✅ OK scala           textobjects     /home/medhansh/.local/share/nvim/lazy/nvim-treesitter-textobjects/queries/scala
+- ✅ OK scss            images          /home/medhansh/.local/share/nvim/lazy/snacks.nvim/queries/scss
+- ✅ OK scss            textobjects     /home/medhansh/.local/share/nvim/lazy/nvim-treesitter-textobjects/queries/scss
+- ✅ OK slang           textobjects     /home/medhansh/.local/share/nvim/lazy/nvim-treesitter-textobjects/queries/slang
+- ✅ OK supercollider   textobjects     /home/medhansh/.local/share/nvim/lazy/nvim-treesitter-textobjects/queries/supercollider
+- ✅ OK svelte          images          /home/medhansh/.local/share/nvim/lazy/snacks.nvim/queries/svelte
+- ✅ OK svelte          textobjects     /home/medhansh/.local/share/nvim/lazy/nvim-treesitter-textobjects/queries/svelte
+- ✅ OK swift           textobjects     /home/medhansh/.local/share/nvim/lazy/nvim-treesitter-textobjects/queries/swift
+- ✅ OK systemverilog   textobjects     /home/medhansh/.local/share/nvim/lazy/nvim-treesitter-textobjects/queries/systemverilog
+- ✅ OK tact            textobjects     /home/medhansh/.local/share/nvim/lazy/nvim-treesitter-textobjects/queries/tact
+- ✅ OK terraform       textobjects     /home/medhansh/.local/share/nvim/lazy/nvim-treesitter-textobjects/queries/terraform
+- ✅ OK toml            textobjects     /home/medhansh/.local/share/nvim/lazy/nvim-treesitter-textobjects/queries/toml
+- ✅ OK tsx             folds           /home/medhansh/.local/share/nvim/site/queries/tsx
+- ✅ OK tsx             highlights      /home/medhansh/.local/share/nvim/site/queries/tsx
+- ✅ OK tsx             images          /home/medhansh/.local/share/nvim/lazy/snacks.nvim/queries/tsx
+- ✅ OK tsx             indents         /home/medhansh/.local/share/nvim/site/queries/tsx
+- ✅ OK tsx             injections      /home/medhansh/.local/share/nvim/site/queries/tsx
+- ✅ OK tsx             locals          /home/medhansh/.local/share/nvim/site/queries/tsx
+- ✅ OK tsx             textobjects     /home/medhansh/.local/share/nvim/lazy/nvim-treesitter-textobjects/queries/tsx
+- ✅ OK twig            textobjects     /home/medhansh/.local/share/nvim/lazy/nvim-treesitter-textobjects/queries/twig
+- ✅ OK typescript      folds           /home/medhansh/.local/share/nvim/site/queries/typescript
+- ✅ OK typescript      highlights      /home/medhansh/.local/share/nvim/site/queries/typescript
+- ✅ OK typescript      indents         /home/medhansh/.local/share/nvim/site/queries/typescript
+- ✅ OK typescript      injections      /home/medhansh/.local/share/nvim/site/queries/typescript
+- ✅ OK typescript      locals          /home/medhansh/.local/share/nvim/site/queries/typescript
+- ✅ OK typescript      textobjects     /home/medhansh/.local/share/nvim/lazy/nvim-treesitter-textobjects/queries/typescript
+- ✅ OK typst           images          /home/medhansh/.local/share/nvim/lazy/snacks.nvim/queries/typst
+- ✅ OK v               textobjects     /home/medhansh/.local/share/nvim/lazy/nvim-treesitter-textobjects/queries/v
+- ✅ OK vim             folds           /home/medhansh/.local/share/nvim/site/queries/vim
+- ✅ OK vim             folds           /usr/share/nvim/runtime/queries/vim
+- ✅ OK vim             highlights      /home/medhansh/.local/share/nvim/site/queries/vim
+- ✅ OK vim             highlights      /usr/share/nvim/runtime/queries/vim
+- ✅ OK vim             injections      /home/medhansh/.local/share/nvim/site/queries/vim
+- ✅ OK vim             injections      /usr/share/nvim/runtime/queries/vim
+- ✅ OK vim             locals          /home/medhansh/.local/share/nvim/site/queries/vim
+- ✅ OK vim             textobjects     /home/medhansh/.local/share/nvim/lazy/nvim-treesitter-textobjects/queries/vim
+- ✅ OK vimdoc          highlights      /home/medhansh/.local/share/nvim/site/queries/vimdoc
+- ✅ OK vimdoc          highlights      /usr/share/nvim/runtime/queries/vimdoc
+- ✅ OK vimdoc          injections      /home/medhansh/.local/share/nvim/site/queries/vimdoc
+- ✅ OK vimdoc          injections      /usr/share/nvim/runtime/queries/vimdoc
+- ✅ OK vue             images          /home/medhansh/.local/share/nvim/lazy/snacks.nvim/queries/vue
+- ✅ OK vue             textobjects     /home/medhansh/.local/share/nvim/lazy/nvim-treesitter-textobjects/queries/vue
+- ✅ OK wgsl            textobjects     /home/medhansh/.local/share/nvim/lazy/nvim-treesitter-textobjects/queries/wgsl
+- ✅ OK wgsl_bevy       textobjects     /home/medhansh/.local/share/nvim/lazy/nvim-treesitter-textobjects/queries/wgsl_bevy
+- ✅ OK yaml            textobjects     /home/medhansh/.local/share/nvim/lazy/nvim-treesitter-textobjects/queries/yaml
+- ✅ OK zig             textobjects     /home/medhansh/.local/share/nvim/lazy/nvim-treesitter-textobjects/queries/zig
+- ✅ OK zsh             textobjects     /home/medhansh/.local/share/nvim/lazy/nvim-treesitter-textobjects/queries/zsh
+

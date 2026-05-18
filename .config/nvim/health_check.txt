@@ -1,0 +1,18 @@
+
+==============================================================================
+helpview:                                                                   ✅
+
+💻 Neovim: ~
+- ✅ OK Version: `0.12.2`
+
+💡 Parsers: ~
+- ✅ OK `nvim-treesitter/nvim-treesitter` found.
+- ✅ OK ` vimdoc` parser was found.
+
+✨ Icon providers: ~
+- ✅ OK `nvim-tree/nvim-web-devicons` found.
+- ✅ OK `echasnovski/mini.icons` found.
+
+🚧 Configuration: ~
+- ✅ OK No errors found!
+

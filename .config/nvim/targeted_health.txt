@@ -1,0 +1,11 @@
+
+==============================================================================
+image:                                                                    1 ❌
+
+- ❌ ERROR No healthcheck found for "image" plugin.
+
+==============================================================================
+neotest:                                                                  1 ❌
+
+- ❌ ERROR No healthcheck found for "neotest" plugin.
+
