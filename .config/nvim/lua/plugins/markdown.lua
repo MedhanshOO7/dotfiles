@@ -161,6 +161,15 @@ return {
             preset = "round",
             alignment_indicator = "━",
         },
+        latex = {
+            enabled = true,
+            converter = "latex2text",
+            highlight = "RenderMarkdownMath",
+        },
+        mermaid = {
+            enabled = true,
+            highlight = "RenderMarkdownMermaid",
+        },
         win_options = {
             conceallevel = {
                 default = vim.api.nvim_get_option_value("conceallevel", {}),

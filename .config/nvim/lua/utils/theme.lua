@@ -243,6 +243,7 @@ local function apply_editor_chrome(transparent)
     local danger = hl_hex("DiagnosticError", "fg", "#ed8796")
 
     local float_bg = get_glass_bg(normal_bg, normal_fg, transparent)
+    local float_border = blend(accent, normal_bg, 0.35)
     local sidebar_bg = transparent and "NONE" or blend(normal_fg, normal_bg, 0.04)
     local accent_bg = transparent and "NONE" or blend(accent, normal_bg, 0.12)
     local soft_edge = blend(comment, normal_bg, 0.45)
@@ -267,14 +268,14 @@ local function apply_editor_chrome(transparent)
 
         -- ── Floating windows ──────────────────────────────────────────────────
         NormalFloat = { fg = normal_fg, bg = float_bg },
-        FloatBorder = { fg = blend(accent, normal_bg, 0.80), bg = float_bg },
+        FloatBorder = { fg = float_border, bg = float_bg },
         FloatTitle = { fg = accent, bg = float_bg, bold = true },
         WinSeparator = { fg = soft_edge, bg = transparent and "NONE" or normal_bg },
 
         -- ── Neo-tree ──────────────────────────────────────────────────────────
         NeoTreeNormal = { fg = normal_fg, bg = sidebar_bg },
         NeoTreeNormalNC = { fg = normal_fg, bg = sidebar_bg },
-        NeoTreeFloatBorder = { fg = blend(accent, normal_bg, 0.80), bg = sidebar_bg },
+        NeoTreeFloatBorder = { fg = float_border, bg = sidebar_bg },
         NeoTreeWinSeparator = { fg = soft_edge, bg = transparent and "NONE" or normal_bg },
 
         -- ── Bufferline / tabline ──────────────────────────────────────────────
@@ -283,9 +284,9 @@ local function apply_editor_chrome(transparent)
 
         -- ── Telescope ─────────────────────────────────────────────────────────
         TelescopeNormal = { fg = normal_fg, bg = float_bg },
-        TelescopeBorder = { fg = soft_edge, bg = float_bg },
+        TelescopeBorder = { fg = float_border, bg = float_bg },
         TelescopePromptNormal = { fg = normal_fg, bg = accent_bg },
-        TelescopePromptBorder = { fg = blend(accent, normal_bg, 0.85), bg = accent_bg },
+        TelescopePromptBorder = { fg = float_border, bg = accent_bg },
         TelescopePromptTitle = { fg = normal_bg, bg = accent, bold = true },
         TelescopePreviewTitle = { fg = normal_bg, bg = success, bold = true },
         TelescopeResultsTitle = { fg = normal_bg, bg = accent_alt, bold = true },
@@ -299,6 +300,7 @@ local function apply_editor_chrome(transparent)
 
         -- ── Notify ────────────────────────────────────────────────────────────
         NotifyBackground = { bg = float_bg },
+        NotifyBorder = { fg = float_border, bg = float_bg },
 
         -- ── Indent blankline ──────────────────────────────────────────────────
         IblIndent = { fg = blend(comment, normal_bg, 0.35) },
@@ -339,11 +341,11 @@ local function apply_editor_chrome(transparent)
         DapUIBreakpointsInfo = { fg = success },
         DapUINormalNC = { bg = float_bg },
         DapUINormal = { fg = normal_fg, bg = float_bg },
-        DapUIFloatBorder = { fg = blend(accent, normal_bg, 0.80), bg = float_bg },
+        DapUIFloatBorder = { fg = float_border, bg = float_bg },
 
         -- ── Toggleterm ────────────────────────────────────────────────────────
         ToggleTerm = { fg = normal_fg, bg = float_bg },
-        ToggleTermBorder = { fg = soft_edge, bg = float_bg },
+        ToggleTermBorder = { fg = float_border, bg = float_bg },
         ToggleTermNormal = { fg = normal_fg, bg = float_bg },
 
         -- ── Noice ─────────────────────────────────────────────────────────────
@@ -351,17 +353,17 @@ local function apply_editor_chrome(transparent)
         NoiceCmdlineIcon = { fg = accent },
         NoiceCmdlineIconSearch = { fg = warning },
         NoiceCmdlinePopup = { fg = normal_fg, bg = float_bg },
-        NoiceCmdlinePopupBorder = { fg = blend(accent, normal_bg, 0.80), bg = float_bg },
+        NoiceCmdlinePopupBorder = { fg = float_border, bg = float_bg },
         NoicePopup = { fg = normal_fg, bg = float_bg },
-        NoicePopupBorder = { fg = soft_edge, bg = float_bg },
+        NoicePopupBorder = { fg = float_border, bg = float_bg },
         NoiceConfirm = { fg = normal_fg, bg = float_bg },
-        NoiceConfirmBorder = { fg = blend(accent, normal_bg, 0.80), bg = float_bg },
+        NoiceConfirmBorder = { fg = float_border, bg = float_bg },
 
         -- ── Which-key ─────────────────────────────────────────────────────────
         WhichKey = { fg = accent },
         WhichKeyGroup = { fg = accent_alt },
         WhichKeyDesc = { fg = normal_fg },
-        WhichKeyBorder = { fg = soft_edge, bg = float_bg },
+        WhichKeyBorder = { fg = float_border, bg = float_bg },
         WhichKeyNormal = { fg = normal_fg, bg = float_bg },
         WhichKeySeparator = { fg = comment },
         WhichKeyValue = { fg = comment },
@@ -370,10 +372,11 @@ local function apply_editor_chrome(transparent)
         SnacksNormal = { fg = normal_fg, bg = float_bg },
         SnacksNormalNC = { fg = normal_fg, bg = float_bg },
         SnacksPicker = { fg = normal_fg, bg = float_bg },
-        SnacksPickerBorder = { fg = soft_edge, bg = float_bg },
+        SnacksPickerBorder = { fg = float_border, bg = float_bg },
         SnacksPickerTitle = { fg = normal_bg, bg = accent, bold = true },
         SnacksInputNormal = { fg = normal_fg, bg = float_bg },
-        SnacksInputBorder = { fg = blend(accent, normal_bg, 0.80), bg = float_bg },
+        SnacksInputTitle = { fg = normal_bg, bg = accent, bold = true },
+        SnacksInputBorder = { fg = float_border, bg = float_bg },
         SnacksIndent = { fg = blend(comment, normal_bg, 0.32) },
         SnacksIndentScope = { fg = blend(accent, normal_bg, 0.82), bold = true },
         SnacksDashboardHeader = { fg = accent, bold = true },
@@ -413,7 +416,7 @@ local function apply_editor_chrome(transparent)
         AerialNormal = { fg = normal_fg, bg = sidebar_bg },
 
         -- ── Overseer ──────────────────────────────────────────────────────────
-        OverseerTaskBorder = { fg = soft_edge, bg = float_bg },
+        OverseerTaskBorder = { fg = float_border, bg = float_bg },
         OverseerOutput = { fg = normal_fg, bg = float_bg },
         OverseerComponent = { fg = accent_alt },
         OverseerTask = { fg = normal_fg },

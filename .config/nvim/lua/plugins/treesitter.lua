@@ -39,6 +39,7 @@ return {
                 "luadoc",
                 "markdown",
                 "markdown_inline",
+                "mermaid",
                 "python",
                 "query",
                 "regex",

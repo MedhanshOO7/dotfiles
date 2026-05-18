@@ -17,6 +17,7 @@ return {
             "--completion-style=detailed",
             "--function-arg-placeholders=0",
             "--header-insertion=iwyu",
+            "--fallback-style={BasedOnStyle: LLVM, IndentWidth: 4, TabWidth: 4, UseTab: Never}",
         },
         init_options = {
             clangdFileStatus = true,

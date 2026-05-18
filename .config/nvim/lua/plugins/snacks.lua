@@ -2,6 +2,13 @@ return {
     "folke/snacks.nvim",
     priority = 1000,
     lazy = false,
+    config = function(_, opts)
+        require("snacks").setup(opts)
+        require("snacks.input").enable()
+        pcall(function()
+            require("snacks.dashboard").setup()
+        end)
+    end,
     opts = {
         bigfile = { enabled = true },
         bufdelete = { enabled = true },
@@ -9,6 +16,7 @@ return {
         scope = { enabled = true },
         words = { enabled = true },
         notifier = { enabled = true },
+        animate = { enabled = true },
         picker = { enabled = false },
         explorer = { enabled = false },
         dashboard = { enabled = true },

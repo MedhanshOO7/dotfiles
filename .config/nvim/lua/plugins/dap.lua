@@ -49,6 +49,7 @@ return {
 
             if dapui_ok then
                 dapui.setup({
+                    floating = { border = "rounded" },
                     layouts = {
                         {
                             elements = {

@@ -32,11 +32,7 @@ return {
                     preview_cutoff = 120,
                 },
                 border = true,
-                borderchars = {
-                    prompt = { "─", "│", " ", "│", "╭", "╮", "│", "│" },
-                    results = { "─", "│", "─", "│", "├", "┤", "╯", "╰" },
-                    preview = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
-                },
+                borderchars = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
                 mappings = {
                     i = {
                         ["<C-j>"] = actions.move_selection_next,

@@ -39,7 +39,7 @@ return {
                     args = { "--indent-type", "Spaces", "--indent-width", "4", "-" },
                 },
                 clang_format = {
-                    prepend_args = { "--style={IndentWidth: 4}" },
+                    prepend_args = { "--style={BasedOnStyle: LLVM, IndentWidth: 4, TabWidth: 4, UseTab: Never}" },
                 },
                 shfmt = {
                     prepend_args = { "-i", "4", "-ci" },

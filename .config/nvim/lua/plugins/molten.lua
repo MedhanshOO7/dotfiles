@@ -57,12 +57,13 @@ local function ensure_jupyter_dirs()
 end
 
 local function open_notebook_buffer(args)
+    local source_buf = args.buf
     local ipynb_path = vim.fn.fnamemodify(args.file, ":p")
-    if ipynb_path == "" or vim.bo[args.buf].buftype ~= "" then
+    if ipynb_path == "" or not vim.api.nvim_buf_is_valid(source_buf) or vim.bo[source_buf].buftype ~= "" then
         return
     end
 
-    if vim.b[args.buf].molten_notebook_redirecting then
+    if vim.b[source_buf].molten_notebook_redirecting then
         return
     end
 
@@ -74,11 +75,27 @@ local function open_notebook_buffer(args)
     vim.g.__molten_ipynb_pairs = vim.g.__molten_ipynb_pairs or {}
     vim.g.__molten_ipynb_pairs[py_path] = ipynb_path
 
-    vim.b[args.buf].molten_notebook_redirecting = true
-    vim.bo[args.buf].bufhidden = "wipe"
+    vim.b[source_buf].molten_notebook_redirecting = true
+    vim.bo[source_buf].bufhidden = "wipe"
 
-    vim.cmd("keepalt edit " .. vim.fn.fnameescape(py_path))
-    vim.b.molten_ipynb_source = ipynb_path
+    -- Defer the redirect until the current BufEnter stack completes so plugins that
+    -- inspect the original buffer (for example image.nvim) don't see a buffer vanish
+    -- underneath them mid-callback.
+    vim.schedule(function()
+        if not vim.api.nvim_buf_is_valid(source_buf) then
+            return
+        end
+
+        if vim.api.nvim_get_current_buf() ~= source_buf then
+            return
+        end
+
+        vim.cmd("keepalt edit " .. vim.fn.fnameescape(py_path))
+
+        if vim.api.nvim_buf_is_valid(vim.api.nvim_get_current_buf()) then
+            vim.b.molten_ipynb_source = ipynb_path
+        end
+    end)
 end
 
 return {
