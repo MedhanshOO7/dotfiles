@@ -24,14 +24,17 @@ return {
         opts = {
             ensure_installed = {
                 "black",
+                "debugpy",
                 "codelldb",
                 "clang-format",
                 "eslint_d",
                 "js-debug-adapter",
                 "markdownlint",
                 "marksman",
+                "prettierd",
                 "prettier",
                 "ruff",
+                "selene",
                 "shellcheck",
                 "shfmt",
                 "stylua",

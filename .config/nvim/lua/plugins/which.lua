@@ -167,10 +167,14 @@ return {
 
             -- Terminal and tasks
             { "<leader>ta", desc = "Task quick action" },
+            { "<leader>tf", desc = "Project shell" },
+            { "<leader>tg", desc = "Terminal picker" },
+            { "<leader>th", desc = "Horizontal shell" },
             { "<leader>tl", desc = "Load task bundle" },
             { "<leader>to", desc = "Toggle terminal" },
             { "<leader>tr", desc = "Run task" },
             { "<leader>tt", desc = "Toggle task list" },
+            { "<leader>tv", desc = "Vertical shell" },
 
             -- UI and theme
             { "<leader>ua", desc = "Toggle auto-save (global)" },

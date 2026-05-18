@@ -28,6 +28,7 @@ return {
             "rcarriga/nvim-dap-ui",
             "theHamsta/nvim-dap-virtual-text",
             "nvim-neotest/nvim-nio",
+            "mfussenegger/nvim-dap-python",
             "mxsdev/nvim-dap-vscode-js",
         },
         config = function()
@@ -35,9 +36,11 @@ return {
             local mason_path = vim.fn.stdpath("data") .. "/mason/packages"
             local dapui_ok, dapui = pcall(require, "dapui")
             local virtual_text_ok, dap_virtual_text = pcall(require, "nvim-dap-virtual-text")
+            local dap_python_ok, dap_python = pcall(require, "dap-python")
             local js_debug_ok, dap_vscode_js = pcall(require, "dap-vscode-js")
 
             local codelldb_path = mason_path .. "/codelldb/extension/adapter/codelldb"
+            local debugpy_path = mason_path .. "/debugpy/venv/bin/python"
             local js_debug_cmd = mason_path .. "/js-debug-adapter/js-debug-adapter"
 
             if virtual_text_ok then
@@ -135,6 +138,23 @@ return {
                         },
                     }
                 end
+            end
+
+            if dap_python_ok and vim.fn.executable(debugpy_path) == 1 then
+                dap_python.setup(debugpy_path)
+                dap.configurations.python = dap.configurations.python or {}
+                table.insert(dap.configurations.python, {
+                    type = "python",
+                    request = "launch",
+                    name = "Launch current file with args",
+                    program = "${file}",
+                    args = function()
+                        local input = vim.fn.input("Args: ")
+                        return vim.split(input, " ", { trimempty = true })
+                    end,
+                    console = "integratedTerminal",
+                    justMyCode = false,
+                })
             end
 
             vim.fn.sign_define("DapBreakpoint", { text = "●", texthl = "DiagnosticSignError" })

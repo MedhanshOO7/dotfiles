@@ -9,26 +9,40 @@ return {
             formatters_by_ft = {
                 c = { "clang_format" },
                 cpp = { "clang_format" },
-                python = { "black" },
-                javascript = { "prettier" },
-                typescript = { "prettier" },
-                typescriptreact = { "prettier" },
-                javascriptreact = { "prettier" },
-                json = { "prettier" },
+                python = { "ruff_organize_imports", "ruff_format", "black" },
+                javascript = { "prettierd", "prettier" },
+                typescript = { "prettierd", "prettier" },
+                typescriptreact = { "prettierd", "prettier" },
+                javascriptreact = { "prettierd", "prettier" },
+                html = { "prettierd", "prettier" },
+                css = { "prettierd", "prettier" },
+                scss = { "prettierd", "prettier" },
+                less = { "prettierd", "prettier" },
+                json = { "prettierd", "prettier" },
+                jsonc = { "prettierd", "prettier" },
                 lua = { "stylua" },
-                markdown = { "prettier" },
+                markdown = { "prettierd", "prettier" },
+                ["markdown.mdx"] = { "prettierd", "prettier" },
                 sh = { "shfmt" },
-                yaml = { "prettier" },
+                bash = { "shfmt" },
+                zsh = { "shfmt" },
+                yaml = { "prettierd", "prettier" },
             },
             formatters = {
                 prettier = {
                     args = { "--stdin-filepath", "$FILENAME", "--tab-width", "4" },
+                },
+                prettierd = {
+                    prepend_args = { "--tab-width", "4" },
                 },
                 stylua = {
                     args = { "--indent-type", "Spaces", "--indent-width", "4", "-" },
                 },
                 clang_format = {
                     prepend_args = { "--style={IndentWidth: 4}" },
+                },
+                shfmt = {
+                    prepend_args = { "-i", "4", "-ci" },
                 },
             },
             format_on_save = function(bufnr)

@@ -4,6 +4,7 @@ return {
     dependencies = {
         "hrsh7th/cmp-nvim-lsp",
         "folke/lazydev.nvim",
+        "b0o/schemastore.nvim",
         "mason-org/mason.nvim",
         "mason-org/mason-lspconfig.nvim",
     },

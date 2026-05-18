@@ -64,5 +64,51 @@ return {
                 filetype = { "c", "cpp" },
             },
         })
+
+        overseer.register_template({
+            name = "python_run_current",
+            builder = function()
+                if vim.bo.filetype ~= "python" then
+                    return nil
+                end
+
+                return {
+                    cmd = "python3",
+                    args = { vim.fn.expand("%:p") },
+                    cwd = vim.fn.expand("%:p:h"),
+                    components = {
+                        { "default" },
+                        { "open_output", direction = "float", focus = true, on_start = "always", on_complete = "failure" },
+                    },
+                }
+            end,
+            condition = {
+                filetype = { "python" },
+            },
+        })
+
+        overseer.register_template({
+            name = "shell_run_current",
+            builder = function()
+                if not vim.tbl_contains({ "sh", "bash", "zsh" }, vim.bo.filetype) then
+                    return nil
+                end
+
+                local shell = vim.bo.filetype == "zsh" and "zsh" or "bash"
+
+                return {
+                    cmd = shell,
+                    args = { vim.fn.expand("%:p") },
+                    cwd = vim.fn.expand("%:p:h"),
+                    components = {
+                        { "default" },
+                        { "open_output", direction = "float", focus = true, on_start = "always", on_complete = "failure" },
+                    },
+                }
+            end,
+            condition = {
+                filetype = { "sh", "bash", "zsh" },
+            },
+        })
     end,
 }
