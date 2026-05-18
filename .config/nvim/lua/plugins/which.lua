@@ -189,6 +189,7 @@ return {
             { "<leader>wo", desc = "Only window" },
             { "<leader>wr", desc = "Restore session" },
             { "<leader>ws", desc = "Save session" },
+            { "<leader>wl", desc = "Search sessions" },
             { "<leader>wv", desc = "Split vertical" },
 
             -- Diagnostics and lists

@@ -12,6 +12,25 @@ return {
             return "<cmd>" .. command .. "<CR>"
         end
 
+        local function smart_code_action()
+            local ok, tiny = pcall(require, "tiny-code-action")
+            if ok then
+                tiny.code_action()
+                return
+            end
+
+            vim.lsp.buf.code_action()
+        end
+
+        local function smart_rename()
+            if vim.fn.exists(":IncRename") == 2 then
+                vim.cmd("IncRename " .. vim.fn.expand("<cword>"))
+                return
+            end
+
+            vim.lsp.buf.rename()
+        end
+
         local cmp_lsp_ok, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
         local capabilities = cmp_lsp_ok and cmp_nvim_lsp.default_capabilities() or vim.lsp.protocol.make_client_capabilities()
         capabilities.textDocument.foldingRange = {
@@ -68,6 +87,7 @@ return {
                     min = vim.diagnostic.severity.WARN,
                 },
             },
+            virtual_lines = false,
             signs = {
                 text = {
                     [vim.diagnostic.severity.ERROR] = "",
@@ -202,8 +222,8 @@ return {
                 map_lsp("n", "]d", vim.diagnostic.goto_next, "Go to the next diagnostic")
                 map_lsp("n", "<leader>lk", vim.lsp.buf.signature_help, "Show function signature help")
                 map_lsp("n", "<leader>lR", cmd("LspRestart"), "Restart language servers for this file")
-                map_lsp("n", "<leader>rn", vim.lsp.buf.rename, "Rename this symbol everywhere")
-                map_lsp({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, "Show suggested code fixes and actions")
+                map_lsp("n", "<leader>rn", smart_rename, "Rename this symbol everywhere")
+                map_lsp({ "n", "v" }, "<leader>ca", smart_code_action, "Show suggested code fixes and actions")
 
                 local navic_ok, navic = pcall(require, "nvim-navic")
                 if client and navic_ok and client:supports_method("textDocument/documentSymbol") then

@@ -5,5 +5,22 @@ return {
         { "<leader>sj", function() require("flash").jump() end, desc = "Jump quickly to any visible text" },
         { "<leader>ss", function() require("flash").treesitter() end, desc = "Jump by syntax block" },
     },
-    opts = {},
+    opts = {
+        label = {
+            uppercase = false,
+            rainbow = {
+                enabled = true,
+            },
+        },
+        modes = {
+            char = {
+                enabled = true,
+                jump_labels = true,
+            },
+        },
+        prompt = {
+            enabled = true,
+            prefix = { { "󰉁 ", "FlashPromptIcon" } },
+        },
+    },
 }

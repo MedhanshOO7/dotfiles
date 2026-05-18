@@ -122,6 +122,11 @@ return {
                     auto_open = false,
                 },
             },
+            experimental = {
+                ghost_text = {
+                    hl_group = "Comment",
+                },
+            },
             window = {
                 completion = cmp.config.window.bordered({
                     border = "rounded",

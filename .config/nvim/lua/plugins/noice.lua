@@ -19,6 +19,7 @@ return {
                     timeout = 2000, -- 2 seconds
                     top_down = false,
                     background_colour = hl_bg_hex("NotifyBackground") or hl_bg_hex("NormalFloat") or hl_bg_hex("Normal") or "#000000",
+                    fps = 60,
 
                     max_width = function()
                         return math.floor(vim.o.columns * 0.40)
@@ -30,6 +31,14 @@ return {
 
                     stages = "fade",    -- smooth disappear
                     render = "compact", -- smaller layout
+                    minimum_width = 28,
+                    icons = {
+                        ERROR = "",
+                        WARN = "",
+                        INFO = "",
+                        DEBUG = "",
+                        TRACE = "",
+                    },
                 })
             end,
         },
@@ -50,10 +59,16 @@ return {
             },
             messages = {
                 view = "notify",
+                view_error = "notify",
+                view_warn = "notify",
             },
             popupmenu = {
                 enabled = true, -- Enable nice popupmenu
                 backend = "nui",
+            },
+            notify = {
+                enabled = true,
+                view = "notify",
             },
             lsp = {
                 progress = {
@@ -83,6 +98,11 @@ return {
                 },
             },
             views = {
+                mini = {
+                    win_options = {
+                        winblend = 0,
+                    },
+                },
                 hover = {
                     border = {
                         style = "rounded",
@@ -98,8 +118,8 @@ return {
                 bottom_search = true, -- use a classic bottom cmdline for search
                 command_palette = true, -- position the cmdline and popupmenu together
                 long_message_to_split = true, -- long messages will be sent to a split
-                inc_rename = false, -- enables an input dialog for inc-rename.nvim
-                lsp_doc_border = false, -- add a border to hover docs and signature help
+                inc_rename = true, -- enables an input dialog for inc-rename.nvim
+                lsp_doc_border = true, -- add a border to hover docs and signature help
             },
         })
     end
