@@ -58,6 +58,20 @@ source_config() {
     zle reset-prompt
 }
 
+files() {
+    # "$@" represents all arguments passed to the function (e.g., the ".")
+    nautilus "$@" > /dev/null 2>&1 & disown
+}
+ff(){
+    if command -v pokemon-colorscripts &> /dev/null; then
+        pokemon-colorscripts -r -s > /tmp/some-temp-File
+        echo "We are here"
+        fastfetch --file /tmp/some-temp-File
+    else
+        fastfetch
+    fi
+}
+
 # Regesting the widgets
 zle -N open_nvim
 zle -N open_config

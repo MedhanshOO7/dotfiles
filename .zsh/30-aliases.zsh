@@ -1,10 +1,11 @@
 #the important one
 alias cls='clear'
 #fastfetch
-alias ff='fastfetch'
+# alias ff='fastfetch'
 
 # File manager
-alias files="nautilus > /dev/null 2>&1 & disown"
+# alias files="nautilus > /dev/null 2>&1 & disown"
+#alias files is defined in the tools
 # Clipboard
 alias clip="wl-copy"
 

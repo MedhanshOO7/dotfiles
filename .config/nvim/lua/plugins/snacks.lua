@@ -15,8 +15,15 @@ return {
         quickfile = { enabled = true },
         scope = { enabled = true },
         words = { enabled = true },
-        notifier = { enabled = true },
-        animate = { enabled = true },
+        notifier = {
+            enabled = true,
+            timeout = 3000,
+        },
+        animate = {
+            enabled = true,
+            duration = 20, -- Slower, more 'luxurious' feel
+            fps = 100,     -- High refresh rate for Kitty
+        },
         picker = { enabled = false },
         explorer = { enabled = false },
         dashboard = { enabled = true },
@@ -33,7 +40,12 @@ return {
                 hl = "IblIndent",
             },
         },
-        input = { enabled = true },
+        input = {
+            enabled = true,
+            win = {
+                style = "rounded",
+            },
+        },
         lazygit = { enabled = true },
         image = { enabled = false },
         scroll = { enabled = true },

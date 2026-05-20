@@ -7,6 +7,9 @@ ShowFullPath=true
 ShowStatusBar=FullWidth
 Version=202
 
+[IconsMode]
+IconSize=96
+
 [KFileDialog Settings]
 Places Icons Auto-resize=false
 Places Icons Static Size=22

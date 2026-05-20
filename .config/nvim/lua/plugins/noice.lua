@@ -16,10 +16,10 @@ return {
                 end
 
                 require("notify").setup({
-                    timeout = 2000, -- 2 seconds
+                    timeout = 3000,
                     top_down = false,
                     background_colour = hl_bg_hex("NotifyBackground") or hl_bg_hex("NormalFloat") or hl_bg_hex("Normal") or "#000000",
-                    fps = 60,
+                    fps = 100, -- Match snacks high refresh rate
 
                     max_width = function()
                         return math.floor(vim.o.columns * 0.40)
@@ -29,8 +29,8 @@ return {
                         return math.floor(vim.o.lines * 0.40)
                     end,
 
-                    stages = "fade",    -- smooth disappear
-                    render = "compact", -- smaller layout
+                    stages = "slide", -- Luxury slide transition
+                    render = "compact",
                     minimum_width = 28,
                     icons = {
                         ERROR = "",

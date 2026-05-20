@@ -1,16 +1,20 @@
+gtk-enable-animations=1
+gtk-primary-button-warps-slider=1
+gtk-cursor-blink-time=1000
+gtk-cursor-blink=1
+gtk-sound-theme-name="freedesktop"
 # DO NOT EDIT! This file will be overwritten by nwg-look.
 # Any customization should be done in ~/.gtkrc-2.0.mine instead.
 
-include "/home/medhansh/.gtkrc-2.0.mine"
 gtk-theme-name="adw-gtk3-dark"
-gtk-icon-theme-name="YAMIS"
-gtk-font-name="Google Sans Flex Medium 11 @opsz=11,wght=500"
+gtk-icon-theme-name="breeze-plus-dark"
+gtk-font-name="Google Sans Flex, Medium 11"
 gtk-cursor-theme-name="Bibata-Modern-Classic"
-gtk-cursor-theme-size=24
+gtk-cursor-theme-size=32
 gtk-toolbar-style=3
 gtk-toolbar-icon-size=GTK_ICON_SIZE_LARGE_TOOLBAR
-gtk-button-images=0
-gtk-menu-images=0
+gtk-button-images=1
+gtk-menu-images=1
 gtk-enable-event-sounds=0
 gtk-enable-input-feedback-sounds=0
 gtk-xft-antialias=1

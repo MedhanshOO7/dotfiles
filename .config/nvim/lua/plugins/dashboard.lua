@@ -1,28 +1,26 @@
+local pokemon_cache = vim.fn.stdpath("cache") .. "/pokemon.ansi"
+
 return {
     "folke/snacks.nvim",
     opts = {
         dashboard = {
             enabled = true,
+            pane_gap = 10,
             sections = {
-                { section = "header" },
-                { section = "keys", gap = 1, padding = 1 },
-                { pane = 2, section = "terminal", cmd = "pokemon-colorscripts -r --no-title; sleep .1", height = 20, padding = 1, ttl = 3600 },
-                { section = "recent_files", limit = 8, padding = 1 },
-                { section = "projects", limit = 4, padding = 1 },
+                -- 1. Pokémon Header (Reserving space with padding and height)
                 {
-                    pane = 2,
-                    icon = " ",
-                    title = "Git Status",
                     section = "terminal",
-                    enabled = function()
-                        local ok, snacks = pcall(require, "snacks")
-                        return ok and snacks.git.get_root() ~= nil
-                    end,
-                    cmd = "git --no-pager status --short --branch --renames",
-                    height = 10,
-                    padding = 1,
-                    ttl = 300,
+                    cmd = "pokemon-colorscripts -r --no-title > " .. pokemon_cache .. "; cat " .. pokemon_cache,
+                    height = 22, -- Fixed height to reserve lines
+                    padding = { top = 1, bottom = 12 }, -- User's fix: reserve lines after the image
+                    ttl = 3600, -- Cache for 1 hour
                 },
+                -- 2. Navigation Keys
+                { section = "keys", gap = 1, padding = 1 },
+                -- 3. Workspace / Projects
+                { section = "recent_files", limit = 5, padding = 1, title = "Recent Files", icon = " " },
+                { section = "projects", limit = 5, padding = 1, title = "Projects", icon = " " },
+                -- 4. Contextual Footer
                 {
                     icon = " ",
                     title = "Startup Info",
