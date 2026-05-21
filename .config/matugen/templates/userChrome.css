@@ -1,0 +1,249 @@
+/*
+ * userChrome.css — Matugen Material You Template
+ *
+ * Generated via matugen template rendering.
+ * Template path:
+ *   ~/.config/matugen/templates/userChrome.css
+ */
+
+/* ==========================================================================
+   GLOBAL VARIABLES
+   ========================================================================== */
+
+:root {
+  --toolbar-bgcolor: {{colors.surface.default.hex}} !important;
+  --toolbar-color: {{colors.on_surface.default.hex}} !important;
+  --toolbar-bgimage: none !important;
+
+  --lwt-accent-color: {{colors.surface.default.hex}} !important;
+  --lwt-text-color: {{colors.on_surface.default.hex}} !important;
+
+  --lwt-toolbar-field-background-color: {{colors.surface_bright.default.hex}} !important;
+  --lwt-toolbar-field-color: {{colors.on_surface.default.hex}} !important;
+  --lwt-toolbar-field-border-color: {{colors.outline_variant.default.hex}} !important;
+  --lwt-toolbar-field-focus: {{colors.surface_bright.default.hex}} !important;
+  --lwt-toolbar-field-focus-color: {{colors.on_surface.default.hex}} !important;
+
+  --toolbarbutton-hover-background: {{colors.surface_container_high.default.hex}} !important;
+  --toolbarbutton-active-background: {{colors.surface_container_highest.default.hex}} !important;
+
+  --chrome-content-separator-color: {{colors.outline_variant.default.hex}} !important;
+  --tabs-border-color: {{colors.outline_variant.default.hex}} !important;
+
+  --toolbar-field-focus-border-color: {{colors.primary.default.hex}} !important;
+
+  --autocomplete-popup-background: {{colors.surface_container.default.hex}} !important;
+  --autocomplete-popup-color: {{colors.on_surface.default.hex}} !important;
+  --autocomplete-popup-highlight-background: {{colors.primary_container.default.hex}} !important;
+  --autocomplete-popup-highlight-color: {{colors.on_primary_container.default.hex}} !important;
+
+  --arrowpanel-background: {{colors.surface_container.default.hex}} !important;
+  --arrowpanel-color: {{colors.on_surface.default.hex}} !important;
+  --arrowpanel-border-color: {{colors.outline_variant.default.hex}} !important;
+
+  --sidebar-background-color: {{colors.secondary_container.default.hex}} !important;
+  --sidebar-text-color: {{colors.on_secondary_container.default.hex}} !important;
+
+  --tab-line-color: {{colors.primary.default.hex}} !important;
+
+  --focus-outline-color: {{colors.primary.default.hex}} !important;
+}
+
+/* ==========================================================================
+   MAIN WINDOW
+   ========================================================================== */
+
+#main-window,
+#browser,
+#navigator-toolbox,
+#TabsToolbar,
+#nav-bar,
+#PersonalToolbar {
+  background-color: {{colors.surface.default.hex}} !important;
+  color: {{colors.on_surface.default.hex}} !important;
+}
+
+/* ==========================================================================
+   URL BAR
+   ========================================================================== */
+
+#urlbar-background {
+  background-color: {{colors.surface_container.default.hex}} !important;
+  border: 1px solid {{colors.outline_variant.default.hex}} !important;
+  border-radius: 10px !important;
+}
+
+#urlbar[focused="true"] > #urlbar-background,
+#urlbar:focus-within > #urlbar-background {
+  background-color: {{colors.surface_bright.default.hex}} !important;
+  border-color: {{colors.primary.default.hex}} !important;
+  box-shadow: 0 0 0 2px {{colors.primary.default.hex}}33 !important;
+}
+
+#urlbar-input {
+  color: {{colors.on_surface.default.hex}} !important;
+}
+
+/* ==========================================================================
+   TOOLBAR BUTTONS
+   ========================================================================== */
+
+.toolbarbutton-1 {
+  border-radius: 8px !important;
+  color: {{colors.on_surface.default.hex}} !important;
+}
+
+.toolbarbutton-1:hover:not([disabled]) {
+  background-color: {{colors.surface_container_high.default.hex}} !important;
+}
+
+.toolbarbutton-1:active:not([disabled]),
+.toolbarbutton-1[open="true"] {
+  background-color: {{colors.surface_container_highest.default.hex}} !important;
+}
+
+.toolbarbutton-1 > .toolbarbutton-icon {
+  fill: {{colors.on_surface.default.hex}} !important;
+}
+
+/* ==========================================================================
+   TABS
+   ========================================================================== */
+
+#tabbrowser-tabs {
+  background-color: {{colors.surface.default.hex}} !important;
+}
+
+.tabbrowser-tab .tab-background {
+  border-radius: 10px 10px 0 0 !important;
+  background-color: transparent !important;
+}
+
+.tabbrowser-tab:hover .tab-background {
+  background-color: {{colors.surface_container_high.default.hex}} !important;
+}
+
+.tabbrowser-tab[selected] .tab-background {
+  background-color: {{colors.primary_container.default.hex}} !important;
+}
+
+.tabbrowser-tab[selected] .tab-line {
+  background-color: {{colors.primary.default.hex}} !important;
+  height: 3px !important;
+}
+
+.tab-label {
+  color: {{colors.on_surface.default.hex}} !important;
+}
+
+.tabbrowser-tab[selected] .tab-label {
+  color: {{colors.on_primary_container.default.hex}} !important;
+  font-weight: 600 !important;
+}
+
+/* ==========================================================================
+   MENUS / POPUPS
+   ========================================================================== */
+
+menupopup,
+panel,
+.panel-arrowcontent {
+  background-color: {{colors.surface_container.default.hex}} !important;
+  color: {{colors.on_surface.default.hex}} !important;
+  border: 1px solid {{colors.outline_variant.default.hex}} !important;
+  border-radius: 10px !important;
+}
+
+menuitem:hover,
+menu:hover {
+  background-color: {{colors.surface_container_high.default.hex}} !important;
+}
+
+/* ==========================================================================
+   SIDEBAR
+   ========================================================================== */
+
+#sidebar-box,
+#sidebar,
+#sidebar-header {
+  background-color: {{colors.secondary_container.default.hex}} !important;
+  color: {{colors.on_secondary_container.default.hex}} !important;
+}
+
+/* ==========================================================================
+   FIND BAR
+   ========================================================================== */
+
+#FindToolbar {
+  background-color: {{colors.surface_container.default.hex}} !important;
+  border-top: 1px solid {{colors.outline_variant.default.hex}} !important;
+}
+
+#findbar-textbox {
+  background-color: {{colors.surface_bright.default.hex}} !important;
+  color: {{colors.on_surface.default.hex}} !important;
+  border-radius: 6px !important;
+}
+
+/* ==========================================================================
+   STATUS PANEL
+   ========================================================================== */
+
+#statuspanel-label {
+  background-color: {{colors.surface_container.default.hex}} !important;
+  color: {{colors.on_surface.default.hex}} !important;
+  border: 1px solid {{colors.outline_variant.default.hex}} !important;
+}
+
+/* ==========================================================================
+   SCROLLBARS
+   ========================================================================== */
+
+scrollbar {
+  background-color: {{colors.surface.default.hex}} !important;
+}
+
+thumb {
+  background-color: {{colors.outline_variant.default.hex}} !important;
+  border-radius: 4px !important;
+}
+
+thumb:hover {
+  background-color: {{colors.outline.default.hex}} !important;
+}
+
+/* ==========================================================================
+   DARK MODE EXTRA POLISH
+   ========================================================================== */
+
+{% if is_dark %}
+
+:root {
+  --toolbar-bgcolor: {{colors.surface_container_low.default.hex}} !important;
+}
+
+#navigator-toolbox {
+  border-bottom: 1px solid {{colors.surface_container_high.default.hex}} !important;
+}
+
+.toolbarbutton-1 > .toolbarbutton-icon {
+  opacity: 0.92 !important;
+}
+
+{% endif %}
+
+/* ==========================================================================
+   ANIMATIONS
+   ========================================================================== */
+
+@media (prefers-reduced-motion: no-preference) {
+  .toolbarbutton-1,
+  .tab-background,
+  #urlbar-background,
+  menuitem {
+    transition:
+      background-color 120ms cubic-bezier(0.2, 0, 0, 1),
+      color 120ms cubic-bezier(0.2, 0, 0, 1),
+      box-shadow 120ms cubic-bezier(0.2, 0, 0, 1) !important;
+  }
+}
