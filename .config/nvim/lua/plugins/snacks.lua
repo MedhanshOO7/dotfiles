@@ -5,9 +5,6 @@ return {
     config = function(_, opts)
         require("snacks").setup(opts)
         require("snacks.input").enable()
-        pcall(function()
-            require("snacks.dashboard").setup()
-        end)
     end,
     opts = {
         bigfile = { enabled = true },
