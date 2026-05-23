@@ -33,7 +33,45 @@ output_path = '~/.local/state/quickshell/user/generated/color.txt'
 input_path = '~/.config/matugen/templates/wallpaper.txt'
 output_path = '~/.local/state/quickshell/user/generated/wallpaper/path.txt'
 
-[templates.firefox]
-input_path  = "~/.config/matugen/templates/userChrome.css"
-output_path = "~/.mozilla/firefox/p7ql1eae.default-release/chrome/userChrome.css"
+# [templates.btop]
+# input_path = './templates/btop.theme'
+# output_path = ''
+# post_hook = 'pkill -USR2 btop || true'
 
+# [templates.cava]
+# input_path = '~/.config/matugen/templates/cava-colors.ini'
+# output_path = '~/.config/cava/themes/your-theme'
+# post_hook = 'pkill -USR1 cava'
+#
+# [templates.heroic]
+# input_path = 'path/to/template'
+# output_path = 'your/own/path/to/matugen.css'
+
+[templates.pywalfox]
+input_path = './templates/pywalfox-colors.json'
+output_path = '/home/medhansh/.cache/wal/colors.json'
+post_hook = 'pywalfox update'
+
+# [templates.rofi]
+# input_path = 'path/to/template'
+# output_path = '~/.config/rofi/colors.rasi'
+#
+# [templates.wofi]
+# input_path = "./colors.css"
+# output_path = "~/.config/wofi/colors.css"
+#
+# [templates.telegram]
+# input_path = 'path/to/template'
+# output_path = 'out/path'
+#
+# # [templates.obsidian]
+# # input_path = 'path/to/template'
+# # output_path = 'yourOwnPath/to/obsidianVault/.obsidian/snippets/matugen.css'
+#
+# [templates.wofi]
+# input_path = "./colors.css"
+# output_path = "~/.config/wofi/colors.css"
+#
+# [templates.firefox-website-colors]
+# input_path = "path/to/template/"
+# output_path = "~/path/to/profile/chrome/colors.css"
