@@ -149,18 +149,12 @@ return {
         -- Ensure lspconfig is loaded so it registers default configs with vim.lsp.config
         pcall(require, "lspconfig")
 
-        for server, server_config in pairs(servers) do
-            local merged_config = vim.tbl_deep_extend("force", {
-                capabilities = capabilities,
-                flags = {
-                    debounce_text_changes = 150,
-                },
-            }, server_config)
-            
-            -- Use the modern Neovim 0.11+ native API
-            vim.lsp.config(server, merged_config)
-            vim.lsp.enable(server)
-        end
+        -- Global LSP commands and keybinds
+        vim.api.nvim_create_user_command("LspRestart", function()
+            vim.cmd("LspRestart")
+        end, { desc = "Restart LSP" })
+
+        vim.keymap.set("n", "<leader>lR", "<cmd>LspRestart<cr>", { desc = "Restart language servers" })
 
         local mason_lspconfig_ok, mason_lspconfig = pcall(require, "mason-lspconfig")
         if mason_lspconfig_ok then
@@ -179,6 +173,19 @@ return {
                 },
                 automatic_installation = true,
             })
+        end
+
+        for server, server_config in pairs(servers) do
+            local merged_config = vim.tbl_deep_extend("force", {
+                capabilities = capabilities,
+                flags = {
+                    debounce_text_changes = 150,
+                },
+            }, server_config)
+            
+            -- Use the modern Neovim 0.11+ native API
+            vim.lsp.config(server, merged_config)
+            vim.lsp.enable(server)
         end
 
         vim.api.nvim_create_autocmd("LspAttach", {
@@ -222,7 +229,6 @@ return {
                 map_lsp("n", "[d", vim.diagnostic.goto_prev, "Go to the previous diagnostic")
                 map_lsp("n", "]d", vim.diagnostic.goto_next, "Go to the next diagnostic")
                 map_lsp("n", "<leader>lk", vim.lsp.buf.signature_help, "Show function signature help")
-                map_lsp("n", "<leader>lR", cmd("LspRestart"), "Restart language servers for this file")
                 map_lsp("n", "<leader>rn", smart_rename, "Rename this symbol everywhere")
                 map_lsp({ "n", "v" }, "<leader>ca", smart_code_action, "Show suggested code fixes and actions")
 

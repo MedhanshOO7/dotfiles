@@ -86,6 +86,9 @@ return {
             vim.api.nvim_set_hl(0, "RenderMarkdownSuccess", { link = "DiagnosticOk" })
             vim.api.nvim_set_hl(0, "RenderMarkdownWarn", { link = "DiagnosticWarn" })
             vim.api.nvim_set_hl(0, "RenderMarkdownError", { link = "DiagnosticError" })
+
+            -- Mark highlights (==text==)
+            vim.api.nvim_set_hl(0, "RenderMarkdownHighlight", { bg = "#F5C2E7", fg = "#1E1E2E", bold = true })
         end
 
         -- Apply on startup
@@ -169,6 +172,14 @@ return {
         mermaid = {
             enabled = true,
             highlight = "RenderMarkdownMermaid",
+        },
+        sign = {
+            enabled = false,
+        },
+        mark = {
+            enabled = true,
+            sign = false,
+            highlight = "RenderMarkdownHighlight",
         },
         win_options = {
             conceallevel = {
