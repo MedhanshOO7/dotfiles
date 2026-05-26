@@ -1,8 +1,8 @@
 :root {
-<* for name, value in colors *>
+  {% for name, value in colors %}
   --md-{{ name | replace: "_", "-" }}: {{ value.default.hex }};
   --md-{{ name | replace: "_", "-" }}-rgb: {{ value.default.rgb }};
-<* endfor *>
+  {% endfor %}
 
   /* Semantic aliases used throughout this file */
   --ff-bg:            var(--md-surface);
@@ -65,9 +65,9 @@
 
 /* ==========================================================================
    DARK MODE OVERRIDES
-   Correct matugen syntax: <* if {{ mode }} == "dark" *>
    ========================================================================== */
-<* if {{ mode }} == "dark" *>
+{% if mode == "dark" %}
+
 :root {
   /* Slightly dimmer base in dark mode — pull from surface_container_low */
   --toolbar-bgcolor:  var(--ff-surface-lo) !important;
@@ -80,7 +80,7 @@
 .toolbarbutton-1 > .toolbarbutton-icon {
   opacity: 0.90 !important;
 }
-<* endif *>
+{% endif %}
 
 /* ==========================================================================
    MAIN WINDOW

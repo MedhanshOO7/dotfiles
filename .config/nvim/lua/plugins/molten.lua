@@ -22,6 +22,23 @@ local function sync_notebook(ipynb_path)
         return false
     end
 
+    -- Skip syncing if the file is empty (0 bytes) or not valid JSON to avoid jupytext crash
+    local f = io.open(ipynb_path, "r")
+    if not f then
+        return false
+    end
+    local first_chars = f:read(1024)
+    f:close()
+
+    if not first_chars or #first_chars == 0 then
+        return false
+    end
+
+    -- Basic check: if it doesn't look like JSON (starts with {), skip sync
+    if not first_chars:match("^%s*{") then
+        return false
+    end
+
     local result = vim.system({
         jupytext,
         "--set-formats",

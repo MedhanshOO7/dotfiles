@@ -33,6 +33,10 @@ output_path = '~/.local/state/quickshell/user/generated/color.txt'
 input_path = '~/.config/matugen/templates/wallpaper.txt'
 output_path = '~/.local/state/quickshell/user/generated/wallpaper/path.txt'
 
+[templates.firefox]
+input_path = '~/.config/matugen/templates/userChrome.css'
+output_path = '/home/medhansh/.mozilla/firefox/p7ql1eae.default-release/chrome/userChrome.css'
+
 # [templates.btop]
 # input_path = './templates/btop.theme'
 # output_path = ''

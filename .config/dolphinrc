@@ -9,6 +9,7 @@ Version=202
 
 [IconsMode]
 IconSize=112
+PreviewSize=96
 
 [KFileDialog Settings]
 Places Icons Auto-resize=false
