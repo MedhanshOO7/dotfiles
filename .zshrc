@@ -36,3 +36,7 @@ export AWS_REGION=us-east-1
 source ~/.config/zshrc.d/dots-hyprland.zsh
 
 export AWS_REGION=us-east-1
+
+
+# Added by Antigravity CLI installer
+export PATH="/home/medhansh/.local/bin:$PATH"
