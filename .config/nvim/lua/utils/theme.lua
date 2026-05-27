@@ -528,6 +528,10 @@ end
 -- Apply the requested theme first, then re-style the surrounding UI so plugin windows
 -- look intentional instead of inheriting whatever defaults the colorscheme shipped with.
 local function apply_theme(theme, transparent)
+    if #vim.api.nvim_list_uis() == 0 then
+        return true
+    end
+
     if theme:match("^catppuccin") then
         apply_catppuccin(theme, transparent)
         set_transparent_highlights(transparent)
