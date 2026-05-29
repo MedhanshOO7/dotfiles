@@ -47,7 +47,7 @@
     "workbench.enableExperiments": false,
     "livePreview.notifyOnOpenLooseFile": false,
     "editor.stickyScroll.enabled": false,
-    "python.defaultInterpreterPath": "/home/medhansh/Downloads/learncpp.com/.venv",
+    "python.defaultInterpreterPath": "",
     "terminal.integrated.fontSize": 13,
     "vim.useSystemClipboard": true,
     "vim.handleKeys": {
@@ -74,5 +74,5 @@
     "git.confirmSync": false,
     "interactiveWindow.executeWithShiftEnter": true
 ,
-  "material-code.primaryColor": "#FC5E61"
+  "material-code.primaryColor": "#13533F"
 }
