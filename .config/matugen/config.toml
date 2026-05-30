@@ -154,3 +154,4 @@ output_path = '~/.local/state/quickshell/user/generated/wallpaper/path.txt'
 input_path = '~/.config/matugen/templates/dev-dashboard-colors.css'
 output_path = '~/Downloads/dev-dashboard-colors.css'
 post_hook = '~/.config/matugen/templates/dev-dashboard-inject.sh'
+
