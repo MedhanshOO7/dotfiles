@@ -1,0 +1,105 @@
+[config]
+version_check = false
+
+[templates.m3colors]
+input_path = '~/.config/matugen/templates/colors.json'
+output_path = '~/.local/state/quickshell/user/generated/colors.json'
+
+[templates.hyprland]
+input_path = '~/.config/matugen/templates/hyprland/colors.lua'
+output_path = '~/.config/hypr/hyprland/colors.lua'
+post_hook = 'hyprctl reload || true'
+
+[templates.hyprlock]
+input_path = '~/.config/matugen/templates/hyprland/hyprlock-colors.conf'
+output_path = '~/.config/hypr/hyprlock/colors.conf'
+
+[templates.fuzzel]
+input_path = '~/.config/matugen/templates/fuzzel/fuzzel_theme.ini'
+output_path = '~/.config/fuzzel/fuzzel_theme.ini'
+
+[templates.gtk3]
+input_path = '~/.config/matugen/templates/gtk-3.0/gtk.css'
+output_path = '~/.config/gtk-3.0/gtk.css'
+
+[templates.gtk4]
+input_path = '~/.config/matugen/templates/gtk-4.0/gtk.css'
+output_path = '~/.config/gtk-4.0/gtk.css'
+
+[templates.kde_colors]
+input_path = '~/.config/matugen/templates/kde/color.txt'
+output_path = '~/.local/state/quickshell/user/generated/color.txt'
+
+[templates.wallpaper]
+input_path = '~/.config/matugen/templates/wallpaper.txt'
+output_path = '~/.local/state/quickshell/user/generated/wallpaper/path.txt'
+
+[templates.chrome]
+input_path = '~/.config/matugen/templates/userChrome.css'
+output_path = '/home/medhansh/.mozilla/firefox/p7ql1eae.default-release/chrome/userChrome.css'
+
+[templates.content]
+input_path = '~/.config/matugen/templates/userContent.css'
+output_path = '/home/medhansh/.mozilla/firefox/p7ql1eae.default-release/chrome/userContent.css'
+
+
+[templates.btop]
+input_path = '~/.config/matugen/templates/btop.theme'
+output_path = '~/.config/btop/themes/matugen.theme'
+post_hook = 'pkill -USR2 btop || true'
+
+[templates.cava]
+input_path = '~/.config/matugen/templates/cava-colors.ini'
+output_path = '~/.config/cava/themes/matugen'
+post_hook = 'pkill -USR1 cava || true'
+
+# [templates.heroic]
+# input_path = '~/.config/matugen/templates/heroic.css'
+# output_path = 'your/own/path/to/matugen.css'
+
+[templates.pywalfox]
+input_path = '~/.config/matugen/templates/pywalfox-colors.json'
+output_path = '/home/medhansh/.cache/wal/colors.json'
+post_hook = 'pywalfox update || true'
+
+[templates.rofi]
+input_path = '~/.config/matugen/templates/rofi-colors.rasi'
+output_path = '~/.config/rofi/colors.rasi'
+
+# [templates.wofi]
+# input_path = '~/.config/matugen/templates/colors.css'
+# output_path = '~/.config/wofi/colors.css'
+
+# [templates.telegram]
+# input_path = '~/.config/matugen/templates/telegram.tdesktop-theme'
+# output_path = '~/.config/telegram/matugen.tdesktop-theme'
+
+# [templates.obsidian]
+# input_path = '~/.config/matugen/templates/obsidian.css'
+# output_path = 'yourOwnPath/to/obsidianVault/.obsidian/snippets/matugen.css'
+
+# [templates.firefox-website-colors]
+# input_path = '~/.config/matugen/templates/firefox-colors.css'
+# output_path = '/home/medhansh/.mozilla/firefox/p7ql1eae.default-release/chrome/colors.css'
+
+[templates.kitty]
+input_path = '~/.config/matugen/templates/kitty-colors.conf'
+output_path = '~/.local/state/quickshell/user/generated/terminal/kitty-theme.conf'
+post_hook = 'kill -SIGUSR1 $(pidof kitty) || true'
+
+[templates.ags_material]
+input_path = '~/.config/matugen/templates/ags/_material.scss'
+output_path = '~/.local/state/quickshell/user/generated/material_colors.scss'
+
+[templates.sourceview_dark]
+input_path = '~/.config/matugen/templates/ags/sourceviewtheme.xml'
+output_path = '~/.local/share/gtksourceview-4/styles/matugen-dark.xml'
+
+[templates.sourceview_light]
+input_path = '~/.config/matugen/templates/ags/sourceviewtheme-light.xml'
+output_path = '~/.local/share/gtksourceview-4/styles/matugen-light.xml'
+
+[templates.dev_dashboard]
+input_path = '~/.config/matugen/templates/dev-dashboard-colors.css'
+output_path = '~/Downloads/dev-dashboard-colors.css'
+

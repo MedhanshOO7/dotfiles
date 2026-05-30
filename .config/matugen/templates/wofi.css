@@ -1,0 +1,6 @@
+@define-color bg {{colors.background.default.hex}};
+@define-color bg-hover {{colors.surface_container_high.default.hex}};
+@define-color fg {{colors.on_background.default.hex}};
+@define-color fg-hover {{colors.primary.default.hex}};
+@define-color border {{colors.outline.default.hex}};
+@define-color accent {{colors.primary.default.hex}};
