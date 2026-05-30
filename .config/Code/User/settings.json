@@ -72,7 +72,12 @@
     "git.enableSmartCommit": true,
     "workbench.browser.showInTitleBar": true,
     "git.confirmSync": false,
-    "interactiveWindow.executeWithShiftEnter": true
-,
-  "material-code.primaryColor": "#13533F"
+    "interactiveWindow.executeWithShiftEnter": true,
+    "material-code.primaryColor": "#13533F",
+    "github.copilot.enable": {
+        "*": true,
+        "plaintext": false,
+        "markdown": true,
+        "scminput": false
+    }
 }
