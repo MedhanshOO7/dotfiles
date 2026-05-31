@@ -115,7 +115,6 @@ post_hook = 'pkill -USR1 cava || true'
 [templates.easyeffects]
 input_path = '~/.config/matugen/templates/easyeffects.css'
 output_path = '~/.config/easyeffects/style.css'
-post_hook = 'pkill -HUP easyeffects || true'
 
 [templates.fastfetch]
 input_path = '~/.config/matugen/templates/fastfetch.jsonc'

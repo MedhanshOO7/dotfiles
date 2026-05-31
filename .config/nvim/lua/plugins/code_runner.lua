@@ -16,9 +16,9 @@ return {
             filetype = {
                 c = "cd $dir && gcc -std=c11 -Wall -Wextra $fileName -o $fileNameWithoutExt && ./$fileNameWithoutExt",
                 cpp = "cd $dir && g++ -std=c++20 -Wall -Wextra $fileName -o $fileNameWithoutExt && ./$fileNameWithoutExt",
-                python = "python3 -u $fileName",
-                javascript = "node $fileName",
-                sh = "bash $fileName",
+                python = "cd $dir && python3 -u $fileName",
+                javascript = "cd $dir && node $fileName",
+                sh = "cd $dir && bash $fileName",
             },
         })
     end,
