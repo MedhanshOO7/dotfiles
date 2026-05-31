@@ -1,0 +1,132 @@
+palette = "matugen"
+add_newline = true
+# Pipes ╰─ ╭─
+# Powerline symbols                                     
+# Wedges 🭧🭒 🭣🭧🭓
+# Random noise 🬖🬥🬔🬗
+# Cool stuff 󰜥   
+
+# format = """
+# $directory $fill $git_branch $cmd_duration
+#  $character"""
+format = """
+$cmd_duration $directory $hostname$username$git_branch$fill$python
+  $character"""
+
+[fill]
+symbol = ' '
+style = 'fg:text_muted'
+
+# Replace the "❯" symbol in the prompt with "➜"
+[character]                            # The name of the module we are configuring is "character"
+success_symbol = "[ ](bold fg:success)"
+error_symbol = "[ ](bold fg:error)"
+
+# Disable the package module, hiding it from the prompt completely
+[package]
+disabled = true
+
+[git_branch]
+style = "bg:surface"
+symbol = "󰘬"
+truncation_length = 12
+truncation_symbol = ""
+format = " 󰜥 [](bold fg:surface)[$symbol $branch(:$remote_branch)](fg:text bg:surface)[ ](bold fg:surface)"
+
+[git_commit]
+commit_hash_length = 4
+tag_symbol = " "
+
+[git_state]
+format = '[\($state( $progress_current of $progress_total)\)]($style) '
+cherry_pick = "[🍒 PICKING](bold red)"
+
+[git_status]
+conflicted = " 🏳 "
+ahead = " 🏎💨 "
+behind = " 😰 "
+diverged = " 😵 "
+untracked = " 🤷 ‍"
+stashed = " 📦 "
+modified = " 📝 "
+staged = '[++\($count\)](green)'
+renamed = " ✍️ "
+deleted = " 🗑 "
+
+[hostname]
+ssh_only = true
+format =  "[•$hostname](bg:surface bold fg:text)[](bold fg:surface)"
+trim_at = ".companyname.com"
+disabled = false
+
+[line_break]
+disabled = false
+
+[memory_usage]
+disabled = true
+threshold = -1
+symbol = " "
+style = "bold dimmed green"
+
+[time]
+disabled = true
+format = '🕙[\[ $time \]]($style) '
+time_format = "%T"
+
+[username]
+style_user = "bold bg:surface fg:text"
+style_root = "red bold"
+format = "[](bold fg:surface)[$user]($style)[](bold fg:surface)"
+disabled = false
+show_always = true
+
+[directory]
+home_symbol = " "
+read_only = "  "
+style = "bg:surface_bright fg:text"
+truncation_length = 2
+truncation_symbol = ".../"
+format = '[](bold fg:surface_bright)[󰉋 → $path]($style)[](bold fg:surface_bright)'
+
+
+[directory.substitutions]
+"Desktop" = "  "
+"Documents" = "  "
+"Downloads" = "  "
+"Music" = " 󰎈 "
+"Pictures" = "  "
+"Videos" = "  "
+"GitHub" = " 󰊤 "
+
+[cmd_duration]
+min_time = 0
+format = '[](bold fg:surface)[󰪢 $duration](bold bg:surface fg:text)[](bold fg:surface)'
+
+[python]
+symbol = "󰌠 "
+style = "bg:python_bg fg:python_fg"
+format = '[](bold fg:python_bg)[$symbol$version]($style)[](bold fg:python_bg)'
+pyenv_version_name = false
+
+[battery]
+full_symbol = "🔋"
+charging_symbol = "⚡"
+discharging_symbol = "🔌"
+
+[[battery.display]]
+threshold = 30
+style = "bold red"
+
+[[battery.display]]
+threshold = 70
+style = "bold yellow"
+
+[palettes.matugen]
+surface = "{{colors.surface_variant.default.hex}}"
+surface_bright = "{{colors.surface.default.hex}}"
+text = "{{colors.on_surface.default.hex}}"
+text_muted = "{{colors.outline.default.hex}}"
+success = "{{colors.tertiary.default.hex}}"
+error = "{{colors.error.default.hex}}"
+python_bg = "{{colors.secondary.default.hex}}"
+python_fg = "{{colors.on_secondary.default.hex}}"
