@@ -13,12 +13,26 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Untitled 8.md",
+                "file": "studyThings/OOPS/4. Inheritance.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Untitled 8"
+              "title": "4. Inheritance"
+            }
+          },
+          {
+            "id": "b580b4d29d87aaa6",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Syllabus.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Syllabus"
             }
           }
         ]
@@ -33,7 +47,7 @@
       {
         "id": "88f68df31a495c54",
         "type": "tabs",
-        "dimension": 73.84473197781885,
+        "dimension": 67.10526315789474,
         "children": [
           {
             "id": "741ff8b1092c6d1f",
@@ -80,7 +94,7 @@
       {
         "id": "8166eb20f3ab8a25",
         "type": "tabs",
-        "dimension": 26.155268022181144,
+        "dimension": 32.89473684210527,
         "children": [
           {
             "id": "2fd5911aec5af100",
@@ -96,7 +110,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 213.00382614135742
+    "width": 200
   },
   "right": {
     "id": "259718f9d301f35b",
@@ -174,13 +188,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Untitled 8.md",
+                "file": "studyThings/OOPS/4. Inheritance.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline of Untitled 8"
+              "title": "Outline of 4. Inheritance"
             }
           },
           {
@@ -217,43 +231,43 @@
   },
   "active": "88073a32193f9dee",
   "lastOpenFiles": [
+    "Syllabus.md",
+    "studyThings/OOPS/4. Inheritance.md",
+    "studyThings/OOPS/3. Encapsulation.md",
+    "studyThings/OOPS/5. Polymorphism.md",
+    "studyThings/OOPS/2. Intro to Class.md",
+    "studyThings/OOPS/1. Introduction.md",
+    "studyThings/OOPS/0.a initilization list.md",
+    "studyThings/OOPS/10. Templates.md",
+    "studyThings/OOPS/11. Exception Handling.md",
+    "studyThings/C++/Correction.md",
+    "studyThings/C++/process_final.py",
+    "studyThings/C++/debug_out.md",
+    "studyThings/C++/debug_line.py",
+    "studyThings/C++/debug_test.md",
+    "studyThings/C++/debug.py",
+    "studyThings/C++/process_md2.py",
+    "studyThings/C++/process_md.py",
+    "studyThings/README.md~",
+    "studyThings/PDFs/10. Templates.pdf",
+    "studyThings/OOPS/9.b File Handling.md",
+    "studyThings/PDFs/9.b File Handling.pdf",
+    "studyThings/OOPS/9.a.File Handling.md",
+    "studyThings/PDFs/9.a.File Handling.pdf",
+    "studyThings/OOPS/8. Memory Layout.md",
+    "studyThings/PDFs/8. Memory Layout.pdf",
+    "studyThings/OOPS/7. Variables & There types.md",
+    "studyThings/OOPS/6. Abstraction.md",
+    "bash/one.md",
+    "OOPS/9.a.File Handling.md",
+    "OOPS/10. Templates.md",
+    "OOPS/0.a initilization list.md",
+    "OOPS/6. Abstraction.md",
+    "OOPS/3. Encapsulation.md",
     "Untitled 8.md",
     "WORKIN/day_by_day_tracker.md",
     "Study/Differential Equations/UNIT_II.md",
-    "OOPS/9.a.File Handling.md",
-    "OOPS/9.b File Handling.md",
-    "Untitled 7.md",
-    "BEEE-Project/knowladge.md",
-    "Study/8.5+ SGPA MASTER PLAN.md",
-    "OOPS/5. Polymorphism.md",
-    "OOPS/8. Memory Layout.md",
-    "8. Memory Layout.pdf",
-    "OOPS/7. Variables & There types.md",
-    "OOPS/6. Abstraction.md",
-    "Resources/Sem2/What to do Basic Electrical and Electronics Engineering.md",
-    "OOPS1.zip",
-    "Resources/Sem2/What to do Differential Equations and Transforms.md",
-    "Resources/Sem2/What to do Applied Chemistry.md",
-    "Resources/Sem2/What to do Summer Training.md",
-    "Resources/Sem2/What to do Object Oriented Programming.md",
-    "Resources/Sem2/What to do Environment Sciences.md",
-    "Resources/Sem2/What to do Engineering Graphics.md",
-    "bash/one.md",
-    "bash/one.md~",
-    "BEEE-Project/Practial.md",
-    "BEEE-Project/knowladge.pdf",
-    "BEEE-Project/Practial.pdf",
-    "BEEE Project.md",
-    "Agentic AI/First 5.md",
-    "CS50/Folder Manager.md",
-    "OOPS/2. Intro to Class.md",
-    "OOPS/3. Encapsulation.md",
-    "Agentic AI",
-    "Study/BEEE/Viva typeshi.pdf",
-    "OOPS/0.a initilization list.md~",
-    "OOPS/4. Inheritance.md~",
     "ChatGPT Image Apr 1, 2026, 06_45_40 AM.png",
-    "bash/bash.pdf",
     "Screenshot_20260324_225440_Samsung capture.jpg",
     "TODO.canvas",
     "Pasted image 20260326014015.png",

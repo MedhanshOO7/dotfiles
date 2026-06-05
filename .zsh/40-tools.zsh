@@ -64,9 +64,10 @@ files() {
 }
 ff(){
     if command -v pokemon-colorscripts &> /dev/null; then
-        pokemon-colorscripts -r -s > /tmp/some-temp-File
-        echo "We are here"
+        pokemon-colorscripts -r -s --no-title > /tmp/some-temp-File
+        # echo "We are here"
         fastfetch --file /tmp/some-temp-File
+        rm -r /tmp/some-temp-File
     else
         fastfetch
     fi

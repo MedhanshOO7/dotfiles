@@ -73,7 +73,7 @@
     "workbench.browser.showInTitleBar": true,
     "git.confirmSync": false,
     "interactiveWindow.executeWithShiftEnter": true,
-    "material-code.primaryColor": "#13533F",
+    "material-code.primaryColor": "#93008A",
     "github.copilot.enable": {
         "*": true,
         "plaintext": false,

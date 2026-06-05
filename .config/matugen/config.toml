@@ -2,7 +2,6 @@
 version_check = false
 
 # ==================== Core / Shell Desktop ====================
-
 [templates.m3colors]
 input_path = '~/.config/matugen/templates/colors.json'
 output_path = '~/.local/state/quickshell/user/generated/colors.json'
@@ -33,11 +32,6 @@ input_path = '~/.config/matugen/templates/waybar.css'
 output_path = '~/.config/waybar/colors.css'
 
 # ==================== Terminals ====================
-
-[templates.kitty]
-input_path = '~/.config/matugen/templates/kitty-colors.conf'
-output_path = '~/.local/state/quickshell/user/generated/terminal/kitty-theme.conf'
-post_hook = 'kill -SIGUSR1 $(pidof kitty) || true'
 
 [templates.foot]
 input_path = '~/.config/matugen/templates/foot.ini'
@@ -84,14 +78,6 @@ output_path = '~/.config/gtk-3.0/gtk.css'
 input_path = '~/.config/matugen/templates/gtk-4.0/gtk.css'
 output_path = '~/.config/gtk-4.0/gtk.css'
 
-[templates.kde_colors]
-input_path = '~/.config/matugen/templates/kde/color.txt'
-output_path = '~/.local/state/quickshell/user/generated/color.txt'
-
-[templates.ags_material]
-input_path = '~/.config/matugen/templates/ags/_material.scss'
-output_path = '~/.local/state/quickshell/user/generated/material_colors.scss'
-
 [templates.sourceview_dark]
 input_path = '~/.config/matugen/templates/ags/sourceviewtheme.xml'
 output_path = '~/.local/share/gtksourceview-4/styles/matugen-dark.xml'
@@ -112,14 +98,6 @@ input_path = '~/.config/matugen/templates/cava-colors.ini'
 output_path = '~/.config/cava/themes/matugen'
 post_hook = 'pkill -USR1 cava || true'
 
-[templates.easyeffects]
-input_path = '~/.config/matugen/templates/easyeffects.css'
-output_path = '~/.config/easyeffects/style.css'
-
-[templates.fastfetch]
-input_path = '~/.config/matugen/templates/fastfetch.jsonc'
-output_path = '~/.config/fastfetch/config.jsonc'
-
 [templates.heroic]
 input_path = '~/.config/matugen/templates/heroic.css'
 output_path = '~/.config/heroic/themes/matugen.css'
@@ -136,14 +114,6 @@ post_hook = 'snappy-switcher quit || killall snappy-switcher || true; snappy-swi
 [templates.telegram]
 input_path = '~/.config/matugen/templates/telegram.tdesktop-theme'
 output_path = '~/.local/share/TelegramDesktop/matugen.tdesktop-theme'
-
-[templates.obsidian_main]
-input_path = '~/.config/matugen/templates/obsidian.css'
-output_path = '/home/medhansh/Documents/Obsidian Vault/.obsidian/snippets/matugen.css'
-
-[templates.obsidian_personal]
-input_path = '~/.config/matugen/templates/obsidian.css'
-output_path = '/home/medhansh/Documents/Obsidian/Personal/.obsidian/snippets/matugen.css'
 
 [templates.wallpaper]
 input_path = '~/.config/matugen/templates/wallpaper.txt'

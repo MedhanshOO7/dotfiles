@@ -33,7 +33,10 @@ export PATH="$HOME/.local/bin:$PATH"
 export CLAUDE_CODE_USE_BEDROCK=1
 export AWS_REGION=us-east-1
 # Hyprland dots configuration
-source ~/.config/zshrc.d/dots-hyprland.zsh
+#
+if [[ -f ~/.config/zshrc.d/dots-hyprland.zsh ]]; then
+    source ~/.config/zshrc.d/dots-hyprland.zsh
+fi
 
 export AWS_REGION=us-east-1
 
