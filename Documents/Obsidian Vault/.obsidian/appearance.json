@@ -1,7 +1,7 @@
 {
   "cssTheme": "Catppuccin",
   "baseFontSizeAction": true,
-  "baseFontSize": 16,
+  "baseFontSize": 23,
   "interfaceFontFamily": "Google Sans Flex",
   "monospaceFontFamily": "FiraCode Nerd Font",
   "textFontFamily": "Google Sans Flex",
