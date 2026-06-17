@@ -8,7 +8,6 @@ return {
     config = function()
         require("neogit").setup({
             kind = "tab",
-            disable_commit_confirmation = true,
             integrations = {
                 telescope = true,
             },

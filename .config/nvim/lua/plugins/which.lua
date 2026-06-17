@@ -6,7 +6,7 @@ return {
         "nvim-tree/nvim-web-devicons",
     },
     opts = {
-        delay = 200,
+        delay = 50,
         preset = "classic",
         win = {
             border = "rounded",
@@ -18,6 +18,7 @@ return {
         wk.setup(opts)
         wk.add({
             -- Group headers
+            { "<leader>a", group = "AI" },
             { "<leader>b", group = "Buffers" },
             { "<leader>c", group = "Code" },
             { "<leader>d", group = "Debug" },
@@ -35,7 +36,13 @@ return {
             { "<leader>u", group = "UI and theme" },
             { "<leader>w", group = "Windows and sessions" },
             { "<leader>x", group = "Diagnostics and lists" },
+            { "<leader>y", group = "Yanky / Clipboard" },
             { "<leader>z", group = "Folds" },
+
+            -- AI
+            { "<leader>aa", desc = "AI Actions", mode = { "n", "v" } },
+            { "<leader>ac", desc = "Toggle AI Chat", mode = { "n", "v" } },
+            { "<leader>at", desc = "Toggle AI Autocomplete (Supermaven)" },
 
             -- Buffers
             { "<leader>bb", desc = "Browse open buffers" },
@@ -66,11 +73,13 @@ return {
             { "<leader>ff", desc = "Find file" },
             { "<leader>fg", desc = "Live grep" },
             { "<leader>fk", desc = "Keymap help" },
+            { "<leader>fO", desc = "Open Oil file browser" },
             { "<leader>fp", desc = "Git files" },
             { "<leader>fr", desc = "Recent files" },
             { "<leader>fS", desc = "LSP document symbols" },
             { "<leader>ft", desc = "Search TODOs" },
             { "<leader>fw", desc = "LSP workspace symbols" },
+            { "<leader>fy", desc = "Find Yank History" },
 
             -- Folds
             { "<leader>za", desc = "Toggle fold" },
@@ -166,7 +175,7 @@ return {
             { "<leader>sw", desc = "Search word under cursor" },
 
             -- Terminal and tasks
-            { "<leader>ta", desc = "Task quick action" },
+            { "<leader>ta", desc = "Task action chooser" },
             { "<leader>tf", desc = "Project shell" },
             { "<leader>tg", desc = "Terminal picker" },
             { "<leader>th", desc = "Horizontal shell" },
@@ -203,7 +212,15 @@ return {
             { "<leader>xq", desc = "Quickfix list" },
             { "<leader>xx", desc = "Project diagnostics" },
 
+            -- Yanky / Clipboard
+            { "<leader>yp", desc = "Put yanked text after cursor", mode = { "n", "x" } },
+            { "<leader>yP", desc = "Put yanked text before cursor", mode = { "n", "x" } },
+            { "<leader>yy", desc = "Yank text (to Yanky)", mode = { "n", "x" } },
+
             -- Non-leader keys
+            { "-", desc = "Open parent directory in Oil" },
+            { "<M-n>", desc = "Cycle forward through yank history" },
+            { "<M-p>", desc = "Cycle backward through yank history" },
             { "gd", desc = "LSP Definition" },
             { "gD", desc = "LSP Declaration" },
             { "gi", desc = "LSP Implementation" },

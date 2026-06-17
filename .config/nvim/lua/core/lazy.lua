@@ -29,11 +29,6 @@ require("lazy").setup({
         -- import your plugins
         { import = "plugins" },
     },
-    performance = {
-        cache = {
-            enabled = not vim.g.user_disable_lazy_cache,
-        },
-    },
     defaults = {
         lazy = true,
     },

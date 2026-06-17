@@ -16,7 +16,6 @@ return {
             focus = true,
             warn_no_results = false,
             open_no_results = true,
-            use_diagnostic_signs = true,
         })
     end,
 }

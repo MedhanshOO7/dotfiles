@@ -104,7 +104,7 @@ return {
 
     opts = {
         render_modes = true,
-        restart_highlighter = false,
+
         heading = {
             sign = false,
             icons = { "󰎤 ", "󰎧 ", "󰪛 ", "󰎭 ", "󰎱 ", "󰎳 " },
@@ -169,10 +169,7 @@ return {
             converter = "latex2text",
             highlight = "RenderMarkdownMath",
         },
-        mermaid = {
-            enabled = true,
-            highlight = "RenderMarkdownMermaid",
-        },
+
         sign = {
             enabled = false,
         },
@@ -183,11 +180,11 @@ return {
         },
         win_options = {
             conceallevel = {
-                default = vim.api.nvim_get_option_value("conceallevel", {}),
+                default = vim.o.conceallevel,
                 rendered = 2,
             },
             concealcursor = {
-                default = vim.api.nvim_get_option_value("concealcursor", {}),
+                default = vim.o.concealcursor,
                 rendered = "nv",
             },
         },

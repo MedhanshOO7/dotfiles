@@ -109,13 +109,7 @@ return {
             },
         })
 
-        vim.lsp.handlers["textDocument/hover"] = function(err, result, ctx, config)
-            return vim.lsp.handlers.hover(err, result, ctx, bordered(config))
-        end
 
-        vim.lsp.handlers["textDocument/signatureHelp"] = function(err, result, ctx, config)
-            return vim.lsp.handlers.signature_help(err, result, ctx, bordered(config))
-        end
 
         vim.api.nvim_create_autocmd("CursorHold", {
             group = vim.api.nvim_create_augroup("lsp_diagnostic_hover", { clear = true }),
@@ -132,7 +126,7 @@ return {
                     return
                 end
 
-                vim.diagnostic.open_float(nil, bordered({
+                vim.diagnostic.open_float(bordered({
                     scope = "cursor",
                     source = "if_many",
                     close_events = { "BufLeave", "CursorMoved", "InsertEnter", "FocusLost" },
@@ -150,9 +144,7 @@ return {
         pcall(require, "lspconfig")
 
         -- Global LSP commands and keybinds
-        vim.api.nvim_create_user_command("LspRestart", function()
-            vim.cmd("LspRestart")
-        end, { desc = "Restart LSP" })
+
 
         vim.keymap.set("n", "<leader>lR", "<cmd>LspRestart<cr>", { desc = "Restart language servers" })
 
@@ -168,7 +160,7 @@ return {
                     "lua_ls",
                     "marksman",
                     "pylsp",
-                    "ts_ls",
+                    "vtsls",
                     "yamlls",
                 },
                 automatic_installation = true,
@@ -178,9 +170,6 @@ return {
         for server, server_config in pairs(servers) do
             local merged_config = vim.tbl_deep_extend("force", {
                 capabilities = capabilities,
-                flags = {
-                    debounce_text_changes = 150,
-                },
             }, server_config)
             
             -- Use the modern Neovim 0.11+ native API
@@ -192,7 +181,6 @@ return {
             group = vim.api.nvim_create_augroup("user_lsp_attach", { clear = true }),
             callback = function(event)
                 local client = vim.lsp.get_client_by_id(event.data.client_id)
-                local highlight_group = vim.api.nvim_create_augroup("lsp_document_highlight_" .. event.buf, { clear = true })
 
                 local function map_lsp(mode, lhs, rhs, desc)
                     vim.keymap.set(mode, lhs, rhs, {
@@ -204,13 +192,13 @@ return {
                 vim.bo[event.buf].omnifunc = "v:lua.vim.lsp.omnifunc"
 
                 map_lsp("n", "<leader>le", function()
-                    vim.diagnostic.open_float(nil, bordered({
+                    vim.diagnostic.open_float(bordered({
                         scope = "cursor",
                         source = "if_many",
                     }))
                 end, "Explain the problem on this line")
                 map_lsp("n", "<leader>ld", function()
-                    vim.diagnostic.open_float(nil, bordered({
+                    vim.diagnostic.open_float(bordered({
                         scope = "cursor",
                         source = "if_many",
                     }))
@@ -226,30 +214,21 @@ return {
                 map_lsp("n", "gi", vim.lsp.buf.implementation, "Jump to the implementation")
                 map_lsp("n", "K", vim.lsp.buf.hover, "Show documentation for the symbol under the cursor")
                 map_lsp("i", "<C-k>", vim.lsp.buf.signature_help, "Show function signature help")
-                map_lsp("n", "[d", vim.diagnostic.goto_prev, "Go to the previous diagnostic")
-                map_lsp("n", "]d", vim.diagnostic.goto_next, "Go to the next diagnostic")
+                map_lsp("n", "[d", function() vim.diagnostic.jump({ count = -1, float = true }) end, "Go to the previous diagnostic")
+                map_lsp("n", "]d", function() vim.diagnostic.jump({ count = 1, float = true }) end, "Go to the next diagnostic")
                 map_lsp("n", "<leader>lk", vim.lsp.buf.signature_help, "Show function signature help")
                 map_lsp("n", "<leader>rn", smart_rename, "Rename this symbol everywhere")
                 map_lsp({ "n", "v" }, "<leader>ca", smart_code_action, "Show suggested code fixes and actions")
 
                 local navic_ok, navic = pcall(require, "nvim-navic")
                 if client and navic_ok and client:supports_method("textDocument/documentSymbol") then
-                    navic.attach(client, event.buf)
+                    if not vim.b[event.buf].navic_attached then
+                        navic.attach(client, event.buf)
+                        vim.b[event.buf].navic_attached = true
+                    end
                 end
 
-                if client and client:supports_method("textDocument/documentHighlight") then
-                    vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
-                        group = highlight_group,
-                        buffer = event.buf,
-                        callback = vim.lsp.buf.document_highlight,
-                    })
 
-                    vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI", "BufLeave" }, {
-                        group = highlight_group,
-                        buffer = event.buf,
-                        callback = vim.lsp.buf.clear_references,
-                    })
-                end
 
                 if client and client:supports_method("textDocument/inlayHint") and vim.lsp.inlay_hint then
                     vim.lsp.inlay_hint.enable(true, { bufnr = event.buf })
@@ -262,9 +241,8 @@ return {
 
         vim.api.nvim_create_autocmd("LspDetach", {
             group = vim.api.nvim_create_augroup("user_lsp_detach", { clear = true }),
-            callback = function(event)
+            callback = function()
                 pcall(vim.lsp.buf.clear_references)
-                pcall(vim.api.nvim_del_augroup_by_name, "lsp_document_highlight_" .. event.buf)
             end,
         })
     end,

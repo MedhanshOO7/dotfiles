@@ -90,7 +90,7 @@ return {
                     format = function()
                         local stats = require("lazy").stats()
                         local ms = (math.floor(stats.startuptime * 100 + 0.5) / 100)
-                        local os_info = vim.loop.os_uname()
+                        local os_info = vim.uv.os_uname()
                         local quote = quotes[math.random(#quotes)]
                         
                         return {

@@ -483,7 +483,7 @@ local function apply_catppuccin(theme, transparent)
 
     local ok = pcall(vim.cmd.colorscheme, "catppuccin")
     if not ok then
-        vim.cmd.colorscheme("catppuccin-nvim")
+        pcall(vim.cmd.colorscheme, "catppuccin-mocha")
     end
 end
 

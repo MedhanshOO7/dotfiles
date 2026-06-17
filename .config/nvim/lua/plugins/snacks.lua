@@ -4,18 +4,14 @@ return {
     lazy = false,
     config = function(_, opts)
         require("snacks").setup(opts)
-        require("snacks.input").enable()
     end,
     opts = {
         bigfile = { enabled = true },
         bufdelete = { enabled = true },
         quickfile = { enabled = true },
         scope = { enabled = true },
-        words = { enabled = true },
-        notifier = {
-            enabled = true,
-            timeout = 3000,
-        },
+        words = { enabled = false },
+        notifier = { enabled = false },
         animate = {
             enabled = true,
             duration = 20, -- Slower, more 'luxurious' feel
@@ -45,11 +41,11 @@ return {
         },
         lazygit = { enabled = true },
         image = { enabled = false },
-        scroll = { enabled = true },
+        scroll = { enabled = false },
         statuscolumn = { enabled = true },
     },
     keys = {
-        { "<leader>gl", function() require("snacks").lazygit() end, desc = "Lazygit (VS Code-style panel)" },
-        { "<leader>gf", function() require("snacks").lazygit.log_file() end, desc = "Lazygit Current File History" },
+        { "<leader>gl", function() Snacks.lazygit() end, desc = "Lazygit (VS Code-style panel)" },
+        { "<leader>gf", function() Snacks.lazygit.log_file() end, desc = "Lazygit Current File History" },
     },
 }

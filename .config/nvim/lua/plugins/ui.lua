@@ -4,10 +4,7 @@ return {
         event = "VeryLazy",
         opts = {
             input = {
-                border = "rounded",
-                win_options = {
-                    winblend = 0,
-                },
+                enabled = false, -- snacks.input handles vim.ui.input
             },
             select = {
                 enabled = true,

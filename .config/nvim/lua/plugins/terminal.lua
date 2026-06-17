@@ -23,7 +23,7 @@ return {
             insert_mappings = true,
             terminal_mappings = true,
             shade_terminals = false,
-            shade_filetypes = { "none" },
+            shade_filetypes = {},
             autochdir = true,
             shell = vim.o.shell,
             auto_scroll = true,

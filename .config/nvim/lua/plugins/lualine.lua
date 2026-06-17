@@ -34,7 +34,7 @@ return {
                         {
                             "mode",
                             separator = { left = "" },
-                            right_padding = 2,
+                            padding = { left = 0, right = 2 },
                             fmt = function(value)
                                 return value:sub(1, 1)
                             end,
@@ -73,7 +73,7 @@ return {
                     },
                     lualine_y = { "progress", "fileencoding", "fileformat" },
                     lualine_z = {
-                        { "location", separator = { right = "" }, left_padding = 2 },
+                        { "location", separator = { right = "" }, padding = { left = 2, right = 0 } },
                     },
                 },
                 inactive_sections = {

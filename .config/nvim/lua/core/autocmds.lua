@@ -12,7 +12,7 @@ vim.api.nvim_create_autocmd("FileType", {
             vim.schedule(function()
                 local view_ok, view = pcall(require, "zen-mode.view")
                 if view_ok and not view.is_open() then
-                    vim.cmd("ZenMode")
+                    pcall(vim.cmd, "ZenMode")
                 end
             end)
         end
@@ -44,8 +44,16 @@ vim.api.nvim_create_autocmd("FileType", {
         opt.conceallevel = 0
         opt.showbreak = "↪ "
         
-        -- Full-screen clean look
-        vim.opt_local.laststatus = 0
+        -- Full-screen clean look (laststatus is global, save and restore it)
+        local prev_laststatus = vim.o.laststatus
+        vim.o.laststatus = 0
+        vim.api.nvim_create_autocmd("BufLeave", {
+            buffer = vim.api.nvim_get_current_buf(),
+            once = true,
+            callback = function()
+                vim.o.laststatus = prev_laststatus
+            end,
+        })
 
         -- Map 'q' to close the buffer
         vim.keymap.set("n", "q", "<cmd>close<cr>", { buffer = true, silent = true, desc = "Close Manpage" })

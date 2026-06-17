@@ -1,7 +1,4 @@
-if vim.b.did_ftplugin == 1 then
-    return
-end
-vim.b.did_ftplugin = 1
+-- Neovim's ftplugin system handles idempotency; no manual guard needed.
 
 vim.opt_local.textwidth = 0
 vim.opt_local.wrap = true
@@ -29,7 +26,7 @@ vim.keymap.set("n", "0",  "g0", { buffer = true, silent = true })
 vim.keymap.set("n", "$",  "g$", { buffer = true, silent = true })
 
 vim.b.undo_ftplugin = (vim.b.undo_ftplugin or "")
-    .. "\nsetlocal textwidth< wrap< linebreak< breakindent< spell< spelllang< conceallevel<"
+    .. "\nsetlocal textwidth< wrap< linebreak< breakindent< spell< spelllang< conceallevel< number< relativenumber<"
     .. " expandtab< shiftwidth< tabstop< softtabstop< colorcolumn< formatoptions<"
     .. '\n sil! exe "nunmap <buffer> gO"'
     .. '\n sil! exe "nunmap <buffer> ]]" | sil! exe "nunmap <buffer> [["'

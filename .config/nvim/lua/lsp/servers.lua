@@ -110,7 +110,7 @@ return {
             },
         },
     },
-    ts_ls = {
+    vtsls = {
         settings = {
             typescript = {
                 suggest = {

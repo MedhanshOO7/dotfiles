@@ -62,7 +62,6 @@ return {
         dependencies = {
             "nvim-neotest/nvim-nio",
             "nvim-lua/plenary.nvim",
-            "antlr/antlr4",
             "nvim-treesitter/nvim-treesitter",
             -- Adapters
             "nvim-neotest/neotest-python",
