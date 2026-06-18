@@ -5,12 +5,12 @@
     "type": "file",
     "source": "/home/medhansh/.fastfetch/ascii.txt",
     "color": {
-      "1": "#b3c5ff",
-      "2": "#bbc5eb",
-      "3": "#ffb692",
-      "4": "#193e8d",
-      "5": "#3d4868",
-      "6": "#732e00"
+      "1": "#86d1ea",
+      "2": "#b3cad4",
+      "3": "#c1c4eb",
+      "4": "#004e5f",
+      "5": "#344a52",
+      "6": "#414465"
     }
   },
   "modules": [
