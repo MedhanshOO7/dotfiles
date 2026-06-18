@@ -59,6 +59,20 @@ opt.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,te
 
 -- ── Clipboard ───────────────────────────────────────────────
 opt.clipboard      = "unnamedplus" -- sync with system clipboard
+if vim.fn.executable("wl-paste") == 1 then
+    vim.g.clipboard = {
+        name = "wl-clipboard",
+        copy = {
+            ["+"] = "wl-copy --type text/plain",
+            ["*"] = "wl-copy --type text/plain --primary",
+        },
+        paste = {
+            ["+"] = "wl-paste --no-newline 2>/dev/null",
+            ["*"] = "wl-paste --no-newline --primary 2>/dev/null",
+        },
+        cache_enabled = true,
+    }
+end
 opt.shada          = "!,'100,<0,s10,h" -- don't save registers across sessions
 opt.spell          = false -- disable spellcheck by default
 

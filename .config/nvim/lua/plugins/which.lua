@@ -42,7 +42,6 @@ return {
             -- AI
             { "<leader>aa", desc = "AI Actions", mode = { "n", "v" } },
             { "<leader>ac", desc = "Toggle AI Chat", mode = { "n", "v" } },
-            { "<leader>at", desc = "Toggle AI Autocomplete (Supermaven)" },
 
             -- Buffers
             { "<leader>bb", desc = "Browse open buffers" },
@@ -219,6 +218,7 @@ return {
 
             -- Non-leader keys
             { "-", desc = "Open parent directory in Oil" },
+            { "<M-a>", desc = "Toggle AI Autocomplete (Supermaven)" },
             { "<M-n>", desc = "Cycle forward through yank history" },
             { "<M-p>", desc = "Cycle backward through yank history" },
             { "gd", desc = "LSP Definition" },
