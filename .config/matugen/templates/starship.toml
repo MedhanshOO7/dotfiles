@@ -104,8 +104,8 @@ format = '[](bold fg:surface)[󰪢 $duration](bold bg:surface fg:text)[](b
 
 [python]
 symbol = "󰌠 "
-style = "bg:python_bg fg:python_fg"
-format = '[](bold fg:python_bg)[$symbol$version]($style)[](bold fg:python_bg)'
+style = "bg:#306998 fg:#FFE873"
+format = '[](bold fg:#3776AB)[$symbol$version]($style)[](bold fg:#3776AB)'
 pyenv_version_name = false
 
 [battery]
@@ -128,5 +128,3 @@ text = "{{colors.on_surface.default.hex}}"
 text_muted = "{{colors.outline.default.hex}}"
 success = "{{colors.tertiary.default.hex}}"
 error = "{{colors.error.default.hex}}"
-python_bg = "{{colors.secondary.default.hex}}"
-python_fg = "{{colors.on_secondary.default.hex}}"

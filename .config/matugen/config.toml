@@ -31,12 +31,6 @@ output_path = '~/.config/wofi/colors.css'
 input_path = '~/.config/matugen/templates/waybar.css'
 output_path = '~/.config/waybar/colors.css'
 
-# ==================== Terminals ====================
-
-[templates.foot]
-input_path = '~/.config/matugen/templates/foot.ini'
-output_path = '~/.config/foot/colors.ini'
-
 # ==================== Browsers ====================
 
 [templates.firefox_chrome]
@@ -86,7 +80,6 @@ output_path = '~/.local/share/gtksourceview-4/styles/matugen-dark.xml'
 input_path = '~/.config/matugen/templates/ags/sourceviewtheme-light.xml'
 output_path = '~/.local/share/gtksourceview-4/styles/matugen-light.xml'
 
-# ==================== Extra Apps ====================
 
 [templates.btop]
 input_path = '~/.config/matugen/templates/btop.theme'
@@ -102,9 +95,9 @@ post_hook = 'pkill -USR1 cava || true'
 input_path = '~/.config/matugen/templates/heroic.css'
 output_path = '~/.config/heroic/themes/matugen.css'
 
-[templates.neovim]
-input_path = '~/.config/matugen/templates/nvim-colors.lua'
-output_path = '~/.config/nvim/lua/matugen-colors.lua'
+# [templates.neovim]
+# input_path = '~/.config/matugen/templates/nvim-colors.lua'
+# output_path = '~/.config/nvim/lua/matugen-colors.lua'
 
 [templates.snappy_switcher]
 input_path = '~/.config/matugen/templates/snappy-switcher.ini'
@@ -124,3 +117,41 @@ input_path = '~/.config/matugen/templates/dev-dashboard-colors.css'
 output_path = '~/Downloads/dev-dashboard-colors.css'
 post_hook = '~/.config/matugen/templates/dev-dashboard-inject.sh'
 
+[templates.kitty]
+input_path = '~/.config/matugen/templates/kitty-colors.conf'
+output_path = '~/.local/state/quickshell/user/generated/terminal/kitty-theme.conf'
+post_hook = 'pkill -SIGUSR1 kitty || true'
+
+[templates.starship]
+input_path = '~/.config/matugen/templates/starship.toml'
+output_path = '~/.config/starship.toml'
+
+[templates.kde_colors]
+input_path = '~/.config/matugen/templates/kde/color.txt'
+output_path = '~/.local/state/quickshell/user/generated/color.txt'
+post_hook = '~/.config/matugen/templates/kde/kde-material-you-colors-wrapper.sh'
+
+[templates.easyeffects]
+input_path = '~/.config/matugen/templates/easyeffects.css'
+output_path = '~/.config/easyeffects/style.css'
+
+[templates.fastfetch]
+input_path = '~/.config/matugen/templates/fastfetch.jsonc'
+output_path = '~/.config/fastfetch/config.jsonc'
+
+[templates.obsidian_main]
+input_path = '~/.config/matugen/templates/obsidian.css'
+output_path = '~/Documents/Obsidian Vault/.obsidian/snippets/matugen.css'
+
+[templates.obsidian_personal]
+input_path = '~/.config/matugen/templates/obsidian.css'
+output_path = '~/Documents/Obsidian/Personal/.obsidian/snippets/matugen.css'
+
+[templates.ags_material]
+input_path = '~/.config/matugen/templates/ags/_material.scss'
+output_path = '~/.local/state/quickshell/user/generated/material_colors.scss'
+
+[templates.vicinae]
+input_path = '~/.config/matugen/templates/vicinae-theme.toml'
+output_path = '~/.local/share/vicinae/themes/matugen.toml'
+post_hook = 'vicinae theme set matugen || true'
