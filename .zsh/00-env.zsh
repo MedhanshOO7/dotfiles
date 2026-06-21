@@ -12,8 +12,7 @@ export LESS_TERMCAP_so=$'\e[48;5;60;38;5;223m'
 export LESS_TERMCAP_ue=$'\e[0m'
 export LESS_TERMCAP_us=$'\e[38;5;150m'
 export MANPAGER='nvim +Man!'
-export PAGER='bat'
-export GROFF_NO_SGR=1
+export PAGER='less'
 
 # FZF
 export FZF_DEFAULT_OPTS=$'

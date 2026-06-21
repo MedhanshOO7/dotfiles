@@ -23,6 +23,8 @@ alias vpn='protonvpn'
 alias vpnc='protonvpn connect'
 alias vpndc='protonvpn disconnect'
 
+#man 
+alias man='batman'
 #zoxide
 alias cdi='zi'
 

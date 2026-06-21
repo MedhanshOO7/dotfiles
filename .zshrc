@@ -1,5 +1,13 @@
 # ~/.zshrc
-#
+setopt APPEND_HISTORY
+setopt SHARE_HISTORY
+setopt HIST_IGNORE_DUPS
+setopt HIST_IGNORE_SPACE
+setopt HIST_EXPIRE_DUPS_FIRST
+setopt HIST_FIND_NO_DUPS
+
+
+
 # 1. Define Directory dynamically
 ZSH_MOD_DIR="${ZDOTDIR:-$HOME}/.zsh"
 
@@ -39,7 +47,6 @@ if [[ -f ~/.config/zshrc.d/dots-hyprland.zsh ]]; then
 fi
 
 export AWS_REGION=us-east-1
-
 
 # Added by Antigravity CLI installer
 export PATH="/home/medhansh/.local/bin:$PATH"
