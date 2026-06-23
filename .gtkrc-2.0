@@ -2,13 +2,13 @@ gtk-enable-animations=1
 gtk-primary-button-warps-slider=1
 gtk-cursor-blink-time=1000
 gtk-cursor-blink=1
-gtk-sound-theme-name="ocean"
+gtk-sound-theme-name="freedesktop"
 # DO NOT EDIT! This file will be overwritten by nwg-look.
 # Any customization should be done in ~/.gtkrc-2.0.mine instead.
 
 gtk-theme-name="adw-gtk3-dark"
-gtk-icon-theme-name="breeze"
-gtk-font-name="Noto Sans,  10"
+gtk-icon-theme-name="breeze-plus-dark"
+gtk-font-name="Google Sans Flex, Medium 12"
 gtk-cursor-theme-name="Bibata-Modern-Classic"
 gtk-cursor-theme-size=32
 gtk-toolbar-style=3

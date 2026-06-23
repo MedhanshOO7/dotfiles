@@ -323,6 +323,9 @@ map({ "n", "x" }, "<leader>MJ", skip_cursor_below, { desc = "Skip cursor below" 
 map({ "n", "x" }, "<leader>MK", skip_cursor_above, { desc = "Skip cursor above" })
 map({ "n", "x" }, "<C-M-Up>", add_cursor_above, { desc = "Add cursor above" })
 map({ "n", "x" }, "<C-M-Down>", add_cursor_below, { desc = "Add cursor below" })
+map({ "n", "i", "x" }, "<M-LeftMouse>", function()
+    multicursor().handleMouse()
+end, { desc = "Toggle cursor at mouse position" })
 
 -- Themes and utility toggles
 map("n", "<leader>ut", cmd("ThemePicker"), { desc = "Choose a theme" })

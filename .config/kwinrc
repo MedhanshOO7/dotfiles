@@ -145,7 +145,7 @@ InputMethod[$e]=/usr/share/applications/fcitx5-wayland-launcher.desktop
 VirtualKeyboardEnabled=true
 
 [Xwayland]
-Scale=1.3
+Scale=1.5
 
 [org.kde.kdecoration2]
 BorderSize=None
@@ -153,4 +153,4 @@ BorderSizeAuto=false
 ButtonsOnLeft=
 ButtonsOnRight=
 library=org.kde.kwin.aurorae.v2
-theme=__aurorae__svg__Materia-Dark
+theme=__aurorae__svg__Dracula

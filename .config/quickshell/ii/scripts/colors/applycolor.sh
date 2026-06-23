@@ -64,15 +64,13 @@ apply_anyterm() {
 
   sed -i "s/\$alpha/$term_alpha/g" "$STATE_DIR/user/generated/terminal/sequences.txt"
 
-  # Sending escape sequences to all pts devices causes raw escape codes to print in unsupported terminals or multiplexers.
-  # If you use a terminal other than Kitty and want dynamic colors, uncomment the loop below.
-  # for file in /dev/pts/*; do
-  #   if [[ $file =~ ^/dev/pts/[0-9]+$ ]]; then
-  #     {
-  #     cat "$STATE_DIR"/user/generated/terminal/sequences.txt >"$file"
-  #     } & disown || true
-  #   fi
-  # done
+  for file in /dev/pts/*; do
+    if [[ $file =~ ^/dev/pts/[0-9]+$ ]]; then
+      {
+      cat "$STATE_DIR"/user/generated/terminal/sequences.txt >"$file"
+      } & disown || true
+    fi
+  done
 }
 
 apply_term() {
