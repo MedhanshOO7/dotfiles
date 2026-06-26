@@ -18,9 +18,10 @@ return {
             "--function-arg-placeholders=0",
             "--header-insertion=iwyu",
             "--fallback-style={BasedOnStyle: LLVM, IndentWidth: 4, TabWidth: 4, UseTab: Never}",
+            "--log=error",
         },
         init_options = {
-            clangdFileStatus = true,
+            clangdFileStatus = false,
             completeUnimported = true,
             usePlaceholders = true,
         },
@@ -110,6 +111,7 @@ return {
             },
         },
     },
+    qmlls = {},
     vtsls = {
         settings = {
             typescript = {

@@ -17,6 +17,12 @@ return {
             return navic.get_location()
         end
 
+        local function macro_recording()
+            local reg = vim.fn.reg_recording()
+            if reg == "" then return "" end
+            return "󰑋 REC @" .. reg
+        end
+
         local function apply()
             require("lualine").setup({
                 options = {
@@ -49,6 +55,7 @@ return {
                         },
                     },
                     lualine_x = {
+                        { macro_recording, color = { fg = "#f38ba8", gui = "bold" } },
                         {
                             "diagnostics",
                             sources = { "nvim_diagnostic" },

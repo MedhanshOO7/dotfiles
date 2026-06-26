@@ -115,6 +115,15 @@ return {
                 format = lspkind.cmp_format({
                     mode = "symbol_text",
                     maxwidth = 50,
+                    ellipsis_char = "...",
+                    menu = {
+                        nvim_lsp = "[LSP]",
+                        luasnip = "[Snip]",
+                        buffer = "[Buf]",
+                        path = "[Path]",
+                        obsidian = "[Obs]",
+                        obsidian_new = "[Obs+]",
+                    },
                 }),
             },
             view = {
@@ -123,9 +132,7 @@ return {
                 },
             },
             experimental = {
-                ghost_text = {
-                    hl_group = "Comment",
-                },
+                ghost_text = false, -- Disabled to prevent visual chaos with Supermaven AI
             },
             window = {
                 completion = cmp.config.window.bordered({

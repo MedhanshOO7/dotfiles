@@ -1,6 +1,6 @@
 return {
     "stevearc/conform.nvim",
-    event = { "BufReadPre", "BufNewFile" },
+    event = "BufWritePre",
 
     config = function()
         local conform = require("conform")
@@ -9,7 +9,7 @@ return {
             formatters_by_ft = {
                 c = { "clang_format" },
                 cpp = { "clang_format" },
-                python = { "ruff_organize_imports", "ruff_format", "black" },
+                python = { "ruff_organize_imports", "ruff_format" },
                 javascript = { "prettierd", "prettier" },
                 typescript = { "prettierd", "prettier" },
                 typescriptreact = { "prettierd", "prettier" },

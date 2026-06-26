@@ -19,6 +19,7 @@ return {
         wk.add({
             -- Group headers
             { "<leader>a", group = "AI" },
+            { "<leader>B", group = "Build and CMake" },
             { "<leader>b", group = "Buffers" },
             { "<leader>c", group = "Code" },
             { "<leader>d", group = "Debug" },
@@ -31,7 +32,9 @@ return {
             { "<leader>M", group = "Multicursor" },
             { "<leader>n", group = "Notes and writing" },
             { "<leader>o", group = "Obsidian" },
+            { "<leader>P", group = "Python" },
             { "<leader>s", group = "Search and jump" },
+            { "<leader>T", group = "Testing (Neotest)" },
             { "<leader>t", group = "Terminal and tasks" },
             { "<leader>u", group = "UI and theme" },
             { "<leader>w", group = "Windows and sessions" },

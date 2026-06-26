@@ -48,7 +48,7 @@ return {
         },
         keys = {
             { "<leader>ce", function() require('refactoring').refactor('Extract Function') end, mode = "v", desc = "Code: Extract function" },
-            { "<leader>cf", function() require('refactoring').refactor('Extract Function To File') end, mode = "v", desc = "Code: Extract function to file" },
+            { "<leader>cE", function() require('refactoring').refactor('Extract Function To File') end, mode = "v", desc = "Code: Extract function to file" },
             { "<leader>cv", function() require('refactoring').refactor('Extract Variable') end, mode = "v", desc = "Code: Extract variable" },
             { "<leader>ci", function() require('refactoring').refactor('Inline Variable') end, mode = { "n", "v" }, desc = "Code: Inline variable" },
             { "<leader>cb", function() require('refactoring').refactor('Extract Block') end, desc = "Code: Extract block" },

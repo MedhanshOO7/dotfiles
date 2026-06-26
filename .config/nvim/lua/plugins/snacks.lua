@@ -2,16 +2,17 @@ return {
     "folke/snacks.nvim",
     priority = 1000,
     lazy = false,
-    config = function(_, opts)
-        require("snacks").setup(opts)
-    end,
     opts = {
         bigfile = { enabled = true },
         bufdelete = { enabled = true },
         quickfile = { enabled = true },
         scope = { enabled = true },
         words = { enabled = false },
-        notifier = { enabled = false },
+        notifier = {
+            enabled = true,
+            timeout = 3000,
+            style = "compact",
+        },
         animate = {
             enabled = true,
             duration = 20, -- Slower, more 'luxurious' feel
@@ -40,12 +41,17 @@ return {
             },
         },
         lazygit = { enabled = true },
-        image = { enabled = false },
+        image = { enabled = true }, -- Enabled for Kitty!
         scroll = { enabled = false },
         statuscolumn = { enabled = true },
+        zen = { enabled = true },
+        scratch = { enabled = true },
     },
     keys = {
         { "<leader>gl", function() Snacks.lazygit() end, desc = "Lazygit (VS Code-style panel)" },
         { "<leader>gf", function() Snacks.lazygit.log_file() end, desc = "Lazygit Current File History" },
+        { "<leader>Z", function() Snacks.zen() end, desc = "Toggle Zen Mode" },
+        { "<leader>.", function() Snacks.scratch() end, desc = "Toggle Scratch Buffer" },
+        { "<leader>n", function() Snacks.notifier.show_history() end, desc = "Notification History" },
     },
 }

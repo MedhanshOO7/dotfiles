@@ -34,6 +34,7 @@ return {
                 "prettierd",
                 "prettier",
                 "ruff",
+                "qmlls",
                 "selene",
                 "shellcheck",
                 "shfmt",

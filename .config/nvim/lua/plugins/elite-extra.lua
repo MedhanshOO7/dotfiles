@@ -51,7 +51,7 @@ return {
             },
         },
         opts = {
-            backend = "delta", -- Use delta for pretty diffs if available, else standard
+            backend = vim.fn.executable("delta") == 1 and "delta" or "vim",
         },
     },
 
@@ -70,11 +70,11 @@ return {
             "alfaix/neotest-gtest",
         },
         keys = {
-            { "<leader>tr", function() require("neotest").run.run() end, desc = "Test: Run nearest" },
-            { "<leader>tf", function() require("neotest").run.run(vim.fn.expand("%")) end, desc = "Test: Run file" },
-            { "<leader>ts", function() require("neotest").summary.toggle() end, desc = "Test: Toggle summary" },
-            { "<leader>to", function() require("neotest").output.open({ enter = true }) end, desc = "Test: Open output" },
-            { "<leader>tp", function() require("neotest").output_panel.toggle() end, desc = "Test: Toggle output panel" },
+            { "<leader>Tnr", function() require("neotest").run.run() end, desc = "Test: Run nearest" },
+            { "<leader>Tnf", function() require("neotest").run.run(vim.fn.expand("%")) end, desc = "Test: Run file" },
+            { "<leader>Tns", function() require("neotest").summary.toggle() end, desc = "Test: Toggle summary" },
+            { "<leader>Tno", function() require("neotest").output.open({ enter = true }) end, desc = "Test: Open output" },
+            { "<leader>Tnp", function() require("neotest").output_panel.toggle() end, desc = "Test: Toggle output panel" },
         },
         config = function()
             require("neotest").setup({

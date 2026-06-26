@@ -147,10 +147,6 @@ return {
         map("n", "<C-.>", "<Cmd>BufferNext<CR>", opts)
         map("n", "<C-<>", "<Cmd>BufferMovePrevious<CR>", opts)
         map("n", "<C->>", "<Cmd>BufferMoveNext<CR>", opts)
-        map("n", "<C-w>", "<Cmd>BufferClose<CR>", opts)
-        map("n", "<C-W>", "<Cmd>BufferCloseAllButCurrent<CR>", opts)
-        map("n", "<C-p>", "<Cmd>BufferPin<CR>", opts)
-        map("n", "<leader>bp", "<Cmd>BufferPick<CR>", opts)
-        map("n", "<leader>bd", "<Cmd>BufferPickDelete<CR>", opts)
+        map("n", "<C->>", "<Cmd>BufferMoveNext<CR>", opts)
     end,
 }

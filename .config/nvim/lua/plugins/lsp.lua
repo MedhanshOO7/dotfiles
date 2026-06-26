@@ -111,28 +111,7 @@ return {
 
 
 
-        vim.api.nvim_create_autocmd("CursorHold", {
-            group = vim.api.nvim_create_augroup("lsp_diagnostic_hover", { clear = true }),
-            callback = function()
-                if vim.api.nvim_get_mode().mode ~= "n" then
-                    return
-                end
 
-                local diagnostics = vim.diagnostic.get(0, {
-                    lnum = vim.api.nvim_win_get_cursor(0)[1] - 1,
-                })
-
-                if #diagnostics == 0 then
-                    return
-                end
-
-                vim.diagnostic.open_float(bordered({
-                    scope = "cursor",
-                    source = "if_many",
-                    close_events = { "BufLeave", "CursorMoved", "InsertEnter", "FocusLost" },
-                }))
-            end,
-        })
 
         local servers_ok, servers = pcall(require, "lsp.servers")
         if not servers_ok then
@@ -160,6 +139,7 @@ return {
                     "lua_ls",
                     "marksman",
                     "pylsp",
+                    "qmlls",
                     "vtsls",
                     "yamlls",
                 },

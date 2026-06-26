@@ -54,7 +54,7 @@ opt.updatetime     = 250                       -- snappier diagnostics and git u
 opt.timeoutlen     = 300                       -- faster which-key popup and mappings
 opt.splitkeep      = "screen"                  -- avoid layout jumps when opening or closing splits
 opt.inccommand     = "split"                   -- preview substitutions live
-opt.smoothscroll   = true                      -- smoother large jumps and search motion
+opt.smoothscroll   = false                     -- disabled in favor of neoscroll.nvim
 opt.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"
 
 -- ── Clipboard ───────────────────────────────────────────────
