@@ -19,6 +19,7 @@ return {
             "--header-insertion=iwyu",
             "--fallback-style={BasedOnStyle: LLVM, IndentWidth: 4, TabWidth: 4, UseTab: Never}",
             "--log=error",
+            "--query-driver=/usr/bin/arm-none-eabi-*",
         },
         init_options = {
             clangdFileStatus = false,
