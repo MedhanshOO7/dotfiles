@@ -29,6 +29,7 @@ return {
                 "comment",
                 "cpp",
                 "css",
+                "devicetree",
                 "diff",
                 "dockerfile",
                 "html",
