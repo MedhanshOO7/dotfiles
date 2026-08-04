@@ -2,7 +2,7 @@
 export ZSH="$HOME/.oh-my-zsh"
 # Redundant npm path removed (already in PATH)
 alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
-
+alias SEM3="$HOME/Downloads/Sem - III/Semester - III"
 # man page colors (Catppuccin Frappe)
 export LESS_TERMCAP_mb=$'\e[1;31m'
 export LESS_TERMCAP_md=$'\e[1;38;5;111m'
@@ -143,3 +143,5 @@ export FZF_CTRL_R_OPTS="--preview='' --preview-window=hidden"
 
 #bat
 export BAT_THEME_DARK='Dracula'
+#clipboard 
+ZVM_SYSTEM_CLIPBOARD_ENABLED=true

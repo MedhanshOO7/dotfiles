@@ -15,6 +15,7 @@ return {
             defaults = {
                 prompt_prefix = "  ",
                 selection_caret = " ",
+                hl_result_eol = true,
                 path_display = { "truncate" },
                 sorting_strategy = "ascending",
                 layout_strategy = "horizontal",

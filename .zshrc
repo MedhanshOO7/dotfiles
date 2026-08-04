@@ -50,3 +50,10 @@ export AWS_REGION=us-east-1
 
 # Added by Antigravity CLI installer
 export PATH="/home/medhansh/.local/bin:$PATH"
+
+# kimi-code
+export PATH="/home/medhansh/.kimi-code/bin:$PATH"
+
+fpath=(/home/medhansh/.local/share/college/completions $fpath)
+
+autoload -Uz compinit && compinit

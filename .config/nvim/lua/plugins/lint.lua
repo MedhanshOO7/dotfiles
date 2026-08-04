@@ -34,6 +34,37 @@ return {
             cmd = prefer_mason("markdownlint"),
         })
 
+        -- Custom dtc linter for Devicetree files
+        if vim.fn.executable("dtc") == 1 then
+            lint.linters.dtc = {
+                cmd = "dtc",
+                stdin = true,
+                args = { "-I", "dts", "-O", "dts", "-o", "/dev/null", "-W", "no-unit_address_vs_reg", "-" },
+                stream = "stderr",
+                ignore_exitcode = true,
+                parser = function(output, bufnr)
+                    local diagnostics = {}
+                    for line in output:gmatch("[^\n]+") do
+                        local lnum, msg = line:match("<stdin>:(%d+)[^:]*:%s*(.+)")
+                        if lnum then
+                            local severity = vim.diagnostic.severity.ERROR
+                            if line:match("Warning") or line:match("warning") then
+                                severity = vim.diagnostic.severity.WARN
+                            end
+                            table.insert(diagnostics, {
+                                lnum = tonumber(lnum) - 1,
+                                col = 0,
+                                message = msg,
+                                severity = severity,
+                                source = "dtc",
+                            })
+                        end
+                    end
+                    return diagnostics
+                end,
+            }
+        end
+
         lint.linters_by_ft = {
             javascript = available("eslint_d") and { "eslint_d" } or {},
             javascriptreact = available("eslint_d") and { "eslint_d" } or {},
@@ -45,6 +76,7 @@ return {
             bash = available("shellcheck") and { "shellcheck" } or {},
             zsh = available("shellcheck") and { "shellcheck" } or {},
             markdown = available("markdownlint") and { "markdownlint" } or {},
+            dts = vim.fn.executable("dtc") == 1 and { "dtc" } or {},
         }
 
         -- Set default config for markdownlint

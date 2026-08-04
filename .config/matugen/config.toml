@@ -95,9 +95,9 @@ post_hook = 'pkill -USR1 cava || true'
 input_path = '~/.config/matugen/templates/heroic.css'
 output_path = '~/.config/heroic/themes/matugen.css'
 
-# [templates.neovim]
-# input_path = '~/.config/matugen/templates/nvim-colors.lua'
-# output_path = '~/.config/nvim/lua/matugen-colors.lua'
+[templates.neovim]
+input_path = '~/.config/matugen/templates/nvim-colors.lua'
+output_path = '~/.config/nvim/lua/matugen-colors.lua'
 
 [templates.snappy_switcher]
 input_path = '~/.config/matugen/templates/snappy-switcher.ini'

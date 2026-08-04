@@ -34,6 +34,7 @@ M.dark_themes = {
     "monokai",
     "onedark",
     "oxocarbon",
+    "matugen",
 }
 
 M.light_themes = {
@@ -242,8 +243,23 @@ local function apply_editor_chrome(transparent)
     local warning = hl_hex("DiagnosticWarn", "fg", "#eed49f")
     local danger = hl_hex("DiagnosticError", "fg", "#ed8796")
 
+    -- MATUGEN INTEGRATION: Safely inject Material You colors into the UI chrome!
+    -- We do NOT touch the actual code syntax colors (which stay powered by your base theme),
+    -- we only override the UI elements (borders, Telescope, menus, highlights).
+    package.loaded["matugen-colors"] = nil
+    local ok_matugen, matugen = pcall(require, "matugen-colors")
+    if ok_matugen and type(matugen) == "table" then
+        accent = matugen.primary or accent
+        accent_alt = matugen.secondary or accent_alt
+        danger = matugen.error or danger
+        -- If we aren't transparent, subtly tint the background with Matugen's surface color
+        if not transparent and matugen.surface then
+            normal_bg = blend(matugen.surface, normal_bg, 0.6)
+        end
+    end
+
     local float_bg = get_glass_bg(normal_bg, normal_fg, transparent)
-    local float_border = blend(accent, normal_bg, 0.35)
+    local float_border = blend(accent, normal_bg, 0.45)
     local sidebar_bg = transparent and "NONE" or blend(normal_fg, normal_bg, 0.04)
     local accent_bg = transparent and "NONE" or blend(accent, normal_bg, 0.12)
     local soft_edge = blend(comment, normal_bg, 0.45)
@@ -534,6 +550,25 @@ local function apply_theme(theme, transparent)
 
     if theme:match("^catppuccin") then
         apply_catppuccin(theme, transparent)
+        set_transparent_highlights(transparent)
+        apply_editor_chrome(transparent)
+        return true
+    end
+
+    if theme == "matugen" then
+        -- Load TokyoNight for robust syntax highlighting, 
+        -- the UI Chrome layer will override it with Matugen colors.
+        vim.g.tokyonight_transparent = transparent
+        pcall(vim.cmd.colorscheme, "tokyonight-night")
+        
+        -- Force the Normal background to be the exact Matugen background
+        package.loaded["matugen-colors"] = nil
+        local ok, matugen = pcall(require, "matugen-colors")
+        if ok and type(matugen) == "table" and matugen.background then
+            vim.api.nvim_set_hl(0, "Normal", { bg = transparent and "NONE" or matugen.background })
+            vim.api.nvim_set_hl(0, "NormalNC", { bg = transparent and "NONE" or matugen.background })
+        end
+
         set_transparent_highlights(transparent)
         apply_editor_chrome(transparent)
         return true

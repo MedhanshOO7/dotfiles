@@ -1,10 +1,14 @@
+MenuBar=Disabled
+
 [DetailsMode]
 PreviewSize=32
 
 [General]
+BrowseThroughArchives=true
+DynamicView=true
+EditableUrl=true
 GlobalViewProps=false
 ShowFullPath=true
-ShowStatusBar=FullWidth
 Version=202
 
 [IconsMode]
@@ -19,7 +23,10 @@ Places Icons Static Size=22
 MenuBar=Disabled
 
 [PreviewSettings]
-Plugins=ffmpegthumbnailer,appimagethumbnail,audiothumbnail,avif,blenderthumbnail,comicbookthumbnail,cursorthumbnail,djvuthumbnail,ebookthumbnail,exrthumbnail,directorythumbnail,fontthumbnail,heif,imagethumbnail,jpegthumbnail,jxl,kraorathumbnail,windowsexethumbnail,windowsimagethumbnail,mobithumbnail,opendocumentthumbnail,gsthumbnail,rawthumbnail,librsvg,svgthumbnail,ffmpegthumbs,gdk-pixbuf-thumbnailer,gsf-office
+Plugins=appimagethumbnail,audiothumbnail,glycin-heif,blenderthumbnail,evince,comicbookthumbnail,cursorthumbnail,djvuthumbnail,ebookthumbnail,exrthumbnail,directorythumbnail,fontthumbnail,pothumbnail,imagethumbnail,calligraimagethumbnail,glycin-image-rs,jpegthumbnail,glycin-jxl,kraorathumbnail,windowsexethumbnail,windowsimagethumbnail,gsf-office,mltpreview,mobithumbnail,opendocumentthumbnail,calligrathumbnail,gsthumbnail,rawthumbnail,glycin-svg,svgthumbnail,textthumbnail,itinerarythumbnail,ffmpegthumbs
 
 [Shortcut Schemes]
-Current Scheme=KiView
+Current Scheme=New Scheme
+
+[VersionControl]
+enabledPlugins=Bazaar,Subversion

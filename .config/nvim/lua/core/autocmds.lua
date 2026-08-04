@@ -1,5 +1,16 @@
 local group = vim.api.nvim_create_augroup("ZenModeAuto", { clear = true })
 
+-- ── Reset Terminal Colors on Exit ────────────────────────────
+-- Fixes Kitty/Wezterm background color bleeding when closing Neovim
+vim.api.nvim_create_autocmd("VimLeave", {
+    group = vim.api.nvim_create_augroup("RestoreTerminalColors", { clear = true }),
+    callback = function()
+        io.stdout:write("\27]111\27\\") -- Reset background
+        io.stdout:write("\27]110\27\\") -- Reset foreground
+        io.stdout:write("\27]112\27\\") -- Reset cursor
+    end,
+})
+
 vim.api.nvim_create_autocmd("FileType", {
     group = group,
     pattern = { "markdown", "text" },

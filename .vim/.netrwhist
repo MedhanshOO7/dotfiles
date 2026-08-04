@@ -1,5 +1,6 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhistcnt =5
+let g:netrw_dirhistcnt =6
+let g:netrw_dirhist_6='/home/medhansh/Downloads/IIT-Summer-Intrn/Claude-Session/liS3DH'
 let g:netrw_dirhist_5='/home'
 let g:netrw_dirhist_4='/home/medhansh'
 let g:netrw_dirhist_3='/home/medhansh/faustus-dkms'
@@ -9,4 +10,3 @@ let g:netrw_dirhist_0='/home/medhansh/.zsh'
 let g:netrw_dirhist_9='/home/medhansh'
 let g:netrw_dirhist_8='/home/medhansh/.zsh'
 let g:netrw_dirhist_7='/home/medhansh'
-let g:netrw_dirhist_6='/home/medhansh/.config/hypr/hyprland'
