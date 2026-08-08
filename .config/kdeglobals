@@ -137,20 +137,18 @@ ColorScheme=MaterialYouDark
 ColorSchemeHash=1f4c2a161a4117c7318de2a55bd47b36d127f259
 LastUsedCustomAccentColor=184,117,220
 TerminalApplication=kitty -1
-XftAntialias=true
 XftHintStyle=hintslight
 XftSubPixel=none
-fixed=JetBrainsMono Nerd Font,12,-1,5,400,0,0,0,0,0,0,0,0,0,0,1,,0,0
-font=Google Sans Flex,12,-1,5,500,0,0,0,0,0,0,0,0,0,0,1,Medium,0,0
-menuFont=Google Sans Flex,11,-1,5,500,0,0,0,0,0,0,0,0,0,0,1,Medium,0,0
-smallestReadableFont=Google Sans Flex,10,-1,5,500,0,0,0,0,0,0,0,0,0,0,1,Medium,0,0
-toolBarFont=Google Sans Flex,11,-1,5,500,0,0,0,0,0,0,0,0,0,0,1,Medium,0,0
+fixed=JetBrainsMono Nerd Font,11,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
+font=Google Sans Flex,11,-1,5,500,0,0,0,0,0,0,0,0,0,0,1,Medium
+menuFont=Google Sans Flex,10,-1,5,500,0,0,0,0,0,0,0,0,0,0,1,Medium
+smallestReadableFont=Google Sans Flex,9,-1,5,500,0,0,0,0,0,0,0,0,0,0,1,Medium
+toolBarFont=Google Sans Flex,10,-1,5,500,0,0,0,0,0,0,0,0,0,0,1,Medium
 
 [Icons]
 Theme=YAMIS
 
 [KDE]
-ShowDeleteCommand=false
 contrast=4
 frameContrast=0.2
 widgetStyle=Darkly
@@ -158,26 +156,19 @@ widgetStyle=Darkly
 [KFileDialog Settings]
 Allow Expansion=false
 Automatically select filename extension=true
-Breadcrumb Navigation=false
+Breadcrumb Navigation=true
 Decoration position=2
 Show Full Path=false
 Show Inline Previews=true
 Show Preview=false
 Show Speedbar=true
-Show hidden files=false
+Show hidden files=true
 Sort by=Date
-Sort directories first=false
+Sort directories first=true
 Sort hidden files last=false
 Sort reversed=false
 Speedbar Width=168
-View Style=Simple
-
-[KShortcutsDialog Settings]
-Dialog Size=1280,850
-
-[PreviewSettings]
-EnableRemoteFolderThumbnail=false
-MaximumRemoteSize=0
+View Style=DetailTree
 
 [Sounds]
 Theme=freedesktop
@@ -185,7 +176,7 @@ Theme=freedesktop
 [WM]
 activeBackground=50,54,50
 activeBlend=252,252,252
-activeFont=Google Sans Flex,11,-1,5,500,0,0,0,0,0,0,0,0,0,0,1,Medium,0,0
+activeFont=Google Sans Flex,10,-1,5,500,0,0,0,0,0,0,0,0,0,0,1,Medium
 activeForeground=224,227,222
 inactiveBackground=50,74,57
 inactiveBlend=161,169,177
