@@ -27,46 +27,8 @@ return {
                 bash = { "shfmt" },
                 zsh = { "shfmt" },
                 yaml = { "prettierd", "prettier" },
-                dts = { "dts_format" },
             },
             formatters = {
-                dts_format = {
-                    format = function(self, ctx, lines, callback)
-                        local indent = "\t"
-                        local depth = 0
-                        local result = {}
-                        
-                        for _, line in ipairs(lines) do
-                            local trimmed = line:match("^%s*(.-)%s*$")
-                            
-                            -- Skip empty lines but don't stack them
-                            if trimmed == "" then
-                                if #result > 0 and result[#result] ~= "" then
-                                    table.insert(result, "")
-                                end
-                            else
-                                -- Decrease indent before closing brace
-                                if trimmed:match("^};") then
-                                    depth = math.max(0, depth - 1)
-                                end
-                                
-                                table.insert(result, string.rep(indent, depth) .. trimmed)
-                                
-                                -- Increase indent after opening brace
-                                if trimmed:match("{%s*$") then
-                                    depth = depth + 1
-                                end
-                            end
-                        end
-                        
-                        -- Ensure trailing newline
-                        if #result > 0 and result[#result] ~= "" then
-                            table.insert(result, "")
-                        end
-                        
-                        callback(nil, result)
-                    end,
-                },
                 prettier = {
                     args = { "--stdin-filepath", "$FILENAME", "--tab-width", "4" },
                 },

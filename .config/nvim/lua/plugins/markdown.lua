@@ -5,7 +5,7 @@ return {
         "nvim-treesitter/nvim-treesitter",
         "nvim-tree/nvim-web-devicons",
     },
-    event = { "BufReadPre *.md", "BufNewFile *.md" },
+    ft = { "markdown", "markdown.mdx", "quarto", "rmd" },
     init = function()
         local function resolve_group(groups)
             for _, group in ipairs(groups) do
@@ -68,8 +68,51 @@ return {
                 end
             end
 
-            vim.api.nvim_set_hl(0, "RenderMarkdownCode", { link = "ColorColumn" })
-            vim.api.nvim_set_hl(0, "RenderMarkdownCodeInline", { link = "Visual" })
+            local code_bg = first_hl_bg({ "ColorColumn", "CursorLine", "NormalFloat" })
+            if code_bg then
+                vim.api.nvim_set_hl(0, "RenderMarkdownCode", { bg = code_bg })
+                vim.api.nvim_set_hl(0, "RenderMarkdownCodeInline", { bg = code_bg })
+            else
+                vim.api.nvim_set_hl(0, "RenderMarkdownCode", { link = "ColorColumn" })
+                vim.api.nvim_set_hl(0, "RenderMarkdownCodeInline", { link = "ColorColumn" })
+            end
+
+            vim.g.markdown_fenced_languages = {
+                "js=javascript",
+                "javascript",
+                "ts=typescript",
+                "typescript",
+                "tsx=typescript",
+                "jsx=javascript",
+                "py=python",
+                "python",
+                "sh=bash",
+                "bash",
+                "zsh=bash",
+                "rb=ruby",
+                "ruby",
+                "rs=rust",
+                "rust",
+                "golang=go",
+                "go",
+                "yml=yaml",
+                "yaml",
+                "json",
+                "jsonc",
+                "toml",
+                "html",
+                "css",
+                "c",
+                "cpp",
+                "c++=cpp",
+                "sql",
+                "dockerfile",
+                "docker=dockerfile",
+                "cmake",
+                "diff",
+                "vim",
+                "lua",
+            }
 
             vim.api.nvim_set_hl(0, "RenderMarkdownChecked", { link = "DiagnosticOk" })
             vim.api.nvim_set_hl(0, "RenderMarkdownUnchecked", { link = "DiagnosticHint" })
@@ -119,8 +162,10 @@ return {
         },
         code = {
             sign = false,
+            style = "full",
             width = "block",
             min_width = 30,
+            left_pad = 1,
             right_pad = 1,
         },
         bullet = {

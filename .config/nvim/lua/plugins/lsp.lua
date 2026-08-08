@@ -131,6 +131,7 @@ return {
         if mason_lspconfig_ok then
             mason_lspconfig.setup({
                 ensure_installed = {
+                    "basedpyright",
                     "bashls",
                     "clangd",
                     "cssls",

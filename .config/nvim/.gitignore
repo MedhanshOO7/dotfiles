@@ -1,0 +1,12 @@
+# Neovim & Runtime Logs
+nvim.log
+.ropeproject/
+passthrough/
+build/
+
+# Test & Scratch Files
+test_*.cpp
+test_*.py
+test_*.ipynb
+compile_flags.txt
+debug_lsp*.lua

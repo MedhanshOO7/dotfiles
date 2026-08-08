@@ -32,7 +32,8 @@ return {
                     component_separators = { left = "", right = "" },
                     always_divide_middle = false,
                     disabled_filetypes = {
-                        winbar = { "neo-tree", "Trouble", "toggleterm", "aerial" },
+                        statusline = { "snacks_picker_input", "snacks_explorer", "noice", "nui", "notify", "prompt", "lazy", "mason" },
+                        winbar = { "snacks_picker_input", "snacks_explorer", "noice", "nui", "notify", "prompt", "Trouble", "toggleterm", "aerial" },
                     },
                 },
                 sections = {

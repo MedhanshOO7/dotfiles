@@ -3,6 +3,7 @@ return {
     -- Renders images directly in Neovim buffers using the Kitty protocol.
     {
         "3rd/image.nvim",
+        enabled = false,
         event = "VeryLazy",
         dependencies = {
             "nvim-lua/plenary.nvim",

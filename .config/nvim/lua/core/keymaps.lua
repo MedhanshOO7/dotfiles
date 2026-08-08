@@ -5,7 +5,22 @@ local function cmd(command)
 end
 
 local function toggle_explorer()
-    vim.cmd("Neotree toggle filesystem reveal left")
+    local ok, snacks = pcall(require, "snacks")
+    if ok and snacks.picker then
+        local pickers = snacks.picker.get({ source = "explorer" })
+        if #pickers > 0 then
+            pickers[1]:close()
+        else
+            snacks.explorer()
+        end
+    else
+        local oil_ok, oil = pcall(require, "oil")
+        if oil_ok and oil.open then
+            oil.open()
+        else
+            pcall(vim.cmd, "Explore")
+        end
+    end
 end
 
 local function keymap_help()
@@ -153,7 +168,14 @@ map("n", "<leader>tf", cmd("TerminalProject"), { desc = "Open the main project s
 map("n", "<leader>th", cmd("TerminalHorizontal"), { desc = "Open a bottom terminal panel" })
 map("n", "<leader>tv", cmd("TerminalVertical"), { desc = "Open a side terminal panel" })
 map("n", "<leader>tg", cmd("TerminalSelect"), { desc = "Pick from active terminal sessions" })
-map("n", "<leader>zz", cmd("ZenMode"), { desc = "Focus on writing or reading without distractions" })
+map("n", "<leader>zz", function()
+    local ok, snacks = pcall(require, "snacks")
+    if ok and snacks.zen then
+        snacks.zen()
+    else
+        pcall(vim.cmd, "ZenMode")
+    end
+end, { desc = "Focus on writing or reading without distractions" })
 map("n", "<leader>zw", function()
     require("utils.writing").toggle()
 end, { desc = "Toggle low-noise writing mode for this buffer" })
@@ -220,18 +242,41 @@ map("n", "<leader>gg", cmd("Neogit"), { desc = "Open the full git panel" })
 map("n", "<leader>gc", cmd("Neogit commit"), { desc = "Start a git commit" })
 
 -- Search and discovery
+local function pick_files()
+    local ok, snacks = pcall(require, "snacks")
+    if ok and snacks.picker then snacks.picker.files() else vim.cmd("Telescope find_files") end
+end
+local function live_grep()
+    local ok, snacks = pcall(require, "snacks")
+    if ok and snacks.picker then snacks.picker.grep() else vim.cmd("Telescope live_grep") end
+end
+local function pick_buffers()
+    local ok, snacks = pcall(require, "snacks")
+    if ok and snacks.picker then snacks.picker.buffers() else vim.cmd("Telescope buffers") end
+end
+local function pick_recent()
+    local ok, snacks = pcall(require, "snacks")
+    if ok and snacks.picker then snacks.picker.recent() else vim.cmd("Telescope oldfiles") end
+end
+local function pick_keymaps()
+    local ok, snacks = pcall(require, "snacks")
+    if ok and snacks.picker then snacks.picker.keymaps() else vim.cmd("Telescope keymaps") end
+end
+
 map("n", "<leader>p", cmd("Telescope commands"), { desc = "Open the command palette" })
-map("n", "<leader>ff", cmd("Telescope find_files"), { desc = "Find a file by name" })
-map("n", "<leader>fg", cmd("Telescope live_grep"), { desc = "Search for text in the project" })
+map("n", "<leader>ff", pick_files, { desc = "Find a file by name" })
+map("n", "<leader>fg", live_grep, { desc = "Search for text in the project" })
 map("n", "<leader>f/", cmd("Telescope current_buffer_fuzzy_find"), { desc = "Search in the current file" })
-map("n", "<leader>fb", cmd("Telescope buffers"), { desc = "Switch between open files" })
+map("n", "<leader>fb", pick_buffers, { desc = "Switch between open files" })
 map("n", "<leader>fp", cmd("Telescope git_files"), { desc = "Find a tracked project file" })
-map("n", "<leader>fr", cmd("Telescope oldfiles"), { desc = "Reopen a recent file" })
+map("n", "<leader>fr", pick_recent, { desc = "Reopen a recent file" })
 map("n", "<leader>fS", cmd("Telescope lsp_document_symbols"), { desc = "Search symbols in this file" })
 map("n", "<leader>fw", cmd("Telescope lsp_workspace_symbols"), { desc = "Search workspace symbols" })
 map("n", "<leader>ft", cmd("TodoTelescope"), { desc = "Find every TODO, NOTE, or FIX comment" })
-map("n", "<leader>fk", cmd("Telescope keymaps"), { desc = "Browse every keybinding" })
-map("n", "<leader>?", cmd("Telescope keymaps"), { desc = "Browse every keybinding" })
+map("n", "]t", function() require("todo-comments").jump_next() end, { desc = "Next TODO comment" })
+map("n", "[t", function() require("todo-comments").jump_prev() end, { desc = "Previous TODO comment" })
+map("n", "<leader>fk", pick_keymaps, { desc = "Browse every keybinding" })
+map("n", "<leader>?", pick_keymaps, { desc = "Browse every keybinding" })
 map({ "n", "x" }, "<leader>sr", cmd("GrugFar"), { desc = "Search and replace across the project" })
 map("v", "<leader>sr", cmd("'<,'>GrugFarWithin"), { desc = "Search and replace within selection" })
 map("n", "<leader>sw", function()

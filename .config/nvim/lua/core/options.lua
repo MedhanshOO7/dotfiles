@@ -1,6 +1,7 @@
 local opt          = vim.opt
 
 -- ── Appearance ──────────────────────────────────────────────
+opt.background     = "dark" -- tell Neovim explicitly so it skips the DSR terminal query (fixes E1568)
 opt.termguicolors  = true  -- 24-bit RGB colours (needed by most themes)
 opt.number         = true  -- show absolute line numbers
 opt.relativenumber = true  -- VS Code-style relative line numbers
@@ -92,7 +93,8 @@ opt.iskeyword:append("-")       -- treat hyphenated-words as one word
 opt.path:append("**")           -- let gf find project files in nested folders
 opt.jumpoptions:append("view")  -- restore the previous viewport on jumplist travel
 opt.diffopt:append("linematch:60") -- better inline diff alignment for larger hunks
-opt.winminwidth = 5             -- keep split resizing from collapsing useful context
+opt.winminheight    = 1             -- keep window splits from collapsing to 0 height
+opt.winminwidth     = 5             -- keep split resizing from collapsing useful context
 
 -- Keep netrw available as a fallback with familiar directory listings.
 vim.g.netrw_liststyle = 3

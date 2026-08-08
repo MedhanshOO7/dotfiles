@@ -39,8 +39,8 @@ return {
                     enabled = true,
                     view = nil, -- use default view
                     opts = {
-                        max_width = math.floor(vim.o.columns * 0.40),
-                        max_height = math.floor(vim.o.lines * 0.25),
+                        max_width = math.max(40, math.floor(vim.o.columns * 0.40)),
+                        max_height = math.max(6, math.floor(vim.o.lines * 0.25)),
                     },
                 },
                 signature = {
@@ -53,8 +53,8 @@ return {
                     },
                     view = nil, -- use default view
                     opts = {
-                        max_width = math.floor(vim.o.columns * 0.40),
-                        max_height = math.floor(vim.o.lines * 0.15),
+                        max_width = math.max(40, math.floor(vim.o.columns * 0.40)),
+                        max_height = math.max(4, math.floor(vim.o.lines * 0.15)),
                     },
                 },
             },
@@ -70,8 +70,8 @@ return {
                     },
                     position = { row = 2, col = 2 },
                     size = {
-                        max_width = math.floor(vim.o.columns * 0.45),
-                        max_height = math.floor(vim.o.lines * 0.30),
+                        max_width = math.max(40, math.floor(vim.o.columns * 0.45)),
+                        max_height = math.max(6, math.floor(vim.o.lines * 0.30)),
                     },
                 },
             },
@@ -81,6 +81,19 @@ return {
                 long_message_to_split = true, -- long messages will be sent to a split
                 inc_rename = true, -- enables an input dialog for inc-rename.nvim
                 lsp_doc_border = true, -- add a border to hover docs and signature help
+            },
+            routes = {
+                {
+                    filter = {
+                        event = "msg_show",
+                        any = {
+                            { find = "Terminal did not respond to DSR request" },
+                            { find = "E1568" },
+                            { find = "is_stopped is deprecated" },
+                        },
+                    },
+                    opts = { skip = true },
+                },
             },
         })
     end

@@ -73,7 +73,7 @@ return {
 
         require("barbar").setup({
             animation = true,
-            auto_hide = 1,
+            auto_hide = false,
             tabpages = false,
             clickable = true,
             focus_on_close = "left",
@@ -112,11 +112,8 @@ return {
             },
 
             sidebar_filetypes = {
-                ["neo-tree"] = {
-                    event = "BufWipeout",
-                    text = "  Explorer",
-                    align = "left",
-                },
+                ["snacks_picker_input"] = { event = "BufWipeout", text = "  Explorer", align = "left" },
+                ["oil"] = { event = "BufWipeout", text = "  Oil Browser", align = "left" },
             },
 
             highlight_alternate = false,

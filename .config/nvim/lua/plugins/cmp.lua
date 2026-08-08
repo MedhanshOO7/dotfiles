@@ -37,6 +37,13 @@ return {
             callback = apply_highlights,
         })
 
+        cmp.event:on("menu_opened", function()
+            local copilot_ok, copilot_suggestion = pcall(require, "copilot.suggestion")
+            if copilot_ok and copilot_suggestion.is_visible() then
+                copilot_suggestion.dismiss()
+            end
+        end)
+
         cmp.setup({
             completion = {
                 completeopt = "menu,menuone,noinsert",
@@ -73,7 +80,10 @@ return {
                     end
                 end, { "i", "s" }),
                 ["<Tab>"] = cmp.mapping(function(fallback)
-                    if cmp.visible() then
+                    local copilot_ok, copilot_suggestion = pcall(require, "copilot.suggestion")
+                    if copilot_ok and copilot_suggestion.is_visible() then
+                        copilot_suggestion.accept()
+                    elseif cmp.visible() then
                         cmp.confirm({ select = true })
                     elseif luasnip.expand_or_locally_jumpable() then
                         luasnip.expand_or_jump()

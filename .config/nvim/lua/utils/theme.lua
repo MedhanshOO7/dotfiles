@@ -51,7 +51,7 @@ for _, t in ipairs(M.dark_themes) do table.insert(M.themes, t) end
 for _, t in ipairs(M.light_themes) do table.insert(M.themes, t) end
 
 M.default_theme = "tokyonight"
-M.default_transparency = false
+M.default_transparency = true
 
 M.theme_aliases = {
     catppuccin = "catppuccin-macchiato",
@@ -224,6 +224,12 @@ local function set_transparent_highlights(enabled)
         "TelescopePreviewNormal",
         "TelescopePreviewBorder",
         "WinSeparator",
+        "SnacksNormal",
+        "SnacksNormalNC",
+        "SnacksPicker",
+        "SnacksPickerList",
+        "SnacksPickerInput",
+        "SnacksPickerBox",
     }
 
     for _, group in ipairs(groups) do
@@ -385,21 +391,28 @@ local function apply_editor_chrome(transparent)
         WhichKeyValue = { fg = comment },
 
         -- ── Snacks ───────────────────────────────────────────────────────────
-        SnacksNormal = { fg = normal_fg, bg = float_bg },
-        SnacksNormalNC = { fg = normal_fg, bg = float_bg },
-        SnacksPicker = { fg = normal_fg, bg = float_bg },
-        SnacksPickerBorder = { fg = float_border, bg = float_bg },
+        SnacksNormal = { fg = normal_fg, bg = transparent and "NONE" or sidebar_bg },
+        SnacksNormalNC = { fg = normal_fg, bg = transparent and "NONE" or sidebar_bg },
+        SnacksPicker = { fg = normal_fg, bg = transparent and "NONE" or sidebar_bg },
+        SnacksPickerList = { fg = normal_fg, bg = transparent and "NONE" or sidebar_bg },
+        SnacksPickerInput = { fg = normal_fg, bg = transparent and "NONE" or sidebar_bg },
+        SnacksPickerBox = { fg = normal_fg, bg = transparent and "NONE" or sidebar_bg },
+        SnacksPickerBorder = { fg = float_border, bg = transparent and "NONE" or float_bg },
         SnacksPickerTitle = { fg = normal_bg, bg = accent, bold = true },
-        SnacksInputNormal = { fg = normal_fg, bg = float_bg },
+        SnacksPickerMatch = { fg = accent, bold = true },
+        SnacksPickerSelected = { fg = accent, bg = blend(accent, normal_bg, 0.15), bold = true },
+        SnacksPickerDir = { fg = comment },
+        SnacksPickerTotals = { fg = comment, italic = true },
+        SnacksInputNormal = { fg = normal_fg, bg = transparent and "NONE" or float_bg },
         SnacksInputTitle = { fg = normal_bg, bg = accent, bold = true },
-        SnacksInputBorder = { fg = float_border, bg = float_bg },
+        SnacksInputBorder = { fg = float_border, bg = transparent and "NONE" or float_bg },
         SnacksIndent = { fg = blend(comment, normal_bg, 0.32) },
-        SnacksIndentScope = { fg = blend(accent, normal_bg, 0.82), bold = true },
+        SnacksIndentScope = { fg = blend(accent, normal_bg, 0.85), bold = true },
         SnacksDashboardHeader = { fg = accent, bold = true },
         SnacksDashboardDesc = { fg = normal_fg },
         SnacksDashboardKey = { fg = accent_alt, bold = true },
         SnacksDashboardDir = { fg = comment },
-        SnacksDashboardFooter = { fg = comment },
+        SnacksDashboardFooter = { fg = comment, italic = true },
 
         -- ── Neogit ────────────────────────────────────────────────────────────
         NeogitBranch = { fg = accent },

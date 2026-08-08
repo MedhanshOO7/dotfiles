@@ -1,3 +1,8 @@
+local local_bin = vim.fn.expand("~/.local/bin")
+if not string.find(vim.env.PATH or "", local_bin, 1, true) then
+    vim.env.PATH = local_bin .. ":" .. (vim.env.PATH or "")
+end
+
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 

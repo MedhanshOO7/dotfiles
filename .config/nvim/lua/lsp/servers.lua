@@ -19,8 +19,7 @@ return {
             "--header-insertion=iwyu",
             "--fallback-style={BasedOnStyle: LLVM, IndentWidth: 4, TabWidth: 4, UseTab: Never}",
             "--log=error",
-            "--query-driver=**/*arm-none-eabi-*,**/*arm-zephyr-eabi-*",
-            "--compile-commands-dir=build",
+            "--query-driver=/usr/bin/arm-none-eabi-*",
         },
         init_options = {
             clangdFileStatus = false,
@@ -85,6 +84,18 @@ return {
                     }),
                 },
                 telemetry = { enable = false },
+            },
+        },
+    },
+    basedpyright = {
+        settings = {
+            basedpyright = {
+                analysis = {
+                    autoSearchPaths = true,
+                    useLibraryCodeForTypes = true,
+                    diagnosticMode = "openFilesOnly",
+                    typeCheckingMode = "standard",
+                },
             },
         },
     },
