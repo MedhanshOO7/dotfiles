@@ -68,7 +68,7 @@
   <style name="html:dtd" foreground="#e6db74"/>
   <style name="html:tag" foreground="#f92672"/>
   <style name="js:function" foreground="#66d9ef"/>
-  <style name="line-numbers" foreground="#bebeba" background="#333333"/>
+  <style name="line-numbers" foreground="{{ colors.outline.default.hex }}" background="{{ colors.surface_container.default.hex }}"/>
   <style name="perl:builtin" foreground="#a6e22e"/>
   <style name="perl:include-statement" foreground="#f92672"/>
   <style name="perl:special-variable" foreground="#be84ff"/>
@@ -108,8 +108,8 @@
   <style name="rubyonrails:special-variable" foreground="#f92672"/>
   <style name="rubyonrails:symbol" foreground="#be84ff"/>
   <style name="search-match"  background="#333333" bold="true" underline="true"/>
-  <style name="selection" foreground="#f8f8f2" background="#444444"/>
-  <style name="text" foreground="#f8f8f2" background="#222222"/>
+  <style name="selection" foreground="{{ colors.on_primary.default.hex }}" background="{{ colors.primary.default.hex }}"/>
+  <style name="text" foreground="{{ colors.on_surface.default.hex }}" background="{{ colors.surface.default.hex }}"/>
   <style name="xml:attribute-name" foreground="#a6e22e"/>
   <style name="xml:element-name" foreground="#f92672"/>
   <style name="xml:entity" foreground="#c8cecc"/>

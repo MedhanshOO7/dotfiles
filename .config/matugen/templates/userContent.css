@@ -1,0 +1,193 @@
+/* ==========================================================================
+   MATUGEN userContent.css  —  Matugen template
+   Place template in: ~/.config/matugen/templates/userContent.css
+   Matugen writes output to: ~/.mozilla/firefox/<profile>/chrome/userContent.css
+   ========================================================================== */
+
+:root {
+  --md-background: {{colors.background.default.hex}};
+  --md-background-rgb: {{colors.background.default.rgb}};
+  --md-error: {{colors.error.default.hex}};
+  --md-error-rgb: {{colors.error.default.rgb}};
+  --md-error-container: {{colors.error_container.default.hex}};
+  --md-error-container-rgb: {{colors.error_container.default.rgb}};
+  --md-inverse-on-surface: {{colors.inverse_on_surface.default.hex}};
+  --md-inverse-on-surface-rgb: {{colors.inverse_on_surface.default.rgb}};
+  --md-inverse-primary: {{colors.inverse_primary.default.hex}};
+  --md-inverse-primary-rgb: {{colors.inverse_primary.default.rgb}};
+  --md-inverse-surface: {{colors.inverse_surface.default.hex}};
+  --md-inverse-surface-rgb: {{colors.inverse_surface.default.rgb}};
+  --md-on-background: {{colors.on_background.default.hex}};
+  --md-on-background-rgb: {{colors.on_background.default.rgb}};
+  --md-on-error: {{colors.on_error.default.hex}};
+  --md-on-error-rgb: {{colors.on_error.default.rgb}};
+  --md-on-error-container: {{colors.on_error_container.default.hex}};
+  --md-on-error-container-rgb: {{colors.on_error_container.default.rgb}};
+  --md-on-primary: {{colors.on_primary.default.hex}};
+  --md-on-primary-rgb: {{colors.on_primary.default.rgb}};
+  --md-on-primary-container: {{colors.on_primary_container.default.hex}};
+  --md-on-primary-container-rgb: {{colors.on_primary_container.default.rgb}};
+  --md-on-primary-fixed: {{colors.on_primary_fixed.default.hex}};
+  --md-on-primary-fixed-rgb: {{colors.on_primary_fixed.default.rgb}};
+  --md-on-primary-fixed-variant: {{colors.on_primary_fixed_variant.default.hex}};
+  --md-on-primary-fixed-variant-rgb: {{colors.on_primary_fixed_variant.default.rgb}};
+  --md-on-secondary: {{colors.on_secondary.default.hex}};
+  --md-on-secondary-rgb: {{colors.on_secondary.default.rgb}};
+  --md-on-secondary-container: {{colors.on_secondary_container.default.hex}};
+  --md-on-secondary-container-rgb: {{colors.on_secondary_container.default.rgb}};
+  --md-on-secondary-fixed: {{colors.on_secondary_fixed.default.hex}};
+  --md-on-secondary-fixed-rgb: {{colors.on_secondary_fixed.default.rgb}};
+  --md-on-secondary-fixed-variant: {{colors.on_secondary_fixed_variant.default.hex}};
+  --md-on-secondary-fixed-variant-rgb: {{colors.on_secondary_fixed_variant.default.rgb}};
+  --md-on-surface: {{colors.on_surface.default.hex}};
+  --md-on-surface-rgb: {{colors.on_surface.default.rgb}};
+  --md-on-surface-variant: {{colors.on_surface_variant.default.hex}};
+  --md-on-surface-variant-rgb: {{colors.on_surface_variant.default.rgb}};
+  --md-on-tertiary: {{colors.on_tertiary.default.hex}};
+  --md-on-tertiary-rgb: {{colors.on_tertiary.default.rgb}};
+  --md-on-tertiary-container: {{colors.on_tertiary_container.default.hex}};
+  --md-on-tertiary-container-rgb: {{colors.on_tertiary_container.default.rgb}};
+  --md-on-tertiary-fixed: {{colors.on_tertiary_fixed.default.hex}};
+  --md-on-tertiary-fixed-rgb: {{colors.on_tertiary_fixed.default.rgb}};
+  --md-on-tertiary-fixed-variant: {{colors.on_tertiary_fixed_variant.default.hex}};
+  --md-on-tertiary-fixed-variant-rgb: {{colors.on_tertiary_fixed_variant.default.rgb}};
+  --md-outline: {{colors.outline.default.hex}};
+  --md-outline-rgb: {{colors.outline.default.rgb}};
+  --md-outline-variant: {{colors.outline_variant.default.hex}};
+  --md-outline-variant-rgb: {{colors.outline_variant.default.rgb}};
+  --md-primary: {{colors.primary.default.hex}};
+  --md-primary-rgb: {{colors.primary.default.rgb}};
+  --md-primary-container: {{colors.primary_container.default.hex}};
+  --md-primary-container-rgb: {{colors.primary_container.default.rgb}};
+  --md-primary-fixed: {{colors.primary_fixed.default.hex}};
+  --md-primary-fixed-rgb: {{colors.primary_fixed.default.rgb}};
+  --md-primary-fixed-dim: {{colors.primary_fixed_dim.default.hex}};
+  --md-primary-fixed-dim-rgb: {{colors.primary_fixed_dim.default.rgb}};
+  --md-scrim: {{colors.scrim.default.hex}};
+  --md-scrim-rgb: {{colors.scrim.default.rgb}};
+  --md-secondary: {{colors.secondary.default.hex}};
+  --md-secondary-rgb: {{colors.secondary.default.rgb}};
+  --md-secondary-container: {{colors.secondary_container.default.hex}};
+  --md-secondary-container-rgb: {{colors.secondary_container.default.rgb}};
+  --md-secondary-fixed: {{colors.secondary_fixed.default.hex}};
+  --md-secondary-fixed-rgb: {{colors.secondary_fixed.default.rgb}};
+  --md-secondary-fixed-dim: {{colors.secondary_fixed_dim.default.hex}};
+  --md-secondary-fixed-dim-rgb: {{colors.secondary_fixed_dim.default.rgb}};
+  --md-shadow: {{colors.shadow.default.hex}};
+  --md-shadow-rgb: {{colors.shadow.default.rgb}};
+  --md-surface: {{colors.surface.default.hex}};
+  --md-surface-rgb: {{colors.surface.default.rgb}};
+  --md-surface-bright: {{colors.surface_bright.default.hex}};
+  --md-surface-bright-rgb: {{colors.surface_bright.default.rgb}};
+  --md-surface-container: {{colors.surface_container.default.hex}};
+  --md-surface-container-rgb: {{colors.surface_container.default.rgb}};
+  --md-surface-container-high: {{colors.surface_container_high.default.hex}};
+  --md-surface-container-high-rgb: {{colors.surface_container_high.default.rgb}};
+  --md-surface-container-highest: {{colors.surface_container_highest.default.hex}};
+  --md-surface-container-highest-rgb: {{colors.surface_container_highest.default.rgb}};
+  --md-surface-container-low: {{colors.surface_container_low.default.hex}};
+  --md-surface-container-low-rgb: {{colors.surface_container_low.default.rgb}};
+  --md-surface-container-lowest: {{colors.surface_container_lowest.default.hex}};
+  --md-surface-container-lowest-rgb: {{colors.surface_container_lowest.default.rgb}};
+  --md-surface-dim: {{colors.surface_dim.default.hex}};
+  --md-surface-dim-rgb: {{colors.surface_dim.default.rgb}};
+  --md-surface-tint: {{colors.surface_tint.default.hex}};
+  --md-surface-tint-rgb: {{colors.surface_tint.default.rgb}};
+  --md-surface-variant: {{colors.surface_variant.default.hex}};
+  --md-surface-variant-rgb: {{colors.surface_variant.default.rgb}};
+  --md-tertiary: {{colors.tertiary.default.hex}};
+  --md-tertiary-rgb: {{colors.tertiary.default.rgb}};
+  --md-tertiary-container: {{colors.tertiary_container.default.hex}};
+  --md-tertiary-container-rgb: {{colors.tertiary_container.default.rgb}};
+  --md-tertiary-fixed: {{colors.tertiary_fixed.default.hex}};
+  --md-tertiary-fixed-rgb: {{colors.tertiary_fixed.default.rgb}};
+  --md-tertiary-fixed-dim: {{colors.tertiary_fixed_dim.default.hex}};
+  --md-tertiary-fixed-dim-rgb: {{colors.tertiary_fixed_dim.default.rgb}};
+}
+
+
+/* ==========================================================================
+   NEW TAB PAGE  (about:home / about:newtab / about:privatebrowsing)
+   ========================================================================== */
+
+@-moz-document url("about:home"), url("about:newtab"), url("about:privatebrowsing") {
+
+  /* Base background and text */
+  body {
+    background-color: var(--md-background) !important;
+    color: var(--md-on-background) !important;
+  }
+
+  /* Search bar wrapper */
+  .search-wrapper .search-inner-wrapper {
+    background-color: var(--md-surface-container) !important;
+    border: 2px solid var(--md-primary) !important;
+    border-radius: 28px !important;
+    box-shadow: none !important;
+    transition: border 0.2s ease !important;
+  }
+
+  .search-wrapper .search-inner-wrapper:hover,
+  .search-wrapper .search-inner-wrapper:focus-within {
+    border-color: var(--md-primary-container) !important;
+  }
+
+  /* Search bar input text */
+  .search-wrapper input {
+    color: var(--md-on-surface) !important;
+  }
+
+  /* Top sites / shortcut icons */
+  .top-site-outer .top-site-icon {
+    background-color: var(--md-surface-variant) !important;
+    color: var(--md-on-surface-variant) !important;
+    border-radius: 50% !important;
+  }
+
+  /* Top sites label text */
+  .top-site-outer .title {
+    color: var(--md-on-background) !important;
+    font-weight: 500 !important;
+  }
+
+  /* Pinned icon indicator */
+  .top-site-outer .icon-pin-small {
+    fill: var(--md-primary) !important;
+  }
+
+  /* Personalization button (settings gear) */
+  .personalize-button {
+    background-color: var(--md-secondary-container) !important;
+    fill: var(--md-on-secondary-container) !important;
+    border-radius: 50% !important;
+  }
+
+  .personalize-button:hover {
+    background-color: var(--md-secondary) !important;
+    fill: var(--md-on-secondary) !important;
+  }
+}
+
+/* ==========================================================================
+   UNIVERSAL ACCENTS  (applies to all websites)
+   ========================================================================== */
+
+@-moz-document all {
+
+  /* Scrollbar */
+  :root {
+    scrollbar-color: var(--md-primary) var(--md-surface-container) !important;
+    scrollbar-width: thin !important;
+  }
+
+  /* Text selection */
+  ::selection {
+    background: var(--md-primary-container) !important;
+    color: var(--md-on-primary-container) !important;
+  }
+
+  ::-moz-selection {
+    background: var(--md-primary-container) !important;
+    color: var(--md-on-primary-container) !important;
+  }
+}

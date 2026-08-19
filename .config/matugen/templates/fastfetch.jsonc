@@ -1,0 +1,47 @@
+{
+  "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/master/doc/json_schema.json",
+  "logo": {
+    "width": 1,
+    "type": "file",
+    "source": "/home/medhansh/.fastfetch/ascii.txt",
+    "color": {
+      "1": "{{colors.primary.default.hex}}",
+      "2": "{{colors.secondary.default.hex}}",
+      "3": "{{colors.tertiary.default.hex}}",
+      "4": "{{colors.primary_container.default.hex}}",
+      "5": "{{colors.secondary_container.default.hex}}",
+      "6": "{{colors.tertiary_container.default.hex}}"
+    }
+  },
+  "modules": [
+    "title",
+    "separator",
+    "os",
+    "host",
+    "kernel",
+    "uptime",
+    "separator",
+    "terminal",
+    "terminalfont",
+    "separator",
+    "cpu",
+    "gpu",
+    {
+      "type": "memory",
+      "format": "DDR5 {used}/{total}"
+    },
+    "separator",
+    "localip",
+    "battery",
+    "poweradapter",
+    "separator",
+    {
+      "key": "OS Age",
+      "type": "disk",
+      "folders": "/",
+      "format": "{create-time:10} ({days} days)"
+    },
+    "break",
+    "colors"
+  ]
+}
