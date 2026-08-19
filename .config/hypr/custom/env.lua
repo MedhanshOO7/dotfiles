@@ -32,6 +32,9 @@ hl.env("VDPAU_DRIVER", "nvidia")                                                
 hl.env("MOZ_ENABLE_WAYLAND", "1")                                                     -- Native Wayland
 hl.env("MOZ_DRM_DEVICE", "/dev/dri/renderD128")                                       -- Intel render node for WebGL/video (better battery life)
 
+-- LibreOffice (GTK3 native Wayland backend for dark mode, scaling, and smooth rendering)
+hl.env("SAL_USE_VCLPLUGIN", "gtk3")
+
 -- ######## EDITOR #########
 -- https://wiki.archlinux.org/title/Category:Text_editors
 -- for example: vi nano nvim ...
