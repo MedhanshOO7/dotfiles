@@ -24,8 +24,7 @@ hl.bind("ALT + SHIFT + Tab", hl.dsp.exec_cmd("snappy-switcher prev --mod alt"))
 
 -- window management
 hl.unbind("SUPER + W")
-hl.bind("SUPER + W", hl.dsp.exec_cmd("bash ~/.config/hypr/custom/scripts/smart_close.sh"), { description = "Window: Smart Close / Hide to Background" })
-hl.bind("SUPER + SHIFT + W", hl.dsp.window.close(), { description = "Window: Force Kill" })
+hl.bind("SUPER + W", hl.dsp.window.close())
 hl.bind("ALT + Return", hl.dsp.window.fullscreen({ mode = "fullscreen" }))
 
 -- browser
