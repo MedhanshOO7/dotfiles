@@ -1,8 +1,8 @@
 hl.config({
     general = {
         col = {
-            active_border = "0xff{{colors.primary.default.hex_stripped}}",
-            inactive_border = "0xff{{colors.outline.default.hex_stripped}}",
+            active_border = "rgba({{colors.primary.default.hex_stripped}}66)",
+            inactive_border = "rgba({{colors.outline_variant.default.hex_stripped}}22)",
         },
     },
     misc = {
@@ -12,5 +12,5 @@ hl.config({
 
 hl.window_rule({
     match = { pin = 1 },
-    border_color = "0xff{{colors.primary.default.hex_stripped}}",
+    border_color = "rgba({{colors.primary.default.hex_stripped}}aa)",
 })

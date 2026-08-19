@@ -218,7 +218,7 @@ hl.config({
     },
 
     general = {
-        border_size = 4,
+        border_size = 1,
     },
     input = {
         kb_layout = "us",
