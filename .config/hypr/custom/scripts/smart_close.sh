@@ -14,8 +14,8 @@ TRAY_APPS="signal|signal beta|betterbird|thunderbird|spotify|spotify-launcher|di
 
 if echo "$CLASS" | grep -q -E "($TRAY_APPS)"; then
     # Move to hidden minimized workspace so it stays alive in background
-    hyprctl dispatch movetoworkspacesilent "special:minimized,address:$ADDR"
+    hyprctl dispatch "hl.dsp.window.move({ workspace = 'special:minimized', follow = false, window = 'address:$ADDR' })"
 else
     # Regular window close
-    hyprctl dispatch killactive
+    hyprctl dispatch 'hl.dsp.window.close()'
 fi
