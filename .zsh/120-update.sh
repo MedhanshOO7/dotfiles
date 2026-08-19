@@ -10,6 +10,8 @@ UPDATE_AUR_TOOL="${UPDATE_AUR_TOOL:-yay}"
 UPDATE_SNAPSHOT="${UPDATE_SNAPSHOT:-0}"
 UPDATE_PIP="${UPDATE_PIP:-0}"
 UPDATE_CARGO="${UPDATE_CARGO:-0}"
+UPDATE_NODE="${UPDATE_NODE:-1}"
+UPDATE_DOTS="${UPDATE_DOTS:-1}"
 UPDATE_LOG="${UPDATE_LOG:-1}"
 UPDATE_LOG_DIR="${UPDATE_LOG_DIR:-$HOME/.local/share/update-logs}"
 UPDATE_DRY_RUN="${UPDATE_DRY_RUN:-0}"
@@ -155,6 +157,109 @@ update_post_hook() {
     fi
 
     sudo make -C "$repo_dir" install || return 3
+}
+
+update_node_globals() {
+    if command -v npm &>/dev/null; then
+        echo "  → Updating global npm packages..."
+        sudo npm update -g 2>&1 || return 1
+    fi
+    if command -v pnpm &>/dev/null; then
+        echo "  → Updating global pnpm packages..."
+        pnpm update -g 2>&1 || true
+    fi
+    if command -v yarn &>/dev/null; then
+        echo "  → Updating global yarn packages..."
+        yarn global upgrade 2>&1 || true
+    fi
+}
+
+update_end4_dots() {
+    local dotfiles_git="/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME"
+    local backup_dir="/tmp/dots_backup_$(date +%s)"
+    mkdir -p "$backup_dir"
+
+    echo "  → [Safety Backup] Preserving custom Matugen & Hyprland configs to $backup_dir..."
+    cp -r "$HOME/.config/matugen" "$backup_dir/" 2>/dev/null || true
+    cp -r "$HOME/.config/hypr/custom" "$backup_dir/" 2>/dev/null || true
+    cp "$HOME/.config/hypr/workspaces.lua" "$backup_dir/" 2>/dev/null || true
+    cp "$HOME/.config/hypr/monitors.lua" "$backup_dir/" 2>/dev/null || true
+    cp "$HOME/.config/hypr/monitors.conf" "$backup_dir/" 2>/dev/null || true
+
+    echo "  → Running illogical-impulse (end4 dots) installer..."
+    bash <(curl -s https://ii.clsty.link/get)
+
+    echo "  → Restoring protected custom Matugen templates & Hyprland rules..."
+    if [ -d "$backup_dir/matugen" ]; then
+        cp -r "$backup_dir/matugen" "$HOME/.config/"
+    fi
+    if [ -d "$backup_dir/custom" ]; then
+        cp -r "$backup_dir/custom" "$HOME/.config/hypr/"
+    fi
+    if [ -f "$backup_dir/workspaces.lua" ]; then
+        cp "$backup_dir/workspaces.lua" "$HOME/.config/hypr/"
+    fi
+    if [ -f "$backup_dir/monitors.lua" ]; then
+        cp "$backup_dir/monitors.lua" "$HOME/.config/hypr/"
+    fi
+    if [ -f "$backup_dir/monitors.conf" ]; then
+        cp "$backup_dir/monitors.conf" "$HOME/.config/hypr/"
+    fi
+
+    # Interactive review of changed files in dotfiles
+    if command -v git &>/dev/null && [ -d "$HOME/.dotfiles" ]; then
+        local changed_files
+        changed_files=$($dotfiles_git status --porcelain -uno | awk '{print $2}')
+
+        if [ -n "$changed_files" ]; then
+            echo ""
+            echo "═══════════════════════════════════════════════════════════════"
+            echo "  DOTFILES REVIEW: Upstream update modified the following files:"
+            echo "═══════════════════════════════════════════════════════════════"
+            for f in $changed_files; do
+                echo "  • $f"
+            done
+            echo ""
+
+            if [[ "$_U_MODE" == "cli" && -t 0 ]]; then
+                for f in $changed_files; do
+                    # Skip auto-preserved custom files
+                    if [[ "$f" =~ ^\.config/matugen/ ]] || [[ "$f" =~ ^\.config/hypr/custom/ ]] || [[ "$f" == ".config/hypr/workspaces.lua" ]] || [[ "$f" == ".config/hypr/monitors.lua" ]]; then
+                        continue
+                    fi
+
+                    echo -n "Review diff for $f? [y/N/keep-custom]: "
+                    read -r ans < /dev/tty || ans="n"
+                    if [[ "$ans" =~ ^[yY]$ ]]; then
+                        $dotfiles_git diff "$f" | less -R
+                        echo -n "Keep upstream version of $f or revert to your custom version? [accept-upstream/REVERT]: "
+                        read -r choice < /dev/tty || choice="revert"
+                        if [[ "$choice" != "accept-upstream" ]]; then
+                            $dotfiles_git checkout -- "$f"
+                            echo "  -> Reverted $f to your custom version."
+                        fi
+                    elif [[ "$ans" =~ ^[kK] ]]; then
+                        $dotfiles_git checkout -- "$f"
+                        echo "  -> Reverted $f to your custom version."
+                    fi
+                done
+            fi
+
+            # Stage and commit clean state to dotfiles git repo
+            $dotfiles_git add .config/matugen/ .config/hypr/
+            $dotfiles_git commit -m "chore(dots): safe sync with end4-dots update" 2>/dev/null || true
+            $dotfiles_git push origin main 2>/dev/null || true
+        fi
+    fi
+
+    # Refresh matugen colors across all templates
+    local wall
+    wall=$(cat "$HOME/.local/state/quickshell/user/generated/wallpaper/path.txt" 2>/dev/null || echo "$HOME/.config/hypr/image.png")
+    if [ -f "$wall" ]; then
+        matugen image "$wall" --source-color-index 0 >/dev/null 2>&1 || true
+    fi
+
+    rm -rf "$backup_dir"
 }
 
 # ═══════════════════════════════════════════════════════════════
@@ -337,8 +442,10 @@ _u_count_steps() {
         (( _U_TOTAL += 3 ))
     fi
 
+    [[ "$UPDATE_NODE" == "1" ]] && command -v npm &>/dev/null && (( _U_TOTAL++ ))
     [[ "$UPDATE_PIP" == "1" ]] && command -v pip &>/dev/null && (( _U_TOTAL++ ))
     [[ "$UPDATE_CARGO" == "1" ]] && command -v cargo &>/dev/null && (( _U_TOTAL++ ))
+    [[ "$UPDATE_DOTS" == "1" ]] && (( _U_TOTAL++ ))
 
     (( _U_TOTAL++ ))
 }
@@ -395,6 +502,12 @@ _u_core() {
             "$UPDATE_AUR_TOOL" -Sc --noconfirm
     fi
 
+    if [[ "$UPDATE_NODE" == "1" ]] && command -v npm &>/dev/null; then
+        _u_step 0 "Node globals" "Global npm packages updated" \
+            "npm update failed — continuing" -- \
+            update_node_globals
+    fi
+
     if [[ "$UPDATE_PIP" == "1" ]] && command -v pip &>/dev/null; then
         _u_step 0 "pip globals" "Outdated global packages upgraded" \
             "pip upgrade failed" -- \
@@ -417,6 +530,12 @@ _u_core() {
     _u_step 0 "Linuwu-Sense" "Synced and installed" \
         "clone/build failed — check output above" -- \
         update_post_hook
+
+    if [[ "$UPDATE_DOTS" == "1" ]]; then
+        _u_step 0 "end4 Dots (illogical-impulse)" "Dots updated safely with config protection" \
+            "Dots update failed — check terminal output" -- \
+            update_end4_dots
+    fi
 
     (( _U_STEP++ ))
 
