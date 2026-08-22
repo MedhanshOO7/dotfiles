@@ -64,13 +64,14 @@ apply_anyterm() {
 
   sed -i "s/\$alpha/$term_alpha/g" "$STATE_DIR/user/generated/terminal/sequences.txt"
 
-  for file in /dev/pts/*; do
-    if [[ $file =~ ^/dev/pts/[0-9]+$ ]]; then
-      {
-      cat "$STATE_DIR"/user/generated/terminal/sequences.txt >"$file"
-      } & disown || true
-    fi
-  done
+  # Note: writing raw escape sequences directly to /dev/pts/* leaks escape codes into interactive terminals
+  # for file in /dev/pts/*; do
+  #   if [[ $file =~ ^/dev/pts/[0-9]+$ ]]; then
+  #     {
+  #     cat "$STATE_DIR"/user/generated/terminal/sequences.txt >"$file"
+  #     } & disown || true
+  #   fi
+  # done
 }
 
 apply_term() {
