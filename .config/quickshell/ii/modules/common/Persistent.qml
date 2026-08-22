@@ -143,6 +143,15 @@ Singleton {
                     property real width: 460
                     property real height: 330
                 }
+                property JsonObject todo: JsonObject {
+                    property bool pinned: false
+                    property bool clickthrough: false
+                    property real x: 1400
+                    property real y: 400
+                    property real width: 380
+                    property real height: 420
+                    property int tabIndex: 0
+                }
             }
 
             property JsonObject timer: JsonObject {

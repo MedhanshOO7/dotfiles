@@ -57,6 +57,20 @@ Singleton {
         }
     }
 
+    function toggleDone(index) {
+        if (index >= 0 && index < list.length) {
+            list[index].done = !list[index].done
+            // Reassign to trigger onListChanged
+            root.list = list.slice(0)
+            todoFileView.setText(JSON.stringify(root.list))
+        }
+    }
+
+    function clearCompleted() {
+        root.list = root.list.filter(item => !item.done)
+        todoFileView.setText(JSON.stringify(root.list))
+    }
+
     function refresh() {
         todoFileView.reload()
     }

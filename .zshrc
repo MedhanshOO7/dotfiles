@@ -54,6 +54,6 @@ export PATH="/home/medhansh/.local/bin:$PATH"
 # kimi-code
 export PATH="/home/medhansh/.kimi-code/bin:$PATH"
 
-fpath=(/home/medhansh/.local/share/college/completions $fpath)
+fpath=(/home/medhansh/.local/share/zsh/site-functions /home/medhansh/.local/share/college/completions $fpath)
 
 autoload -Uz compinit && compinit

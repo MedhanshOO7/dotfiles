@@ -11,13 +11,13 @@ import Quickshell.Io
  */
 Singleton {
     id: root
-	property real memoryTotal: 1
+	property real memoryTotal: 0
 	property real memoryFree: 0
-	property real memoryUsed: memoryTotal - memoryFree
-    property real memoryUsedPercentage: memoryUsed / memoryTotal
-    property real swapTotal: 1
+	property real memoryUsed: Math.max(0, memoryTotal - memoryFree)
+    property real memoryUsedPercentage: memoryTotal > 0 ? (memoryUsed / memoryTotal) : 0
+    property real swapTotal: 0
 	property real swapFree: 0
-	property real swapUsed: swapTotal - swapFree
+	property real swapUsed: Math.max(0, swapTotal - swapFree)
     property real swapUsedPercentage: swapTotal > 0 ? (swapUsed / swapTotal) : 0
     property real cpuUsage: 0
     property var previousCpuStats
@@ -32,6 +32,7 @@ Singleton {
     property list<real> swapUsageHistory: []
 
     function kbToGbString(kb) {
+        if (!kb || kb <= 0) return "--";
         return (kb / (1024 * 1024)).toFixed(1) + " GB";
     }
 
@@ -53,52 +54,92 @@ Singleton {
             cpuUsageHistory.shift()
         }
     }
-    function updateHistories() {
-        updateMemoryUsageHistory()
-        updateSwapUsageHistory()
-        updateCpuUsageHistory()
+
+    function parseMeminfo() {
+        const textMeminfo = fileMeminfo.text()
+        if (!textMeminfo || textMeminfo.length === 0) return
+
+        const memTotalMatch = textMeminfo.match(/MemTotal:\s*(\d+)/)
+        const memAvailMatch = textMeminfo.match(/MemAvailable:\s*(\d+)/)
+        const swapTotalMatch = textMeminfo.match(/SwapTotal:\s*(\d+)/)
+        const swapFreeMatch = textMeminfo.match(/SwapFree:\s*(\d+)/)
+
+        if (memTotalMatch) {
+            root.memoryTotal = Number(memTotalMatch[1])
+            if (memAvailMatch) {
+                root.memoryFree = Number(memAvailMatch[1])
+            } else {
+                const memFreeMatch = textMeminfo.match(/MemFree:\s*(\d+)/)
+                const buffersMatch = textMeminfo.match(/Buffers:\s*(\d+)/)
+                const cachedMatch = textMeminfo.match(/^Cached:\s*(\d+)/m)
+                const free = Number(memFreeMatch?.[1] ?? 0)
+                const buffers = Number(buffersMatch?.[1] ?? 0)
+                const cached = Number(cachedMatch?.[1] ?? 0)
+                root.memoryFree = free + buffers + cached
+            }
+        }
+
+        if (swapTotalMatch) {
+            root.swapTotal = Number(swapTotalMatch[1])
+            root.swapFree = Number(swapFreeMatch?.[1] ?? 0)
+        }
+    }
+
+    function parseStat() {
+        const textStat = fileStat.text()
+        if (!textStat || textStat.length === 0) return
+
+        const cpuLine = textStat.match(/^cpu\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)/)
+        if (cpuLine) {
+            const stats = cpuLine.slice(1).map(Number)
+            const total = stats.reduce((a, b) => a + b, 0)
+            const idle = stats[3]
+
+            if (previousCpuStats) {
+                const totalDiff = total - previousCpuStats.total
+                const idleDiff = idle - previousCpuStats.idle
+                cpuUsage = totalDiff > 0 ? (1 - idleDiff / totalDiff) : 0
+            }
+
+            previousCpuStats = { total, idle }
+        }
     }
 
 	Timer {
-		interval: 1
+		interval: Config.options?.resources?.updateInterval ?? 3000
         running: true 
         repeat: true
+        triggeredOnStart: true
 		onTriggered: {
-            // Reload files
             fileMeminfo.reload()
             fileStat.reload()
-
-            // Parse memory and swap usage
-            const textMeminfo = fileMeminfo.text()
-            memoryTotal = Number(textMeminfo.match(/MemTotal: *(\d+)/)?.[1] ?? 1)
-            memoryFree = Number(textMeminfo.match(/MemAvailable: *(\d+)/)?.[1] ?? 0)
-            swapTotal = Number(textMeminfo.match(/SwapTotal: *(\d+)/)?.[1] ?? 1)
-            swapFree = Number(textMeminfo.match(/SwapFree: *(\d+)/)?.[1] ?? 0)
-
-            // Parse CPU usage
-            const textStat = fileStat.text()
-            const cpuLine = textStat.match(/^cpu\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)/)
-            if (cpuLine) {
-                const stats = cpuLine.slice(1).map(Number)
-                const total = stats.reduce((a, b) => a + b, 0)
-                const idle = stats[3]
-
-                if (previousCpuStats) {
-                    const totalDiff = total - previousCpuStats.total
-                    const idleDiff = idle - previousCpuStats.idle
-                    cpuUsage = totalDiff > 0 ? (1 - idleDiff / totalDiff) : 0
-                }
-
-                previousCpuStats = { total, idle }
-            }
-
-            root.updateHistories()
-            interval = Config.options?.resources?.updateInterval ?? 3000
         }
 	}
 
-	FileView { id: fileMeminfo; path: "/proc/meminfo" }
-    FileView { id: fileStat; path: "/proc/stat" }
+	FileView {
+        id: fileMeminfo
+        path: "/proc/meminfo"
+        onLoaded: {
+            root.parseMeminfo()
+            root.updateMemoryUsageHistory()
+            root.updateSwapUsageHistory()
+        }
+        onFileChanged: {
+            root.parseMeminfo()
+        }
+    }
+
+    FileView {
+        id: fileStat
+        path: "/proc/stat"
+        onLoaded: {
+            root.parseStat()
+            root.updateCpuUsageHistory()
+        }
+        onFileChanged: {
+            root.parseStat()
+        }
+    }
 
     Process {
         id: findCpuMaxFreqProc

@@ -11,12 +11,15 @@ opt.cursorlineopt  = "number,line" -- give the active line a stronger anchor
 opt.scrolloff      = 3     -- keep a little context around the cursor
 opt.sidescrolloff  = 0     -- no horizontal cursor padding
 opt.wrap           = false -- don't wrap long lines
-opt.colorcolumn    = "0"   -- no hard ruler by default
+opt.virtualedit    = "block" -- free cursor in visual block mode
+opt.colorcolumn    = ""    -- no hard ruler by default
 opt.showmode       = false -- mode is shown in the statusline instead
 opt.cmdheight      = 1     -- command bar height
 opt.laststatus     = 3     -- single statusline across all windows
 opt.showtabline    = 2     -- keep the bufferline visible as a stable navigation rail
-opt.winborder      = "rounded" -- use a consistent premium border for native floats
+if vim.fn.has("nvim-0.11") == 1 then
+    opt.winborder  = "rounded" -- use a consistent premium border for native floats
+end
 
 -- ── Indentation ─────────────────────────────────────────────
 opt.expandtab      = true -- convert tabs → spaces
@@ -55,7 +58,9 @@ opt.updatetime     = 250                       -- snappier diagnostics and git u
 opt.timeoutlen     = 300                       -- faster which-key popup and mappings
 opt.splitkeep      = "screen"                  -- avoid layout jumps when opening or closing splits
 opt.inccommand     = "split"                   -- preview substitutions live
-opt.smoothscroll   = false                     -- disabled in favor of neoscroll.nvim
+opt.smoothscroll   = false                     -- disabled in favor of snacks.scroll
+vim.g.ft_man_open_mode = "vert"                -- open man pages in a vertical split
+vim.g.man_hardwrap     = 0                     -- soft-wrap man pages to window width
 opt.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"
 
 -- ── Clipboard ───────────────────────────────────────────────
@@ -75,9 +80,13 @@ opt.fillchars:append({
     foldopen = "",
     foldclose = "",
     foldsep = " ",
+    eob = " ",
 })
 
 -- ── Misc ────────────────────────────────────────────────────
+if vim.fn.executable("zen-browser") == 1 then
+    vim.env.BROWSER = "zen-browser"
+end
 opt.mouse          = "a"  -- enable mouse in all modes
 opt.breakindent    = true -- wrapped lines preserve indentation
 opt.showbreak      = "↳  " -- make wrapped prose easier to scan

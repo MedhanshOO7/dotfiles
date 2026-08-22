@@ -59,7 +59,7 @@ M.theme_aliases = {
     everforest = "everforest",
     gruvbox = "gruvbox",
     kanagawa = "kanagawa-wave",
-    mellow = "tokyonight",
+    mellow = "mellow",
     ["rose-pine"] = "rose-pine",
     vscode = "vscode",
     material = "material",
@@ -282,23 +282,20 @@ local function apply_editor_chrome(transparent)
         StatusLine = { fg = normal_fg, bg = sidebar_bg },
         StatusLineNC = { fg = comment, bg = sidebar_bg },
 
-        -- ── Completion menu ────────────────────────────────────────────────────
+        -- ── Completion menu & AI Ghost Text ────────────────────────────────────
         Pmenu = { fg = normal_fg, bg = float_bg },
         PmenuSel = { fg = normal_fg, bg = blend(accent, normal_bg, 0.20), bold = true },
         PmenuSbar = { bg = blend(comment, normal_bg, 0.18) },
         PmenuThumb = { bg = blend(accent, normal_bg, 0.42) },
+        CopilotSuggestion = { fg = blend(comment, normal_bg, 0.65), italic = true },
+        CopilotAnnotation = { fg = blend(comment, normal_bg, 0.45), italic = true },
+        SupermavenSuggestion = { fg = blend(comment, normal_bg, 0.65), italic = true },
 
         -- ── Floating windows ──────────────────────────────────────────────────
         NormalFloat = { fg = normal_fg, bg = float_bg },
         FloatBorder = { fg = float_border, bg = float_bg },
         FloatTitle = { fg = accent, bg = float_bg, bold = true },
         WinSeparator = { fg = soft_edge, bg = transparent and "NONE" or normal_bg },
-
-        -- ── Neo-tree ──────────────────────────────────────────────────────────
-        NeoTreeNormal = { fg = normal_fg, bg = sidebar_bg },
-        NeoTreeNormalNC = { fg = normal_fg, bg = sidebar_bg },
-        NeoTreeFloatBorder = { fg = float_border, bg = sidebar_bg },
-        NeoTreeWinSeparator = { fg = soft_edge, bg = transparent and "NONE" or normal_bg },
 
         -- ── Bufferline / tabline ──────────────────────────────────────────────
         BufferLineFill = { bg = sidebar_bg },
@@ -710,26 +707,6 @@ function M.setup()
         group = vim.api.nvim_create_augroup("theme_editor_chrome", { clear = true }),
         callback = function()
             apply_editor_chrome(vim.g.preferred_transparent == true)
-        end,
-    })
-
-    -- Re-apply after NeoTree buffer opens (it resets its own highlights on FileType)
-    vim.api.nvim_create_autocmd("FileType", {
-        group = vim.api.nvim_create_augroup("theme_neotree_chrome", { clear = true }),
-        pattern = "neo-tree",
-        callback = function()
-            apply_editor_chrome(vim.g.preferred_transparent == true)
-        end,
-    })
-
-    -- Re-apply when focusing back into a NeoTree window
-    vim.api.nvim_create_autocmd("BufEnter", {
-        group = vim.api.nvim_create_augroup("theme_neotree_reenter", { clear = true }),
-        pattern = "*",
-        callback = function()
-            if vim.bo.filetype == "neo-tree" then
-                apply_editor_chrome(vim.g.preferred_transparent == true)
-            end
         end,
     })
 

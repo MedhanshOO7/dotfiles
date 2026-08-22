@@ -13,6 +13,8 @@ return {
         keys = {
             { "<leader>db", function() require("dap").toggle_breakpoint() end, desc = "Add or remove a breakpoint" },
             { "<F5>", function() require("dap").continue() end, desc = "Start or continue debugging" },
+            { "<S-F5>", function() require("dap").terminate() end, desc = "Debug: Stop" },
+            { "<F9>", function() require("dap").toggle_breakpoint() end, desc = "Debug: Toggle Breakpoint" },
             { "<F10>", function() require("dap").step_over() end, desc = "Debug: step over" },
             { "<F11>", function() require("dap").step_into() end, desc = "Debug: step into" },
             { "<F12>", function() require("dap").step_out() end, desc = "Debug: step out" },
@@ -155,6 +157,25 @@ return {
                     end,
                     console = "integratedTerminal",
                     justMyCode = false,
+                })
+            end
+
+            if vim.fn.executable("arm-none-eabi-gdb") == 1 then
+                dap.adapters.gdb = {
+                    type = "executable",
+                    command = "arm-none-eabi-gdb",
+                    args = { "-i", "dap" },
+                }
+                dap.configurations.c = dap.configurations.c or {}
+                table.insert(dap.configurations.c, {
+                    name = "Embedded GDB",
+                    type = "gdb",
+                    request = "attach",
+                    target = "localhost:3333",
+                    cwd = "${workspaceFolder}",
+                    program = function()
+                        return vim.fn.input("Path to ELF: ", vim.fn.getcwd() .. "/build/zephyr/zephyr.elf", "file")
+                    end,
                 })
             end
 

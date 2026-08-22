@@ -123,6 +123,7 @@ return {
             return {
                 backend = image_backend,
                 processor = "magick_cli",
+                hijack_file_patterns = {},
                 integrations = {
                     markdown = {
                         enabled = false,

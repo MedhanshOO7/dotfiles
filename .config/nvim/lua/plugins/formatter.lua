@@ -1,6 +1,7 @@
 return {
     "stevearc/conform.nvim",
     event = "BufWritePre",
+    cmd = "FormatToggle",
 
     config = function()
         local conform = require("conform")
@@ -26,6 +27,7 @@ return {
                 sh = { "shfmt" },
                 bash = { "shfmt" },
                 zsh = { "shfmt" },
+                sql = { "sql_formatter" },
                 yaml = { "prettierd", "prettier" },
             },
             formatters = {
@@ -47,6 +49,10 @@ return {
             },
             format_on_save = function(bufnr)
                 if not vim.g.autoformat_enabled or vim.b[bufnr].autoformat_enabled == false then
+                    return nil
+                end
+
+                if not vim.api.nvim_buf_is_valid(bufnr) or not vim.bo[bufnr].modifiable then
                     return nil
                 end
 

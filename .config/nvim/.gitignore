@@ -10,3 +10,4 @@ test_*.py
 test_*.ipynb
 compile_flags.txt
 debug_lsp*.lua
+chrome-headless-shell/

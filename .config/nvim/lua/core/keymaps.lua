@@ -24,114 +24,12 @@ local function toggle_explorer()
 end
 
 local function keymap_help()
-    local pickers = require("telescope.pickers")
-    local finders = require("telescope.finders")
-    local conf = require("telescope.config").values
-    local actions = require("telescope.actions")
-    local action_state = require("telescope.actions.state")
-
-    local modes = { "n", "i", "v", "x", "s", "o", "t", "c" }
-    local mode_names = {
-        n = "NORMAL",
-        i = "INSERT",
-        v = "VISUAL",
-        x = "VISUAL-BLOCK",
-        s = "SELECT",
-        o = "OPERATOR",
-        t = "TERMINAL",
-        c = "COMMAND",
-    }
-
-    local seen = {}
-    local items = {}
-
-    local function add_maps(mode, maps, scope)
-        for _, mapinfo in ipairs(maps) do
-            local key = table.concat({
-                scope,
-                mode,
-                mapinfo.lhs or "",
-                mapinfo.rhs or "",
-                mapinfo.desc or "",
-            }, "\x1f")
-
-            if not seen[key] then
-                seen[key] = true
-
-                local desc = mapinfo.desc or mapinfo.rhs or ""
-                if desc == "" then
-                    desc = "[no description]"
-                end
-
-                table.insert(items, {
-                    mode = mode,
-                    mode_label = mode_names[mode] or mode,
-                    lhs = mapinfo.lhs or "",
-                    rhs = mapinfo.rhs or "",
-                    desc = desc,
-                    scope = scope,
-                    ordinal = table.concat({
-                        mapinfo.lhs or "",
-                        desc,
-                        mode_names[mode] or mode,
-                        scope,
-                    }, " "),
-                    display = string.format(
-                        "%-12s %-18s %s",
-                        mode_names[mode] or mode,
-                        mapinfo.lhs or "",
-                        desc
-                    ),
-                })
-            end
-        end
+    local ok, snacks = pcall(require, "snacks")
+    if ok and snacks.picker then
+        snacks.picker.keymaps()
+    else
+        vim.cmd("checkhealth keymaps")
     end
-
-    for _, mode in ipairs(modes) do
-        add_maps(mode, vim.api.nvim_get_keymap(mode), "global")
-        add_maps(mode, vim.api.nvim_buf_get_keymap(0, mode), "buffer")
-    end
-
-    table.sort(items, function(a, b)
-        if a.mode == b.mode then
-            return a.lhs < b.lhs
-        end
-        return a.mode < b.mode
-    end)
-
-    pickers.new({}, {
-        prompt_title = "All Keymaps",
-        finder = finders.new_table({
-            results = items,
-            entry_maker = function(entry)
-                return {
-                    value = entry,
-                    display = entry.display,
-                    ordinal = entry.ordinal,
-                }
-            end,
-        }),
-        sorter = conf.generic_sorter({}),
-        previewer = false,
-        attach_mappings = function(prompt_bufnr)
-            actions.select_default:replace(function()
-                local selection = action_state.get_selected_entry()
-                actions.close(prompt_bufnr)
-
-                if selection and selection.value then
-                    local message = string.format(
-                        "%s %s -> %s",
-                        selection.value.mode_label,
-                        selection.value.lhs,
-                        selection.value.desc
-                    )
-                    vim.notify(message)
-                end
-            end)
-
-            return true
-        end,
-    }):find()
 end
 
 local function multicursor()
@@ -155,26 +53,42 @@ map("n", "<leader>e", toggle_explorer, { desc = "Open or close the file sidebar"
 map("n", "<leader>fe", cmd("Explore"), { desc = "Open the classic netrw file list" })
 map("n", "<leader>fs", cmd("write"), { desc = "Save the current file" })
 map("n", "<leader>cf", function()
-    require("conform").format({ lsp_format = "fallback" })
+    if not vim.bo.modifiable then
+        vim.notify("Buffer is read-only (not modifiable)", vim.log.levels.WARN, { title = "Formatter" })
+        return
+    end
+    require("conform").format({ lsp_format = "fallback", async = true })
 end, { desc = "Format the current file" })
 map("n", "<leader>uf", cmd("FormatToggle"), { desc = "Toggle auto-format on save" })
+map("n", "<leader>um", function()
+    vim.bo.modifiable = not vim.bo.modifiable
+    vim.notify(vim.bo.modifiable and "Buffer is now MODIFIABLE (editing enabled)  " or "Buffer is now READ-ONLY (editing disabled)  ", vim.log.levels.INFO)
+end, { desc = "Toggle buffer modifiable state (unlock editing)" })
 map("n", "<leader>q", cmd("quit"), { desc = "Quit the current window" })
 
 -- Terminals and writing
 map({ "n", "i", "t" }, "<C-`>", "<cmd>ToggleTerm<cr>", { desc = "Toggle terminal" })
-map("n", "<leader>rr", cmd("RunCode"), { desc = "Run the current file" })
+map("i", "<C-Left>", "<C-o>b", { desc = "Jump backward one word" })
+map("i", "<C-Right>", "<C-o>w", { desc = "Jump forward one word" })
+map("n", "<leader>rr", function()
+    local ok, overseer = pcall(require, "overseer")
+    if ok then
+        overseer.run_template({ name = vim.bo.filetype .. "_run_current" }, function(task)
+            if not task then
+                vim.cmd("OverseerRun")
+            end
+        end)
+    else
+        pcall(vim.cmd, "RunCode")
+    end
+end, { desc = "Run current file" })
 map("n", "<leader>to", cmd("ToggleTerm"), { desc = "Open or close the floating terminal" })
 map("n", "<leader>tf", cmd("TerminalProject"), { desc = "Open the main project shell" })
 map("n", "<leader>th", cmd("TerminalHorizontal"), { desc = "Open a bottom terminal panel" })
 map("n", "<leader>tv", cmd("TerminalVertical"), { desc = "Open a side terminal panel" })
 map("n", "<leader>tg", cmd("TerminalSelect"), { desc = "Pick from active terminal sessions" })
 map("n", "<leader>zz", function()
-    local ok, snacks = pcall(require, "snacks")
-    if ok and snacks.zen then
-        snacks.zen()
-    else
-        pcall(vim.cmd, "ZenMode")
-    end
+    require("snacks").zen()
 end, { desc = "Focus on writing or reading without distractions" })
 map("n", "<leader>zw", function()
     require("utils.writing").toggle()
@@ -192,7 +106,10 @@ map("n", "<leader>ns", "viw<esc>a~~<esc>hbi~~<esc>lel", { desc = "Strikeout the 
 map("v", "<leader>ns", "c~~<C-r>\"~~<esc>", { desc = "Strikeout the selection" })
 
 -- Buffers
-map("n", "<leader>bb", cmd("Telescope buffers"), { desc = "Browse open buffers" })
+map("n", "<leader>bb", function()
+    local ok, snacks = pcall(require, "snacks")
+    if ok and snacks.picker then snacks.picker.buffers() else vim.cmd("Telescope buffers") end
+end, { desc = "Browse open buffers" })
 map("n", "<leader>bn", cmd("BufferNext"), { desc = "Go to the next buffer" })
 map("n", "<leader>bp", cmd("BufferPrevious"), { desc = "Go to the previous buffer" })
 map("n", "<leader>bd", function()
@@ -204,9 +121,6 @@ map("n", "<leader>bd", function()
     end
 end, { desc = "Delete the current buffer" })
 map("n", "<leader>bo", cmd("BufferCloseAllButCurrent"), { desc = "Delete every other buffer" })
-for i = 1, 9 do
-    map("n", "<C-" .. i .. ">", cmd("BufferGoto " .. i), { desc = "Go to buffer " .. i })
-end
 
 -- Folding
 map("n", "<leader>fo", "zO", { desc = "Open the fold under the cursor completely" })
@@ -260,18 +174,39 @@ local function pick_recent()
 end
 local function pick_keymaps()
     local ok, snacks = pcall(require, "snacks")
-    if ok and snacks.picker then snacks.picker.keymaps() else vim.cmd("Telescope keymaps") end
+    if ok and snacks.picker then
+        snacks.picker.keymaps({
+            layout = { preset = "vscode" },
+        })
+    else
+        pcall(function() require("which-key").show() end)
+    end
 end
 
-map("n", "<leader>p", cmd("Telescope commands"), { desc = "Open the command palette" })
+map("n", "<leader>p", function()
+    local ok, snacks = pcall(require, "snacks")
+    if ok and snacks.picker then snacks.picker.commands() else vim.cmd("Telescope commands") end
+end, { desc = "Open the command palette" })
 map("n", "<leader>ff", pick_files, { desc = "Find a file by name" })
 map("n", "<leader>fg", live_grep, { desc = "Search for text in the project" })
-map("n", "<leader>f/", cmd("Telescope current_buffer_fuzzy_find"), { desc = "Search in the current file" })
+map("n", "<leader>f/", function()
+    local ok, snacks = pcall(require, "snacks")
+    if ok and snacks.picker then snacks.picker.lines() else vim.cmd("Telescope current_buffer_fuzzy_find") end
+end, { desc = "Search in the current file" })
 map("n", "<leader>fb", pick_buffers, { desc = "Switch between open files" })
-map("n", "<leader>fp", cmd("Telescope git_files"), { desc = "Find a tracked project file" })
+map("n", "<leader>fp", function()
+    local ok, snacks = pcall(require, "snacks")
+    if ok and snacks.picker then snacks.picker.git_files() else vim.cmd("Telescope git_files") end
+end, { desc = "Find a tracked project file" })
 map("n", "<leader>fr", pick_recent, { desc = "Reopen a recent file" })
-map("n", "<leader>fS", cmd("Telescope lsp_document_symbols"), { desc = "Search symbols in this file" })
-map("n", "<leader>fw", cmd("Telescope lsp_workspace_symbols"), { desc = "Search workspace symbols" })
+map("n", "<leader>fS", function()
+    local ok, snacks = pcall(require, "snacks")
+    if ok and snacks.picker then snacks.picker.lsp_symbols() else vim.cmd("Telescope lsp_document_symbols") end
+end, { desc = "Search symbols in this file" })
+map("n", "<leader>fw", function()
+    local ok, snacks = pcall(require, "snacks")
+    if ok and snacks.picker then snacks.picker.lsp_workspace_symbols() else vim.cmd("Telescope lsp_workspace_symbols") end
+end, { desc = "Search workspace symbols" })
 map("n", "<leader>ft", cmd("TodoTelescope"), { desc = "Find every TODO, NOTE, or FIX comment" })
 map("n", "]t", function() require("todo-comments").jump_next() end, { desc = "Next TODO comment" })
 map("n", "[t", function() require("todo-comments").jump_prev() end, { desc = "Previous TODO comment" })
@@ -372,21 +307,62 @@ map({ "n", "i", "x" }, "<M-LeftMouse>", function()
     multicursor().handleMouse()
 end, { desc = "Toggle cursor at mouse position" })
 
--- Themes and utility toggles
+-- Themes and comprehensive distro-grade UI & System toggles (<leader>u...)
+map("n", "<leader>uu", function() require("utils.updater").update() end, { desc = "Update Neovim config from Git repository" })
 map("n", "<leader>ut", cmd("ThemePicker"), { desc = "Choose a theme" })
 map("n", "<leader>un", cmd("ThemeNext"), { desc = "Switch to the next theme" })
 map("n", "<leader>up", cmd("ThemePrev"), { desc = "Switch to the previous theme" })
+map("n", "<leader>uy", cmd("ThemeTransparencyToggle"), { desc = "Turn transparency on or off" })
+
+map("n", "<leader>ud", function()
+    local enabled = vim.diagnostic.is_enabled()
+    vim.diagnostic.enable(not enabled)
+    vim.notify(not enabled and "LSP Diagnostics ENABLED 󰒕 " or "LSP Diagnostics DISABLED 󰂭 ", vim.log.levels.INFO)
+end, { desc = "Toggle LSP diagnostics" })
+
+map("n", "<leader>uh", function()
+    local filter = { bufnr = 0 }
+    local enabled = vim.lsp.inlay_hint.is_enabled(filter)
+    vim.lsp.inlay_hint.enable(not enabled, filter)
+    vim.notify(not enabled and "Inlay Hints ENABLED 󰌵 " or "Inlay Hints DISABLED 󰂭 ", vim.log.levels.INFO)
+end, { desc = "Toggle LSP inlay hints" })
+
+map("n", "<leader>ul", function()
+    if vim.wo.relativenumber then
+        vim.wo.relativenumber = false
+        vim.notify("Line numbers: Absolute", vim.log.levels.INFO)
+    else
+        vim.wo.relativenumber = true
+        vim.notify("Line numbers: Relative", vim.log.levels.INFO)
+    end
+end, { desc = "Toggle relative line numbers" })
+
+map("n", "<leader>uc", function()
+    local level = vim.wo.conceallevel == 0 and 2 or 0
+    vim.wo.conceallevel = level
+    vim.notify("Conceal level: " .. level, vim.log.levels.INFO)
+end, { desc = "Toggle conceal level" })
+
+map("n", "<leader>ux", function()
+    local ok, ts_ctx = pcall(require, "treesitter-context")
+    if ok then
+        ts_ctx.toggle()
+        vim.notify("Treesitter Context toggled", vim.log.levels.INFO)
+    end
+end, { desc = "Toggle Treesitter sticky header" })
+
 map("n", "<leader>us", function()
     vim.opt_local.spell = not vim.opt_local.spell:get()
-    vim.notify(vim.opt_local.spell:get() and "Spell check is on" or "Spell check is off")
+    vim.notify(vim.opt_local.spell:get() and "Spell check is on" or "Spell check is off", vim.log.levels.INFO)
 end, { desc = "Toggle spell check" })
-map("n", "<leader>uy", cmd("ThemeTransparencyToggle"), { desc = "Turn transparency on or off" })
-map("n", "<leader>ua", cmd("AutoSaveToggle"), { desc = "Turn autosave on or off" })
-map("n", "<leader>ub", cmd("AutoSaveBufferToggle"), { desc = "Turn autosave on or off for this file" })
+
 map("n", "<leader>uw", function()
     vim.opt_local.wrap = not vim.opt_local.wrap:get()
-    vim.notify(vim.opt_local.wrap:get() and "Text wrap is on" or "Text wrap is off")
+    vim.notify(vim.opt_local.wrap:get() and "Text wrap is on" or "Text wrap is off", vim.log.levels.INFO)
 end, { desc = "Toggle text wrapping" })
+
+map("n", "<leader>ua", cmd("AutoSaveToggle"), { desc = "Turn autosave on or off" })
+map("n", "<leader>ub", cmd("AutoSaveBufferToggle"), { desc = "Turn autosave on or off for this file" })
 
 -- Windows and sessions
 map("n", "<leader>wv", cmd("vsplit"), { desc = "Split the window vertically" })

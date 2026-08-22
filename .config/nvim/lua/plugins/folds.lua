@@ -12,7 +12,7 @@ return {
         config = function()
             -- Keep folds available without starting files collapsed. This gives structure
             -- on demand instead of making every buffer feel closed-off on entry.
-            vim.o.foldcolumn = "1"
+            vim.o.foldcolumn = "0"
             vim.o.foldlevel = 99
             vim.o.foldlevelstart = 99
             vim.o.foldenable = true

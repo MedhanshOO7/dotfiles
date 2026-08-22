@@ -31,6 +31,30 @@ return {
                 end,
                 desc = "Flash firmware to nRF board",
             })
+            table.insert(opts.templates, {
+                name = "west debug",
+                builder = function()
+                    return {
+                        cmd = { "west" },
+                        args = { "build", "-b", vim.g.zephyr_board or "nrf52840dk/nrf52840", "-t", "debug" },
+                        cwd = vim.fn.getcwd(),
+                        components = { "default" },
+                    }
+                end,
+                desc = "Debug Zephyr with GDB",
+            })
+            table.insert(opts.templates, {
+                name = "west flash --erase",
+                builder = function()
+                    return {
+                        cmd = { "west" },
+                        args = { "flash", "--erase" },
+                        cwd = vim.fn.getcwd(),
+                        components = { "default" },
+                    }
+                end,
+                desc = "Flash with mass erase",
+            })
         end,
     },
 

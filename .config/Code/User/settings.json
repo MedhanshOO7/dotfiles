@@ -73,11 +73,12 @@
     "workbench.browser.showInTitleBar": true,
     "git.confirmSync": false,
     "interactiveWindow.executeWithShiftEnter": true,
-    "material-code.primaryColor": "#72B589",
+    "material-code.primaryColor": "#395D5D",
     "github.copilot.enable": {
         "*": true,
         "plaintext": false,
         "markdown": true,
         "scminput": false
-    }
+    },
+    "oneDarkPro.editorTheme": "Nord"
 }

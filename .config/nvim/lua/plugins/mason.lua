@@ -8,9 +8,9 @@ return {
                 width = 0.8,
                 height = 0.8,
                 icons = {
-                    package_installed = "✓",
-                    package_pending = "➜",
-                    package_uninstalled = "✗",
+                    package_installed = " ",
+                    package_pending = " ",
+                    package_uninstalled = " ",
                 },
             },
         },
@@ -23,10 +23,10 @@ return {
         },
         opts = {
             ensure_installed = {
-                "black",
                 "debugpy",
                 "codelldb",
                 "clang-format",
+                "emmet-language-server",
                 "eslint_d",
                 "js-debug-adapter",
                 "markdownlint",
@@ -38,6 +38,8 @@ return {
                 "selene",
                 "shellcheck",
                 "shfmt",
+                "sql-formatter",
+                "sqls",
                 "stylua",
             },
         },

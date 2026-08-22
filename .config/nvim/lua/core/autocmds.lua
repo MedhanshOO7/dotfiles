@@ -21,9 +21,9 @@ vim.api.nvim_create_autocmd("FileType", {
         if not in_project then
             -- Use schedule to avoid issues with window initialization
             vim.schedule(function()
-                local view_ok, view = pcall(require, "zen-mode.view")
-                if view_ok and not view.is_open() then
-                    pcall(vim.cmd, "ZenMode")
+                local ok, snacks = pcall(require, "snacks")
+                if ok and snacks.zen then
+                    snacks.zen()
                 end
             end)
         end
@@ -165,7 +165,7 @@ vim.api.nvim_create_autocmd("StdinReadPost", {
         opt.colorcolumn = ""
         opt.cursorline = false
         opt.foldcolumn = "0"
-        opt.laststatus = 0
+        vim.o.laststatus = 0
 
         local opts = { buffer = true, silent = true }
         vim.keymap.set("n", "q", "<cmd>qa!<cr>", vim.tbl_extend("force", opts, { desc = "Quit pager" }))

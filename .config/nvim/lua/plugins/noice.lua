@@ -90,6 +90,7 @@ return {
                             { find = "Terminal did not respond to DSR request" },
                             { find = "E1568" },
                             { find = "is_stopped is deprecated" },
+                            { find = "client.request is deprecated" },
                         },
                     },
                     opts = { skip = true },

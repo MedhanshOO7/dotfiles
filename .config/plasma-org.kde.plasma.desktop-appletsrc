@@ -8,11 +8,11 @@ RightButton;NoModifier=org.kde.contextmenu
 [Containments][480]
 ItemGeometries-1024x640=Applet-481:16,583.489,640,160,0;
 ItemGeometries-1477x923=Applet-215:1215.8,0,448,448,0;Applet-216:1449.62,464,208,224,0;Applet-200:1543.05,805.123,96,80,0;
-ItemGeometries-1707x1067=Applet-481:16,891.098,640,160,0;Applet-525:1520,640,448,448,0;
+ItemGeometries-1707x1067=Applet-528:848,528,96,96,0;Applet-529:1057.62,706.157,96,96,0;
 ItemGeometries-1920x1080=Applet-481:16,752,640,160,0;Applet-525:1472,496,448,432,0;
 ItemGeometries-1969x1231=Applet-481:16,928,640,160,0;Applet-525:1520,640,448,448,0;
 ItemGeometries-2048x1280=Applet-481:17.1686,975.61,640,160,0;
-ItemGeometriesHorizontal=Applet-481:16,891.098,640,160,0;Applet-525:1520,640,448,448,0;
+ItemGeometriesHorizontal=Applet-528:848,528,96,96,0;Applet-529:1057.62,706.157,96,96,0;
 activityId=a7111bf2-f5da-40d6-932f-b62580dc4cc2
 formfactor=0
 immutability=1
@@ -21,31 +21,13 @@ location=0
 plugin=org.kde.plasma.folder
 wallpaperplugin=org.kde.image
 
-[Containments][480][Applets][481]
+[Containments][480][Applets][528]
 immutability=1
-plugin=com.github.prayag2.modernclock
+plugin=AndromedaLauncher
 
-[Containments][480][Applets][481][Configuration][Appearance]
-time_character=^
-time_font_size=23
-
-[Containments][480][Applets][481][Configuration][ConfigDialog]
-DialogHeight=917
-DialogWidth=1210
-
-[Containments][480][Applets][525]
+[Containments][480][Applets][529]
 immutability=1
-plugin=org.kde.plasma.notes
-
-[Containments][480][Applets][525][Configuration][ConfigDialog]
-DialogHeight=630
-DialogWidth=810
-
-[Containments][480][Applets][525][Configuration][General]
-color=translucent-light
-cursorPosition=4
-fontSize=27
-noteId=698b4cb9-5d83-4314-8be2-4a6f571b67
+plugin=AndromedaLauncher
 
 [Containments][480][ConfigDialog]
 DialogHeight=1150
@@ -54,7 +36,7 @@ DialogWidth=1969
 [Containments][480][General]
 changedPositions={}
 lastResolution=1707x1067
-positions={"1707x1067":["2","15","desktop:/study_plan.docx","0","7","desktop:/swappy-20260531_180915.png","1","1","desktop:/swappy-20260518_032817.png","0","13","desktop:/fixes.md","0","3","desktop:/companies_output.xlsx","0","6","desktop:/study_plan.pdf","0","10","desktop:/stylus-2026-03-20.json","0","0","desktop:/Untitled 1.docx","0","9","desktop:/swappy-20260518_032814.png","0","12","desktop:/swappy-20260731_105731.png","1","2","desktop:/SponsorBlockConfig_2026-03-18_19.06.16.json","0","2","desktop:/swappy-20260518_032218.png","0","11","desktop:/Chem","0","4","desktop:/swappy-20260730_220123.png","1","3","desktop:/8.5+ SGPA MASTER PLAN.pdf","0","5","desktop:/Phone Recieved","0","1","desktop:/swappy-20260529_224907.png","1","0","desktop:/swappy-20260526_153600.png","0","14","desktop:/8_5_sgpa_master_plan.md","0","8","desktop:/swappy-20260704_121855.png","1","4"],"1920x1080":["1","17","desktop:/SponsorBlockConfig_2026-03-18_19.06.16.json","0","2","desktop:/8.5+ SGPA MASTER PLAN.pdf","0","3","desktop:/8_5_sgpa_master_plan.md","0","4","desktop:/stylus-2026-03-20.json","0","0","desktop:/Chem","0","5","desktop:/Phone Recieved","0","1","desktop:/study_plan.pdf","0","6","desktop:/study_plan.docx","0","7","desktop:/companies_output.xlsx","0","8","desktop:/fixes.md","0","9","desktop:/Untitled 1.docx","0","10"],"1969x1231":["1","18","desktop:/swappy-20260518_032218.png","0","11","desktop:/study_plan.pdf","0","10","desktop:/Untitled 1.docx","0","9","desktop:/study_plan.docx","0","7","desktop:/Phone Recieved","0","1","desktop:/swappy-20260529_224907.png","0","15","desktop:/Chem","0","4","desktop:/companies_output.xlsx","0","6","desktop:/swappy-20260526_153600.png","0","14","desktop:/swappy-20260518_032814.png","0","12","desktop:/swappy-20260531_180915.png","0","16","desktop:/stylus-2026-03-20.json","0","0","desktop:/8_5_sgpa_master_plan.md","0","8","desktop:/8.5+ SGPA MASTER PLAN.pdf","0","5","desktop:/swappy-20260518_032817.png","0","13","desktop:/fixes.md","0","3","desktop:/SponsorBlockConfig_2026-03-18_19.06.16.json","0","2"],"2048x1280":["1","18"]}
+positions={"1707x1067":["2","15","desktop:/swappy-20260704_121855.png","1","4","desktop:/swappy-20260518_032218.png","0","11","desktop:/swappy-20260531_180915.png","1","1","desktop:/swappy-20260731_105731.png","1","2","desktop:/swappy-20260518_032814.png","0","12","desktop:/8_5_sgpa_master_plan.md","0","8","desktop:/stylus-2026-03-20.json","0","0","desktop:/8.5+ SGPA MASTER PLAN.pdf","0","5","desktop:/Untitled 1.docx","0","9","desktop:/fixes.md","0","3","desktop:/companies_output.xlsx","0","6","desktop:/swappy-20260529_224907.png","1","0","desktop:/Chem","0","4","desktop:/study_plan.docx","0","7","desktop:/SponsorBlockConfig_2026-03-18_19.06.16.json","0","2","desktop:/swappy-20260526_153600.png","0","14","desktop:/study_plan.pdf","0","10","desktop:/Phone Recieved","0","1","desktop:/swappy-20260518_032817.png","0","13","desktop:/swappy-20260730_220123.png","1","3"],"1920x1080":["1","17","desktop:/SponsorBlockConfig_2026-03-18_19.06.16.json","0","2","desktop:/8.5+ SGPA MASTER PLAN.pdf","0","3","desktop:/8_5_sgpa_master_plan.md","0","4","desktop:/stylus-2026-03-20.json","0","0","desktop:/Chem","0","5","desktop:/Phone Recieved","0","1","desktop:/study_plan.pdf","0","6","desktop:/study_plan.docx","0","7","desktop:/companies_output.xlsx","0","8","desktop:/fixes.md","0","9","desktop:/Untitled 1.docx","0","10"],"1969x1231":["1","18","desktop:/swappy-20260518_032218.png","0","11","desktop:/study_plan.pdf","0","10","desktop:/Untitled 1.docx","0","9","desktop:/study_plan.docx","0","7","desktop:/Phone Recieved","0","1","desktop:/swappy-20260529_224907.png","0","15","desktop:/Chem","0","4","desktop:/companies_output.xlsx","0","6","desktop:/swappy-20260526_153600.png","0","14","desktop:/swappy-20260518_032814.png","0","12","desktop:/swappy-20260531_180915.png","0","16","desktop:/stylus-2026-03-20.json","0","0","desktop:/8_5_sgpa_master_plan.md","0","8","desktop:/8.5+ SGPA MASTER PLAN.pdf","0","5","desktop:/swappy-20260518_032817.png","0","13","desktop:/fixes.md","0","3","desktop:/SponsorBlockConfig_2026-03-18_19.06.16.json","0","2"],"2048x1280":["1","18"]}
 previews=false
 sortMode=-1
 textLines=6
@@ -96,5 +78,5 @@ plugin=org.kde.plasma.folder
 wallpaperplugin=org.kde.image
 
 [ScreenMapping]
-itemsOnDisabledScreens=0,a7111bf2-f5da-40d6-932f-b62580dc4cc2,17,desktop:/study_plan.docx,desktop:/companies_output.xlsx,desktop:/swappy-20260531_180915.png,desktop:/study_plan.pdf,desktop:/Chem,desktop:/stylus-2026-03-20.json,desktop:/swappy-20260526_153600.png,desktop:/swappy-20260529_224907.png,desktop:/swappy-20260704_121855.png,desktop:/Untitled 1.docx,desktop:/8_5_sgpa_master_plan.md,desktop:/swappy-20260731_105731.png,desktop:/fixes.md,desktop:/8.5+ SGPA MASTER PLAN.pdf,desktop:/Phone Recieved,desktop:/swappy-20260730_220123.png,desktop:/SponsorBlockConfig_2026-03-18_19.06.16.json,1,a7111bf2-f5da-40d6-932f-b62580dc4cc2,3,desktop:/swappy-20260518_032817.png,desktop:/swappy-20260518_032814.png,desktop:/swappy-20260518_032218.png
-screenMapping=desktop:/companies_output.xlsx,0,a7111bf2-f5da-40d6-932f-b62580dc4cc2,desktop:/fixes.md,0,a7111bf2-f5da-40d6-932f-b62580dc4cc2,desktop:/swappy-20260526_153600.png,0,a7111bf2-f5da-40d6-932f-b62580dc4cc2,desktop:/study_plan.pdf,0,a7111bf2-f5da-40d6-932f-b62580dc4cc2,desktop:/SponsorBlockConfig_2026-03-18_19.06.16.json,0,a7111bf2-f5da-40d6-932f-b62580dc4cc2,desktop:/swappy-20260704_121855.png,0,a7111bf2-f5da-40d6-932f-b62580dc4cc2,desktop:/swappy-20260529_224907.png,0,a7111bf2-f5da-40d6-932f-b62580dc4cc2,desktop:/8.5+ SGPA MASTER PLAN.pdf,0,a7111bf2-f5da-40d6-932f-b62580dc4cc2,desktop:/swappy-20260531_180915.png,0,a7111bf2-f5da-40d6-932f-b62580dc4cc2,desktop:/Phone Recieved,0,a7111bf2-f5da-40d6-932f-b62580dc4cc2,desktop:/study_plan.docx,0,a7111bf2-f5da-40d6-932f-b62580dc4cc2,desktop:/swappy-20260518_032817.png,0,a7111bf2-f5da-40d6-932f-b62580dc4cc2,desktop:/8_5_sgpa_master_plan.md,0,a7111bf2-f5da-40d6-932f-b62580dc4cc2,desktop:/stylus-2026-03-20.json,0,a7111bf2-f5da-40d6-932f-b62580dc4cc2,desktop:/swappy-20260518_032814.png,0,a7111bf2-f5da-40d6-932f-b62580dc4cc2,desktop:/swappy-20260730_220123.png,0,a7111bf2-f5da-40d6-932f-b62580dc4cc2,desktop:/Untitled 1.docx,0,a7111bf2-f5da-40d6-932f-b62580dc4cc2,desktop:/swappy-20260731_105731.png,0,a7111bf2-f5da-40d6-932f-b62580dc4cc2,desktop:/swappy-20260518_032218.png,0,a7111bf2-f5da-40d6-932f-b62580dc4cc2,desktop:/Chem,0,a7111bf2-f5da-40d6-932f-b62580dc4cc2,file:///home/medhansh/Desktop/Illustration Document.odg,0,a7111bf2-f5da-40d6-932f-b62580dc4cc2
+itemsOnDisabledScreens=0,a7111bf2-f5da-40d6-932f-b62580dc4cc2,17,desktop:/study_plan.docx,desktop:/8.5+ SGPA MASTER PLAN.pdf,desktop:/swappy-20260526_153600.png,desktop:/Untitled 1.docx,desktop:/Chem,desktop:/swappy-20260704_121855.png,desktop:/swappy-20260529_224907.png,desktop:/stylus-2026-03-20.json,desktop:/companies_output.xlsx,desktop:/swappy-20260730_220123.png,desktop:/fixes.md,desktop:/study_plan.pdf,desktop:/swappy-20260531_180915.png,desktop:/swappy-20260731_105731.png,desktop:/SponsorBlockConfig_2026-03-18_19.06.16.json,desktop:/Phone Recieved,desktop:/8_5_sgpa_master_plan.md,1,a7111bf2-f5da-40d6-932f-b62580dc4cc2,3,desktop:/swappy-20260518_032814.png,desktop:/swappy-20260518_032817.png,desktop:/swappy-20260518_032218.png
+screenMapping=desktop:/swappy-20260526_153600.png,0,a7111bf2-f5da-40d6-932f-b62580dc4cc2,desktop:/Phone Recieved,0,a7111bf2-f5da-40d6-932f-b62580dc4cc2,desktop:/fixes.md,0,a7111bf2-f5da-40d6-932f-b62580dc4cc2,desktop:/swappy-20260518_032814.png,1,a7111bf2-f5da-40d6-932f-b62580dc4cc2,desktop:/study_plan.docx,0,a7111bf2-f5da-40d6-932f-b62580dc4cc2,desktop:/swappy-20260531_180915.png,0,a7111bf2-f5da-40d6-932f-b62580dc4cc2,desktop:/8.5+ SGPA MASTER PLAN.pdf,0,a7111bf2-f5da-40d6-932f-b62580dc4cc2,desktop:/companies_output.xlsx,0,a7111bf2-f5da-40d6-932f-b62580dc4cc2,desktop:/Chem,0,a7111bf2-f5da-40d6-932f-b62580dc4cc2,file:///home/medhansh/Desktop/Illustration Document.odg,0,a7111bf2-f5da-40d6-932f-b62580dc4cc2,desktop:/swappy-20260529_224907.png,0,a7111bf2-f5da-40d6-932f-b62580dc4cc2,desktop:/swappy-20260518_032218.png,1,a7111bf2-f5da-40d6-932f-b62580dc4cc2,desktop:/study_plan.pdf,0,a7111bf2-f5da-40d6-932f-b62580dc4cc2,desktop:/8_5_sgpa_master_plan.md,0,a7111bf2-f5da-40d6-932f-b62580dc4cc2,desktop:/stylus-2026-03-20.json,0,a7111bf2-f5da-40d6-932f-b62580dc4cc2,desktop:/swappy-20260730_220123.png,0,a7111bf2-f5da-40d6-932f-b62580dc4cc2,desktop:/SponsorBlockConfig_2026-03-18_19.06.16.json,0,a7111bf2-f5da-40d6-932f-b62580dc4cc2,desktop:/swappy-20260704_121855.png,0,a7111bf2-f5da-40d6-932f-b62580dc4cc2,desktop:/swappy-20260731_105731.png,0,a7111bf2-f5da-40d6-932f-b62580dc4cc2,desktop:/Untitled 1.docx,0,a7111bf2-f5da-40d6-932f-b62580dc4cc2,desktop:/swappy-20260518_032817.png,1,a7111bf2-f5da-40d6-932f-b62580dc4cc2

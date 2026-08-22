@@ -18,8 +18,12 @@ end
 vim.g.autoformat_enabled = false
 vim.g.loaded_node_provider = 0
 vim.g.loaded_perl_provider = 0
-vim.g.loaded_ruby_provider = 0
-vim.g.python3_host_prog = vim.fn.expand("~/.venvs/neovim/bin/python")
+local python_path = vim.fn.expand("~/.venvs/neovim/bin/python")
+if vim.fn.executable(python_path) == 1 then
+    vim.g.python3_host_prog = python_path
+elseif vim.fn.executable("python3") == 1 then
+    vim.g.python3_host_prog = vim.fn.exepath("python3")
+end
 
 local function ensure_dir(path)
     pcall(vim.fn.mkdir, path, "p")
@@ -50,6 +54,7 @@ require("core.options")
 require("core.autocmds")
 require("core.lazy")
 require("utils.theme").setup()
+require("utils.updater").setup()
 require("core.keymaps")
 
 -- Fix "Unknown filetype" warnings for LSP and Noice

@@ -17,7 +17,6 @@ return {
             condition = function(buf)
                 local ignored_filetypes = {
                     "gitcommit",
-                    "neo-tree",
                     "oil",
                     "toggleterm",
                 }

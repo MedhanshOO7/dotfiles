@@ -1,23 +1,16 @@
 return {
-    -- 1. Telescope Undo (Visual History)
+    -- 1. Undo History (Snacks Picker)
     {
-        "debugloop/telescope-undo.nvim",
-        dependencies = {
-            {
-                "nvim-telescope/telescope.nvim",
-                dependencies = { "nvim-lua/plenary.nvim" },
-            },
-        },
+        "folke/snacks.nvim",
         keys = {
             {
                 "<leader>fu",
-                "<cmd>Telescope undo<cr>",
+                function()
+                    Snacks.picker.undo()
+                end,
                 desc = "Find: Undo history (visual)",
             },
         },
-        config = function()
-            require("telescope").load_extension("undo")
-        end,
     },
 
     -- 2. Inc-Rename (Live Variable Renaming)

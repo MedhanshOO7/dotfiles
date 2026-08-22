@@ -80,14 +80,7 @@ return {
         end
 
         vim.diagnostic.config({
-            virtual_text = {
-                prefix = "●",
-                spacing = 2,
-                source = "if_many",
-                severity = {
-                    min = vim.diagnostic.severity.WARN,
-                },
-            },
+            virtual_text = false, -- Handled by tiny-inline-diagnostic for sleek curved callouts
             virtual_lines = false,
             signs = {
                 text = {
@@ -135,12 +128,15 @@ return {
                     "bashls",
                     "clangd",
                     "cssls",
+                    "emmet_language_server",
                     "html",
                     "jsonls",
                     "lua_ls",
                     "marksman",
                     "pylsp",
                     "qmlls",
+                    "sqls",
+                    "tailwindcss",
                     "vtsls",
                     "yamlls",
                 },
@@ -153,9 +149,13 @@ return {
                 capabilities = capabilities,
             }, server_config)
             
-            -- Use the modern Neovim 0.11+ native API
+            -- Use modern Neovim native API
             vim.lsp.config(server, merged_config)
-            vim.lsp.enable(server)
+
+            local cmd_name = (merged_config.cmd and type(merged_config.cmd) == "table" and merged_config.cmd[1]) or (server .. "-language-server")
+            if vim.fn.executable(cmd_name) == 1 or vim.fn.executable(server) == 1 then
+                vim.lsp.enable(server)
+            end
         end
 
         vim.api.nvim_create_autocmd("LspAttach", {
@@ -186,28 +186,29 @@ return {
                 end, "Explain the problem on this line")
                 map_lsp("n", "<leader>lD", vim.lsp.buf.declaration, "Jump to where this symbol is declared")
                 map_lsp("n", "<leader>li", vim.lsp.buf.implementation, "Jump to the implementation")
-                map_lsp("n", "<leader>lo", cmd("Telescope lsp_document_symbols"), "Search symbols in this file")
-                map_lsp("n", "<leader>ls", cmd("Telescope lsp_workspace_symbols"), "Search workspace symbols")
+                map_lsp("n", "<leader>lo", function() require("snacks").picker.lsp_symbols() end, "Search symbols in this file")
+                map_lsp("n", "<leader>ls", function() require("snacks").picker.lsp_workspace_symbols() end, "Search workspace symbols")
                 map_lsp("n", "<leader>lt", vim.lsp.buf.type_definition, "Jump to the type definition")
                 map_lsp("n", "gd", vim.lsp.buf.definition, "Jump to where this symbol is defined")
                 map_lsp("n", "gD", vim.lsp.buf.declaration, "Jump to where this symbol is declared")
                 map_lsp("n", "gr", vim.lsp.buf.references, "Show every place this symbol is used")
                 map_lsp("n", "gi", vim.lsp.buf.implementation, "Jump to the implementation")
                 map_lsp("n", "K", vim.lsp.buf.hover, "Show documentation for the symbol under the cursor")
-                map_lsp("i", "<C-k>", vim.lsp.buf.signature_help, "Show function signature help")
                 map_lsp("n", "[d", function() vim.diagnostic.jump({ count = -1, float = true }) end, "Go to the previous diagnostic")
                 map_lsp("n", "]d", function() vim.diagnostic.jump({ count = 1, float = true }) end, "Go to the next diagnostic")
                 map_lsp("n", "<leader>lk", vim.lsp.buf.signature_help, "Show function signature help")
                 map_lsp("n", "<leader>rn", smart_rename, "Rename this symbol everywhere")
                 map_lsp({ "n", "v" }, "<leader>ca", smart_code_action, "Show suggested code fixes and actions")
 
-                local navic_ok, navic = pcall(require, "nvim-navic")
-                if client and navic_ok and client:supports_method("textDocument/documentSymbol") then
-                    if not vim.b[event.buf].navic_attached then
-                        navic.attach(client, event.buf)
-                        vim.b[event.buf].navic_attached = true
+                vim.schedule(function()
+                    local navic_ok, navic = pcall(require, "nvim-navic")
+                    if client and navic_ok and client:supports_method("textDocument/documentSymbol") then
+                        if vim.api.nvim_buf_is_valid(event.buf) and not vim.b[event.buf].navic_attached then
+                            navic.attach(client, event.buf)
+                            vim.b[event.buf].navic_attached = true
+                        end
                     end
-                end
+                end)
 
 
 

@@ -1,11 +1,12 @@
 return {
-    "MeanderingProgrammer/render-markdown.nvim",
+    {
+        "MeanderingProgrammer/render-markdown.nvim",
     enabled = true,
     dependencies = {
         "nvim-treesitter/nvim-treesitter",
         "nvim-tree/nvim-web-devicons",
     },
-    ft = { "markdown", "markdown.mdx", "quarto", "rmd" },
+    ft = { "markdown", "markdown.mdx", "quarto", "rmd", "sql" },
     init = function()
         local function resolve_group(groups)
             for _, group in ipairs(groups) do
@@ -106,6 +107,11 @@ return {
                 "cpp",
                 "c++=cpp",
                 "sql",
+                "mysql=sql",
+                "postgres=sql",
+                "postgresql=sql",
+                "psql=sql",
+                "sqlite=sql",
                 "dockerfile",
                 "docker=dockerfile",
                 "cmake",
@@ -167,6 +173,7 @@ return {
             min_width = 30,
             left_pad = 1,
             right_pad = 1,
+            highlight_mode = "combine",
         },
         bullet = {
             enabled = true,
@@ -207,7 +214,7 @@ return {
         pipe_table = {
             enabled = true,
             preset = "round",
-            alignment_indicator = "━",
+            style = "full",
         },
         latex = {
             enabled = true,
@@ -231,6 +238,71 @@ return {
             concealcursor = {
                 default = vim.o.concealcursor,
                 rendered = "nv",
+            },
+        },
+    },
+    },
+    {
+        "ice345/markdown-table-wrap.nvim",
+        ft = { "markdown", "markdown.mdx", "quarto", "rmd", "sql" },
+        keys = {
+            { "<leader>mTi", "<cmd>MarkdownTableToggleInline<cr>", desc = "Toggle Markdown Table Inline View" },
+            { "<leader>mTr", "<cmd>MarkdownTableToggleReader<cr>", desc = "Toggle Markdown Table Reader" },
+            { "<leader>mTp", "<cmd>MarkdownTableTogglePreview<cr>", desc = "Toggle Markdown Table Preview" },
+        },
+        opts = {
+            preview_mode = "inline",
+            inline_mode = "replace",
+            auto_preview = false, -- Manual toggle only (<leader>mTi, <leader>mTp)!
+            render_all = false,
+            inline_viewport_scrolling = true,
+            inline_wrap_scope = "cursor",
+            auto_preview_in_insert = false,
+            clear_on_insert = true,
+            highlight_preset = "render_markdown",
+            table_border = "rounded",
+            use_unicode_border = true,
+            extra_filetypes = { "sql" },
+            reader = {
+                auto_open = false,
+            },
+        },
+    },
+    {
+        "iamcco/markdown-preview.nvim",
+        cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
+        ft = { "markdown" },
+        build = "cd app && npm install",
+        init = function()
+            vim.g.mkdp_filetypes = { "markdown" }
+            vim.g.mkdp_command_for_global = 1
+            vim.g.mkdp_auto_start = 0
+            vim.g.mkdp_auto_close = 0 -- Keep browser open & sync to current file when switching buffers!
+            vim.g.mkdp_refresh_slow = 0 -- Instant refresh on text change
+            vim.g.mkdp_echo_preview_url = 1
+            vim.g.mkdp_page_title = "「${name}」"
+
+            vim.cmd([[
+                function! OpenZenBrowser(url)
+                    silent execute '!zen-browser ' . shellescape(a:url) . ' &'
+                endfunction
+            ]])
+            vim.g.mkdp_browserfunc = "OpenZenBrowser"
+        end,
+        keys = {
+            {
+                "<leader>np",
+                function()
+                    vim.fn["mkdp#util#toggle_preview"]()
+                end,
+                desc = "Markdown Browser Preview (Zen Browser)",
+            },
+            {
+                "<leader>mp",
+                function()
+                    vim.fn["mkdp#util#toggle_preview"]()
+                end,
+                desc = "Markdown Browser Preview (Zen Browser)",
             },
         },
     },

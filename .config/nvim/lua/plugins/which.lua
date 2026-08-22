@@ -21,7 +21,9 @@ return {
             { "<leader>a", group = "AI" },
             { "<leader>B", group = "Build and CMake" },
             { "<leader>b", group = "Buffers" },
+            { "<leader>C", group = "Copilot AI" },
             { "<leader>c", group = "Code" },
+            { "<leader>D", group = "Database (Dadbod)" },
             { "<leader>d", group = "Debug" },
             { "<leader>f", group = "Find" },
             { "<leader>g", group = "Git" },
@@ -40,7 +42,7 @@ return {
             { "<leader>w", group = "Windows and sessions" },
             { "<leader>x", group = "Diagnostics and lists" },
             { "<leader>y", group = "Yanky / Clipboard" },
-            { "<leader>z", group = "Folds" },
+            { "<leader>z", desc = "Toggle Zen Mode" },
 
             -- AI
             { "<leader>aa", desc = "AI Actions", mode = { "n", "v" } },
@@ -129,6 +131,7 @@ return {
             { "<leader>mh", desc = "Hide output" },
             { "<leader>mi", desc = "Initialize Molten" },
             { "<leader>ml", desc = "Evaluate line" },
+            { "<leader>mm", desc = "Toggle Minimap" },
             { "<leader>mo", desc = "Open in browser" },
             { "<leader>mr", desc = "Restart kernel" },
             { "<leader>ms", desc = "Show output" },
@@ -157,6 +160,12 @@ return {
             { "<leader>nt", desc = "Twilight" },
             { "<leader>nw", desc = "Writing mode toggle" },
             { "<leader>nz", desc = "Zen Mode" },
+
+            -- Markdown Tables
+            { "<leader>mT", group = "Markdown tables" },
+            { "<leader>mTi", desc = "Toggle Markdown table inline view" },
+            { "<leader>mTr", desc = "Toggle Markdown table reader" },
+            { "<leader>mTp", desc = "Toggle Markdown table preview" },
 
             -- Obsidian
             { "<leader>ob", desc = "Show backlinks" },
@@ -190,13 +199,21 @@ return {
             -- UI and theme
             { "<leader>ua", desc = "Toggle auto-save (global)" },
             { "<leader>ub", desc = "Toggle auto-save (buffer)" },
+            { "<leader>uc", desc = "Toggle conceal level" },
+            { "<leader>ud", desc = "Toggle LSP diagnostics" },
             { "<leader>uf", desc = "Toggle auto-format" },
-            { "<leader>un", desc = "Next theme" },
+            { "<leader>uh", desc = "Toggle LSP inlay hints" },
+            { "<leader>ui", desc = "Toggle image hover previews" },
+            { "<leader>ul", desc = "Toggle relative line numbers" },
+            { "<leader>um", desc = "Toggle buffer modifiable" },
+            { "<leader>un", desc = "Notification history / Next theme" },
             { "<leader>up", desc = "Prev theme" },
             { "<leader>us", desc = "Toggle spell check" },
             { "<leader>ut", desc = "Theme picker" },
-            { "<leader>uy", desc = "Toggle transparency" },
+            { "<leader>uu", desc = "Update Neovim config (Git Pull & Sync)" },
             { "<leader>uw", desc = "Toggle text wrap" },
+            { "<leader>ux", desc = "Toggle Treesitter sticky header" },
+            { "<leader>uy", desc = "Toggle transparency" },
 
             -- Windows and sessions
             { "<leader>wc", desc = "Close window" },

@@ -84,7 +84,9 @@ return {
         end,
 
         wiki_link_func = "use_alias_only",
-        markdown_link_func = "use_groups_only",
+        markdown_link_func = function(opts)
+            return require("obsidian.util").markdown_link(opts)
+        end,
         preferred_link_style = "wiki",
 
         -- Optional, customize the default name or prefix when pasting images via `:ObsidianPasteImg`.

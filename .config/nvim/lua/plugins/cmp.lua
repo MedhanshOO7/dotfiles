@@ -37,13 +37,6 @@ return {
             callback = apply_highlights,
         })
 
-        cmp.event:on("menu_opened", function()
-            local copilot_ok, copilot_suggestion = pcall(require, "copilot.suggestion")
-            if copilot_ok and copilot_suggestion.is_visible() then
-                copilot_suggestion.dismiss()
-            end
-        end)
-
         cmp.setup({
             completion = {
                 completeopt = "menu,menuone,noinsert",
@@ -154,6 +147,13 @@ return {
                     winhighlight = "NormalFloat:CmpDocNormal,FloatBorder:CmpDocBorder",
                 }),
             },
+        })
+
+        cmp.setup.filetype({ "sql", "mysql", "plsql" }, {
+            sources = cmp.config.sources({
+                { name = "vim-dadbod-completion" },
+                { name = "buffer" },
+            }),
         })
     end,
 }

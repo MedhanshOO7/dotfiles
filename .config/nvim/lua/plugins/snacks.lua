@@ -14,21 +14,21 @@ return {
             enabled = true,
             preset = {
                 header = [[
-███╗   ██╗███████╗ ██████╗ ██╗   ██╗██╗███╗   ███╗
-████╗  ██║██╔════╝██╔═══██╗██║   ██║██║████╗ ████║
-██╔██╗ ██║█████╗  ██║   ██║██║   ██║██║██╔████╔██║
-██║╚██╗██║██╔══╝  ██║   ██║╚██╗ ██╔╝██║██║╚██╔╝██║
-██║ ╚████║███████╗╚██████╔╝ ╚████╔╝ ██║██║ ╚═╝ ██║
-╚═╝  ╚═══╝╚══════╝ ╚═════╝   ╚═══╝  ╚═╝╚═╝     ╚═╝]],
+   ███╗   ██╗███████╗ ██████╗ ██╗   ██╗██╗███╗   ███╗
+   ████╗  ██║██╔════╝██╔═══██╗██║   ██║██║████╗ ████║
+   ██╔██╗ ██║█████╗  ██║   ██║██║   ██║██║██╔████╔██║
+   ██║╚██╗██║██╔══╝  ██║   ██║╚██╗ ██╔╝██║██║╚██╔╝██║
+   ██║ ╚████║███████╗╚██████╔╝ ╚████╔╝ ██║██║ ╚═╝ ██║
+   ╚═╝  ╚═══╝╚══════╝ ╚═════╝   ╚═══╝  ╚═╝╚═╝     ╚═╝]],
                 keys = {
-                    { icon = " ", key = "f", desc = "Find Files", action = ":lua Snacks.picker.smart()" },
-                    { icon = " ", key = "n", desc = "New File", action = ":ene | startinsert" },
-                    { icon = " ", key = "g", desc = "Find Text (Grep)", action = ":lua Snacks.picker.grep()" },
-                    { icon = " ", key = "r", desc = "Recent Files", action = ":lua Snacks.picker.recent()" },
-                    { icon = "󰉋 ", key = "e", desc = "File Explorer", action = ":lua Snacks.explorer()" },
-                    { icon = " ", key = "s", desc = "Restore Session", section = "session" },
-                    { icon = "󰒲 ", key = "l", desc = "Lazy Plugins", action = ":Lazy", enabled = package.loaded.lazy ~= nil },
-                    { icon = " ", key = "q", desc = "Quit Neovim", action = ":qa" },
+                    { icon = " ", key = "f", desc = "Smart Find Files", action = ":lua Snacks.picker.smart()" },
+                    { icon = "󰈔 ", key = "n", desc = "New Empty Buffer", action = ":ene | startinsert" },
+                    { icon = " ", key = "g", desc = "Live Grep Workspace", action = ":lua Snacks.picker.grep()" },
+                    { icon = " ", key = "r", desc = "Recent Files", action = ":lua Snacks.picker.recent()" },
+                    { icon = "󰉋 ", key = "e", desc = "Project Explorer", action = ":lua Snacks.explorer()" },
+                    { icon = "󱐌 ", key = "s", desc = "Restore Session", section = "session" },
+                    { icon = "󰒲 ", key = "l", desc = "Manage Plugins", action = ":Lazy", enabled = package.loaded.lazy ~= nil },
+                    { icon = " ", key = "q", desc = "Quit Editor", action = ":qa" },
                 },
             },
             sections = {
@@ -36,7 +36,7 @@ return {
                 {
                     pane = 2,
                     section = "terminal",
-                    cmd = "colorscript -e square",
+                    cmd = vim.fn.executable("colorscript") == 1 and "colorscript -e square" or "echo ''",
                     height = 5,
                     padding = 1,
                 },
@@ -60,7 +60,7 @@ return {
                 { section = "startup" },
             },
         },
-        dim = { enabled = false },
+        dim = { enabled = true },
         explorer = {
             enabled = true,
             replace_netrw = true,
@@ -79,13 +79,14 @@ return {
         gitbrowse = { enabled = true },
         image = {
             enabled = true,
+            force = true,
             formats = { "png", "jpg", "jpeg", "gif", "bmp", "webp", "tiff", "svg", "avif" },
             doc = {
                 enabled = true,
                 inline = false,
                 float = true,
-                max_width = 80,
-                max_height = 40,
+                max_width = 60,
+                max_height = 20,
             },
             convert = {
                 notify = false,
@@ -123,6 +124,12 @@ return {
             enabled = true,
             ui_select = true,
             sources = {
+                files = {
+                    hidden = true,
+                },
+                grep = {
+                    hidden = true,
+                },
                 explorer = {
                     layout = {
                         preset = "sidebar",
@@ -158,7 +165,7 @@ return {
         scratch = { enabled = true },
         scroll = { enabled = true },
         statuscolumn = { enabled = true },
-        words = { enabled = true },
+        words = { enabled = false }, -- vim-illuminate handles reference highlighting
         zen = { enabled = true },
     },
     init = function()
@@ -170,6 +177,16 @@ return {
                 end
             end,
         })
+        vim.api.nvim_create_user_command("ImageToggle", function()
+            if Snacks.image and Snacks.image.doc then
+                Snacks.image.doc.enabled = not Snacks.image.doc.enabled
+                vim.notify(
+                    Snacks.image.doc.enabled and "Hovering Image Previews ENABLED 󰋩 " or "Hovering Image Previews DISABLED 󰂭 ",
+                    vim.log.levels.INFO,
+                    { title = "Image Previews" }
+                )
+            end
+        end, { desc = "Toggle hovering image previews ON or OFF" })
     end,
     keys = {
         { "<leader><space>", function() Snacks.picker.smart() end, desc = "Smart Find Files" },
@@ -185,6 +202,35 @@ return {
             end,
             desc = "Browse Images (Floating Preview)",
         },
+        { "<leader>ih", function() Snacks.image.hover() end, desc = "Hover Image Preview (Manual)" },
+        {
+            "<leader>ui",
+            function()
+                if Snacks.image and Snacks.image.doc then
+                    Snacks.image.doc.enabled = not Snacks.image.doc.enabled
+                    vim.notify(
+                        Snacks.image.doc.enabled and "Hovering Image Previews ENABLED 󰋩 " or "Hovering Image Previews DISABLED 󰂭 ",
+                        vim.log.levels.INFO,
+                        { title = "Image Previews" }
+                    )
+                end
+            end,
+            desc = "Toggle Hovering Image Previews",
+        },
+        {
+            "<leader>iu",
+            function()
+                if Snacks.image and Snacks.image.doc then
+                    Snacks.image.doc.enabled = not Snacks.image.doc.enabled
+                    vim.notify(
+                        Snacks.image.doc.enabled and "Hovering Image Previews ENABLED 󰋩 " or "Hovering Image Previews DISABLED 󰂭 ",
+                        vim.log.levels.INFO,
+                        { title = "Image Previews" }
+                    )
+                end
+            end,
+            desc = "Toggle Hovering Image Previews",
+        },
         { "<leader>gl", function() Snacks.lazygit() end, desc = "Lazygit (VS Code-style panel)" },
         { "<leader>gf", function() Snacks.lazygit.log_file() end, desc = "Lazygit Current File History" },
         { "<leader>gB", function() Snacks.gitbrowse() end, desc = "Open Git Permalink in Browser" },
@@ -197,6 +243,6 @@ return {
         { "]r", function() Snacks.words.jump(1, true) end, desc = "Next LSP Word Reference" },
         { "[r", function() Snacks.words.jump(-1, true) end, desc = "Prev LSP Word Reference" },
         { "<leader>wm", function() Snacks.toggle.zoom() end, desc = "Maximize / Zoom Window" },
-        { "<leader>n", function() Snacks.notifier.show_history() end, desc = "Notification History" },
+        { "<leader>un", function() Snacks.notifier.show_history() end, desc = "Notification History" },
     },
 }

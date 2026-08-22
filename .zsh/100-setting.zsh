@@ -4,8 +4,10 @@
 #    source ~/linuwu_aliases.sh
 # ============================================================
 
-_PS="/sys/module/linuwu_sense/drivers/platform:acer-wmi/acer-wmi/predator_sense"
-_KB="/sys/module/linuwu_sense/drivers/platform:acer-wmi/acer-wmi/four_zoned_kb"
+_MOD=$(ls -d /sys/module/nekro_sense 2>/dev/null || ls -d /sys/module/linuwu_sense 2>/dev/null)
+_PS="$_MOD/drivers/platform:acer-wmi/acer-wmi/predator_sense"
+_KB="$_MOD/drivers/platform:acer-wmi/acer-wmi/four_zoned_kb"
+_LOGO="$_MOD/drivers/platform:acer-wmi/acer-wmi/back_logo"
 
 # ── Thermal Profiles ────────────────────────────────────────
 alias profile-get='cat /sys/firmware/acpi/platform_profile'
@@ -28,7 +30,8 @@ alias fan-set='_fan_set(){ echo "$1" | sudo tee $_PS/fan_speed > /dev/null; }; _
 # Usage: kb-color <z1>,<z2>,<z3>,<z4>,<brightness>
 # Example: kb-color ff0000,00ff00,0000ff,ff00ff,100
 alias kb-get='cat $_KB/per_zone_mode'
-alias kb-off='echo 000000,000000,000000,000000,0 | sudo tee $_KB/per_zone_mode > /dev/null'
+# NOTE: brightness is kept at 1 for black/off to prevent Embedded Controller (EC) RGB MCU lockup
+alias kb-off='echo 000000,000000,000000,000000,1 | sudo tee $_KB/per_zone_mode > /dev/null'
 alias kb-white='echo ffffff,ffffff,ffffff,ffffff,100 | sudo tee $_KB/per_zone_mode > /dev/null'
 alias kb-default='echo 00BFFF,00BFFF,00BFFF,00BFFF,100 | sudo tee $_KB/per_zone_mode > /dev/null'
 alias kb-red='echo ff0000,ff0000,ff0000,ff0000,100 | sudo tee $_KB/per_zone_mode > /dev/null'
@@ -70,6 +73,24 @@ alias kb-mode='_kb_mode(){ echo "$1" | sudo tee $_KB/four_zone_mode > /dev/null;
 alias kb-timeout-on='echo 1 | sudo tee $_PS/backlight_timeout > /dev/null'
 alias kb-timeout-off='echo 0 | sudo tee $_PS/backlight_timeout > /dev/null'
 alias kb-timeout-get='cat $_PS/backlight_timeout'
+
+# ── Cover Logo / Lightbar ─────────────────────────────────
+alias logo-get='cat $_LOGO/color 2>/dev/null || echo "Logo sysfs node not available"'
+alias logo-on='echo "FFFFFF,100,1" | sudo tee $_LOGO/color > /dev/null'
+alias logo-off='echo "000000,0,0" | sudo tee $_LOGO/color > /dev/null'
+alias logo-white='echo "FFFFFF,100,1" | sudo tee $_LOGO/color > /dev/null'
+alias logo-red='echo "FF0000,100,1" | sudo tee $_LOGO/color > /dev/null'
+alias logo-blue='echo "0000FF,100,1" | sudo tee $_LOGO/color > /dev/null'
+alias logo-cyan='echo "00BFFF,100,1" | sudo tee $_LOGO/color > /dev/null'
+alias logo-green='echo "00FF00,100,1" | sudo tee $_LOGO/color > /dev/null'
+alias logo-purple='echo "8A2BE2,100,1" | sudo tee $_LOGO/color > /dev/null'
+alias logo-gold='echo "FFD700,100,1" | sudo tee $_LOGO/color > /dev/null'
+# Usage: logo-color <RRGGBB> [brightness] [enable]
+# Example: logo-color FF6600 100 1
+alias logo-color='_logo_color(){ echo "${1:-FFFFFF},${2:-100},${3:-1}" | sudo tee $_LOGO/color > /dev/null; }; _logo_color'
+
+# ── RGB Reset / Driver Reload ─────────────────────────────
+alias kb-reset='sudo modprobe -r nekro_sense 2>/dev/null || sudo rmmod linuwu_sense 2>/dev/null; sudo modprobe nekro_sense 2>/dev/null || sudo modprobe linuwu_sense predator_v4=1 2>/dev/null; echo "RGB Driver Reset Complete"'
 
 # ── Battery ─────────────────────────────────────────────────
 alias bat-limit-on='echo 1 | sudo tee $_PS/battery_limiter > /dev/null' # limit charge to 80%
