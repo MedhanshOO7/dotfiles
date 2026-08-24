@@ -9,7 +9,7 @@ output_path = '~/.local/state/quickshell/user/generated/colors.json'
 [templates.hyprland]
 input_path = '~/.config/matugen/templates/hyprland/colors.lua'
 output_path = '~/.config/hypr/hyprland/colors.lua'
-post_hook = 'hyprctl reload || true'
+post_hook = 'hyprctl reload &>/dev/null &'
 
 [templates.hyprlock]
 input_path = '~/.config/matugen/templates/hyprland/hyprlock-colors.conf'
@@ -60,7 +60,7 @@ output_path = '~/.config/zen/naj6ty8k.Default (release)/chrome/colors.css'
 [templates.pywalfox]
 input_path = '~/.config/matugen/templates/pywalfox-colors.json'
 output_path = '/home/medhansh/.cache/wal/colors.json'
-post_hook = 'pywalfox update || true'
+post_hook = 'pywalfox update &>/dev/null &'
 
 # ==================== System & Styling ====================
 
@@ -84,12 +84,12 @@ output_path = '~/.local/share/gtksourceview-4/styles/matugen-light.xml'
 [templates.btop]
 input_path = '~/.config/matugen/templates/btop.theme'
 output_path = '~/.config/btop/themes/matugen.theme'
-post_hook = 'pkill -USR2 btop || true'
+post_hook = 'pkill -USR2 btop &>/dev/null || true'
 
 [templates.cava]
 input_path = '~/.config/matugen/templates/cava-colors.ini'
 output_path = '~/.config/cava/themes/matugen'
-post_hook = 'pkill -USR1 cava || true'
+post_hook = 'pkill -USR1 cava &>/dev/null || true'
 
 [templates.heroic]
 input_path = '~/.config/matugen/templates/heroic.css'
@@ -102,7 +102,7 @@ output_path = '~/.config/nvim/lua/matugen-colors.lua'
 [templates.snappy_switcher]
 input_path = '~/.config/matugen/templates/snappy-switcher.ini'
 output_path = '~/.config/snappy-switcher/themes/matugen.ini'
-post_hook = 'snappy-switcher quit || killall snappy-switcher || true; snappy-switcher --daemon &'
+post_hook = '(snappy-switcher quit || killall snappy-switcher; snappy-switcher --daemon) &>/dev/null &'
 
 [templates.telegram]
 input_path = '~/.config/matugen/templates/telegram.tdesktop-theme'
@@ -115,12 +115,12 @@ output_path = '~/.local/state/quickshell/user/generated/wallpaper/path.txt'
 [templates.dev_dashboard]
 input_path = '~/.config/matugen/templates/dev-dashboard-colors.css'
 output_path = '~/Downloads/dev-dashboard-colors.css'
-post_hook = '~/.config/matugen/templates/dev-dashboard-inject.sh'
+post_hook = '~/.config/matugen/templates/dev-dashboard-inject.sh &>/dev/null &'
 
 [templates.kitty]
 input_path = '~/.config/matugen/templates/kitty-colors.conf'
 output_path = '~/.local/state/quickshell/user/generated/terminal/kitty-theme.conf'
-post_hook = 'pkill -SIGUSR1 kitty || true'
+post_hook = 'pkill -SIGUSR1 kitty &>/dev/null || true'
 
 [templates.starship]
 input_path = '~/.config/matugen/templates/starship.toml'
@@ -129,7 +129,7 @@ output_path = '~/.config/starship.toml'
 [templates.kde_colors]
 input_path = '~/.config/matugen/templates/kde/color.txt'
 output_path = '~/.local/state/quickshell/user/generated/color.txt'
-post_hook = '~/.config/matugen/templates/kde/kde-material-you-colors-wrapper.sh'
+post_hook = '~/.config/matugen/templates/kde/kde-material-you-colors-wrapper.sh &>/dev/null &'
 
 [templates.easyeffects]
 input_path = '~/.config/matugen/templates/easyeffects.css'
@@ -154,4 +154,4 @@ output_path = '~/.local/state/quickshell/user/generated/material_colors.scss'
 [templates.vicinae]
 input_path = '~/.config/matugen/templates/vicinae-theme.toml'
 output_path = '~/.local/share/vicinae/themes/matugen.toml'
-post_hook = 'vicinae theme set matugen || true'
+post_hook = 'vicinae theme set matugen &>/dev/null &'
