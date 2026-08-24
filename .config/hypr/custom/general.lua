@@ -182,7 +182,7 @@ hl.config({
         vrr = 1, -- VRR for fullscreen apps (saves power, reduces tearing in games)
     },
     xwayland = {
-        force_zero_scaling = true,
+        force_zero_scaling = false,
     },
     decoration = {
         rounding_power = 2,
@@ -193,7 +193,7 @@ hl.config({
             special = false,
             new_optimizations = true,
             size = 11,
-            passes = 4,
+            passes = 3,
             brightness = 1.05,
             contrast = 1.08,
             vibrancy = 0.25,
