@@ -100,6 +100,12 @@ return {
             group = vim.api.nvim_create_augroup("editing_terminal_keymaps", { clear = true }),
             callback = function(event)
                 local opts = { buffer = event.buf, silent = true }
+                vim.keymap.set("n", "q", "<Cmd>close<CR>", vim.tbl_extend("force", opts, {
+                    desc = "Close terminal window",
+                }))
+                vim.keymap.set("n", "<Esc>", "<Cmd>close<CR>", vim.tbl_extend("force", opts, {
+                    desc = "Close terminal window",
+                }))
                 vim.keymap.set("t", "<Esc><Esc>", [[<C-\><C-n>]], vim.tbl_extend("force", opts, {
                     desc = "Leave terminal mode",
                 }))

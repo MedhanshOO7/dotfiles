@@ -11,6 +11,27 @@ vim.api.nvim_create_autocmd("VimLeave", {
     end,
 })
 
+-- ── Quick Dismiss Windows (q & Esc) ───────────────────────────
+vim.api.nvim_create_autocmd({ "FileType", "BufEnter", "TermOpen" }, {
+    group = vim.api.nvim_create_augroup("QuickDismissWindows", { clear = true }),
+    pattern = "*",
+    callback = function(event)
+        local bt = vim.bo[event.buf].buftype
+        local ft = vim.bo[event.buf].filetype or ""
+        if bt == "terminal" or bt == "nofile" or bt == "quickfix" or ft:match("overseer") or ft:match("Overseer") or ft == "qf" or ft == "help" or ft == "notify" then
+            local function close_win()
+                if #vim.api.nvim_tabpage_list_wins(0) > 1 then
+                    pcall(vim.cmd, "close")
+                else
+                    pcall(vim.cmd, "bdelete")
+                end
+            end
+            pcall(vim.keymap.set, "n", "q", close_win, { buffer = event.buf, silent = true, desc = "Close window" })
+            pcall(vim.keymap.set, "n", "<Esc>", close_win, { buffer = event.buf, silent = true, desc = "Close window" })
+        end
+    end,
+})
+
 vim.api.nvim_create_autocmd("FileType", {
     group = group,
     pattern = { "markdown", "text" },

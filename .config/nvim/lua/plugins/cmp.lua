@@ -9,11 +9,16 @@ return {
         "L3MON4D3/LuaSnip",
         "saadparwaiz1/cmp_luasnip",
         "onsails/lspkind.nvim",
+        {
+            "xzbdmw/colorful-menu.nvim",
+            opts = {},
+        },
     },
     config = function()
         local cmp = require("cmp")
         local luasnip = require("luasnip")
         local lspkind = require("lspkind")
+        local colorful_menu = require("colorful-menu")
         local compare = require("cmp.config.compare")
 
         local function hl_fg(group)
@@ -115,19 +120,30 @@ return {
                 },
             },
             formatting = {
-                format = lspkind.cmp_format({
-                    mode = "symbol_text",
-                    maxwidth = 50,
-                    ellipsis_char = "...",
-                    menu = {
-                        nvim_lsp = "[LSP]",
-                        luasnip = "[Snip]",
-                        buffer = "[Buf]",
-                        path = "[Path]",
-                        obsidian = "[Obs]",
-                        obsidian_new = "[Obs+]",
-                    },
-                }),
+                fields = { "kind", "abbr", "menu" },
+                format = function(entry, vim_item)
+                    local _ = lspkind.cmp_format({
+                        mode = "symbol_text",
+                        maxwidth = 50,
+                        ellipsis_char = "...",
+                        menu = {
+                            nvim_lsp = "[LSP]",
+                            luasnip = "[Snip]",
+                            buffer = "[Buf]",
+                            path = "[Path]",
+                            obsidian = "[Obs]",
+                            obsidian_new = "[Obs+]",
+                        },
+                    })(entry, vim_item)
+
+                    local ok, highlights_info = pcall(colorful_menu.cmp_highlights, entry)
+                    if ok and highlights_info ~= nil then
+                        vim_item.abbr_hl_group = highlights_info.highlights
+                        vim_item.abbr = highlights_info.text
+                    end
+
+                    return vim_item
+                end,
             },
             view = {
                 docs = {
@@ -135,16 +151,18 @@ return {
                 },
             },
             experimental = {
-                ghost_text = false, -- Disabled to prevent visual chaos with Supermaven AI
+                ghost_text = false,
             },
             window = {
                 completion = cmp.config.window.bordered({
                     border = "rounded",
-                    winhighlight = "Normal:Normal,FloatBorder:FloatBorder,CursorLine:Visual,Search:None",
+                    winhighlight = "Normal:NormalFloat,FloatBorder:FloatBorder,CursorLine:PmenuSel,Search:None",
+                    col_offset = -3,
+                    side_padding = 1,
                 }),
                 documentation = cmp.config.window.bordered({
                     border = "rounded",
-                    winhighlight = "NormalFloat:CmpDocNormal,FloatBorder:CmpDocBorder",
+                    winhighlight = "Normal:NormalFloat,FloatBorder:FloatBorder,CursorLine:Visual,Search:None",
                 }),
             },
         })

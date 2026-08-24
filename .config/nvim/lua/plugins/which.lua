@@ -7,9 +7,10 @@ return {
     },
     opts = {
         delay = 50,
-        preset = "classic",
+        preset = "modern",
         win = {
             border = "rounded",
+            padding = { 1, 2 },
         },
     },
     config = function(_, opts)

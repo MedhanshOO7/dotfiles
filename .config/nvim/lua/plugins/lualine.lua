@@ -3,19 +3,9 @@ return {
     event = "VeryLazy",
     dependencies = {
         "nvim-tree/nvim-web-devicons",
-        "SmiteshP/nvim-navic",
     },
     config = function()
         local lualine_group = vim.api.nvim_create_augroup("dynamic_lualine_theme", { clear = true })
-
-        local function navic_component()
-            local ok, navic = pcall(require, "nvim-navic")
-            if not ok or not navic.is_available() then
-                return ""
-            end
-
-            return navic.get_location()
-        end
 
         local function macro_recording()
             local reg = vim.fn.reg_recording()
@@ -27,9 +17,21 @@ return {
             local ok, client = pcall(require, "copilot.client")
             if not ok then return "" end
             if client.is_disabled() then
-                return "󰂭 "
+                return "󰂭"
             end
-            return "󰚩 "
+            return "󰚩"
+        end
+
+        local function lsp_status()
+            local clients = vim.lsp.get_clients({ bufnr = 0 })
+            if #clients == 0 then
+                return ""
+            end
+            local names = {}
+            for _, client in ipairs(clients) do
+                table.insert(names, client.name)
+            end
+            return " " .. table.concat(names, ", ")
         end
 
         local function hl_hex(name, key, default)
@@ -40,9 +42,9 @@ return {
             return default
         end
 
-        local function get_opaque_theme()
-            local bg_dark = hl_hex("TabLineFill", "bg", hl_hex("StatusLine", "bg", "#181825"))
-            local bg_surface = hl_hex("CursorLine", "bg", hl_hex("Pmenu", "bg", "#1e1e2e"))
+        local function get_floating_theme()
+            local bg_dark = "NONE"
+            local bg_pill = hl_hex("CursorLine", "bg", hl_hex("Pmenu", "bg", "#1e1e2e"))
             local fg_text = hl_hex("Normal", "fg", "#cdd6f4")
             local fg_muted = hl_hex("Comment", "fg", "#6c7086")
 
@@ -51,56 +53,55 @@ return {
             local yellow = hl_hex("DiagnosticWarn", "fg", "#f9e2af")
             local purple = hl_hex("Statement", "fg", "#cba6f7")
             local red = hl_hex("DiagnosticError", "fg", "#f38ba8")
-            local cyan = hl_hex("Special", "fg", "#89dceb")
 
             return {
                 normal = {
-                    a = { fg = bg_dark, bg = blue, gui = "bold" },
-                    b = { fg = fg_text, bg = bg_surface },
+                    a = { fg = "#11111b", bg = blue, gui = "bold" },
+                    b = { fg = fg_text, bg = bg_pill },
                     c = { fg = fg_text, bg = bg_dark },
                     x = { fg = fg_text, bg = bg_dark },
-                    y = { fg = fg_text, bg = bg_surface },
-                    z = { fg = bg_dark, bg = blue, gui = "bold" },
+                    y = { fg = fg_text, bg = bg_pill },
+                    z = { fg = "#11111b", bg = blue, gui = "bold" },
                 },
                 insert = {
-                    a = { fg = bg_dark, bg = green, gui = "bold" },
-                    b = { fg = fg_text, bg = bg_surface },
+                    a = { fg = "#11111b", bg = green, gui = "bold" },
+                    b = { fg = fg_text, bg = bg_pill },
                     c = { fg = fg_text, bg = bg_dark },
                     x = { fg = fg_text, bg = bg_dark },
-                    y = { fg = fg_text, bg = bg_surface },
-                    z = { fg = bg_dark, bg = green, gui = "bold" },
+                    y = { fg = fg_text, bg = bg_pill },
+                    z = { fg = "#11111b", bg = green, gui = "bold" },
                 },
                 visual = {
-                    a = { fg = bg_dark, bg = purple, gui = "bold" },
-                    b = { fg = fg_text, bg = bg_surface },
+                    a = { fg = "#11111b", bg = purple, gui = "bold" },
+                    b = { fg = fg_text, bg = bg_pill },
                     c = { fg = fg_text, bg = bg_dark },
                     x = { fg = fg_text, bg = bg_dark },
-                    y = { fg = fg_text, bg = bg_surface },
-                    z = { fg = bg_dark, bg = purple, gui = "bold" },
+                    y = { fg = fg_text, bg = bg_pill },
+                    z = { fg = "#11111b", bg = purple, gui = "bold" },
                 },
                 replace = {
-                    a = { fg = bg_dark, bg = red, gui = "bold" },
-                    b = { fg = fg_text, bg = bg_surface },
+                    a = { fg = "#11111b", bg = red, gui = "bold" },
+                    b = { fg = fg_text, bg = bg_pill },
                     c = { fg = fg_text, bg = bg_dark },
                     x = { fg = fg_text, bg = bg_dark },
-                    y = { fg = fg_text, bg = bg_surface },
-                    z = { fg = bg_dark, bg = red, gui = "bold" },
+                    y = { fg = fg_text, bg = bg_pill },
+                    z = { fg = "#11111b", bg = red, gui = "bold" },
                 },
                 command = {
-                    a = { fg = bg_dark, bg = yellow, gui = "bold" },
-                    b = { fg = fg_text, bg = bg_surface },
+                    a = { fg = "#11111b", bg = yellow, gui = "bold" },
+                    b = { fg = fg_text, bg = bg_pill },
                     c = { fg = fg_text, bg = bg_dark },
                     x = { fg = fg_text, bg = bg_dark },
-                    y = { fg = fg_text, bg = bg_surface },
-                    z = { fg = bg_dark, bg = yellow, gui = "bold" },
+                    y = { fg = fg_text, bg = bg_pill },
+                    z = { fg = "#11111b", bg = yellow, gui = "bold" },
                 },
                 inactive = {
-                    a = { fg = fg_muted, bg = bg_surface },
-                    b = { fg = fg_muted, bg = bg_surface },
+                    a = { fg = fg_muted, bg = bg_pill },
+                    b = { fg = fg_muted, bg = bg_pill },
                     c = { fg = fg_muted, bg = bg_dark },
                     x = { fg = fg_muted, bg = bg_dark },
-                    y = { fg = fg_muted, bg = bg_surface },
-                    z = { fg = fg_muted, bg = bg_surface },
+                    y = { fg = fg_muted, bg = bg_pill },
+                    z = { fg = fg_muted, bg = bg_pill },
                 },
             }
         end
@@ -108,63 +109,113 @@ return {
         local function apply()
             require("lualine").setup({
                 options = {
-                    theme = get_opaque_theme(),
+                    theme = get_floating_theme(),
                     globalstatus = true,
-                    section_separators = { left = "", right = "" },
+                    section_separators = { left = "", right = "" },
                     component_separators = { left = "", right = "" },
-                    always_divide_middle = false,
+                    always_divide_middle = true,
                     disabled_filetypes = {
                         statusline = { "snacks_picker_input", "snacks_explorer", "noice", "nui", "notify", "prompt", "lazy", "mason" },
-                        winbar = { "snacks_picker_input", "snacks_explorer", "noice", "nui", "notify", "prompt", "Trouble", "toggleterm", "aerial" },
                     },
                 },
                 sections = {
                     lualine_a = {
                         {
                             "mode",
-                            separator = { left = "" },
-                            padding = { left = 0, right = 2 },
-                            fmt = function(value)
-                                return value:sub(1, 1)
+                            separator = { left = "", right = "" },
+                            padding = { left = 1, right = 1 },
+                            fmt = function(mode_name)
+                                local mode_map = {
+                                    ["NORMAL"] = "NORMAL",
+                                    ["O-PENDING"] = "OP",
+                                    ["INSERT"] = "INSERT",
+                                    ["VISUAL"] = "VISUAL",
+                                    ["V-LINE"] = "V-LINE",
+                                    ["V-BLOCK"] = "V-BLOCK",
+                                    ["SELECT"] = "SELECT",
+                                    ["S-LINE"] = "S-LINE",
+                                    ["S-BLOCK"] = "S-BLOCK",
+                                    ["REPLACE"] = "REPLACE",
+                                    ["V-REPLACE"] = "V-REP",
+                                    ["COMMAND"] = "COMMAND",
+                                    ["EX"] = "EX",
+                                    ["MORE"] = "MORE",
+                                    ["CONFIRM"] = "CONFIRM",
+                                    ["SHELL"] = "SHELL",
+                                    ["TERMINAL"] = "TERM",
+                                }
+                                return mode_map[mode_name] or mode_name
                             end,
                         },
                     },
-                    lualine_b = { "branch", "diff" },
+                    lualine_b = {
+                        {
+                            "branch",
+                            icon = "",
+                            separator = { left = " ", right = "" },
+                            padding = { left = 1, right = 1 },
+                        },
+                        {
+                            "diff",
+                            symbols = { added = " ", modified = " ", removed = " " },
+                            separator = { left = " ", right = "" },
+                            padding = { left = 1, right = 1 },
+                        },
+                    },
                     lualine_c = {
                         {
                             "filename",
                             file_status = true,
                             path = 1,
+                            symbols = {
+                                modified = " ●",
+                                readonly = " 󰌾",
+                                unnamed = "[No Name]",
+                                newfile = "[New]",
+                            },
                         },
                     },
                     lualine_x = {
-                        { macro_recording, color = { fg = "#f38ba8", gui = "bold" } },
-                        { copilot_status, color = { fg = "#a6e3a1", gui = "bold" } },
+                        {
+                            macro_recording,
+                            color = { fg = "#f38ba8", gui = "bold" },
+                            separator = { left = "", right = "" },
+                            padding = { left = 1, right = 1 },
+                        },
+                        {
+                            copilot_status,
+                            color = { fg = "#a6e3a1", gui = "bold" },
+                            separator = { left = " ", right = "" },
+                            padding = { left = 1, right = 1 },
+                        },
                         {
                             "diagnostics",
                             sources = { "nvim_diagnostic" },
                             symbols = { error = " ", warn = " ", info = " ", hint = " " },
+                            separator = { left = " ", right = "" },
+                            padding = { left = 1, right = 1 },
                         },
                         {
-                            function()
-                                local clients = vim.lsp.get_clients({ bufnr = 0 })
-                                if #clients == 0 then
-                                    return ""
-                                end
-                                local names = {}
-                                for _, client in ipairs(clients) do
-                                    table.insert(names, client.name)
-                                end
-                                return "  " .. table.concat(names, ", ")
-                            end,
-                            color = { fg = "#8aadf4", gui = "bold" },
+                            lsp_status,
+                            color = { fg = "#89b4fa", gui = "bold" },
+                            separator = { left = " ", right = "" },
+                            padding = { left = 1, right = 1 },
                         },
-                        "searchcount",
-                        "filetype",
                     },
-                    lualine_y = { "progress", "fileencoding" },
+                    lualine_y = {
+                        {
+                            "filetype",
+                            icon_only = false,
+                            separator = { left = " ", right = "" },
+                            padding = { left = 1, right = 1 },
+                        },
+                    },
                     lualine_z = {
-                        { "location", separator = { right = "" }, padding = { left = 2, right = 0 } },
+                        {
+                            "location",
+                            separator = { left = " ", right = "" },
+                            padding = { left = 1, right = 1 },
+                        },
                     },
                 },
                 inactive_sections = {
@@ -172,43 +223,6 @@ return {
                     lualine_b = {},
                     lualine_c = { "filename" },
                     lualine_x = { "location" },
-                    lualine_y = {},
-                    lualine_z = {},
-                },
-                winbar = {
-                    lualine_a = {},
-                    lualine_b = {},
-                    lualine_c = {
-                        {
-                            "filename",
-                            path = 1,
-                            file_status = false,
-                            newfile_status = false,
-                        },
-                        {
-                            navic_component,
-                            cond = function()
-                                local ok, navic = pcall(require, "nvim-navic")
-                                return ok and navic.is_available()
-                            end,
-                        },
-                    },
-                    lualine_x = {},
-                    lualine_y = {},
-                    lualine_z = {},
-                },
-                inactive_winbar = {
-                    lualine_a = {},
-                    lualine_b = {},
-                    lualine_c = {
-                        {
-                            "filename",
-                            path = 1,
-                            file_status = false,
-                            newfile_status = false,
-                        },
-                    },
-                    lualine_x = {},
                     lualine_y = {},
                     lualine_z = {},
                 },

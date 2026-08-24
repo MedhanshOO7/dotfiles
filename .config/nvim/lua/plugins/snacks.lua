@@ -98,6 +98,15 @@ return {
         indent = {
             enabled = true,
             char = "│",
+            animate = {
+                enabled = true,
+                style = "out",
+                easing = "linear",
+                duration = {
+                    step = 20,
+                    total = 250,
+                },
+            },
             scope = {
                 enabled = true,
                 underline = false,
@@ -123,11 +132,17 @@ return {
         picker = {
             enabled = true,
             ui_select = true,
+            layout = {
+                preset = "telescope",
+            },
             sources = {
                 files = {
                     hidden = true,
                 },
                 grep = {
+                    hidden = true,
+                },
+                smart = {
                     hidden = true,
                 },
                 explorer = {

@@ -18,8 +18,10 @@ opt.cmdheight      = 1     -- command bar height
 opt.laststatus     = 3     -- single statusline across all windows
 opt.showtabline    = 2     -- keep the bufferline visible as a stable navigation rail
 if vim.fn.has("nvim-0.11") == 1 then
-    opt.winborder  = "rounded" -- use a consistent premium border for native floats
+    opt.winborder      = "rounded" -- use a consistent premium border for native floats
 end
+opt.mousemoveevent     = true      -- enable mouse move events for interactive breadcrumbs and hover
+opt.guicursor          = "n-v-c-sm:block-Cursor/lCursor,i-ci-ve:ver25-InsertCursor/lCursor,r-cr-o:hor20-ReplaceCursor/lCursor"
 
 -- ── Indentation ─────────────────────────────────────────────
 opt.expandtab      = true -- convert tabs → spaces
@@ -52,7 +54,7 @@ opt.confirm        = true                               -- prompt before losing 
 -- ── Completion & menus ──────────────────────────────────────
 opt.completeopt    = { "menuone", "noselect" } -- nvim-cmp friendly
 opt.pumheight      = 10                        -- max items in popup menu
-opt.pumblend       = 8                         -- soften popup edges without hurting contrast
+opt.pumblend       = 0                         -- crisp float edges matching theme background
 opt.shortmess:append("c")                      -- suppress completion messages
 opt.updatetime     = 250                       -- snappier diagnostics and git updates
 opt.timeoutlen     = 300                       -- faster which-key popup and mappings

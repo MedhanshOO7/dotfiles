@@ -36,7 +36,7 @@ return {
             mode = "virtualtext",
             tailwind = true,
             sass = { enable = true, parsers = { css = true } },
-            virtualtext = "██",
+            virtualtext = "󰝤 ",
             always_update = true,
         },
     },

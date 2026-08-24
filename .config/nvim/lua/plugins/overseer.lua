@@ -9,7 +9,7 @@ return {
     },
     config = function()
         require("overseer").setup({
-            strategy = "toggleterm",
+            strategy = "terminal",
             task_list = {
                 direction = "bottom",
                 min_height = 10,
@@ -36,6 +36,8 @@ return {
                     return nil
                 end
 
+                pcall(vim.cmd, "silent! write")
+
                 local file = vim.fn.expand("%:p")
                 local dir = vim.fn.expand("%:p:h")
                 local exe = vim.fn.expand("%:p:r")
@@ -51,12 +53,11 @@ return {
                 )
 
                 return {
-                    cmd = vim.o.shell,
-                    args = { vim.o.shellcmdflag, command },
+                    cmd = { "sh", "-c", command },
                     cwd = dir,
                     components = {
                         { "default" },
-                        { "open_output", direction = "float", focus = true, on_start = "always", on_complete = "failure" },
+                        { "open_output", direction = "float", focus = true, on_start = "always", on_complete = "always" },
                     },
                 }
             end,
@@ -72,13 +73,14 @@ return {
                     return nil
                 end
 
+                pcall(vim.cmd, "silent! write")
+
                 return {
-                    cmd = "python3",
-                    args = { vim.fn.expand("%:p") },
+                    cmd = { "python3", vim.fn.expand("%:p") },
                     cwd = vim.fn.expand("%:p:h"),
                     components = {
                         { "default" },
-                        { "open_output", direction = "float", focus = true, on_start = "always", on_complete = "failure" },
+                        { "open_output", direction = "float", focus = true, on_start = "always", on_complete = "always" },
                     },
                 }
             end,
@@ -94,21 +96,30 @@ return {
                     return nil
                 end
 
+                pcall(vim.cmd, "silent! write")
                 local shell = vim.bo.filetype == "zsh" and "zsh" or "bash"
 
                 return {
-                    cmd = shell,
-                    args = { vim.fn.expand("%:p") },
+                    cmd = { shell, vim.fn.expand("%:p") },
                     cwd = vim.fn.expand("%:p:h"),
                     components = {
                         { "default" },
-                        { "open_output", direction = "float", focus = true, on_start = "always", on_complete = "failure" },
+                        { "open_output", direction = "float", focus = true, on_start = "always", on_complete = "always" },
                     },
                 }
             end,
             condition = {
                 filetype = { "sh", "bash", "zsh" },
             },
+        })
+
+        vim.api.nvim_create_autocmd("FileType", {
+            group = vim.api.nvim_create_augroup("OverseerBufferKeymaps", { clear = true }),
+            pattern = { "OverseerList", "OverseerOutput", "overseer" },
+            callback = function(event)
+                vim.keymap.set("n", "q", "<Cmd>close<CR>", { buffer = event.buf, silent = true, desc = "Close Overseer window" })
+                vim.keymap.set("n", "<Esc>", "<Cmd>close<CR>", { buffer = event.buf, silent = true, desc = "Close Overseer window" })
+            end,
         })
     end,
 }
