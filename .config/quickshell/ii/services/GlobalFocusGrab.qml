@@ -52,17 +52,16 @@ Singleton {
         }
     }
 
-    function hasActive(element) {
-        return element?.activeFocus || Array.from(
-            element?.children
-        ).some(
-            (child) => hasActive(child)
-        );
+    function hasActive(window) {
+        if (!window) return false;
+        if (window.activeFocusItem !== undefined && window.activeFocusItem !== null) return true;
+        if (window.contentItem && window.contentItem.activeFocus) return true;
+        return window.activeFocus ?? false;
     }
 
     HyprlandFocusGrab {
         id: grab
-        windows: root.dismissable.every(w => !w?.focusable) || root.dismissable.some(w => hasActive(w?.contentItem)) ? [...root.dismissable, ...root.persistent] : [...root.dismissable]
+        windows: root.dismissable.every(w => !w?.focusable) || root.dismissable.some(w => hasActive(w)) ? [...root.dismissable, ...root.persistent] : [...root.dismissable]
         active: root.dismissable.length > 0
         onCleared: () => {
             root.dismiss();

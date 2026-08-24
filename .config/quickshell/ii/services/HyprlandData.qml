@@ -83,13 +83,20 @@ Singleton {
         updateAll();
     }
 
+    Timer {
+        id: debounceUpdateTimer
+        interval: 60
+        repeat: false
+        onTriggered: root.updateAll()
+    }
+
     Connections {
         target: Hyprland
 
         function onRawEvent(event) {
             // console.log("Hyprland raw event:", event.name);
             if (["openlayer", "closelayer", "screencast"].includes(event.name)) return;
-            updateAll()
+            debounceUpdateTimer.restart();
         }
     }
 

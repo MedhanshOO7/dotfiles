@@ -152,15 +152,7 @@ Item {
         Item {
             Layout.fillWidth: true
             Layout.fillHeight: true
-
-            layer.enabled: true
-            layer.effect: OpacityMask {
-                maskSource: Rectangle {
-                    width: swipeView.width
-                    height: swipeView.height
-                    radius: Appearance.rounding.small
-                }
-            }
+            clip: true
 
             ScrollEdgeFade {
                 z: 1

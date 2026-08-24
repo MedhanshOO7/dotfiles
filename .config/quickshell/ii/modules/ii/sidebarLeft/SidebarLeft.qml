@@ -58,14 +58,36 @@ Scope { // Scope
         else root.pin = !root.pin;
     }
 
+    function ensureContentCreated() {
+        if (!root.sidebarContent) {
+            root.sidebarContent = contentComponent.createObject(null, {
+                "scopeRoot": root,
+            });
+            if (root.detach && detachedSidebarLoader.item) {
+                detachedSidebarLoader.item.contentParent.children = [root.sidebarContent];
+            } else if (sidebarLoader.item) {
+                sidebarLoader.item.contentParent.children = [root.sidebarContent];
+            }
+        }
+    }
+
+    Connections {
+        target: GlobalStates
+        function onSidebarLeftOpenChanged() {
+            if (GlobalStates.sidebarLeftOpen) {
+                root.ensureContentCreated();
+            }
+        }
+    }
+
     Component.onCompleted: {
-        root.sidebarContent = contentComponent.createObject(null, {
-            "scopeRoot": root,
-        });
-        sidebarLoader.item.contentParent.children = [root.sidebarContent];
+        if (GlobalStates.sidebarLeftOpen || Config?.options.sidebar.keepRightSidebarLoaded) {
+            root.ensureContentCreated();
+        }
     }
 
     onDetachChanged: {
+        root.ensureContentCreated();
         if (root.detach) {
             GlobalFocusGrab.removeDismissable(sidebarLoader.item) // Remove sidebar from the focus grab system
             sidebarContent.parent = null; // Detach content from sidebar
