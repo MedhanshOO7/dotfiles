@@ -5,6 +5,6 @@
 pkill -f -9 mpvpaper
 
 for monitor in $(hyprctl monitors -j | jq -r '.[] | .name'); do
-    mpvpaper -o "no-audio loop hwdec=auto really-quiet panscan=1.0 load-scripts=no" "$monitor" "/home/medhansh/Pictures/wallpapers/animated/characters/barts-sunset-road-trip-adventure-vibes-live-wallpaper-wallsflow-com.mp4" &
+    mpvpaper -p -o "no-audio loop hwdec=auto-safe really-quiet panscan=1.0 scale=bilinear cscale=bilinear dscale=bilinear correct-downscaling=no sigmoid-upscaling=no load-scripts=no no-sub no-osd-bar osd-level=0 stop-screensaver=no framedrop=vo" "$monitor" "/home/medhansh/Pictures/wallpapers/animated/characters/barts-sunset-road-trip-adventure-vibes-live-wallpaper-wallsflow-com.mp4" &
     sleep 0.1
 done
