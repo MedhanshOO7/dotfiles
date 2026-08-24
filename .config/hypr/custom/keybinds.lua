@@ -137,6 +137,7 @@ end
 hl.bind("SUPER + SHIFT + E", hl.dsp.exec_cmd([[easyeffects]]))
 hl.bind("SUPER + SHIFT + V", hl.dsp.exec_cmd([[pavucontrol]]))
 hl.bind("SUPER + SHIFT + U", hl.dsp.exec_cmd([[~/.local/bin/toggle-audio]]))
+hl.bind("SUPER + ALT + U", hl.dsp.exec_cmd([[~/.local/bin/toggle-audio --menu]]))
 
 hl.unbind("SUPER + SHIFT + S")
 
