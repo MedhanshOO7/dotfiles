@@ -39,6 +39,21 @@ hl.window_rule({
     no_blur = true,
 })
 
+-- HyprVox Vocabulary & Dictionary Editor
+hl.window_rule({
+    match = { class = "^(hyprvox-dictionary)$" },
+    float = true,
+    center = true,
+    size = { "monitor_w*0.42", "monitor_h*0.48" },
+    no_blur = false,
+})
+hl.window_rule({
+    match = { title = "^(HyprVox Dictionary)$" },
+    float = true,
+    center = true,
+    size = { "monitor_w*0.42", "monitor_h*0.48" },
+})
+
 -- nautilus
 hl.window_rule({
     match = { class = "org.gnome.Nautilus" },
