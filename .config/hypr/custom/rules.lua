@@ -44,14 +44,17 @@ hl.window_rule({
     match = { class = "^(hyprvox-dictionary)$" },
     float = true,
     center = true,
-    size = { "monitor_w*0.42", "monitor_h*0.48" },
+    size = { "monitor_w*0.44", "monitor_h*0.50" },
     no_blur = false,
+    opacity = 0.94,
 })
 hl.window_rule({
     match = { title = "^(HyprVox Dictionary)$" },
     float = true,
     center = true,
-    size = { "monitor_w*0.42", "monitor_h*0.48" },
+    size = { "monitor_w*0.44", "monitor_h*0.50" },
+    no_blur = false,
+    opacity = 0.94,
 })
 
 -- nautilus
