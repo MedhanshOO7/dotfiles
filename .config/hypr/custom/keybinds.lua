@@ -153,5 +153,8 @@ hl.bind("SUPER + SHIFT + comma", hl.dsp.exec_cmd("hyprctl dispatch movewindowmon
 hl.bind("SUPER + SHIFT + period", hl.dsp.exec_cmd("hyprctl dispatch movewindowmon +1"), { description = "Window: Move to next monitor" })
 hl.bind("SUPER + ALT + M", hl.dsp.exec_cmd("hyprctl dispatch swapactiveworkspaces eDP-1 HDMI-A-1"), { description = "Workspaces: Swap active workspaces across monitors" })
 
+-- ##! Voice Dictation (RTX 4050 CUDA Whisper)
+hl.bind("SUPER + H", hl.dsp.exec_cmd("~/.local/bin/whisper-dictate"), { description = "Voice: Toggle AI voice dictation" })
+
 
 
