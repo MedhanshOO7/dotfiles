@@ -23,6 +23,14 @@ hl.layer_rule({
     blur = true,
 })
 
+-- whisper-overlay (Voice Dictation Floating Pill)
+hl.layer_rule({
+    match = { namespace = "whisper-overlay" },
+    blur = true,
+    ignore_alpha = 0.1,
+    animation = "slide bottom",
+})
+
 -- ######## Window rules ########
 
 -- Disable blur for all xwayland apps:
