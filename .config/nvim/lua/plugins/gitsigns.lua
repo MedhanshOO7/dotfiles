@@ -1,6 +1,6 @@
 return {
     "lewis6991/gitsigns.nvim",
-    event = { "BufReadPre", "BufNewFile" },
+    event = "VeryLazy",
     config = function()
         require("gitsigns").setup({
             signs = {
@@ -12,7 +12,7 @@ return {
                 untracked = { text = "┆" },
             },
             attach_to_untracked = true,
-            current_line_blame = true,
+            current_line_blame = false,
             current_line_blame_opts = {
                 virt_text = true,
                 virt_text_pos = "eol",
@@ -21,7 +21,7 @@ return {
             },
             current_line_blame_formatter = "   󰊢 <author>, <author_time:%Y-%m-%d> · <summary>",
             sign_priority = 6,
-            update_debounce = 100,
+            update_debounce = 250,
             preview_config = {
                 border = "rounded",
                 style = "minimal",

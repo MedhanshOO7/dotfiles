@@ -13,7 +13,6 @@ return {
 
         require("toggleterm").setup({
             size = terminal_size,
-            open_mapping = [[<C-`>]],
             hide_numbers = true,
             direction = "float",
             start_in_insert = true,
@@ -95,6 +94,11 @@ return {
         vim.api.nvim_create_user_command("TerminalSelect", function()
             vim.cmd("TermSelect")
         end, { desc = "Pick from open terminals" })
+
+        local ok_ts, term_style = pcall(require, "utils.terminal_style")
+        if ok_ts then
+            term_style.setup()
+        end
 
         vim.api.nvim_create_autocmd("TermOpen", {
             group = vim.api.nvim_create_augroup("editing_terminal_keymaps", { clear = true }),

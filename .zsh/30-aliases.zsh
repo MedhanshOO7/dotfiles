@@ -23,7 +23,7 @@ alias vpn='protonvpn'
 alias vpnc='protonvpn connect'
 alias vpndc='protonvpn disconnect'
 
-#man 
+#man
 alias man='batman'
 
 #zoxide
@@ -34,7 +34,7 @@ alias cdi='zi'
 
 #yt-dlp
 
-#video Downloading 
+#video Downloading
 alias ytv='yt-dlp \
 -f "bv*+ba/b" \
 --embed-metadata \
@@ -76,7 +76,7 @@ alias yts='yt-dlp \
 --convert-thumbnails jpg \
 -o "%(title)s.%(ext)s"'
 
-# audio downloading 
+# audio downloading
 alias yta='yt-dlp \
 -f bestaudio \
 -x \
@@ -109,3 +109,5 @@ source "${0:A:h}/100-setting.zsh"
 alias guide='~/.predatorThings | less -R'
 
 alias todo=\"/home/medhansh/.conky/todo/todo.sh\"
+
+alias report-tool="/home/medhansh/Downloads/Sem\ -\ III/Semester\ -\ III/report-tool/report-tool"

@@ -2,7 +2,7 @@ return {
     {
         "zbirenbaum/copilot.lua",
         cmd = "Copilot",
-        event = { "BufReadPre", "BufNewFile" },
+        event = "VeryLazy",
         opts = {
             panel = {
                 enabled = true,
@@ -35,7 +35,7 @@ return {
             filetypes = {
                 ["*"] = true,
                 yaml = false,
-                markdown = true,
+                markdown = false,
                 help = false,
                 gitcommit = true,
                 gitrebase = true,
@@ -53,7 +53,9 @@ return {
         keys = {
             { "<leader>Cp", "<cmd>Copilot panel<cr>", desc = "Copilot: Open Panel" },
             { "<leader>Cs", "<cmd>Copilot status<cr>", desc = "Copilot: Status" },
+            { "<leader>Cd", "<cmd>CopilotToggle<cr>", desc = "Copilot: Disable / Toggle Engine" },
             { "<leader>Cx", "<cmd>CopilotToggle<cr>", desc = "Copilot: Toggle Engine" },
+            { "<leader>uC", "<cmd>CopilotToggle<cr>", desc = "Toggle Copilot AI Engine" },
             { "<leader>Ca", "<cmd>Copilot auth<cr>", desc = "Copilot: Authenticate" },
             {
                 "<M-\\>",
@@ -86,6 +88,11 @@ return {
             local function toggle_copilot()
                 local client = require("copilot.client")
                 if client.is_disabled() then
+                    -- Stop Supermaven before enabling Copilot to avoid dual ghost-text
+                    pcall(function()
+                        local sm_api = require("supermaven-nvim.api")
+                        if sm_api.is_running() then sm_api.stop() end
+                    end)
                     vim.cmd("Copilot enable")
                     vim.notify("Copilot Engine ENABLED 󱐌", vim.log.levels.INFO, { title = "Copilot" })
                 else
@@ -121,7 +128,7 @@ return {
     {
         "CopilotC-Nvim/CopilotChat.nvim",
         branch = "main",
-        build = "make tiktoken",
+        build = vim.fn.executable("make") == 1 and "make tiktoken" or nil,
         cmd = {
             "CopilotChat",
             "CopilotChatToggle",
@@ -309,9 +316,9 @@ Cover:
             },
             tools = "copilot",
             trusted_tools = { "file", "glob", "grep", "gitdiff", "buffer" },
-            sticky = { "@copilot", "#buffer:listed" },
+            sticky = { "@copilot" },
             show_folds = false,
-            auto_insert_mode = true,
+            auto_insert_mode = false,
             insert_at_end = true,
             window = {
                 layout = "vertical",

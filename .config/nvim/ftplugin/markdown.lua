@@ -25,6 +25,11 @@ vim.keymap.set("n", "k",  "gk", { buffer = true, silent = true })
 vim.keymap.set("n", "0",  "g0", { buffer = true, silent = true })
 vim.keymap.set("n", "$",  "g$", { buffer = true, silent = true })
 
+-- Report Tool
+vim.keymap.set("n", "<leader>Rb", "<cmd>ReportBuild<CR>",   { buffer = true, silent = true, desc = "Report: Build DOCX & PDF" })
+vim.keymap.set("n", "<leader>Rp", "<cmd>ReportPreview<CR>", { buffer = true, silent = true, desc = "Report: Build & Preview PDF" })
+vim.keymap.set("n", "<leader>Ri", "<cmd>ReportInit<CR>",    { buffer = true, silent = true, desc = "Report: Scaffold new template" })
+
 vim.b.undo_ftplugin = (vim.b.undo_ftplugin or "")
     .. "\nsetlocal textwidth< wrap< linebreak< breakindent< spell< spelllang< conceallevel< number< relativenumber<"
     .. " expandtab< shiftwidth< tabstop< softtabstop< colorcolumn< formatoptions<"

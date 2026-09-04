@@ -132,13 +132,10 @@ end
 -- When transparency is enabled, floating windows receive a subtle background
 -- to create a "frosted glass" look against the terminal's background.
 local function get_glass_bg(normal_bg, normal_fg, transparent)
-    if not transparent then
-        -- Default subtle blend for opaque mode
-        return blend(normal_fg, normal_bg, 0.06)
+    if transparent then
+        return "NONE"
     end
-    -- In transparent mode, we use a very dark, slightly opaque color
-    -- This works best if the terminal (Kitty) has blur enabled.
-    return blend("#000000", normal_bg, 0.4)
+    return blend(normal_fg, normal_bg, 0.06)
 end
 
 local function hl_hex(name, key, fallback)
@@ -230,6 +227,15 @@ local function set_transparent_highlights(enabled)
         "SnacksPickerList",
         "SnacksPickerInput",
         "SnacksPickerBox",
+        "InclineNormal",
+        "InclineNormalNC",
+        "NoiceCmdlinePopup",
+        "NoiceCmdlinePopupBorder",
+        "NoicePopup",
+        "NoicePopupBorder",
+        "SnacksInputNormal",
+        "SnacksInputBorder",
+        "SnacksBackdrop",
     }
 
     for _, group in ipairs(groups) do
@@ -265,10 +271,10 @@ local function apply_editor_chrome(transparent)
     end
 
     local float_bg = get_glass_bg(normal_bg, normal_fg, transparent)
-    local float_border = blend(accent, normal_bg, 0.45)
+    local float_border = blend(accent, normal_bg, 0.60)
     local sidebar_bg = transparent and "NONE" or blend(normal_fg, normal_bg, 0.04)
     local accent_bg = transparent and "NONE" or blend(accent, normal_bg, 0.12)
-    local soft_edge = blend(comment, normal_bg, 0.45)
+    local soft_edge = blend(comment, normal_bg, 0.60)
 
     local highlights = {
         -- ── Editor chrome ─────────────────────────────────────────────────────
@@ -279,8 +285,10 @@ local function apply_editor_chrome(transparent)
         Search = { fg = normal_fg, bg = blend(warning, normal_bg, 0.26) },
         IncSearch = { fg = normal_fg, bg = blend(danger, normal_bg, 0.30) },
         CurSearch = { fg = normal_fg, bg = blend(danger, normal_bg, 0.30), bold = true },
-        StatusLine = { fg = normal_fg, bg = sidebar_bg },
-        StatusLineNC = { fg = comment, bg = sidebar_bg },
+        StatusLine = { fg = normal_fg, bg = "NONE" },
+        StatusLineNC = { fg = comment, bg = "NONE" },
+        InclineNormal = { bg = "NONE" },
+        InclineNormalNC = { bg = "NONE" },
 
         -- ── Completion menu & AI Ghost Text ────────────────────────────────────
         Pmenu = { fg = normal_fg, bg = float_bg },
@@ -288,13 +296,13 @@ local function apply_editor_chrome(transparent)
         PmenuSbar = { bg = blend(comment, normal_bg, 0.18) },
         PmenuThumb = { bg = blend(accent, normal_bg, 0.42) },
         CopilotSuggestion = { fg = blend(comment, normal_bg, 0.65), italic = true },
-        CopilotAnnotation = { fg = blend(comment, normal_bg, 0.45), italic = true },
+        CopilotAnnotation = { fg = blend(comment, normal_bg, 0.60), italic = true },
         SupermavenSuggestion = { fg = blend(comment, normal_bg, 0.65), italic = true },
 
         -- ── Floating windows ──────────────────────────────────────────────────
         NormalFloat = { fg = normal_fg, bg = float_bg },
-        FloatBorder = { fg = float_border, bg = float_bg },
-        FloatTitle = { fg = accent, bg = float_bg, bold = true },
+        FloatBorder = { fg = float_border, bg = "NONE" },
+        FloatTitle = { fg = accent, bg = "NONE", bold = true },
         WinSeparator = { fg = soft_edge, bg = transparent and "NONE" or normal_bg },
 
         -- ── Bufferline / tabline ──────────────────────────────────────────────
@@ -372,11 +380,16 @@ local function apply_editor_chrome(transparent)
         NoiceCmdlineIcon = { fg = accent },
         NoiceCmdlineIconSearch = { fg = warning },
         NoiceCmdlinePopup = { fg = normal_fg, bg = float_bg },
-        NoiceCmdlinePopupBorder = { fg = float_border, bg = float_bg },
+        NoiceCmdlinePopupBorder = { fg = accent, bg = "NONE" },
+        NoiceCmdlinePopupTitle = { fg = accent, bg = "NONE", bold = true },
         NoicePopup = { fg = normal_fg, bg = float_bg },
-        NoicePopupBorder = { fg = float_border, bg = float_bg },
+        NoicePopupBorder = { fg = accent, bg = "NONE" },
         NoiceConfirm = { fg = normal_fg, bg = float_bg },
-        NoiceConfirmBorder = { fg = float_border, bg = float_bg },
+        NoiceConfirmBorder = { fg = accent, bg = "NONE" },
+        NoicePopupmenu = { fg = normal_fg, bg = float_bg },
+        NoicePopupmenuBorder = { fg = accent, bg = "NONE" },
+        NoicePopupmenuSelected = { fg = normal_fg, bg = blend(accent, normal_bg, 0.20), bold = true },
+        NoicePopupmenuMatch = { fg = accent, bold = true },
 
         -- ── Which-key ─────────────────────────────────────────────────────────
         WhichKey = { fg = accent },
@@ -433,12 +446,12 @@ local function apply_editor_chrome(transparent)
         AlphaFooter = { fg = comment },
 
         -- ── Window labels ────────────────────────────────────────────────────
-        InclineNormal = { fg = normal_fg, bg = blend(accent, normal_bg, 0.14) },
-        InclineNormalNC = { fg = comment, bg = blend(comment, normal_bg, 0.12) },
+        InclineNormal = { bg = "NONE" },
+        InclineNormalNC = { bg = "NONE" },
 
         -- ── Aerial ────────────────────────────────────────────────────────────
         AerialLine = { bg = blend(accent, normal_bg, 0.12) },
-        AerialGuide = { fg = blend(comment, normal_bg, 0.45) },
+        AerialGuide = { fg = blend(comment, normal_bg, 0.60) },
         AerialNormal = { fg = normal_fg, bg = sidebar_bg },
 
         -- ── Overseer ──────────────────────────────────────────────────────────
@@ -507,6 +520,45 @@ local function apply_editor_chrome(transparent)
         DropBarMenuNormalFloat = { fg = normal_fg, bg = float_bg },
         DropBarMenuFloatBorder = { fg = float_border, bg = float_bg },
         DropBarMenuHoverEntry = { bg = blend(accent, normal_bg, 0.18), bold = true },
+
+        -- ── Snacks Notifier (Frosted Glass Toasts) ───────────────────────────
+        SnacksNotifierInfo = { fg = normal_fg, bg = blend(accent, normal_bg, 0.16) },
+        SnacksNotifierWarn = { fg = normal_fg, bg = blend(warning, normal_bg, 0.16) },
+        SnacksNotifierError = { fg = normal_fg, bg = blend(danger, normal_bg, 0.18) },
+        SnacksNotifierDebug = { fg = normal_fg, bg = blend(accent_alt, normal_bg, 0.14) },
+        SnacksNotifierTrace = { fg = normal_fg, bg = blend(comment, normal_bg, 0.14) },
+
+        SnacksNotifierBorderInfo = { fg = accent, bg = blend(accent, normal_bg, 0.16) },
+        SnacksNotifierBorderWarn = { fg = warning, bg = blend(warning, normal_bg, 0.16) },
+        SnacksNotifierBorderError = { fg = danger, bg = blend(danger, normal_bg, 0.18) },
+        SnacksNotifierBorderDebug = { fg = accent_alt, bg = blend(accent_alt, normal_bg, 0.14) },
+        SnacksNotifierBorderTrace = { fg = comment, bg = blend(comment, normal_bg, 0.14) },
+
+        SnacksNotifierTitleInfo = { fg = accent, bg = blend(accent, normal_bg, 0.16), bold = true },
+        SnacksNotifierTitleWarn = { fg = warning, bg = blend(warning, normal_bg, 0.16), bold = true },
+        SnacksNotifierTitleError = { fg = danger, bg = blend(danger, normal_bg, 0.18), bold = true },
+        SnacksNotifierTitleDebug = { fg = accent_alt, bg = blend(accent_alt, normal_bg, 0.14), bold = true },
+        SnacksNotifierTitleTrace = { fg = comment, bg = blend(comment, normal_bg, 0.14), bold = true },
+
+        SnacksNotifierIconInfo = { fg = accent, bg = blend(accent, normal_bg, 0.16) },
+        SnacksNotifierIconWarn = { fg = warning, bg = blend(warning, normal_bg, 0.16) },
+        SnacksNotifierIconError = { fg = danger, bg = blend(danger, normal_bg, 0.18) },
+        SnacksNotifierIconDebug = { fg = accent_alt, bg = blend(accent_alt, normal_bg, 0.14) },
+        SnacksNotifierIconTrace = { fg = comment, bg = blend(comment, normal_bg, 0.14) },
+
+        SnacksNotifierFooterInfo = { fg = comment, bg = blend(accent, normal_bg, 0.16) },
+        SnacksNotifierFooterWarn = { fg = comment, bg = blend(warning, normal_bg, 0.16) },
+        SnacksNotifierFooterError = { fg = comment, bg = blend(danger, normal_bg, 0.18) },
+
+        SnacksNotifierHistory = { fg = normal_fg, bg = float_bg },
+
+        -- ── Snacks Input (Floating Input Dialogs) ────────────────────────────
+        SnacksInputNormal = { fg = normal_fg, bg = float_bg },
+        SnacksInputBorder = { fg = accent, bg = "NONE" },
+        SnacksInputTitle = { fg = accent, bg = "NONE", bold = true },
+        SnacksInputPrompt = { fg = accent_alt, bold = true },
+        SnacksInputIcon = { fg = accent },
+        SnacksBackdrop = { bg = "NONE" },
 
         -- ── Completion item kinds ─────────────────────────────────────────────
         CmpItemKindFunction = { fg = accent },
@@ -752,26 +804,107 @@ function M.toggle_transparency()
 end
 
 function M.select()
-    vim.ui.select({ "Dark Themes", "Light Themes" }, {
-        prompt = "Select Category",
-    }, function(category)
-        if not category then return end
+    local ok, snacks = pcall(require, "snacks")
+    local initial_theme = vim.g.preferred_theme or M.default_theme
+    local confirmed = false
+    local preview_timer = vim.uv.new_timer()
 
-        local theme_list = category == "Dark Themes" and M.dark_themes or M.light_themes
-        
-        vim.ui.select(theme_list, {
-            prompt = "Choose " .. category:lower(),
-            format_item = function(item)
-                if item == M.default_theme then
-                    return item .. " (default)"
-                end
-                return item
-            end,
-        }, function(choice)
-            if choice then
-                M.apply(choice)
+    local items = {}
+    for _, t in ipairs(M.dark_themes) do
+        local is_def = (t == M.default_theme)
+        table.insert(items, {
+            text = t,
+            category = "Dark",
+            is_default = is_def,
+            theme = t,
+        })
+    end
+    for _, t in ipairs(M.light_themes) do
+        local is_def = (t == M.default_theme)
+        table.insert(items, {
+            text = t,
+            category = "Light",
+            is_default = is_def,
+            theme = t,
+        })
+    end
+
+    local function preview_theme(name)
+        if not name then return end
+        if preview_timer then preview_timer:stop() end
+        -- 35ms debounce makes rapid j/k scrolling silky smooth without any UI lag
+        preview_timer:start(35, 0, vim.schedule_wrap(function()
+            if not confirmed and name then
+                apply_theme(name, vim.g.preferred_transparent == true)
+                pcall(function() require("incline").refresh() end)
+                pcall(function()
+                    vim.api.nvim_exec_autocmds("ColorScheme", { pattern = "*" })
+                end)
             end
-        end)
+        end))
+    end
+
+    if ok and snacks.picker then
+        snacks.picker.pick({
+            title = " Colorscheme (Live Preview) ",
+            items = items,
+            format = function(item, picker)
+                local ret = {}
+                if item.category == "Dark" then
+                    table.insert(ret, { "󰖔 ", "Directory" })
+                else
+                    table.insert(ret, { "󰖙 ", "DiagnosticWarn" })
+                end
+                table.insert(ret, { string.format("%-22s", item.text), item.is_default and "Function" or "Normal" })
+                table.insert(ret, { " [" .. item.category .. "]", "Comment" })
+                if item.is_default then
+                    table.insert(ret, { " (default)", "Special" })
+                end
+                return ret
+            end,
+            layout = {
+                preset = "select",
+                preview = false, -- Single panel (NO side preview box!)
+                width = 0.58,    -- Clean 58-60% width
+                min_width = 45,
+                height = 0.60,
+            },
+            on_change = function(picker, item)
+                if item and item.theme then
+                    preview_theme(item.theme)
+                end
+            end,
+            confirm = function(picker, item)
+                confirmed = true
+                if preview_timer then preview_timer:stop() end
+                picker:close()
+                if item and item.theme then
+                    vim.schedule(function()
+                        M.apply(item.theme)
+                    end)
+                end
+            end,
+            on_close = function()
+                if preview_timer then preview_timer:stop() end
+                if not confirmed then
+                    pcall(M.apply, initial_theme)
+                end
+            end,
+        })
+        return
+    end
+
+    vim.ui.select(items, {
+        prompt = "Select Colorscheme",
+        format_item = function(item)
+            local icon = item.category == "Dark" and "󰖔 " or "󰖙 "
+            local def_str = item.is_default and " (default)" or ""
+            return string.format("%s %-22s [%s]%s", icon, item.text, item.category, def_str)
+        end,
+    }, function(choice)
+        if choice and choice.theme then
+            M.apply(choice.theme)
+        end
     end)
 end
 

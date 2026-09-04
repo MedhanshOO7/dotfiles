@@ -8,6 +8,9 @@ local image_enabled = image_backend ~= "none"
 
 local function jupytext_bin()
     local local_bin = vim.fn.expand("~/.venvs/neovim/bin/jupytext")
+    if vim.fn.executable(local_bin) ~= 1 then
+        local_bin = vim.fn.expand("~/.venvs/neovim/Scripts/jupytext.exe")
+    end
     if vim.fn.executable(local_bin) == 1 then
         return local_bin
     end
@@ -118,6 +121,7 @@ end
 return {
     {
         "3rd/image.nvim",
+        ft = { "markdown", "norg" },
         enabled = image_enabled,
         opts = function()
             return {
@@ -141,7 +145,7 @@ return {
     {
         "benlubas/molten-nvim",
         build = ":UpdateRemotePlugins",
-        event = { "BufReadPost", "BufNewFile" },
+        ft = { "python", "jupyter" },
         cmd = {
             "MoltenInit",
             "MoltenEvaluateOperator",

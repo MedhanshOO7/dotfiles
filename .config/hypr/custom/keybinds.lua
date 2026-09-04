@@ -157,5 +157,9 @@ hl.bind("SUPER + ALT + M", hl.dsp.exec_cmd("hyprctl dispatch swapactiveworkspace
 hl.bind("SUPER + H", hl.dsp.exec_cmd("~/.local/bin/whisper-dictate"), { description = "Voice: Toggle AI voice dictation" })
 hl.bind("SUPER + SHIFT + H", hl.dsp.exec_cmd("~/.local/bin/whisper-dictate --dict"), { description = "Voice: Edit vocabulary and dictionary" })
 
+-- ##! Battery Saver Club (Unified Power Profile Toggle)
+hl.bind("SUPER + ALT + P", hl.dsp.exec_cmd("bash ~/.config/hypr/custom/scripts/power_saver_toggle.sh"), { description = "Power: Toggle Battery Saver mode (blur, video wallpaper, EPP)" })
+
+
 
 

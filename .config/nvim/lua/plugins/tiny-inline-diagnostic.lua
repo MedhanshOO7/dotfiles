@@ -5,6 +5,15 @@ return {
     opts = {
         preset = "modern",
         transparent_bg = false,
+        signs = {
+            left = "",
+            right = "",
+            diag = "●",
+            arrow = "  ",
+            up_arrow = "  ",
+            vertical = " │",
+            vertical_end = " └",
+        },
         options = {
             show_source = true,
             use_icons_from_diagnostic = true,
@@ -17,6 +26,10 @@ return {
             enable_on_insert = false,
             overflow = {
                 mode = "wrap",
+            },
+            break_line = {
+                enabled = true,
+                after = 40,
             },
         },
     },

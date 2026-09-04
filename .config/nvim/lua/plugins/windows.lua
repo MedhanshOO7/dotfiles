@@ -1,18 +1,52 @@
 return {
-    "anuvyklack/windows.nvim",
-    dependencies = { "anuvyklack/middleclass", "anuvyklack/animation.nvim" },
-    event = "WinNew",
-    config = function()
-        vim.o.winwidth = 10
-        vim.o.winminwidth = 5
-        vim.o.equalalways = false
-        require("windows").setup({
-            animation = { duration = 150, fps = 60 },
-            autowidth = { enable = false },
-        })
-    end,
-    keys = {
-        { "<C-w>z", "<cmd>WindowsMaximize<cr>", desc = "Maximize Window" },
-        { "<C-w>=", "<cmd>WindowsEqualize<cr>", desc = "Equalize Windows" },
+    -- Clean, robust window management without deprecated middleclass/animation libs
+    {
+        "folke/snacks.nvim",
+        keys = {
+            {
+                "<C-w>z",
+                function()
+                    Snacks.zen.zoom()
+                end,
+                desc = "Maximize/Zoom Window",
+            },
+            {
+                "<C-w>=",
+                "<cmd>wincmd =<cr>",
+                desc = "Equalize Windows",
+            },
+            {
+                "<leader>wm",
+                function()
+                    Snacks.zen.zoom()
+                end,
+                desc = "Windows: Maximize / Zoom",
+            },
+            {
+                "<leader>w=",
+                "<cmd>wincmd =<cr>",
+                desc = "Windows: Equalize sizes",
+            },
+            {
+                "<leader>wh",
+                "<cmd>split<cr>",
+                desc = "Windows: Split horizontal",
+            },
+            {
+                "<leader>wv",
+                "<cmd>vsplit<cr>",
+                desc = "Windows: Split vertical",
+            },
+            {
+                "<leader>wc",
+                "<cmd>close<cr>",
+                desc = "Windows: Close current",
+            },
+            {
+                "<leader>wo",
+                "<cmd>only<cr>",
+                desc = "Windows: Close all others",
+            },
+        },
     },
 }

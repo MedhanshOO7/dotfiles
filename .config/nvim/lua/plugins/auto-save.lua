@@ -1,6 +1,6 @@
 return {
     "okuuva/auto-save.nvim",
-    event = { "BufReadPre", "BufNewFile" },
+    event = "VeryLazy",
     config = function()
         local autosave = require("auto-save")
 
@@ -10,24 +10,36 @@ return {
             enabled = true,
             debounce_delay = 1000,
             trigger_events = {
-                immediate_save = { "BufLeave", "FocusLost", "QuitPre", "VimSuspend" },
-                defer_save = { "TextChanged", "TextChangedI" },
+                immediate_save = { "BufLeave", "FocusLost" },
+                defer_save = { "InsertLeave", "TextChanged" },
                 cancel_deferred_save = { "InsertEnter" },
             },
             condition = function(buf)
+                if not vim.api.nvim_buf_is_valid(buf) then
+                    return false
+                end
+
                 local ignored_filetypes = {
                     "gitcommit",
                     "oil",
                     "toggleterm",
+                    "dbui",
+                    "dbout",
+                    "dadbod",
+                    "TelescopePrompt",
+                    "snacks_picker_input",
                 }
+
+                local ft = vim.bo[buf].filetype
+                local bt = vim.bo[buf].buftype
 
                 return vim.g.auto_save_enabled
                     and vim.b[buf].auto_save ~= false
-                    and vim.fn.getbufvar(buf, "&modifiable") == 1
-                    and vim.bo[buf].readonly == false
-                    and vim.bo[buf].buftype == ""
+                    and vim.bo[buf].modifiable
+                    and not vim.bo[buf].readonly
+                    and bt == ""
                     and vim.api.nvim_buf_get_name(buf) ~= ""
-                    and not vim.tbl_contains(ignored_filetypes, vim.bo[buf].filetype)
+                    and not vim.tbl_contains(ignored_filetypes, ft)
             end,
         })
 

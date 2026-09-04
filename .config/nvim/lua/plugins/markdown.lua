@@ -6,7 +6,7 @@ return {
         "nvim-treesitter/nvim-treesitter",
         "nvim-tree/nvim-web-devicons",
     },
-    ft = { "markdown", "markdown.mdx", "quarto", "rmd", "sql" },
+    ft = "markdown",
     init = function()
         local function resolve_group(groups)
             for _, group in ipairs(groups) do
@@ -78,48 +78,6 @@ return {
                 vim.api.nvim_set_hl(0, "RenderMarkdownCodeInline", { link = "ColorColumn" })
             end
 
-            vim.g.markdown_fenced_languages = {
-                "js=javascript",
-                "javascript",
-                "ts=typescript",
-                "typescript",
-                "tsx=typescript",
-                "jsx=javascript",
-                "py=python",
-                "python",
-                "sh=bash",
-                "bash",
-                "zsh=bash",
-                "rb=ruby",
-                "ruby",
-                "rs=rust",
-                "rust",
-                "golang=go",
-                "go",
-                "yml=yaml",
-                "yaml",
-                "json",
-                "jsonc",
-                "toml",
-                "html",
-                "css",
-                "c",
-                "cpp",
-                "c++=cpp",
-                "sql",
-                "mysql=sql",
-                "postgres=sql",
-                "postgresql=sql",
-                "psql=sql",
-                "sqlite=sql",
-                "dockerfile",
-                "docker=dockerfile",
-                "cmake",
-                "diff",
-                "vim",
-                "lua",
-            }
-
             vim.api.nvim_set_hl(0, "RenderMarkdownChecked", { link = "DiagnosticOk" })
             vim.api.nvim_set_hl(0, "RenderMarkdownUnchecked", { link = "DiagnosticHint" })
 
@@ -152,7 +110,7 @@ return {
     end,
 
     opts = {
-        render_modes = true,
+        render_modes = { "n", "c" },
 
         heading = {
             sign = false,
@@ -244,7 +202,7 @@ return {
     },
     {
         "ice345/markdown-table-wrap.nvim",
-        ft = { "markdown", "markdown.mdx", "quarto", "rmd", "sql" },
+        ft = "markdown",
         keys = {
             { "<leader>mTi", "<cmd>MarkdownTableToggleInline<cr>", desc = "Toggle Markdown Table Inline View" },
             { "<leader>mTr", "<cmd>MarkdownTableToggleReader<cr>", desc = "Toggle Markdown Table Reader" },
@@ -283,11 +241,34 @@ return {
             vim.g.mkdp_page_title = "「${name}」"
 
             vim.cmd([[
+                function! OpenMarkdownBrowser(url)
+                    let l:is_mac = has('mac') || has('macunix') || system('uname') =~? '^darwin'
+                    let l:is_win = has('win32') || has('win64')
+
+                    if executable('zen-browser')
+                        silent execute '!zen-browser ' . shellescape(a:url) . ' &'
+                    elseif executable('zen')
+                        silent execute '!zen ' . shellescape(a:url) . ' &'
+                    elseif l:is_mac
+                        if isdirectory('/Applications/Zen Browser.app')
+                            silent execute '!open -a "Zen Browser" ' . shellescape(a:url) . ' &'
+                        elseif isdirectory('/Applications/Zen.app')
+                            silent execute '!open -a "Zen" ' . shellescape(a:url) . ' &'
+                        else
+                            silent execute '!open ' . shellescape(a:url) . ' &'
+                        endif
+                    elseif l:is_win
+                        silent execute '!cmd.exe /c start "" ' . shellescape(a:url)
+                    elseif executable('xdg-open')
+                        silent execute '!xdg-open ' . shellescape(a:url) . ' &'
+                    endif
+                endfunction
+
                 function! OpenZenBrowser(url)
-                    silent execute '!zen-browser ' . shellescape(a:url) . ' &'
+                    call OpenMarkdownBrowser(a:url)
                 endfunction
             ]])
-            vim.g.mkdp_browserfunc = "OpenZenBrowser"
+            vim.g.mkdp_browserfunc = "OpenMarkdownBrowser"
         end,
         keys = {
             {
@@ -295,14 +276,14 @@ return {
                 function()
                     vim.fn["mkdp#util#toggle_preview"]()
                 end,
-                desc = "Markdown Browser Preview (Zen Browser)",
+                desc = "Markdown Browser Preview",
             },
             {
                 "<leader>mp",
                 function()
                     vim.fn["mkdp#util#toggle_preview"]()
                 end,
-                desc = "Markdown Browser Preview (Zen Browser)",
+                desc = "Markdown Browser Preview",
             },
         },
     },

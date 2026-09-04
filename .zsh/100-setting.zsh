@@ -130,3 +130,8 @@ alias predator-status='
   echo -n "LCD override    : "; cat $_PS/lcd_override
   echo -n "Boot animation  : "; cat $_PS/boot_animation_sound
 '
+
+# ── Battery Health Limiter (80% Care Mode) ──────────────────
+alias battery-limit-get='cat $_PS/battery_limiter'
+alias battery-limit-on='echo 1 | sudo tee $_PS/battery_limiter > /dev/null && echo "Battery limit set to 80% (Care Mode 🌿)"'
+alias battery-limit-off='echo 0 | sudo tee $_PS/battery_limiter > /dev/null && echo "Battery limit disabled (Charging to 100% ⚡)"'

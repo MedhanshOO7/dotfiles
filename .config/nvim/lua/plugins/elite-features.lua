@@ -13,24 +13,6 @@ return {
         },
     },
 
-    -- 2. Inc-Rename (Live Variable Renaming)
-    {
-        "smjonas/inc-rename.nvim",
-        cmd = "IncRename",
-        keys = {
-            {
-                "<leader>rn",
-                function()
-                    return ":IncRename " .. vim.fn.expand("<cword>")
-                end,
-                expr = true,
-                desc = "Code: Rename symbol (live)",
-            },
-        },
-        config = function()
-            require("inc-rename").setup()
-        end,
-    },
 
     -- 3. Refactoring.nvim (Code Transformations)
     {

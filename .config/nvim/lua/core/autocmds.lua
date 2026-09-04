@@ -1,5 +1,3 @@
-local group = vim.api.nvim_create_augroup("ZenModeAuto", { clear = true })
-
 -- ── Reset Terminal Colors on Exit ────────────────────────────
 -- Fixes Kitty/Wezterm background color bleeding when closing Neovim
 vim.api.nvim_create_autocmd("VimLeave", {
@@ -11,14 +9,32 @@ vim.api.nvim_create_autocmd("VimLeave", {
     end,
 })
 
+vim.api.nvim_create_autocmd("User", {
+    pattern = "VeryLazy",
+    once = true,
+    callback = function()
+        if vim.fn.executable("zen-browser") == 1 then
+            vim.env.BROWSER = "zen-browser"
+        elseif vim.fn.executable("zen") == 1 then
+            vim.env.BROWSER = "zen"
+        end
+    end,
+})
+
 -- ── Quick Dismiss Windows (q & Esc) ───────────────────────────
-vim.api.nvim_create_autocmd({ "FileType", "BufEnter", "TermOpen" }, {
+vim.api.nvim_create_autocmd({ "FileType", "BufEnter" }, {
     group = vim.api.nvim_create_augroup("QuickDismissWindows", { clear = true }),
     pattern = "*",
     callback = function(event)
         local bt = vim.bo[event.buf].buftype
         local ft = vim.bo[event.buf].filetype or ""
-        if bt == "terminal" or bt == "nofile" or bt == "quickfix" or ft:match("overseer") or ft:match("Overseer") or ft == "qf" or ft == "help" or ft == "notify" then
+
+        -- Do not hijack keys in interactive explorer / DB buffers / terminal buffers
+        if ft == "dbui" or ft == "dbout" or ft == "dadbod" or ft == "oil" or ft:match("dbui") or bt == "terminal" then
+            return
+        end
+
+        if bt == "nofile" or bt == "quickfix" or ft:match("overseer") or ft:match("Overseer") or ft == "qf" or ft == "help" or ft == "notify" then
             local function close_win()
                 if #vim.api.nvim_tabpage_list_wins(0) > 1 then
                     pcall(vim.cmd, "close")
@@ -28,25 +44,6 @@ vim.api.nvim_create_autocmd({ "FileType", "BufEnter", "TermOpen" }, {
             end
             pcall(vim.keymap.set, "n", "q", close_win, { buffer = event.buf, silent = true, desc = "Close window" })
             pcall(vim.keymap.set, "n", "<Esc>", close_win, { buffer = event.buf, silent = true, desc = "Close window" })
-        end
-    end,
-})
-
-vim.api.nvim_create_autocmd("FileType", {
-    group = group,
-    pattern = { "markdown", "text" },
-    callback = function()
-        -- Check if we are inside a code project by looking for .git or package.json
-        local in_project = vim.fn.finddir(".git", ".;") ~= "" or vim.fn.findfile("package.json", ".;") ~= "" or vim.fn.findfile("Cargo.toml", ".;") ~= ""
-        
-        if not in_project then
-            -- Use schedule to avoid issues with window initialization
-            vim.schedule(function()
-                local ok, snacks = pcall(require, "snacks")
-                if ok and snacks.zen then
-                    snacks.zen()
-                end
-            end)
         end
     end,
 })
@@ -195,3 +192,53 @@ vim.api.nvim_create_autocmd("StdinReadPost", {
         vim.keymap.set("n", "K", "<C-u>", opts)
     end,
 })
+
+-- ── Window & Explorer Size Inspector ─────────────────────────
+vim.api.nvim_create_user_command("WinSize", function()
+    local win = vim.api.nvim_get_current_win()
+    local buf = vim.api.nvim_win_get_buf(win)
+    local w = vim.api.nvim_win_get_width(win)
+    local h = vim.api.nvim_win_get_height(win)
+    local total_w = vim.o.columns
+    local total_h = vim.o.lines
+    local pct_w = math.floor((w / total_w) * 100)
+    local pct_h = math.floor((h / total_h) * 100)
+    local ft = vim.bo[buf].filetype
+    if ft == "" then ft = "none" end
+    local name = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(buf), ":t")
+    if name == "" then name = "[No Name]" end
+
+    local msg = string.format("📐 %s (%s)\n• Width:  %d columns (%d%% of screen)\n• Height: %d rows (%d%% of screen)", name, ft, w, pct_w, h, pct_h)
+    vim.notify(msg, vim.log.levels.INFO, { title = "Window Size" })
+end, { desc = "Show current window dimensions" })
+
+vim.api.nvim_create_user_command("ExplorerSize", function(opts)
+    local target_w = tonumber(opts.args)
+    -- Look for explorer window
+    for _, win in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
+        local buf = vim.api.nvim_win_get_buf(win)
+        local ft = vim.bo[buf].filetype
+        if ft == "snacks_explorer" or ft:match("explorer") then
+            if target_w and target_w >= 10 then
+                vim.api.nvim_win_set_width(win, target_w)
+                vim.notify(string.format("📁 File Explorer resized to %d columns", target_w), vim.log.levels.INFO)
+                return
+            end
+            local w = vim.api.nvim_win_get_width(win)
+            local h = vim.api.nvim_win_get_height(win)
+            local total_w = vim.o.columns
+            local pct_w = math.floor((w / total_w) * 100)
+            local msg = string.format("📁 File Explorer Size:\n• Width:  %d columns (%d%%)\n• Height: %d rows", w, pct_w, h)
+            vim.notify(msg, vim.log.levels.INFO, { title = "Explorer Size" })
+            return
+        end
+    end
+    -- If not open or focused elsewhere, check current window
+    local w = vim.api.nvim_win_get_width(0)
+    if target_w and target_w >= 10 then
+        vim.cmd("vertical resize " .. target_w)
+        vim.notify(string.format("Current window resized to %d columns", target_w), vim.log.levels.INFO)
+    else
+        vim.notify(string.format("Current Window Width: %d columns", w), vim.log.levels.INFO)
+    end
+end, { nargs = "?", desc = "Show or set explorer / window width (e.g. :ExplorerSize 24)" })

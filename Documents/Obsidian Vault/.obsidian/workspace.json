@@ -20,8 +20,23 @@
               "icon": "lucide-file",
               "title": "Untitled 12"
             }
+          },
+          {
+            "id": "0d2f58ff409a56d5",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "OOPS/4. Inheritance.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "4. Inheritance"
+            }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -33,7 +48,6 @@
       {
         "id": "88f68df31a495c54",
         "type": "tabs",
-        "dimension": 67.10526315789474,
         "children": [
           {
             "id": "741ff8b1092c6d1f",
@@ -42,7 +56,9 @@
               "type": "file-explorer",
               "state": {
                 "sortOrder": "alphabetical",
-                "autoReveal": true
+                "autoReveal": true,
+                "showSearch": false,
+                "searchQuery": ""
               },
               "icon": "lucide-folder-closed",
               "title": "Files"
@@ -70,26 +86,12 @@
             "type": "leaf",
             "state": {
               "type": "bookmarks",
-              "state": {},
+              "state": {
+                "showSearch": false,
+                "searchQuery": ""
+              },
               "icon": "lucide-bookmark",
               "title": "Bookmarks"
-            }
-          }
-        ]
-      },
-      {
-        "id": "8166eb20f3ab8a25",
-        "type": "tabs",
-        "dimension": 32.89473684210527,
-        "children": [
-          {
-            "id": "2fd5911aec5af100",
-            "type": "leaf",
-            "state": {
-              "type": "graph",
-              "state": {},
-              "icon": "lucide-git-fork",
-              "title": "Graph view"
             }
           }
         ]
@@ -174,13 +176,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Untitled 12.md",
+                "file": "OOPS/4. Inheritance.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline of Untitled 12"
+              "title": "Outline"
             }
           },
           {
@@ -214,8 +216,10 @@
       "callout-manager:Insert Callout": false
     }
   },
-  "active": "cd90b3ffd08dd4f0",
+  "active": "0d2f58ff409a56d5",
   "lastOpenFiles": [
+    "OOPS/3. Encapsulation.md",
+    "Untitled 13.md",
     "Untitled 12.md",
     "WORKIN/day_by_day_tracker.md",
     "Untitled 9.md",
@@ -251,8 +255,6 @@
     "studyThings/OOPS/9.b File Handling.md",
     "studyThings/OOPS/9.a.File Handling.md",
     "studyThings/OOPS/8. Memory Layout.md",
-    "studyThings/OOPS/7. Variables & There types.md",
-    "studyThings/OOPS/6. Abstraction.md",
     "ChatGPT Image Apr 1, 2026, 06_45_40 AM.png",
     "Screenshot_20260324_225440_Samsung capture.jpg",
     "TODO.canvas",

@@ -2,6 +2,7 @@ return {
     -- Inline Autocomplete (GitHub Copilot alternative)
     {
         "supermaven-inc/supermaven-nvim",
+        event = "InsertEnter",
         keys = {
             { "<M-a>", "<cmd>SupermavenToggle<cr>", desc = "Toggle AI Autocomplete (Supermaven)" },
         },
@@ -24,15 +25,18 @@ return {
             })
             
             -- Provide a helpful notify on toggle since Supermaven is silent by default
+            -- Mutual exclusion: toggling Supermaven ON disables Copilot and vice versa
             local sm_api_ok, sm_api = pcall(require, "supermaven-nvim.api")
             if sm_api_ok then
                 vim.api.nvim_create_user_command("SupermavenToggle", function()
                     if sm_api.is_running() then
                         sm_api.stop()
-                        vim.notify("AI Autocomplete OFF", vim.log.levels.INFO, { title = "Supermaven" })
+                        vim.notify("Supermaven OFF · Copilot remains active", vim.log.levels.INFO, { title = "AI Autocomplete" })
                     else
+                        -- Disable Copilot before enabling Supermaven to avoid dual ghost-text
+                        pcall(function() vim.cmd("Copilot disable") end)
                         sm_api.start()
-                        vim.notify("AI Autocomplete ON", vim.log.levels.INFO, { title = "Supermaven" })
+                        vim.notify("Supermaven ON · Copilot disabled", vim.log.levels.INFO, { title = "AI Autocomplete" })
                     end
                 end, {})
             end

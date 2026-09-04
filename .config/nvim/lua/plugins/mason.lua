@@ -1,7 +1,7 @@
 return {
     {
         "mason-org/mason.nvim",
-        lazy = false,
+        event = "VeryLazy",
         opts = {
             ui = {
                 border = "rounded",
@@ -19,7 +19,10 @@ return {
         "WhoIsSethDaniel/mason-tool-installer.nvim",
         event = "VeryLazy",
         dependencies = {
-            "mason-org/mason.nvim",
+            {
+                "mason-org/mason.nvim",
+                opts = {},
+            },
         },
         opts = {
             ensure_installed = {
@@ -39,7 +42,6 @@ return {
                 "shellcheck",
                 "shfmt",
                 "sql-formatter",
-                "sqls",
                 "stylua",
             },
         },

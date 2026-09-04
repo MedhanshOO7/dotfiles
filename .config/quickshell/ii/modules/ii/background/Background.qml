@@ -133,7 +133,11 @@ Variants {
                 id: wallpaper
                 visible: opacity > 0 && !blurLoader.active
                 opacity: (status === Image.Ready && !bgRoot.wallpaperIsVideo) ? 1 : 0
-                cache: false
+                // The wallpaper normally remains unchanged for the whole
+                // session. Keeping it cached avoids decoding it again when
+                // this layer is re-exposed.
+                cache: true
+                asynchronous: true
                 smooth: false
 
                 property int workspaceIndex: (bgRoot.monitor.activeWorkspace?.id ?? 1) - 1

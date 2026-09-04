@@ -1,9 +1,6 @@
 return {
     "rmagatti/auto-session",
-    lazy = false,
-    dependencies = {
-        "nvim-telescope/telescope.nvim",
-    },
+    event = "VimLeavePre",
     keys = {
         { "<leader>wr", "<cmd>SessionRestore<cr>", desc = "Restore session for cwd" },
         { "<leader>ws", "<cmd>SessionSave<cr>", desc = "Save session for cwd" },
@@ -18,8 +15,7 @@ return {
             auto_create = true,
             suppressed_dirs = { "~/", "~/Dev/", "~/Downloads", "~/Documents", "~/Desktop/" },
             session_lens = {
-                load_on_setup = true,
-                previewer = true,
+                load_on_setup = false,
             },
         })
     end,

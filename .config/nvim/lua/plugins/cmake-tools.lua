@@ -1,6 +1,6 @@
 return {
     "Civitasv/cmake-tools.nvim",
-    ft = { "c", "cpp", "objc", "objcpp", "cuda", "cmake" },
+    ft = "cmake",
     dependencies = {
         "nvim-lua/plenary.nvim",
         "stevearc/overseer.nvim",

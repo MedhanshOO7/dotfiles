@@ -12,8 +12,22 @@ return {
                 highlight = {
                     enable = true,
                     additional_vim_regex_highlighting = false,
+                    disable = function(lang, buf)
+                        if vim.b[buf] and (vim.b[buf].large_file or vim.b[buf].bigfile) then
+                            return true
+                        end
+                        return vim.api.nvim_buf_line_count(buf) > 5000
+                    end,
                 },
-                indent = { enable = true },
+                indent = {
+                    enable = true,
+                    disable = function(lang, buf)
+                        if vim.b[buf] and (vim.b[buf].large_file or vim.b[buf].bigfile) then
+                            return true
+                        end
+                        return vim.api.nvim_buf_line_count(buf) > 5000
+                    end,
+                },
                 incremental_selection = {
                     enable = true,
                     keymaps = {
@@ -64,7 +78,7 @@ return {
                     "vue",
                     "yaml",
                 },
-                auto_install = true,
+                auto_install = false,
                 textobjects = {
                     select = {
                         enable = true,
@@ -98,15 +112,6 @@ return {
     },
     {
         "nvim-treesitter/nvim-treesitter-context",
-        event = { "BufReadPost", "BufNewFile" },
-        opts = {
-            max_lines = 3,
-            min_window_height = 0,
-            line_numbers = true,
-            multiline_threshold = 20,
-            trim_scope = "outer",
-            mode = "cursor",
-        },
+        enabled = false,
     },
 }
-

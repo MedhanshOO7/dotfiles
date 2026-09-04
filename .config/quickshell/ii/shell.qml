@@ -21,15 +21,28 @@ ShellRoot {
 
     // Stuff for every panel family
     ReloadPopup {}
+    CapsLockOverlay {}
 
     Component.onCompleted: {
         MaterialThemeLoader.reapplyTheme()
-        Hyprsunset.load()
-        FirstRunExperience.load()
-        ConflictKiller.load()
-        Cliphist.refresh()
-        Wallpapers.load()
-        Updates.load()
+        CapsLock.load()
+    }
+
+    // Keep the first frame responsive. These jobs either spawn external
+    // processes or read user data, so they do not need to contend with the
+    // panel creation and theme application path.
+    Timer {
+        interval: 1500
+        running: true
+        repeat: false
+        onTriggered: {
+            Hyprsunset.load()
+            FirstRunExperience.load()
+            ConflictKiller.load()
+            Cliphist.refresh()
+            Wallpapers.load()
+            Updates.load()
+        }
     }
 
 
@@ -74,4 +87,3 @@ ShellRoot {
         onPressed: root.cyclePanelFamily()
     }
 }
-

@@ -13,9 +13,10 @@ hl.on("hyprland.start", function()
     hl.exec_cmd("vicinae server --replace")
 
     -- fixing the keyring
-    hl.exec_cmd("/usr/lib/pam_kwallet_init")
-    hl.exec_cmd("kwalletd6")
+    -- hl.exec_cmd("/usr/lib/pam_kwallet_init")
+    -- hl.exec_cmd("kwalletd6")
     hl.exec_cmd("snappy-switcher --daemon")
     hl.exec_cmd("sh -c 'pgrep -x betterbird || betterbird'")
+    -- hl.exec_once("caps-overlay -d")
     --exec-once = sh -c 'pgrep -x betterbird || betterbird'
 end)

@@ -124,40 +124,25 @@ return {
                 return boards
             end
 
-            -- Telescope board picker
+            -- Modern board picker using vim.ui.select (Snacks / native)
             local function pick_board()
-                local ok, pickers = pcall(require, "telescope.pickers")
-                if not ok then
-                    vim.notify("Telescope not available", vim.log.levels.ERROR)
-                    return
-                end
-                local finders = require("telescope.finders")
-                local conf = require("telescope.config").values
-                local actions = require("telescope.actions")
-                local action_state = require("telescope.actions.state")
-
                 local boards = get_boards()
                 if #boards == 0 then
-                    vim.notify("No boards found. Is ZEPHYR_BASE set?", vim.log.levels.WARN)
+                    vim.notify("No boards found. Is ZEPHYR_BASE set?", vim.log.levels.WARN, { title = "Zephyr" })
                     return
                 end
 
-                pickers.new({}, {
-                    prompt_title = "  Select Zephyr Board",
-                    finder = finders.new_table({ results = boards }),
-                    sorter = conf.generic_sorter({}),
-                    attach_mappings = function(prompt_bufnr)
-                        actions.select_default:replace(function()
-                            actions.close(prompt_bufnr)
-                            local selection = action_state.get_selected_entry()
-                            if selection then
-                                vim.g.zephyr_board = selection[1]
-                                vim.notify("Board set to: " .. vim.g.zephyr_board, vim.log.levels.INFO, { title = "Zephyr" })
-                            end
-                        end)
-                        return true
+                vim.ui.select(boards, {
+                    prompt = "Select Zephyr Board:",
+                    format_item = function(item)
+                        return "󰜎 " .. item
                     end,
-                }):find()
+                }, function(choice)
+                    if choice then
+                        vim.g.zephyr_board = choice
+                        vim.notify("Board set to: " .. vim.g.zephyr_board, vim.log.levels.INFO, { title = "Zephyr" })
+                    end
+                end)
             end
 
             -- Build

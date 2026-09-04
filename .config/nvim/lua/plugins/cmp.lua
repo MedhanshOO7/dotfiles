@@ -1,177 +1,184 @@
 return {
-    "hrsh7th/nvim-cmp",
-    event = "InsertEnter",
+    "saghen/blink.cmp",
+    version = "*",
     dependencies = {
-        "hrsh7th/cmp-nvim-lsp",
-        "hrsh7th/cmp-nvim-lua",
-        "hrsh7th/cmp-buffer",
-        "hrsh7th/cmp-path",
-        "L3MON4D3/LuaSnip",
-        "saadparwaiz1/cmp_luasnip",
-        "onsails/lspkind.nvim",
-        {
-            "xzbdmw/colorful-menu.nvim",
-            opts = {},
-        },
+        "rafamadriz/friendly-snippets",
+        "giuxtaposition/blink-cmp-copilot",
     },
-    config = function()
-        local cmp = require("cmp")
-        local luasnip = require("luasnip")
-        local lspkind = require("lspkind")
-        local colorful_menu = require("colorful-menu")
-        local compare = require("cmp.config.compare")
-
-        local function hl_fg(group)
-            local ok, hl = pcall(vim.api.nvim_get_hl, 0, { name = group, link = false })
-            return (ok and hl.fg) and string.format("#%06x", hl.fg) or nil
-        end
-
-        local function apply_highlights()
-            vim.api.nvim_set_hl(0, "CmpDocBorder", {
-                fg = hl_fg("FloatBorder") or hl_fg("WinSeparator") or hl_fg("NormalFloat"),
-                bg = "NONE",
-            })
-            vim.api.nvim_set_hl(0, "CmpDocNormal", { bg = "NONE" })
-        end
-
-        apply_highlights()
-
-        vim.api.nvim_create_autocmd("ColorScheme", {
-            group = vim.api.nvim_create_augroup("nvim_cmp_theme_sync", { clear = true }),
-            pattern = "*",
-            callback = apply_highlights,
-        })
-
-        cmp.setup({
-            completion = {
-                completeopt = "menu,menuone,noinsert",
-            },
-            preselect = cmp.PreselectMode.None,
-            snippet = {
-                expand = function(args)
-                    luasnip.lsp_expand(args.body)
-                end,
-            },
-            mapping = cmp.mapping.preset.insert({
-                ["<C-Space>"] = cmp.mapping.complete(),
-                ["<C-e>"] = cmp.mapping.abort(),
-                ["<CR>"] = cmp.mapping.confirm({ select = false }),
-                ["<C-d>"] = cmp.mapping(function()
-                    if cmp.visible_docs() then
-                        cmp.close_docs()
-                    else
-                        cmp.open_docs()
-                    end
-                end, { "i", "s" }),
-                ["<C-n>"] = cmp.mapping(function()
-                    if cmp.visible() then
-                        cmp.select_next_item()
-                    else
-                        cmp.complete()
-                    end
-                end, { "i", "s" }),
-                ["<C-p>"] = cmp.mapping(function()
-                    if cmp.visible() then
-                        cmp.select_prev_item()
-                    else
-                        cmp.complete()
-                    end
-                end, { "i", "s" }),
-                ["<Tab>"] = cmp.mapping(function(fallback)
+    event = { "InsertEnter", "CmdlineEnter" },
+    opts = {
+        keymap = {
+            preset = "none",
+            ["<C-space>"] = { "show", "show_documentation", "hide_documentation" },
+            ["<C-e>"] = { "hide", "fallback" },
+            ["<CR>"] = { "accept", "fallback" },
+            ["<Tab>"] = {
+                function(cmp)
                     local copilot_ok, copilot_suggestion = pcall(require, "copilot.suggestion")
                     if copilot_ok and copilot_suggestion.is_visible() then
                         copilot_suggestion.accept()
-                    elseif cmp.visible() then
-                        cmp.confirm({ select = true })
-                    elseif luasnip.expand_or_locally_jumpable() then
-                        luasnip.expand_or_jump()
-                    else
-                        fallback()
+                        return true
                     end
-                end, { "i", "s" }),
-                ["<S-Tab>"] = cmp.mapping(function(fallback)
-                    if luasnip.locally_jumpable(-1) then
-                        luasnip.jump(-1)
-                    else
-                        fallback()
+                    if cmp.snippet_active() then
+                        return cmp.accept()
+                    elseif cmp.is_visible() then
+                        return cmp.select_and_accept()
                     end
-                end, { "i", "s" }),
-            }),
-            sources = {
-                { name = "obsidian", priority = 10 },
-                { name = "obsidian_new", priority = 9 },
-                { name = "nvim_lsp" },
-                { name = "nvim_lua" },
-                { name = "luasnip" },
-                { name = "path" },
-                { name = "buffer" },
-            },
-            sorting = {
-                priority_weight = 2,
-                comparators = {
-                    compare.exact,
-                    compare.score,
-                    compare.recently_used,
-                    compare.locality,
-                    compare.kind,
-                    compare.sort_text,
-                    compare.length,
-                    compare.order,
-                },
-            },
-            formatting = {
-                fields = { "kind", "abbr", "menu" },
-                format = function(entry, vim_item)
-                    local _ = lspkind.cmp_format({
-                        mode = "symbol_text",
-                        maxwidth = 50,
-                        ellipsis_char = "...",
-                        menu = {
-                            nvim_lsp = "[LSP]",
-                            luasnip = "[Snip]",
-                            buffer = "[Buf]",
-                            path = "[Path]",
-                            obsidian = "[Obs]",
-                            obsidian_new = "[Obs+]",
-                        },
-                    })(entry, vim_item)
-
-                    local ok, highlights_info = pcall(colorful_menu.cmp_highlights, entry)
-                    if ok and highlights_info ~= nil then
-                        vim_item.abbr_hl_group = highlights_info.highlights
-                        vim_item.abbr = highlights_info.text
-                    end
-
-                    return vim_item
                 end,
+                "snippet_forward",
+                "fallback",
             },
-            view = {
-                docs = {
-                    auto_open = false,
+            ["<S-Tab>"] = { "snippet_backward", "fallback" },
+            ["<Up>"] = { "select_prev", "fallback" },
+            ["<Down>"] = { "select_next", "fallback" },
+            ["<C-p>"] = { "select_prev", "fallback" },
+            ["<C-n>"] = { "select_next", "fallback" },
+            ["<C-b>"] = { "scroll_documentation_up", "fallback" },
+            ["<C-f>"] = { "scroll_documentation_down", "fallback" },
+        },
+        appearance = {
+            use_nvim_cmp_as_default = false,
+            nerd_font_variant = "mono",
+            kind_icons = {
+                Copilot = "󰚩",
+                Text = "󰉿",
+                Method = "󰊕",
+                Function = "󰊕",
+                Constructor = "󰒓",
+                Field = "󰜢",
+                Variable = "󰆦",
+                Class = "󰌗",
+                Interface = "󱡠",
+                Module = "󰅩",
+                Property = "󰜢",
+                Unit = "󰪚",
+                Value = "󰦨",
+                Enum = "󰦨",
+                Keyword = "󰌋",
+                Snippet = "󰔓",
+                Color = "󰏘",
+                File = "󰈔",
+                Reference = "󰬲",
+                Folder = "󰉋",
+                EnumMember = "󰦨",
+                Constant = "󰏿",
+                Struct = "󰌗",
+                Event = "󱐋",
+                Operator = "󰆕",
+                TypeParameter = "󰅲",
+                -- Database kinds
+                Table = "󰓫",
+                Column = "󰜢",
+                Database = "󰆼",
+                Schema = "",
+                Alias = "󰡱",
+            },
+        },
+        sources = {
+            default = { "lsp", "path", "snippets", "buffer", "copilot", "lazydev" },
+            providers = {
+                copilot = {
+                    name = "copilot",
+                    module = "blink-cmp-copilot",
+                    score_offset = 100,
+                    async = true,
+                    transform_items = function(_, items)
+                        local CompletionItemKind = vim.lsp.protocol.CompletionItemKind
+                        local kind_idx = #CompletionItemKind + 1
+                        CompletionItemKind[kind_idx] = "Copilot"
+                        for _, item in ipairs(items) do
+                            item.kind = kind_idx
+                        end
+                        return items
+                    end,
+                },
+                lazydev = {
+                    name = "LazyDev",
+                    module = "lazydev.integrations.blink",
+                    score_offset = 100,
+                },
+                dadbod = {
+                    name = "Dadbod",
+                    module = "vim_dadbod_completion.blink",
+                    score_offset = 85,
+                    transform_items = function(_, items)
+                        local CompletionItemKind = vim.lsp.protocol.CompletionItemKind
+                        local custom_kinds = { "Table", "Column", "Database", "Alias" }
+                        for _, name in ipairs(custom_kinds) do
+                            local found = false
+                            for _, v in ipairs(CompletionItemKind) do
+                                if v == name then found = true break end
+                            end
+                            if not found then
+                                CompletionItemKind[#CompletionItemKind + 1] = name
+                            end
+                        end
+
+                        local function get_kind_idx(name)
+                            for idx, v in ipairs(CompletionItemKind) do
+                                if v == name then return idx end
+                            end
+                            return nil
+                        end
+
+                        local table_idx = get_kind_idx("Table")
+                        local col_idx = get_kind_idx("Column")
+                        local db_idx = get_kind_idx("Database")
+                        local alias_idx = get_kind_idx("Alias")
+
+                        for _, item in ipairs(items) do
+                            local doc = (item.documentation or ""):lower()
+                            if doc:find("alias") then
+                                if alias_idx then item.kind = alias_idx end
+                            elseif doc:find("column") then
+                                if col_idx then item.kind = col_idx end
+                            elseif doc:find("table") then
+                                if table_idx then item.kind = table_idx end
+                            elseif doc:find("schema") or doc:find("database") then
+                                if db_idx then item.kind = db_idx end
+                            end
+                        end
+                        return items
+                    end,
                 },
             },
-            experimental = {
-                ghost_text = false,
+            per_filetype = {
+                sql = { "dadbod", "buffer", "snippets" },
+                mysql = { "dadbod", "buffer", "snippets" },
+                plsql = { "dadbod", "buffer", "snippets" },
             },
+        },
+        completion = {
+            accept = {
+                auto_brackets = { enabled = true },
+            },
+            menu = {
+                border = "rounded",
+                draw = {
+                    treesitter = { "lsp" },
+                    columns = {
+                        { "kind_icon", "label", "label_description", gap = 1 },
+                        { "kind" },
+                        { "source_name" },
+                    },
+                },
+            },
+            documentation = {
+                auto_show = true,
+                auto_show_delay_ms = 150,
+                window = {
+                    border = "rounded",
+                },
+            },
+            ghost_text = {
+                enabled = false,
+            },
+        },
+        signature = {
+            enabled = true,
             window = {
-                completion = cmp.config.window.bordered({
-                    border = "rounded",
-                    winhighlight = "Normal:NormalFloat,FloatBorder:FloatBorder,CursorLine:PmenuSel,Search:None",
-                    col_offset = -3,
-                    side_padding = 1,
-                }),
-                documentation = cmp.config.window.bordered({
-                    border = "rounded",
-                    winhighlight = "Normal:NormalFloat,FloatBorder:FloatBorder,CursorLine:Visual,Search:None",
-                }),
+                border = "rounded",
             },
-        })
-
-        cmp.setup.filetype({ "sql", "mysql", "plsql" }, {
-            sources = cmp.config.sources({
-                { name = "vim-dadbod-completion" },
-                { name = "buffer" },
-            }),
-        })
-    end,
+        },
+    },
 }

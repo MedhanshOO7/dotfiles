@@ -1,6 +1,6 @@
 return {
     "stevearc/overseer.nvim",
-    cmd = { "OverseerRun", "OverseerToggle", "OverseerTaskAction", "OverseerLoadBundle" },
+    cmd = "Overseer",
     keys = {
         { "<leader>tt", "<cmd>OverseerToggle<cr>", desc = "Open or close the task list" },
         { "<leader>tr", "<cmd>OverseerRun<cr>", desc = "Choose and run a project task" },

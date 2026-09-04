@@ -17,6 +17,13 @@ hl.layer_rule({
     ignore_alpha = 0,
 })
 
+hl.layer_rule({
+    match = { namespace = "*obsidian*" },
+    blur = true,
+    blur_popups = true,
+    ignore_alpha = 0,
+})
+
 -- nautilus (layer)
 hl.layer_rule({
     match = { namespace = "org.gnome.Nautilus" },
@@ -71,6 +78,13 @@ hl.window_rule({
     center = true,
     no_blur = false,
     size = { "monitor_w*0.85", "monitor_h*0.85" },
+})
+
+hl.window_rule({
+    match = { class = "md.obsidian.Obsidian" },
+    center = true,
+    no_blur = false,
+    opacity = 0.85,
 })
 
 hl.window_rule({

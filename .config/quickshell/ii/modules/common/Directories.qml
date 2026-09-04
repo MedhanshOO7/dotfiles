@@ -51,16 +51,17 @@ Singleton {
     property string userAvatarPathAccountsService: FileUtils.trimFileProtocol(`/var/lib/AccountsService/icons/${SystemInfo.username}`)
     property string userAvatarPathRicersAndWeirdSystems: FileUtils.trimFileProtocol(`${Directories.home}.face`)
     property string userAvatarPathRicersAndWeirdSystems2: FileUtils.trimFileProtocol(`${Directories.home}.face.icon`)
-    // Cleanup on init
-    Component.onCompleted: {
-        Quickshell.execDetached(["mkdir", "-p", `${shellConfig}`])
-        Quickshell.execDetached(["mkdir", "-p", `${favicons}`])
-        Quickshell.execDetached(["bash", "-c", `rm -rf '${coverArt}'; mkdir -p '${coverArt}'`])
-        Quickshell.execDetached(["bash", "-c", `rm -rf '${booruPreviews}'; mkdir -p '${booruPreviews}'`])
-        Quickshell.execDetached(["bash", "-c", `rm -rf '${latexOutput}'; mkdir -p '${latexOutput}'`])
-        Quickshell.execDetached(["bash", "-c", `rm -rf '${cliphistDecode}'; mkdir -p '${cliphistDecode}'`])
-        Quickshell.execDetached(["mkdir", "-p", `${aiChats}`])
-        Quickshell.execDetached(["mkdir", "-p", `${userActions}`])
-        Quickshell.execDetached(["rm", "-rf", `${tempImages}`])
+    // Cleanup is not needed to draw the shell. Run it after startup in one
+    // process instead of launching several competing mkdir/rm processes.
+    Timer {
+        interval: 3000
+        running: true
+        repeat: false
+        onTriggered: Quickshell.execDetached([
+            "bash", "-c",
+            `mkdir -p '${shellConfig}' '${favicons}' '${aiChats}' '${userActions}' && \
+rm -rf '${coverArt}' '${booruPreviews}' '${latexOutput}' '${cliphistDecode}' '${tempImages}' && \
+mkdir -p '${coverArt}' '${booruPreviews}' '${latexOutput}' '${cliphistDecode}'`
+        ])
     }
 }

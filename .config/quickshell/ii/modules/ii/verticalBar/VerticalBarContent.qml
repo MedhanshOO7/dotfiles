@@ -252,6 +252,50 @@ Item { // Bar content region
                             color: rightSidebarButton.colText
                         }
                     }
+                    Revealer {
+                        vertical: true
+                        reveal: ScreenRecording.isRecording
+                        Layout.fillWidth: true
+                        Layout.bottomMargin: reveal ? indicatorsColumnLayout.realSpacing : 0
+                        Behavior on Layout.bottomMargin {
+                            animation: Appearance.animation.elementMoveFast.numberAnimation.createObject(this)
+                        }
+                        MaterialSymbol {
+                            text: "screen_record"
+                            iconSize: Appearance.font.pixelSize.larger
+                            fill: 1
+                            color: Appearance.m3colors.m3error
+
+                            SequentialAnimation on opacity {
+                                running: ScreenRecording.isRecording
+                                loops: Animation.Infinite
+                                NumberAnimation { to: 0.35; duration: 700 }
+                                NumberAnimation { to: 1.0; duration: 700 }
+                            }
+                        }
+                    }
+                    Revealer {
+                        vertical: true
+                        reveal: MicrophoneRecording.isRecording
+                        Layout.fillWidth: true
+                        Layout.bottomMargin: reveal ? indicatorsColumnLayout.realSpacing : 0
+                        Behavior on Layout.bottomMargin {
+                            animation: Appearance.animation.elementMoveFast.numberAnimation.createObject(this)
+                        }
+                        MaterialSymbol {
+                            text: "mic"
+                            iconSize: Appearance.font.pixelSize.larger
+                            fill: 1
+                            color: Appearance.m3colors.m3error
+
+                            SequentialAnimation on opacity {
+                                running: MicrophoneRecording.isRecording
+                                loops: Animation.Infinite
+                                NumberAnimation { to: 0.35; duration: 700 }
+                                NumberAnimation { to: 1.0; duration: 700 }
+                            }
+                        }
+                    }
                     Bar.HyprlandXkbIndicator {
                         vertical: true
                         Layout.alignment: Qt.AlignHCenter

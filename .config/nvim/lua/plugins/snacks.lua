@@ -1,14 +1,65 @@
+local function greeting()
+    local hour = tonumber(os.date("%H")) or 12
+    if hour < 12 then
+        return "󰖨  Good morning, Medhansh"
+    elseif hour < 18 then
+        return "󰖙  Good afternoon, Medhansh"
+    else
+        return "  Good evening, Medhansh"
+    end
+end
+
+local function apply_dashboard_gradients()
+    vim.api.nvim_set_hl(0, "SnacksDashGrad1", { fg = "#89dceb", bold = true })
+    vim.api.nvim_set_hl(0, "SnacksDashGrad2", { fg = "#89b4fa", bold = true })
+    vim.api.nvim_set_hl(0, "SnacksDashGrad3", { fg = "#b4befe", bold = true })
+    vim.api.nvim_set_hl(0, "SnacksDashGrad4", { fg = "#cba6f7", bold = true })
+    vim.api.nvim_set_hl(0, "SnacksDashGrad5", { fg = "#f5c2e7", bold = true })
+    vim.api.nvim_set_hl(0, "SnacksDashGrad6", { fg = "#fab387", bold = true })
+end
+
 return {
     "folke/snacks.nvim",
     priority = 1000,
     lazy = false,
     opts = {
         animate = {
-            enabled = true,
-            duration = 20, -- Slower, more 'luxurious' feel
-            fps = 100,     -- High refresh rate for Kitty
+            enabled = false,
+            duration = 20,
+            fps = 100,
         },
-        bigfile = { enabled = true },
+        bigfile = {
+            enabled = true,
+            notify = true,
+            size = 1.0 * 1024 * 1024, -- 1 MB threshold
+            line_length = 1000, -- line length threshold for minified files
+            setup = function(ctx)
+                vim.b[ctx.buf].large_file = true
+                vim.b[ctx.buf].bigfile = true
+                vim.b[ctx.buf].minianimate_disable = true
+                vim.b[ctx.buf].miniindentscope_disable = true
+                pcall(vim.cmd, "NoMatchParen")
+                Snacks.util.wo(0, {
+                    foldmethod = "manual",
+                    statuscolumn = "",
+                    conceallevel = 0,
+                    relativenumber = false,
+                    cursorline = false,
+                    list = false,
+                })
+                vim.schedule(function()
+                    if vim.api.nvim_buf_is_valid(ctx.buf) then
+                        vim.bo[ctx.buf].syntax = ""
+                        vim.bo[ctx.buf].swapfile = false
+                        vim.bo[ctx.buf].undofile = false
+                        -- Detach all LSP clients from this large buffer
+                        for _, client in ipairs(vim.lsp.get_clients({ bufnr = ctx.buf })) do
+                            pcall(vim.lsp.buf_detach_client, ctx.buf, client.id)
+                        end
+                    end
+                end)
+            end,
+        },
         bufdelete = { enabled = true },
         dashboard = {
             enabled = true,
@@ -32,7 +83,25 @@ return {
                 },
             },
             sections = {
-                { section = "header" },
+                {
+                    text = {
+                        { "   ███╗   ██╗███████╗ ██████╗ ██╗   ██╗██╗███╗   ███╗\n", hl = "SnacksDashGrad1" },
+                        { "   ████╗  ██║██╔════╝██╔═══██╗██║   ██║██║████╗ ████║\n", hl = "SnacksDashGrad2" },
+                        { "   ██╔██╗ ██║█████╗  ██║   ██║██║   ██║██║██╔████╔██║\n", hl = "SnacksDashGrad3" },
+                        { "   ██║╚██╗██║██╔══╝  ██║   ██║╚██╗ ██╔╝██║██║╚██╔╝██║\n", hl = "SnacksDashGrad4" },
+                        { "   ██║ ╚████║███████╗╚██████╔╝ ╚████╔╝ ██║██║ ╚═╝ ██║\n", hl = "SnacksDashGrad5" },
+                        { "   ╚═╝  ╚═══╝╚══════╝ ╚═════╝   ╚═══╝  ╚═╝╚═╝     ╚═╝\n", hl = "SnacksDashGrad6" },
+                    },
+                    align = "center",
+                    padding = 1,
+                },
+                {
+                    text = {
+                        { " " .. greeting() .. " ", hl = "Function" },
+                    },
+                    align = "center",
+                    padding = 1,
+                },
                 {
                     pane = 2,
                     section = "terminal",
@@ -71,7 +140,7 @@ return {
                 preview = false,
                 layout = {
                     position = "left",
-                    width = 30,
+                    width = 24, -- Dynamic 24-column default
                 },
             },
         },
@@ -119,15 +188,35 @@ return {
         },
         input = {
             enabled = true,
+            icon = " ",
+            icon_hl = "SnacksInputIcon",
+            icon_pos = "left",
+            prompt_pos = "title",
+            expand = true,
             win = {
-                style = "rounded",
+                style = "input",
+                border = "rounded",
+                backdrop = false, -- Eliminates rectangular shadow bleeding
+                position = "float",
+                wo = {
+                    winhighlight = "NormalFloat:SnacksInputNormal,FloatBorder:SnacksInputBorder,FloatTitle:SnacksInputTitle",
+                    winblend = 0,
+                },
             },
         },
         lazygit = { enabled = true },
         notifier = {
             enabled = true,
             timeout = 3000,
-            style = "compact",
+            width = { min = 35, max = 0.40 },
+            height = { min = 1, max = 0.60 },
+            margin = { top = 1, right = 1, bottom = 0 },
+            padding = true,
+            gap = 1,
+            sort = { "level", "added" },
+            level = vim.log.levels.TRACE,
+            style = "minimal",
+            top_down = true, -- top-to-bottom on the right side
         },
         picker = {
             enabled = true,
@@ -151,7 +240,7 @@ return {
                         preview = false,
                         layout = {
                             position = "left",
-                            width = 0.30,
+                            width = 24, -- 24 columns compact default
                         },
                     },
                     win = {
@@ -168,6 +257,20 @@ return {
                                 ["r"] = "explorer_rename",
                                 ["c"] = "explorer_copy",
                                 ["m"] = "explorer_move",
+                                -- Dynamic interactive width resizing inside explorer
+                                ["+"] = function() vim.cmd("vertical resize +4") end,
+                                ["-"] = function() vim.cmd("vertical resize -4") end,
+                                [">"] = function() vim.cmd("vertical resize +4") end,
+                                ["<"] = function() vim.cmd("vertical resize -4") end,
+                                ["w"] = function()
+                                    local cur_w = vim.api.nvim_win_get_width(0)
+                                    local next_w = 24
+                                    if cur_w <= 26 then next_w = 34
+                                    elseif cur_w <= 36 then next_w = 46
+                                    else next_w = 24 end
+                                    vim.cmd("vertical resize " .. next_w)
+                                    vim.notify("Explorer Width: " .. next_w .. " columns", vim.log.levels.INFO)
+                                end,
                             },
                         },
                     },
@@ -178,12 +281,20 @@ return {
         quickfile = { enabled = true },
         scope = { enabled = true },
         scratch = { enabled = true },
-        scroll = { enabled = true },
+        scroll = { enabled = false }, -- cinnamon.nvim handles smooth scrolling
         statuscolumn = { enabled = true },
-        words = { enabled = false }, -- vim-illuminate handles reference highlighting
+        words = { enabled = true },
         zen = { enabled = true },
     },
     init = function()
+        apply_dashboard_gradients()
+
+        vim.api.nvim_create_autocmd("ColorScheme", {
+            group = vim.api.nvim_create_augroup("snacks_dashboard_gradient_sync", { clear = true }),
+            pattern = "*",
+            callback = apply_dashboard_gradients,
+        })
+
         vim.api.nvim_create_autocmd("User", {
             pattern = "OilActionsPost",
             callback = function(event)
@@ -232,32 +343,16 @@ return {
             end,
             desc = "Toggle Hovering Image Previews",
         },
-        {
-            "<leader>iu",
-            function()
-                if Snacks.image and Snacks.image.doc then
-                    Snacks.image.doc.enabled = not Snacks.image.doc.enabled
-                    vim.notify(
-                        Snacks.image.doc.enabled and "Hovering Image Previews ENABLED 󰋩 " or "Hovering Image Previews DISABLED 󰂭 ",
-                        vim.log.levels.INFO,
-                        { title = "Image Previews" }
-                    )
-                end
-            end,
-            desc = "Toggle Hovering Image Previews",
-        },
         { "<leader>gl", function() Snacks.lazygit() end, desc = "Lazygit (VS Code-style panel)" },
         { "<leader>gf", function() Snacks.lazygit.log_file() end, desc = "Lazygit Current File History" },
         { "<leader>gB", function() Snacks.gitbrowse() end, desc = "Open Git Permalink in Browser" },
         { "<leader>z", function() Snacks.zen() end, desc = "Toggle Zen Mode" },
         { "<leader>uz", function() Snacks.zen() end, desc = "Toggle Zen Mode" },
-        { "<leader>Z", function() Snacks.zen.zoom() end, desc = "Toggle Zoom Mode" },
         { "<leader>.", function() Snacks.scratch() end, desc = "Toggle Scratch Buffer" },
         { "<leader>S", function() Snacks.scratch.select() end, desc = "Select Scratch Buffer" },
         { "<leader>cR", function() Snacks.rename.rename_file() end, desc = "Rename File (LSP)" },
         { "]r", function() Snacks.words.jump(1, true) end, desc = "Next LSP Word Reference" },
         { "[r", function() Snacks.words.jump(-1, true) end, desc = "Prev LSP Word Reference" },
-        { "<leader>wm", function() Snacks.toggle.zoom() end, desc = "Maximize / Zoom Window" },
-        { "<leader>un", function() Snacks.notifier.show_history() end, desc = "Notification History" },
+        { "<leader>un", "<cmd>Noice history<cr>", desc = "Notification History" },
     },
 }

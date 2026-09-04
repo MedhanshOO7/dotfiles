@@ -1,6 +1,6 @@
 return {
     "mfussenegger/nvim-lint",
-    event = { "BufReadPost", "BufWritePost", "InsertLeave" },
+    event = "BufWritePost",
     config = function()
         local lint = require("lint")
         local mason_bin = vim.fn.stdpath("data") .. "/mason/bin"
@@ -9,6 +9,10 @@ return {
             local mason_cmd = mason_bin .. "/" .. cmd
             if vim.fn.executable(mason_cmd) == 1 then
                 return mason_cmd
+            elseif vim.fn.executable(mason_cmd .. ".cmd") == 1 then
+                return mason_cmd .. ".cmd"
+            elseif vim.fn.executable(mason_cmd .. ".exe") == 1 then
+                return mason_cmd .. ".exe"
             end
 
             return cmd
@@ -56,7 +60,7 @@ return {
 
         local lint_group = vim.api.nvim_create_augroup("user_nvim_lint", { clear = true })
 
-        vim.api.nvim_create_autocmd({ "BufEnter", "BufWritePost", "InsertLeave" }, {
+        vim.api.nvim_create_autocmd({ "BufWritePost" }, {
             group = lint_group,
             callback = function()
                 pcall(lint.try_lint)

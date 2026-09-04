@@ -1,16 +1,55 @@
 return {
     "folke/todo-comments.nvim",
-    event = { "BufReadPost", "BufNewFile" },
-    cmd = { "TodoTelescope", "TodoTrouble", "TodoLocList", "TodoQuickFix" },
+    event = "VeryLazy",
+    cmd = { "TodoTrouble", "TodoLocList", "TodoQuickFix", "TodoSnacks" },
     dependencies = {
         "nvim-lua/plenary.nvim",
     },
-    config = function()
-        require("todo-comments").setup({
-            signs = true,
-            highlight = {
-                keyword = "wide",
+    opts = {
+        signs = true,
+        sign_priority = 8,
+        keywords = {
+            FIX = {
+                icon = " ",
+                color = "error",
+                alt = { "FIXME", "BUG", "FIXIT", "ISSUE" },
             },
-        })
-    end,
+            TODO = { icon = " ", color = "info" },
+            HACK = { icon = " ", color = "warning" },
+            WARN = { icon = " ", color = "warning", alt = { "WARNING", "XXX" } },
+            PERF = { icon = "󰓅 ", color = "purple", alt = { "OPTIM", "PERFORMANCE", "OPTIMIZE" } },
+            NOTE = { icon = "󰍨 ", color = "hint", alt = { "INFO" } },
+            TEST = { icon = "󰙨 ", color = "test", alt = { "TESTING", "PASSED", "FAILED" } },
+        },
+        gui_style = {
+            fg = "NONE",
+            bg = "BOLD",
+        },
+        colors = {
+            error = { "DiagnosticError", "ErrorMsg", "#f38ba8" },
+            warning = { "DiagnosticWarn", "WarningMsg", "#fab387" },
+            info = { "DiagnosticInfo", "#89b4fa" },
+            hint = { "DiagnosticHint", "#a6e3a1" },
+            purple = { "Statement", "#cba6f7" },
+            test = { "Identifier", "#f5c2e7" },
+        },
+        highlight = {
+            multiline = true,
+            multiline_pattern = "^.",
+            multiline_context = 10,
+            before = "",
+            keyword = "wide",
+            after = "fg",
+            pattern = [[.*<(KEYWORDS)\s*:]],
+            comments_only = true,
+            max_line_len = 400,
+            exclude = {},
+        },
+    },
+    keys = {
+        { "]t", function() require("todo-comments").jump_next() end, desc = "Next TODO comment" },
+        { "[t", function() require("todo-comments").jump_prev() end, desc = "Previous TODO comment" },
+        { "<leader>xt", "<cmd>Trouble todo toggle<cr>", desc = "TODOs (Trouble)" },
+        { "<leader>st", function() Snacks.picker.todo_comments() end, desc = "Search: TODO comments" },
+    },
 }

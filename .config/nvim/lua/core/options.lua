@@ -14,14 +14,16 @@ opt.wrap           = false -- don't wrap long lines
 opt.virtualedit    = "block" -- free cursor in visual block mode
 opt.colorcolumn    = ""    -- no hard ruler by default
 opt.showmode       = false -- mode is shown in the statusline instead
-opt.cmdheight      = 1     -- command bar height
+opt.cmdheight      = 0     -- hide bottom command bar space (using floating spotlight cmdline)
 opt.laststatus     = 3     -- single statusline across all windows
 opt.showtabline    = 2     -- keep the bufferline visible as a stable navigation rail
 if vim.fn.has("nvim-0.11") == 1 then
     opt.winborder      = "rounded" -- use a consistent premium border for native floats
 end
-opt.mousemoveevent     = true      -- enable mouse move events for interactive breadcrumbs and hover
-opt.guicursor          = "n-v-c-sm:block-Cursor/lCursor,i-ci-ve:ver25-InsertCursor/lCursor,r-cr-o:hor20-ReplaceCursor/lCursor"
+opt.synmaxcol      = 300   -- don't syntax highlight past column 300 (massive speedup on heavy/minified lines)
+opt.redrawtime     = 1500  -- limit syntax redraw time (prevents lag on complex regex)
+opt.mousemoveevent = true  -- enable mouse move events for interactive breadcrumbs and hover
+opt.guicursor      = "n-v-c-sm:block-Cursor/lCursor,i-ci-ve:ver25-InsertCursor/lCursor,r-cr-o:hor20-ReplaceCursor/lCursor"
 
 -- ── Indentation ─────────────────────────────────────────────
 opt.expandtab      = true -- convert tabs → spaces
@@ -63,16 +65,16 @@ opt.inccommand     = "split"                   -- preview substitutions live
 opt.smoothscroll   = false                     -- disabled in favor of snacks.scroll
 vim.g.ft_man_open_mode = "vert"                -- open man pages in a vertical split
 vim.g.man_hardwrap     = 0                     -- soft-wrap man pages to window width
-opt.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"
+opt.sessionoptions = "curdir,folds,help,tabpages,winsize,winpos,localoptions"
 
 -- ── Clipboard ───────────────────────────────────────────────
 opt.clipboard      = "unnamedplus" -- sync with system clipboard
 opt.shada          = "!,'100,<0,s10,h" -- don't save registers across sessions
 opt.spell          = false -- disable spellcheck by default
 
--- ── Folding (Treesitter-ready) ───────────────────────────────
-opt.foldmethod     = "expr"
-opt.foldexpr       = "v:lua.vim.treesitter.foldexpr()"
+-- ── Folding (Managed lazily by nvim-ufo) ────────────────────
+opt.foldmethod     = "manual"
+opt.foldexpr       = ""
 opt.foldenable     = true
 opt.foldlevel      = 99 -- keep folds open by default
 opt.foldlevelstart = 99
@@ -86,9 +88,6 @@ opt.fillchars:append({
 })
 
 -- ── Misc ────────────────────────────────────────────────────
-if vim.fn.executable("zen-browser") == 1 then
-    vim.env.BROWSER = "zen-browser"
-end
 opt.mouse          = "a"  -- enable mouse in all modes
 opt.breakindent    = true -- wrapped lines preserve indentation
 opt.showbreak      = "↳  " -- make wrapped prose easier to scan
@@ -106,14 +105,6 @@ opt.jumpoptions:append("view")  -- restore the previous viewport on jumplist tra
 opt.diffopt:append("linematch:60") -- better inline diff alignment for larger hunks
 opt.winminheight    = 1             -- keep window splits from collapsing to 0 height
 opt.winminwidth     = 5             -- keep split resizing from collapsing useful context
-
--- Keep netrw available as a fallback with familiar directory listings.
-vim.g.netrw_liststyle = 3
-vim.g.netrw_winsize = 25
-vim.g.netrw_banner = 0
-vim.g.netrw_sort_sequence = "[\\/]$,*,\\.o$,\\.obj$,\\.pyc$,\\.class$"
-vim.g.netrw_fastbrowse = 2
-vim.g.netrw_keepdir = 0
 
 local language_group = vim.api.nvim_create_augroup("language_defaults", { clear = true })
 
@@ -149,5 +140,9 @@ vim.api.nvim_create_autocmd("FileType", {
     pattern = { "lua", "python", "sh", "bash", "zsh", "javascript", "typescript", "javascriptreact", "typescriptreact", "c", "cpp" },
     callback = function()
         vim.opt_local.colorcolumn = "100"
+        vim.opt_local.shiftwidth = 4
+        vim.opt_local.tabstop = 4
+        vim.opt_local.softtabstop = 4
+        vim.opt_local.expandtab = true
     end,
 })

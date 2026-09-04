@@ -1,13 +1,20 @@
 return {
     "barrett-ruth/live-server.nvim",
+    ft = "html",
     cmd = { "LiveServerStart", "LiveServerStop", "LiveServerToggle" },
     config = function()
+        local args = {
+            "--port=5500",
+            "--host=127.0.0.1",
+        }
+        if vim.fn.executable("zen-browser") == 1 then
+            table.insert(args, "--browser=zen-browser")
+        elseif vim.fn.executable("zen") == 1 then
+            table.insert(args, "--browser=zen")
+        end
+
         require("live-server").setup({
-            args = {
-                "--port=5500",
-                "--host=127.0.0.1",
-                "--browser=zen-browser",
-            },
+            args = args,
         })
     end,
     keys = {

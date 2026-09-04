@@ -1,14 +1,13 @@
 return {
     "neovim/nvim-lspconfig",
-    event = { "BufReadPre", "BufNewFile" },
+    event = { "BufReadPost", "BufNewFile" },
     dependencies = {
-        "hrsh7th/cmp-nvim-lsp",
+        "saghen/blink.cmp",
         "folke/lazydev.nvim",
         "b0o/schemastore.nvim",
-        "mason-org/mason.nvim",
-        "mason-org/mason-lspconfig.nvim",
     },
     config = function()
+        vim.schedule(function()
         local function cmd(command)
             return "<cmd>" .. command .. "<CR>"
         end
@@ -24,16 +23,19 @@ return {
         end
 
         local function smart_rename()
-            if vim.fn.exists(":IncRename") == 2 then
-                vim.cmd("IncRename " .. vim.fn.expand("<cword>"))
-                return
-            end
-
             vim.lsp.buf.rename()
         end
 
-        local cmp_lsp_ok, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
-        local capabilities = cmp_lsp_ok and cmp_nvim_lsp.default_capabilities() or vim.lsp.protocol.make_client_capabilities()
+        local capabilities = vim.lsp.protocol.make_client_capabilities()
+        local blink_ok, blink = pcall(require, "blink.cmp")
+        if blink_ok then
+            capabilities = blink.get_lsp_capabilities(capabilities)
+        else
+            local cmp_lsp_ok, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
+            if cmp_lsp_ok then
+                capabilities = cmp_nvim_lsp.default_capabilities(capabilities)
+            end
+        end
         capabilities.textDocument.foldingRange = {
             dynamicRegistration = false,
             lineFoldingOnly = true,
@@ -102,9 +104,23 @@ return {
             },
         })
 
+        vim.lsp.handlers["textDocument/hover"] = function(err, result, ctx, config)
+            local opts = vim.tbl_extend("force", config or {}, {
+                border = float_border,
+                max_width = math.floor(vim.o.columns * 0.45),
+                max_height = math.floor(vim.o.lines * 0.30),
+            })
+            return vim.lsp.handlers.hover(err, result, ctx, opts)
+        end
 
-
-
+        vim.lsp.handlers["textDocument/signatureHelp"] = function(err, result, ctx, config)
+            local opts = vim.tbl_extend("force", config or {}, {
+                border = float_border,
+                max_width = math.floor(vim.o.columns * 0.45),
+                max_height = math.floor(vim.o.lines * 0.18),
+            })
+            return vim.lsp.handlers.signature_help(err, result, ctx, opts)
+        end
 
         local servers_ok, servers = pcall(require, "lsp.servers")
         if not servers_ok then
@@ -112,16 +128,59 @@ return {
             servers = {}
         end
 
-        -- Ensure lspconfig is loaded so it registers default configs with vim.lsp.config
-        pcall(require, "lspconfig")
+        -- Neovim 0.10 needs lspconfig's setup API; 0.11 loads native configs directly.
+        if vim.fn.has("nvim-0.11") == 0 then
+            pcall(require, "lspconfig")
+        end
 
         -- Global LSP commands and keybinds
+        vim.api.nvim_create_user_command("LspRestart", function(opts)
+            local target = opts.args ~= "" and opts.args or nil
+            local clients = vim.lsp.get_clients()
+            local restarted = {}
 
+            for _, client in ipairs(clients) do
+                if not target or client.name == target then
+                    table.insert(restarted, client.name)
+                    local server_name = client.name
+                    client:stop()
+                    if vim.fn.has("nvim-0.11") == 1 then
+                        vim.lsp.enable(server_name, false)
+                    end
+                    vim.defer_fn(function()
+                        if vim.fn.has("nvim-0.11") == 1 then
+                            vim.lsp.enable(server_name, true)
+                        end
+                        for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+                            if vim.api.nvim_buf_is_loaded(buf) then
+                                vim.api.nvim_exec_autocmds("FileType", { buffer = buf, modeline = false })
+                            end
+                        end
+                    end, 300)
+                end
+            end
+
+            if #restarted > 0 then
+                vim.notify("Restarting LSP: " .. table.concat(restarted, ", "), vim.log.levels.INFO, { title = "LSP" })
+            else
+                vim.notify("No active LSP clients found to restart", vim.log.levels.WARN, { title = "LSP" })
+            end
+        end, {
+            nargs = "?",
+            desc = "Restart active language servers",
+            complete = function()
+                local names = {}
+                for _, c in ipairs(vim.lsp.get_clients()) do
+                    table.insert(names, c.name)
+                end
+                return names
+            end,
+        })
 
         vim.keymap.set("n", "<leader>lR", "<cmd>LspRestart<cr>", { desc = "Restart language servers" })
 
         local mason_lspconfig_ok, mason_lspconfig = pcall(require, "mason-lspconfig")
-        if mason_lspconfig_ok then
+        if mason_lspconfig_ok and vim.fn.has("nvim-0.11") == 0 then
             mason_lspconfig.setup({
                 ensure_installed = {
                     "basedpyright",
@@ -133,34 +192,45 @@ return {
                     "jsonls",
                     "lua_ls",
                     "marksman",
-                    "pylsp",
                     "qmlls",
-                    "sqls",
                     "tailwindcss",
                     "vtsls",
                     "yamlls",
                 },
-                automatic_installation = true,
+                automatic_installation = false,
+                automatic_enable = false,
             })
         end
 
-        for server, server_config in pairs(servers) do
-            local merged_config = vim.tbl_deep_extend("force", {
-                capabilities = capabilities,
-            }, server_config)
-            
-            -- Use modern Neovim native API
-            vim.lsp.config(server, merged_config)
-
-            local cmd_name = (merged_config.cmd and type(merged_config.cmd) == "table" and merged_config.cmd[1]) or (server .. "-language-server")
-            if vim.fn.executable(cmd_name) == 1 or vim.fn.executable(server) == 1 then
+        if vim.fn.has("nvim-0.11") == 1 then
+            for server, server_config in pairs(servers) do
+                local merged_config = vim.tbl_deep_extend("force", {
+                    capabilities = capabilities,
+                }, server_config)
+                vim.lsp.config(server, merged_config)
                 vim.lsp.enable(server)
+            end
+        else
+            local lspconfig = require("lspconfig")
+            for server, server_config in pairs(servers) do
+                local merged = vim.tbl_deep_extend("force", { capabilities = capabilities }, server_config)
+                if lspconfig[server] then
+                    lspconfig[server].setup(merged)
+                end
             end
         end
 
         vim.api.nvim_create_autocmd("LspAttach", {
             group = vim.api.nvim_create_augroup("user_lsp_attach", { clear = true }),
             callback = function(event)
+                -- If this is a heavy file (> 1MB), detach LSP immediately to prevent UI lag
+                if vim.b[event.buf].large_file or vim.b[event.buf].bigfile then
+                    vim.schedule(function()
+                        pcall(vim.lsp.buf_detach_client, event.buf, event.data.client_id)
+                    end)
+                    return
+                end
+
                 local client = vim.lsp.get_client_by_id(event.data.client_id)
 
                 local function map_lsp(mode, lhs, rhs, desc)
@@ -200,15 +270,6 @@ return {
                 map_lsp("n", "<leader>rn", smart_rename, "Rename this symbol everywhere")
                 map_lsp({ "n", "v" }, "<leader>ca", smart_code_action, "Show suggested code fixes and actions")
 
-                vim.schedule(function()
-                    local navic_ok, navic = pcall(require, "nvim-navic")
-                    if client and navic_ok and client:supports_method("textDocument/documentSymbol") then
-                        if vim.api.nvim_buf_is_valid(event.buf) and not vim.b[event.buf].navic_attached then
-                            navic.attach(client, event.buf)
-                            vim.b[event.buf].navic_attached = true
-                        end
-                    end
-                end)
 
 
 
@@ -227,5 +288,6 @@ return {
                 pcall(vim.lsp.buf.clear_references)
             end,
         })
+        end)
     end,
 }

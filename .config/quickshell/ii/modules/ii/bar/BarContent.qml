@@ -284,6 +284,48 @@ Item { // Bar content region
                             color: rightSidebarButton.colText
                         }
                     }
+                    Revealer {
+                        reveal: ScreenRecording.isRecording
+                        Layout.fillHeight: true
+                        Layout.rightMargin: reveal ? indicatorsRowLayout.realSpacing : 0
+                        Behavior on Layout.rightMargin {
+                            animation: Appearance.animation.elementMoveFast.numberAnimation.createObject(this)
+                        }
+                        MaterialSymbol {
+                            text: "screen_record"
+                            iconSize: Appearance.font.pixelSize.larger
+                            fill: 1
+                            color: Appearance.m3colors.m3error
+
+                            SequentialAnimation on opacity {
+                                running: ScreenRecording.isRecording
+                                loops: Animation.Infinite
+                                NumberAnimation { to: 0.35; duration: 700 }
+                                NumberAnimation { to: 1.0; duration: 700 }
+                            }
+                        }
+                    }
+                    Revealer {
+                        reveal: MicrophoneRecording.isRecording
+                        Layout.fillHeight: true
+                        Layout.rightMargin: reveal ? indicatorsRowLayout.realSpacing : 0
+                        Behavior on Layout.rightMargin {
+                            animation: Appearance.animation.elementMoveFast.numberAnimation.createObject(this)
+                        }
+                        MaterialSymbol {
+                            text: "mic"
+                            iconSize: Appearance.font.pixelSize.larger
+                            fill: 1
+                            color: Appearance.m3colors.m3error
+
+                            SequentialAnimation on opacity {
+                                running: MicrophoneRecording.isRecording
+                                loops: Animation.Infinite
+                                NumberAnimation { to: 0.35; duration: 700 }
+                                NumberAnimation { to: 1.0; duration: 700 }
+                            }
+                        }
+                    }
                     HyprlandXkbIndicator {
                         Layout.alignment: Qt.AlignVCenter
                         Layout.rightMargin: indicatorsRowLayout.realSpacing

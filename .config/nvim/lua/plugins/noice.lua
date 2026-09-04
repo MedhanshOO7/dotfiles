@@ -10,77 +10,94 @@ return {
                 enabled = true,
                 view = "cmdline_popup",
                 format = {
-                    cmdline = { icon = "" },
-                    search_down = { icon = " " },
-                    search_up = { icon = " " },
-                    filter = { icon = "$" },
-                    lua = { icon = "" },
-                    help = { icon = "?" },
+                    cmdline = { icon = " ", hl_group = "Function" },
+                    search_down = { icon = "  ", hl_group = "DiagnosticWarn" },
+                    search_up = { icon = "  ", hl_group = "DiagnosticWarn" },
+                    filter = { icon = "$ ", hl_group = "DiagnosticInfo" },
+                    lua = { icon = " ", hl_group = "Special" },
+                    help = { icon = "󰋖 ", hl_group = "DiagnosticHint" },
+                    input = { icon = "󰥻 ", hl_group = "Title" },
                 },
             },
             messages = {
-                view = "notify",
-                view_error = "notify",
-                view_warn = "notify",
+                enabled = false, -- snacks.notifier handles messages
             },
             popupmenu = {
-                enabled = true, -- Enable nice popupmenu
-                backend = "nui",
+                enabled = false, -- Disable Nui popupmenu container to prevent bottom split bleeding
             },
             notify = {
-                enabled = true,
-                view = "notify",
+                enabled = false, -- snacks.notifier handles all toast notifications
             },
             lsp = {
                 progress = {
-                    enabled = false, -- Using fidget instead
+                    enabled = false,
                 },
                 hover = {
                     enabled = true,
-                    view = nil, -- use default view
+                    view = nil,
                     opts = {
-                        max_width = math.max(40, math.floor(vim.o.columns * 0.40)),
-                        max_height = math.max(6, math.floor(vim.o.lines * 0.25)),
+                        max_width = math.max(40, math.floor(vim.o.columns * 0.45)),
+                        max_height = math.max(6, math.floor(vim.o.lines * 0.30)),
                     },
                 },
                 signature = {
                     enabled = true,
                     auto_open = {
-                        enabled = true,
-                        trigger = true, -- Automatically show signature help when typing a function call
-                        luasnip = true, -- Will open signature help when jumping to Luasnip insert nodes
-                        throttle = 50,  -- Debounce lsp signature help request by 50ms
+                        enabled = false,
+                        trigger = true,
+                        luasnip = true,
+                        throttle = 50,
                     },
-                    view = nil, -- use default view
+                    view = nil,
                     opts = {
-                        max_width = math.max(40, math.floor(vim.o.columns * 0.40)),
-                        max_height = math.max(4, math.floor(vim.o.lines * 0.15)),
+                        max_width = math.max(40, math.floor(vim.o.columns * 0.45)),
+                        max_height = math.max(4, math.floor(vim.o.lines * 0.18)),
                     },
                 },
             },
             views = {
-                mini = {
-                    win_options = {
-                        winblend = 0,
+                cmdline_popup = {
+                    position = {
+                        row = "40%",
+                        col = "50%",
                     },
-                },
-                hover = {
+                    size = {
+                        min_width = 60,
+                        width = "auto",
+                        max_width = math.max(60, math.floor(vim.o.columns * 0.75)),
+                        height = "auto",
+                    },
                     border = {
                         style = "rounded",
+                        padding = { 0, 1 },
                     },
-                    position = { row = 2, col = 2 },
-                    size = {
-                        max_width = math.max(40, math.floor(vim.o.columns * 0.45)),
-                        max_height = math.max(6, math.floor(vim.o.lines * 0.30)),
+                    win_options = {
+                        winhighlight = {
+                            Normal = "NoiceCmdlinePopup",
+                            FloatBorder = "NoiceCmdlinePopupBorder",
+                            FloatTitle = "NoiceCmdlinePopupTitle",
+                        },
+                        wrap = true,
+                        linebreak = true,
+                        sidescrolloff = 0,
+                        cursorline = false,
+                        foldenable = false,
+                    },
+                },
+                cmdline_input = {
+                    view = "cmdline_popup",
+                    border = {
+                        style = "rounded",
+                        padding = { 0, 1 },
                     },
                 },
             },
             presets = {
-                bottom_search = true, -- use a classic bottom cmdline for search
-                command_palette = true, -- position the cmdline and popupmenu together
-                long_message_to_split = true, -- long messages will be sent to a split
-                inc_rename = true, -- enables an input dialog for inc-rename.nvim
-                lsp_doc_border = true, -- add a border to hover docs and signature help
+                bottom_search = false, -- spotlight popup search for consistent centered feel
+                command_palette = false, -- use our custom centered & clipped views
+                long_message_to_split = true,
+                inc_rename = false,
+                lsp_doc_border = true,
             },
             routes = {
                 {
@@ -91,11 +108,12 @@ return {
                             { find = "E1568" },
                             { find = "is_stopped is deprecated" },
                             { find = "client.request is deprecated" },
+                            { find = "written" },
                         },
                     },
                     opts = { skip = true },
                 },
             },
         })
-    end
+    end,
 }

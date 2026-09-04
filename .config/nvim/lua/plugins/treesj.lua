@@ -1,6 +1,6 @@
 return {
     "Wansmer/treesj",
-    lazy = true,
+    cmd = "TSJToggle",
     dependencies = {
         "nvim-treesitter/nvim-treesitter",
     },

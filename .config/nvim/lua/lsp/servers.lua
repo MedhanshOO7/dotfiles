@@ -17,9 +17,9 @@ return {
             "--completion-style=detailed",
             "--function-arg-placeholders=0",
             "--header-insertion=iwyu",
-            "--fallback-style={BasedOnStyle: LLVM, IndentWidth: 4, TabWidth: 4, UseTab: Never}",
+            "--fallback-style=WebKit",
             "--log=error",
-            "--query-driver=/usr/bin/arm-none-eabi-*",
+            "--query-driver=**/*arm-none-eabi*,/usr/bin/arm-none-eabi-*,/usr/bin/*gcc*,/usr/bin/*g++*,/usr/bin/clang*,/opt/homebrew/bin/*,/usr/local/bin/*,/Library/Developer/CommandLineTools/usr/bin/*",
         },
         init_options = {
             clangdFileStatus = false,
@@ -107,56 +107,59 @@ return {
                 },
                 workspace = {
                     checkThirdParty = false,
-                    library = vim.list_extend(vim.api.nvim_get_runtime_file("", true), {
-                        vim.fn.stdpath("config"),
-                        vim.fn.stdpath("data") .. "/lazy",
-                    }),
                 },
                 telemetry = { enable = false },
             },
         },
     },
     basedpyright = {
+        before_init = function(_, config)
+            local root = config.root_dir or vim.fn.getcwd()
+            local venv = vim.env.VIRTUAL_ENV
+            if not venv or venv == "" then
+                local file_path = vim.api.nvim_buf_get_name(0)
+                local start_dir = (file_path ~= "" and vim.fs.dirname(file_path)) or root
+                local found = vim.fs.find({ ".venv", "venv" }, { upward = true, path = start_dir })[1]
+                if found then
+                    venv = vim.fn.fnamemodify(found, ":p"):gsub("/$", "")
+                end
+            end
+            if venv and venv ~= "" then
+                local python_bin = venv .. "/bin/python"
+                if vim.fn.executable(python_bin) == 1 then
+                    config.settings = config.settings or {}
+                    config.settings.python = config.settings.python or {}
+                    config.settings.python.pythonPath = python_bin
+
+                    local site_packages = vim.fn.glob(venv .. "/lib/python*/site-packages", false, true)
+                    if #site_packages > 0 then
+                        config.settings.basedpyright = config.settings.basedpyright or {}
+                        config.settings.basedpyright.analysis = config.settings.basedpyright.analysis or {}
+                        config.settings.basedpyright.analysis.extraPaths = site_packages
+                    end
+                end
+            end
+        end,
         settings = {
+            python = {},
             basedpyright = {
                 analysis = {
                     autoSearchPaths = true,
                     useLibraryCodeForTypes = true,
                     diagnosticMode = "openFilesOnly",
                     typeCheckingMode = "standard",
+                    autoImportCompletions = true,
+                    inlayHints = {
+                        variableTypes = true,
+                        functionReturnTypes = true,
+                        callArgumentNames = true,
+                    },
                 },
             },
         },
     },
     marksman = {},
-    pylsp = {
-        settings = {
-            pylsp = {
-                plugins = {
-                    autopep8 = { enabled = false },
-                    mccabe = { enabled = false },
-                    pycodestyle = { enabled = false },
-                    pyflakes = { enabled = true },
-                    yapf = { enabled = false },
-                    pylsp_mypy = { enabled = false },
-                    pylint = { enabled = false },
-                    rope_autoimport = { enabled = true },
-                    jedi_completion = {
-                        fuzzy = true,
-                        include_params = true,
-                    },
-                    jedi_hover = { enabled = true },
-                    jedi_references = { enabled = true },
-                    jedi_signature_help = { enabled = true },
-                    preload = { enabled = true },
-                },
-            },
-        },
-    },
     qmlls = {},
-    sqls = {
-        filetypes = { "sql", "mysql" },
-    },
     vtsls = {
         settings = {
             typescript = {

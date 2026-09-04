@@ -40,18 +40,9 @@ function M.set_mode(mode)
         end
     end
 
-    -- 2. Toggle completion (snippets) via nvim-cmp
-    local cmp_ok, cmp = pcall(require, "cmp")
-    if cmp_ok then
-        cmp.setup.buffer({ enabled = not is_brainstorm })
-    end
-
-    -- 3. Toggle diagnostic noise
-    vim.diagnostic.config({
-        virtual_text = not is_brainstorm,
-        signs = not is_brainstorm,
-        underline = not is_brainstorm,
-    })
+    -- 2. Toggle diagnostic noise buffer-locally
+    local cur_buf = vim.api.nvim_get_current_buf()
+    pcall(vim.diagnostic.enable, not is_brainstorm, { bufnr = cur_buf })
 
     vim.notify("Markdown: " .. target_mode .. " Mode active", vim.log.levels.INFO)
 end
