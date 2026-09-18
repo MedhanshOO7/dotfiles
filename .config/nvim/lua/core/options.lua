@@ -8,8 +8,8 @@ opt.relativenumber = true  -- VS Code-style relative line numbers
 opt.signcolumn     = "yes" -- always show the sign column (prevents layout jumps)
 opt.cursorline     = true  -- highlight the current line
 opt.cursorlineopt  = "number,line" -- give the active line a stronger anchor
-opt.scrolloff      = 3     -- keep a little context around the cursor
-opt.sidescrolloff  = 0     -- no horizontal cursor padding
+opt.scrolloff      = 8     -- keep comfortable context around the cursor
+opt.sidescrolloff  = 8     -- keep horizontal context visible too
 opt.wrap           = false -- don't wrap long lines
 opt.virtualedit    = "block" -- free cursor in visual block mode
 opt.colorcolumn    = ""    -- no hard ruler by default
@@ -59,10 +59,12 @@ opt.pumheight      = 10                        -- max items in popup menu
 opt.pumblend       = 0                         -- crisp float edges matching theme background
 opt.shortmess:append("c")                      -- suppress completion messages
 opt.updatetime     = 250                       -- snappier diagnostics and git updates
-opt.timeoutlen     = 300                       -- faster which-key popup and mappings
+opt.timeoutlen     = 500                       -- faster which-key popup and mappings
 opt.splitkeep      = "screen"                  -- avoid layout jumps when opening or closing splits
 opt.inccommand     = "split"                   -- preview substitutions live
 opt.smoothscroll   = false                     -- disabled in favor of snacks.scroll
+opt.showmatch      = true                      -- Show matching brackets
+opt.matchtime      = 2                         -- Tenths of a second to blink matching brackets
 vim.g.ft_man_open_mode = "vert"                -- open man pages in a vertical split
 vim.g.man_hardwrap     = 0                     -- soft-wrap man pages to window width
 opt.sessionoptions = "curdir,folds,help,tabpages,winsize,winpos,localoptions"
@@ -99,8 +101,8 @@ opt.listchars      = {    -- … configured as:
 }
 -- formatoptions:remove at init-time is overridden by ftplugins;
 -- use a FileType autocmd instead (see language_defaults group below).
-opt.iskeyword:append("-")       -- treat hyphenated-words as one word
-opt.path:append("**")           -- let gf find project files in nested folders
+-- opt.iskeyword:append("-")       -- treat hyphenated-words as one word
+-- opt.path:append("**")           -- let gf find project files in nested folders
 opt.jumpoptions:append("view")  -- restore the previous viewport on jumplist travel
 opt.diffopt:append("linematch:60") -- better inline diff alignment for larger hunks
 opt.winminheight    = 1             -- keep window splits from collapsing to 0 height
