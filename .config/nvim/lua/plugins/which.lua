@@ -6,7 +6,7 @@ return {
         "nvim-tree/nvim-web-devicons",
     },
     opts = {
-        delay = 50,
+        delay = 400,
         preset = "modern",
         win = {
             border = "rounded",
@@ -28,7 +28,7 @@ return {
             { "<leader>d", group = "Debug", icon = { icon = "󰃤", color = "red" } },
             { "<leader>f", group = "Find", icon = { icon = "", color = "blue" } },
             { "<leader>g", group = "Git", icon = { icon = "", color = "purple" } },
-            { "<leader>gc", group = "Git Conflicts", icon = { icon = "󰰚", color = "red" } },
+            { "<leader>gC", group = "Git Conflicts", icon = { icon = "󰰚", color = "red" } },
             { "<leader>h", group = "Harpoon", icon = { icon = "󰛢", color = "cyan" } },
             { "<leader>hv", group = "Helpview", icon = { icon = "󰋖", color = "blue" } },
             { "<leader>l", group = "LSP", icon = { icon = "", color = "blue" } },
