@@ -1,7 +1,14 @@
 return {
     "akinsho/toggleterm.nvim",
     version = "*",
-    cmd = { "ToggleTerm", "TermExec" },
+    cmd = {
+        "ToggleTerm",
+        "TermExec",
+        "TerminalProject",
+        "TerminalHorizontal",
+        "TerminalVertical",
+        "TerminalSelect",
+    },
     config = function()
         local function terminal_size(term)
             if term.direction == "horizontal" then
@@ -104,22 +111,42 @@ return {
             group = vim.api.nvim_create_augroup("editing_terminal_keymaps", { clear = true }),
             callback = function(event)
                 local opts = { buffer = event.buf, silent = true }
-                vim.keymap.set("n", "q", "<Cmd>close<CR>", vim.tbl_extend("force", opts, {
-                    desc = "Close terminal window",
-                }))
-                vim.keymap.set("n", "<Esc>", "<Cmd>close<CR>", vim.tbl_extend("force", opts, {
-                    desc = "Close terminal window",
-                }))
-                vim.keymap.set("t", "<Esc><Esc>", [[<C-\><C-n>]], vim.tbl_extend("force", opts, {
-                    desc = "Leave terminal mode",
-                }))
+                vim.keymap.set(
+                    "n",
+                    "q",
+                    "<Cmd>close<CR>",
+                    vim.tbl_extend("force", opts, {
+                        desc = "Close terminal window",
+                    })
+                )
+                vim.keymap.set(
+                    "n",
+                    "<Esc>",
+                    "<Cmd>close<CR>",
+                    vim.tbl_extend("force", opts, {
+                        desc = "Close terminal window",
+                    })
+                )
+                vim.keymap.set(
+                    "t",
+                    "<Esc><Esc>",
+                    [[<C-\><C-n>]],
+                    vim.tbl_extend("force", opts, {
+                        desc = "Leave terminal mode",
+                    })
+                )
                 vim.keymap.set("t", "<C-h>", [[<Cmd>wincmd h<CR>]], opts)
                 vim.keymap.set("t", "<C-j>", [[<Cmd>wincmd j<CR>]], opts)
                 vim.keymap.set("t", "<C-k>", [[<Cmd>wincmd k<CR>]], opts)
                 vim.keymap.set("t", "<C-l>", [[<Cmd>wincmd l<CR>]], opts)
-                vim.keymap.set("t", "<C-w>", [[<C-\><C-n><Cmd>close<CR>]], vim.tbl_extend("force", opts, {
-                    desc = "Close terminal window",
-                }))
+                vim.keymap.set(
+                    "t",
+                    "<C-w>",
+                    [[<C-\><C-n><Cmd>close<CR>]],
+                    vim.tbl_extend("force", opts, {
+                        desc = "Close terminal window",
+                    })
+                )
             end,
         })
     end,
