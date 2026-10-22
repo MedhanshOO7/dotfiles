@@ -35,9 +35,9 @@ return {
         })
     end,
     keys = {
-        { "gpd", "<cmd>Glance definitions<cr>", desc = "Peek Definition" },
-        { "gpr", "<cmd>Glance references<cr>", desc = "Peek References" },
-        { "gpi", "<cmd>Glance implementations<cr>", desc = "Peek Implementations" },
-        { "gpt", "<cmd>Glance type_definitions<cr>", desc = "Peek Type Definitions" },
+        { "<leader>vd", "<cmd>Glance definitions<cr>", desc = "Peek Definition" },
+        { "<leader>vr", "<cmd>Glance references<cr>", desc = "Peek References" },
+        { "<leader>vi", "<cmd>Glance implementations<cr>", desc = "Peek Implementations" },
+        { "<leader>vt", "<cmd>Glance type_definitions<cr>", desc = "Peek Type Definitions" },
     },
 }
