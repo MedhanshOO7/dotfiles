@@ -8,7 +8,7 @@ return {
 
         autosave.setup({
             enabled = true,
-            debounce_delay = 1000,
+            debounce_delay = 1500,  -- Slightly longer delay to reduce save frequency
             trigger_events = {
                 immediate_save = { "BufLeave", "FocusLost" },
                 defer_save = { "InsertLeave", "TextChanged" },
@@ -32,15 +32,24 @@ return {
 
                 local ft = vim.bo[buf].filetype
                 local bt = vim.bo[buf].buftype
+                local buf_name = vim.api.nvim_buf_get_name(buf)
+
+                -- Don't save temporary files or empty buffers
+                if buf_name == "" or buf_name:match("^/tmp/") or buf_name:match("^%[") then
+                    return false
+                end
 
                 return vim.g.auto_save_enabled
                     and vim.b[buf].auto_save ~= false
                     and vim.bo[buf].modifiable
                     and not vim.bo[buf].readonly
                     and bt == ""
-                    and vim.api.nvim_buf_get_name(buf) ~= ""
+                    and buf_name ~= ""
                     and not vim.tbl_contains(ignored_filetypes, ft)
             end,
+            -- Only write the buffer that triggered the save, never unrelated edits
+            write_all_buffers = false,
+            -- Show notification on save (execution_message removed; auto-save.nvim now automatically clears the message area)
         })
 
         vim.api.nvim_create_user_command("AutoSaveToggle", function()
