@@ -1,19 +1,22 @@
 return {
     "neovim/nvim-lspconfig",
-    event = { "BufReadPost", "BufNewFile" },
+
+    event = { "BufReadPre", "BufNewFile" },
+
     dependencies = {
         "saghen/blink.cmp",
         "folke/lazydev.nvim",
         "b0o/schemastore.nvim",
     },
+
     config = function()
-        vim.schedule(function()
         local function cmd(command)
             return "<cmd>" .. command .. "<CR>"
         end
 
         local function smart_code_action()
             local ok, tiny = pcall(require, "tiny-code-action")
+
             if ok then
                 tiny.code_action()
                 return
@@ -26,20 +29,26 @@ return {
             vim.lsp.buf.rename()
         end
 
+        -- ============================================================
+        -- LSP CAPABILITIES
+        -- ============================================================
+
         local capabilities = vim.lsp.protocol.make_client_capabilities()
+
         local blink_ok, blink = pcall(require, "blink.cmp")
+
         if blink_ok then
             capabilities = blink.get_lsp_capabilities(capabilities)
-        else
-            local cmp_lsp_ok, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
-            if cmp_lsp_ok then
-                capabilities = cmp_nvim_lsp.default_capabilities(capabilities)
-            end
         end
+
         capabilities.textDocument.foldingRange = {
             dynamicRegistration = false,
             lineFoldingOnly = true,
         }
+
+        -- ============================================================
+        -- UI
+        -- ============================================================
 
         local float_border = {
             { "╭", "FloatBorder" },
@@ -61,29 +70,50 @@ return {
             })
         end
 
+        -- ============================================================
+        -- INLAY HINTS
+        -- ============================================================
+
         local function toggle_inlay_hints(bufnr)
             if not vim.lsp.inlay_hint then
                 vim.notify("Inlay hints are not supported in this Neovim build", vim.log.levels.WARN)
                 return
             end
 
-            local enabled = vim.lsp.inlay_hint.is_enabled({ bufnr = bufnr })
+            local enabled = vim.lsp.inlay_hint.is_enabled({
+                bufnr = bufnr,
+            })
+
             vim.lsp.inlay_hint.enable(not enabled, { bufnr = bufnr })
+
             vim.notify(not enabled and "Inlay hints are on" or "Inlay hints are off")
         end
 
+        -- ============================================================
+        -- LAZYDEV
+        -- ============================================================
+
         local lazydev_ok, lazydev = pcall(require, "lazydev")
+
         if lazydev_ok then
             lazydev.setup({
                 library = {
-                    { path = "${3rd}/luv/library", words = { "vim%.uv" } },
+                    {
+                        path = "${3rd}/luv/library",
+                        words = { "vim%.uv" },
+                    },
                 },
             })
         end
 
+        -- ============================================================
+        -- DIAGNOSTICS
+        -- ============================================================
+
         vim.diagnostic.config({
-            virtual_text = false, -- Handled by tiny-inline-diagnostic for sleek curved callouts
+            virtual_text = false,
             virtual_lines = false,
+
             signs = {
                 text = {
                     [vim.diagnostic.severity.ERROR] = "",
@@ -91,143 +121,76 @@ return {
                     [vim.diagnostic.severity.HINT] = "",
                     [vim.diagnostic.severity.INFO] = "",
                 },
+
+                numhl = {},
             },
+
             underline = {
                 severity = vim.diagnostic.severity.ERROR,
             },
+
             update_in_insert = false,
+
             severity_sort = true,
+
             float = {
                 border = float_border,
                 source = "if_many",
                 scope = "cursor",
+
+                max_width = math.floor(vim.o.columns * 0.6),
+                max_height = math.floor(vim.o.lines * 0.4),
             },
         })
 
-        vim.lsp.handlers["textDocument/hover"] = function(err, result, ctx, config)
-            local opts = vim.tbl_extend("force", config or {}, {
-                border = float_border,
-                max_width = math.floor(vim.o.columns * 0.45),
-                max_height = math.floor(vim.o.lines * 0.30),
-            })
-            return vim.lsp.handlers.hover(err, result, ctx, opts)
-        end
+        -- LSP progress, hover and signature help are rendered by noice.nvim
+        -- (lua/plugins/noice.lua). Don't override those handlers here: a
+        -- handler installed after noice loads silently replaces noice's.
 
-        vim.lsp.handlers["textDocument/signatureHelp"] = function(err, result, ctx, config)
-            local opts = vim.tbl_extend("force", config or {}, {
-                border = float_border,
-                max_width = math.floor(vim.o.columns * 0.45),
-                max_height = math.floor(vim.o.lines * 0.18),
-            })
-            return vim.lsp.handlers.signature_help(err, result, ctx, opts)
-        end
+        -- ============================================================
+        -- SERVER CONFIGURATION
+        -- ============================================================
 
         local servers_ok, servers = pcall(require, "lsp.servers")
+
         if not servers_ok then
             vim.notify("Failed to load LSP servers config", vim.log.levels.ERROR)
+
             servers = {}
         end
 
-        -- Neovim 0.10 needs lspconfig's setup API; 0.11 loads native configs directly.
-        if vim.fn.has("nvim-0.11") == 0 then
-            pcall(require, "lspconfig")
-        end
-
-        -- Global LSP commands and keybinds
-        vim.api.nvim_create_user_command("LspRestart", function(opts)
-            local target = opts.args ~= "" and opts.args or nil
-            local clients = vim.lsp.get_clients()
-            local restarted = {}
-
-            for _, client in ipairs(clients) do
-                if not target or client.name == target then
-                    table.insert(restarted, client.name)
-                    local server_name = client.name
-                    client:stop()
-                    if vim.fn.has("nvim-0.11") == 1 then
-                        vim.lsp.enable(server_name, false)
-                    end
-                    vim.defer_fn(function()
-                        if vim.fn.has("nvim-0.11") == 1 then
-                            vim.lsp.enable(server_name, true)
-                        end
-                        for _, buf in ipairs(vim.api.nvim_list_bufs()) do
-                            if vim.api.nvim_buf_is_loaded(buf) then
-                                vim.api.nvim_exec_autocmds("FileType", { buffer = buf, modeline = false })
-                            end
-                        end
-                    end, 300)
-                end
-            end
-
-            if #restarted > 0 then
-                vim.notify("Restarting LSP: " .. table.concat(restarted, ", "), vim.log.levels.INFO, { title = "LSP" })
-            else
-                vim.notify("No active LSP clients found to restart", vim.log.levels.WARN, { title = "LSP" })
-            end
+        vim.keymap.set("n", "<leader>lR", function()
+            -- `:lsp` is built in from 0.12; nvim-lspconfig provides :LspRestart on 0.11
+            vim.cmd(vim.fn.exists(":lsp") == 2 and "lsp restart" or "LspRestart")
         end, {
-            nargs = "?",
-            desc = "Restart active language servers",
-            complete = function()
-                local names = {}
-                for _, c in ipairs(vim.lsp.get_clients()) do
-                    table.insert(names, c.name)
-                end
-                return names
-            end,
+            desc = "Restart language servers",
         })
 
-        vim.keymap.set("n", "<leader>lR", "<cmd>LspRestart<cr>", { desc = "Restart language servers" })
+        -- ============================================================
+        -- ENABLE LSP SERVERS
+        -- ============================================================
 
-        local mason_lspconfig_ok, mason_lspconfig = pcall(require, "mason-lspconfig")
-        if mason_lspconfig_ok and vim.fn.has("nvim-0.11") == 0 then
-            mason_lspconfig.setup({
-                ensure_installed = {
-                    "basedpyright",
-                    "bashls",
-                    "clangd",
-                    "cssls",
-                    "emmet_language_server",
-                    "html",
-                    "jsonls",
-                    "lua_ls",
-                    "marksman",
-                    "qmlls",
-                    "tailwindcss",
-                    "vtsls",
-                    "yamlls",
-                },
-                automatic_installation = false,
-                automatic_enable = false,
-            })
+        for server, server_config in pairs(servers) do
+            vim.lsp.config(server, vim.tbl_deep_extend("force", {
+                capabilities = capabilities,
+            }, server_config))
+            vim.lsp.enable(server)
         end
 
-        if vim.fn.has("nvim-0.11") == 1 then
-            for server, server_config in pairs(servers) do
-                local merged_config = vim.tbl_deep_extend("force", {
-                    capabilities = capabilities,
-                }, server_config)
-                vim.lsp.config(server, merged_config)
-                vim.lsp.enable(server)
-            end
-        else
-            local lspconfig = require("lspconfig")
-            for server, server_config in pairs(servers) do
-                local merged = vim.tbl_deep_extend("force", { capabilities = capabilities }, server_config)
-                if lspconfig[server] then
-                    lspconfig[server].setup(merged)
-                end
-            end
-        end
+        -- ============================================================
+        -- LSP ATTACH
+        -- ============================================================
 
         vim.api.nvim_create_autocmd("LspAttach", {
             group = vim.api.nvim_create_augroup("user_lsp_attach", { clear = true }),
+
             callback = function(event)
-                -- If this is a heavy file (> 1MB), detach LSP immediately to prevent UI lag
+                -- Disable LSP for very large files.
                 if vim.b[event.buf].large_file or vim.b[event.buf].bigfile then
                     vim.schedule(function()
                         pcall(vim.lsp.buf_detach_client, event.buf, event.data.client_id)
                     end)
+
                     return
                 end
 
@@ -242,39 +205,67 @@ return {
 
                 vim.bo[event.buf].omnifunc = "v:lua.vim.lsp.omnifunc"
 
+                -- Diagnostics.
                 map_lsp("n", "<leader>le", function()
                     vim.diagnostic.open_float(bordered({
                         scope = "cursor",
                         source = "if_many",
                     }))
                 end, "Explain the problem on this line")
-                map_lsp("n", "<leader>ld", function()
-                    vim.diagnostic.open_float(bordered({
-                        scope = "cursor",
-                        source = "if_many",
-                    }))
-                end, "Explain the problem on this line")
+
+                -- Navigation.
+                map_lsp("n", "<leader>ld", vim.lsp.buf.definition, "Jump to where this symbol is defined")
+
                 map_lsp("n", "<leader>lD", vim.lsp.buf.declaration, "Jump to where this symbol is declared")
+
                 map_lsp("n", "<leader>li", vim.lsp.buf.implementation, "Jump to the implementation")
-                map_lsp("n", "<leader>lo", function() require("snacks").picker.lsp_symbols() end, "Search symbols in this file")
-                map_lsp("n", "<leader>ls", function() require("snacks").picker.lsp_workspace_symbols() end, "Search workspace symbols")
+
+                map_lsp("n", "<leader>lo", function()
+                    require("snacks").picker.lsp_symbols()
+                end, "Search symbols in this file")
+
+                map_lsp("n", "<leader>ls", function()
+                    require("snacks").picker.lsp_workspace_symbols()
+                end, "Search workspace symbols")
+
                 map_lsp("n", "<leader>lt", vim.lsp.buf.type_definition, "Jump to the type definition")
+
                 map_lsp("n", "gd", vim.lsp.buf.definition, "Jump to where this symbol is defined")
+
                 map_lsp("n", "gD", vim.lsp.buf.declaration, "Jump to where this symbol is declared")
+
                 map_lsp("n", "gr", vim.lsp.buf.references, "Show every place this symbol is used")
+
                 map_lsp("n", "gi", vim.lsp.buf.implementation, "Jump to the implementation")
+
                 map_lsp("n", "K", vim.lsp.buf.hover, "Show documentation for the symbol under the cursor")
-                map_lsp("n", "[d", function() vim.diagnostic.jump({ count = -1, float = true }) end, "Go to the previous diagnostic")
-                map_lsp("n", "]d", function() vim.diagnostic.jump({ count = 1, float = true }) end, "Go to the next diagnostic")
+
+                -- Diagnostics navigation.
+                map_lsp("n", "[d", function()
+                    vim.diagnostic.jump({
+                        count = -1,
+                        float = true,
+                    })
+                end, "Go to the previous diagnostic")
+
+                map_lsp("n", "]d", function()
+                    vim.diagnostic.jump({
+                        count = 1,
+                        float = true,
+                    })
+                end, "Go to the next diagnostic")
+
+                -- Signature help.
                 map_lsp("n", "<leader>lk", vim.lsp.buf.signature_help, "Show function signature help")
+
+                -- Rename.
                 map_lsp("n", "<leader>rn", smart_rename, "Rename this symbol everywhere")
+
+                -- Code actions.
                 map_lsp({ "n", "v" }, "<leader>ca", smart_code_action, "Show suggested code fixes and actions")
 
-
-
-
+                -- Inlay hints.
                 if client and client:supports_method("textDocument/inlayHint") and vim.lsp.inlay_hint then
-                    vim.lsp.inlay_hint.enable(true, { bufnr = event.buf })
                     map_lsp("n", "<leader>lI", function()
                         toggle_inlay_hints(event.buf)
                     end, "Turn inlay hints on or off")
@@ -282,12 +273,16 @@ return {
             end,
         })
 
+        -- ============================================================
+        -- LSP DETACH
+        -- ============================================================
+
         vim.api.nvim_create_autocmd("LspDetach", {
             group = vim.api.nvim_create_augroup("user_lsp_detach", { clear = true }),
+
             callback = function()
                 pcall(vim.lsp.buf.clear_references)
             end,
         })
-        end)
     end,
 }
