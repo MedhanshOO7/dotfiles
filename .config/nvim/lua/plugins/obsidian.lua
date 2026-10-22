@@ -1,18 +1,25 @@
 return {
     "epwalsh/obsidian.nvim",
     version = "*", -- recommended, use latest release instead of latest commit
-    lazy = true,
     ft = "markdown",
+    -- The <leader>o* maps in core/keymaps.lua call these; loading on them makes
+    -- the maps work from any buffer, not only after a markdown file was opened.
+    cmd = {
+        "ObsidianSearch",
+        "ObsidianQuickSwitch",
+        "ObsidianNew",
+        "ObsidianToday",
+        "ObsidianYesterday",
+        "ObsidianBacklinks",
+        "ObsidianLinks",
+        "ObsidianPasteImg",
+        "ObsidianLinkNew",
+        "ObsidianLink",
+    },
     dependencies = {
         "nvim-lua/plenary.nvim",
         "nvim-treesitter/nvim-treesitter",
     },
-    init = function()
-        local vault_path = vim.fn.expand("~/Documents/Obsidian Vault")
-        if vim.fn.isdirectory(vault_path) == 0 then
-            pcall(vim.fn.mkdir, vault_path, "p")
-        end
-    end,
     opts = function()
         local vault_path = vim.fn.expand("~/Documents/Obsidian Vault")
         if vim.fn.isdirectory(vault_path) == 0 then
