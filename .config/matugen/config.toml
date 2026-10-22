@@ -27,9 +27,12 @@ output_path = '~/.config/rofi/colors.rasi'
 input_path = '~/.config/matugen/templates/wofi.css'
 output_path = '~/.config/wofi/colors.css'
 
-[templates.waybar]
-input_path = '~/.config/matugen/templates/waybar.css'
-output_path = '~/.config/waybar/colors.css'
+# HUD design system: one palette for waybar, swaync, swayosd and wlogout
+# (they all import ~/.config/hud/tokens.css, which imports this file)
+[templates.hud]
+input_path = '~/.config/matugen/templates/hud-colors.css'
+output_path = '~/.config/hud/colors.css'
+post_hook = '~/.config/hud/reload.sh &>/dev/null &'
 
 # ==================== Browsers ====================
 
@@ -45,17 +48,13 @@ output_path = '/home/medhansh/.mozilla/firefox/p7ql1eae.default-release/chrome/u
 input_path = '~/.config/matugen/templates/firefox-colors.css'
 output_path = '/home/medhansh/.mozilla/firefox/p7ql1eae.default-release/chrome/colors.css'
 
-[templates.zen_chrome]
-input_path = '~/.config/matugen/templates/userChrome.css'
-output_path = '~/.config/zen/naj6ty8k.Default (release)/chrome/userChrome.css'
+[templates.zen-userchrome]
+input_path = '~/.config/matugen/templates/zen-userchrome.css'
+output_path = '/home/medhansh/.config/zen/naj6ty8k.Default (release)/chrome/zen-userChrome.css'
 
-[templates.zen_content]
-input_path = '~/.config/matugen/templates/userContent.css'
-output_path = '~/.config/zen/naj6ty8k.Default (release)/chrome/userContent.css'
-
-[templates.zen_colors]
-input_path = '~/.config/matugen/templates/firefox-colors.css'
-output_path = '~/.config/zen/naj6ty8k.Default (release)/chrome/colors.css'
+[templates.zen-usercontent]
+input_path = '~/.config/matugen/templates/zen-usercontent.css'
+output_path = '/home/medhansh/.config/zen/naj6ty8k.Default (release)/chrome/zen-usercontent.css'
 
 [templates.pywalfox]
 input_path = '~/.config/matugen/templates/pywalfox-colors.json'
@@ -71,6 +70,16 @@ output_path = '~/.config/gtk-3.0/gtk.css'
 [templates.gtk4]
 input_path = '~/.config/matugen/templates/gtk-4.0/gtk.css'
 output_path = '~/.config/gtk-4.0/gtk.css'
+
+# Qt widgets: Kvantum theme "Matugen" (MaterialAdw with its colours templated).
+# Open Qt apps pick it up on restart.
+[templates.kvantum_config]
+input_path = '~/.config/matugen/templates/kvantum/Matugen.kvconfig'
+output_path = '~/.config/Kvantum/Matugen/Matugen.kvconfig'
+
+[templates.kvantum_svg]
+input_path = '~/.config/matugen/templates/kvantum/Matugen.svg'
+output_path = '~/.config/Kvantum/Matugen/Matugen.svg'
 
 [templates.sourceview_dark]
 input_path = '~/.config/matugen/templates/ags/sourceviewtheme.xml'
@@ -98,11 +107,12 @@ output_path = '~/.config/heroic/themes/matugen.css'
 [templates.neovim]
 input_path = '~/.config/matugen/templates/nvim-colors.lua'
 output_path = '~/.config/nvim/lua/matugen-colors.lua'
+post_hook = 'pkill -SIGUSR1 nvim &>/dev/null || true'
 
 [templates.snappy_switcher]
 input_path = '~/.config/matugen/templates/snappy-switcher.ini'
 output_path = '~/.config/snappy-switcher/themes/matugen.ini'
-post_hook = '(snappy-switcher quit || killall snappy-switcher; snappy-switcher --daemon) &>/dev/null &'
+post_hook = '(snappy-switcher quit || killall snappy-switcher; hyprctl dispatch "hl.dsp.exec_cmd(\"snappy-switcher --daemon\")") &>/dev/null &'
 
 [templates.telegram]
 input_path = '~/.config/matugen/templates/telegram.tdesktop-theme'
@@ -117,9 +127,14 @@ input_path = '~/.config/matugen/templates/dev-dashboard-colors.css'
 output_path = '~/Downloads/dev-dashboard-colors.css'
 post_hook = '~/.config/matugen/templates/dev-dashboard-inject.sh &>/dev/null &'
 
+[templates.ghostty]
+input_path = '~/.config/matugen/templates/ghostty-theme'
+output_path = '~/.config/ghostty/themes/matugen'
+post_hook = 'pkill -USR2 -x ghostty &>/dev/null || true'
+
 [templates.kitty]
 input_path = '~/.config/matugen/templates/kitty-colors.conf'
-output_path = '~/.local/state/quickshell/user/generated/terminal/kitty-theme.conf'
+output_path = '~/.config/kitty/colors-kitty.conf'
 post_hook = 'pkill -SIGUSR1 kitty &>/dev/null || true'
 
 [templates.starship]
@@ -131,9 +146,8 @@ input_path = '~/.config/matugen/templates/kde/color.txt'
 output_path = '~/.local/state/quickshell/user/generated/color.txt'
 post_hook = '~/.config/matugen/templates/kde/kde-material-you-colors-wrapper.sh &>/dev/null &'
 
-[templates.easyeffects]
-input_path = '~/.config/matugen/templates/easyeffects.css'
-output_path = '~/.config/easyeffects/style.css'
+# EasyEffects 8 is Qt/Kirigami and follows the KDE colour scheme (kde_colors below);
+# its old GTK-era style.css template no longer applies.
 
 [templates.fastfetch]
 input_path = '~/.config/matugen/templates/fastfetch.jsonc'
@@ -155,3 +169,8 @@ output_path = '~/.local/state/quickshell/user/generated/material_colors.scss'
 input_path = '~/.config/matugen/templates/vicinae-theme.toml'
 output_path = '~/.local/share/vicinae/themes/matugen.toml'
 post_hook = 'vicinae theme set matugen &>/dev/null &'
+
+# [templates.flameshot]
+# input_path = '~/.config/matugen/templates/flameshot.ini'
+# output_path = '~/.config/flameshot/flameshot.ini'
+#
