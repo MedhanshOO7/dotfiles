@@ -1,27 +1,33 @@
+math.randomseed(os.time())
 local function greeting()
-    local hour = tonumber(os.date("%H")) or 12
-    if hour < 12 then
-        return "󰖨  Good morning, Medhansh"
-    elseif hour < 18 then
-        return "󰖙  Good afternoon, Medhansh"
-    else
-        return "  Good evening, Medhansh"
-    end
+    local quotes = {
+        "Work hard, stay humble.",
+    }
+    local idx = math.random(#quotes)
+    return "󰖨  " .. quotes[idx]
 end
 
 local function apply_dashboard_gradients()
-    vim.api.nvim_set_hl(0, "SnacksDashGrad1", { fg = "#89dceb", bold = true })
-    vim.api.nvim_set_hl(0, "SnacksDashGrad2", { fg = "#89b4fa", bold = true })
-    vim.api.nvim_set_hl(0, "SnacksDashGrad3", { fg = "#b4befe", bold = true })
-    vim.api.nvim_set_hl(0, "SnacksDashGrad4", { fg = "#cba6f7", bold = true })
-    vim.api.nvim_set_hl(0, "SnacksDashGrad5", { fg = "#f5c2e7", bold = true })
-    vim.api.nvim_set_hl(0, "SnacksDashGrad6", { fg = "#fab387", bold = true })
+    -- Header gradient follows the active theme (cyan → accent → keyword → constant)
+    local palette = require("utils.palette")
+    local c = palette.colors()
+    local steps = palette.gradient({ c.cyan, c.blue, c.violet, c.orange }, 6)
+    for i, color in ipairs(steps) do
+        vim.api.nvim_set_hl(0, "SnacksDashGrad" .. i, { fg = color, bold = true })
+    end
+end
+
+-- Shared resize step for explorer width keymaps (+/> grow, -/< shrink)
+local function resize_explorer(delta)
+    return function()
+        vim.cmd("vertical resize " .. (delta > 0 and "+" .. delta or tostring(delta)))
+    end
 end
 
 return {
     "folke/snacks.nvim",
     priority = 1000,
-    lazy = false,
+    lazy = false, -- bigfile/quickfile/dashboard must hook in before the first buffer loads
     opts = {
         animate = {
             enabled = false,
@@ -31,7 +37,7 @@ return {
         bigfile = {
             enabled = true,
             notify = true,
-            size = 1.0 * 1024 * 1024, -- 1 MB threshold
+            size = 0.5 * 1024 * 1024, -- 512 KB threshold
             line_length = 1000, -- line length threshold for minified files
             setup = function(ctx)
                 vim.b[ctx.buf].large_file = true
@@ -44,7 +50,7 @@ return {
                     statuscolumn = "",
                     conceallevel = 0,
                     relativenumber = false,
-                    cursorline = false,
+                    cursorline = true,
                     list = false,
                 })
                 vim.schedule(function()
@@ -64,33 +70,50 @@ return {
         dashboard = {
             enabled = true,
             preset = {
-                header = [[
-   ███╗   ██╗███████╗ ██████╗ ██╗   ██╗██╗███╗   ███╗
-   ████╗  ██║██╔════╝██╔═══██╗██║   ██║██║████╗ ████║
-   ██╔██╗ ██║█████╗  ██║   ██║██║   ██║██║██╔████╔██║
-   ██║╚██╗██║██╔══╝  ██║   ██║╚██╗ ██╔╝██║██║╚██╔╝██║
-   ██║ ╚████║███████╗╚██████╔╝ ╚████╔╝ ██║██║ ╚═╝ ██║
-   ╚═╝  ╚═══╝╚══════╝ ╚═════╝   ╚═══╝  ╚═╝╚═╝     ╚═╝]],
                 keys = {
-                    { icon = " ", key = "f", desc = "Smart Find Files", action = ":lua Snacks.picker.smart()" },
-                    { icon = "󰈔 ", key = "n", desc = "New Empty Buffer", action = ":ene | startinsert" },
-                    { icon = " ", key = "g", desc = "Live Grep Workspace", action = ":lua Snacks.picker.grep()" },
-                    { icon = " ", key = "r", desc = "Recent Files", action = ":lua Snacks.picker.recent()" },
+                    { icon = " ", key = "f", desc = "Smart Find Files", action = ":lua Snacks.picker.smart()" },
+                    { icon = " ", key = "n", desc = "New Empty Buffer", action = ":ene | startinsert" },
+                    { icon = "󰵪 ", key = "g", desc = "Live Grep Workspace", action = ":lua Snacks.picker.grep()" },
+                    { icon = " ", key = "r", desc = "Recent Files", action = ":lua Snacks.picker.recent()" },
                     { icon = "󰉋 ", key = "e", desc = "Project Explorer", action = ":lua Snacks.explorer()" },
                     { icon = "󱐌 ", key = "s", desc = "Restore Session", section = "session" },
-                    { icon = "󰒲 ", key = "l", desc = "Manage Plugins", action = ":Lazy", enabled = package.loaded.lazy ~= nil },
-                    { icon = " ", key = "q", desc = "Quit Editor", action = ":qa" },
+                    {
+                        icon = "󰒲 ",
+                        key = "l",
+                        desc = "Manage Plugins",
+                        action = ":Lazy",
+                        enabled = package.loaded.lazy ~= nil,
+                    },
+                    { icon = "󰅝 ", key = "q", desc = "Quit Editor", action = ":qa" },
                 },
             },
             sections = {
                 {
                     text = {
-                        { "   ███╗   ██╗███████╗ ██████╗ ██╗   ██╗██╗███╗   ███╗\n", hl = "SnacksDashGrad1" },
-                        { "   ████╗  ██║██╔════╝██╔═══██╗██║   ██║██║████╗ ████║\n", hl = "SnacksDashGrad2" },
-                        { "   ██╔██╗ ██║█████╗  ██║   ██║██║   ██║██║██╔████╔██║\n", hl = "SnacksDashGrad3" },
-                        { "   ██║╚██╗██║██╔══╝  ██║   ██║╚██╗ ██╔╝██║██║╚██╔╝██║\n", hl = "SnacksDashGrad4" },
-                        { "   ██║ ╚████║███████╗╚██████╔╝ ╚████╔╝ ██║██║ ╚═╝ ██║\n", hl = "SnacksDashGrad5" },
-                        { "   ╚═╝  ╚═══╝╚══════╝ ╚═════╝   ╚═══╝  ╚═╝╚═╝     ╚═╝\n", hl = "SnacksDashGrad6" },
+                        {
+                            "   ███╗   ██╗███████╗ ██████╗ ██╗   ██╗██╗███╗   ███╗\n",
+                            hl = "SnacksDashGrad1",
+                        },
+                        {
+                            "   ████╗  ██║██╔════╝██╔═══██╗██║   ██║██║████╗ ████║\n",
+                            hl = "SnacksDashGrad2",
+                        },
+                        {
+                            "   ██╔██╗ ██║█████╗  ██║   ██║██║   ██║██║██╔████╔██║\n",
+                            hl = "SnacksDashGrad3",
+                        },
+                        {
+                            "   ██║╚██╗██║██╔══╝  ██║   ██║╚██╗ ██╔╝██║██║╚██╔╝██║\n",
+                            hl = "SnacksDashGrad4",
+                        },
+                        {
+                            "   ██║ ╚████║███████╗╚██████╔╝ ╚████╔╝ ██║██║ ╚═╝ ██║\n",
+                            hl = "SnacksDashGrad5",
+                        },
+                        {
+                            "   ╚═╝  ╚═══╝╚══════╝ ╚═════╝   ╚═══╝  ╚═╝╚═╝     ╚═╝\n",
+                            hl = "SnacksDashGrad6",
+                        },
                     },
                     align = "center",
                     padding = 1,
@@ -110,11 +133,11 @@ return {
                     padding = 1,
                 },
                 { section = "keys", gap = 1, padding = 1 },
-                { pane = 2, icon = " ", title = "Recent Files", section = "recent_files", indent = 2, padding = 1 },
-                { pane = 2, icon = " ", title = "Projects", section = "projects", indent = 2, padding = 1 },
+                { pane = 2, icon = " ", title = "Recent Files", section = "recent_files", indent = 2, padding = 1 },
+                { pane = 2, icon = " ", title = "Projects", section = "projects", indent = 2, padding = 1 },
                 {
                     pane = 2,
-                    icon = " ",
+                    icon = " ",
                     title = "Git Status",
                     section = "terminal",
                     enabled = function()
@@ -144,7 +167,7 @@ return {
                 },
             },
         },
-        gh = { enabled = false },
+        gh = { enabled = false }, -- prefer gh CLI directly over in-editor GitHub integration
         gitbrowse = { enabled = true },
         image = {
             enabled = true,
@@ -176,19 +199,19 @@ return {
                     total = 250,
                 },
             },
+            -- Colours: SnacksIndent / SnacksIndentScope / SnacksIndentChunk, set
+            -- for every theme in lua/utils/theme.lua
             scope = {
                 enabled = true,
                 underline = false,
-                hl = "IblScope",
             },
             chunk = {
                 enabled = true,
-                hl = "IblIndent",
             },
         },
         input = {
             enabled = true,
-            icon = " ",
+            icon = " ",
             icon_hl = "SnacksInputIcon",
             icon_pos = "left",
             prompt_pos = "title",
@@ -205,19 +228,7 @@ return {
             },
         },
         lazygit = { enabled = true },
-        notifier = {
-            enabled = true,
-            timeout = 3000,
-            width = { min = 35, max = 0.40 },
-            height = { min = 1, max = 0.60 },
-            margin = { top = 1, right = 1, bottom = 0 },
-            padding = true,
-            gap = 1,
-            sort = { "level", "added" },
-            level = vim.log.levels.TRACE,
-            style = "minimal",
-            top_down = true, -- top-to-bottom on the right side
-        },
+        notifier = { enabled = false }, -- noice renders messages through nvim-notify (lua/plugins/noice.lua)
         picker = {
             enabled = true,
             ui_select = true,
@@ -225,6 +236,11 @@ return {
                 preset = "telescope",
             },
             sources = {
+                select = {
+                    layout = {
+                        preset = "select",
+                    },
+                },
                 files = {
                     hidden = true,
                 },
@@ -235,6 +251,13 @@ return {
                     hidden = true,
                 },
                 explorer = {
+                    git_status = true,
+                    icons = {
+                        files = {
+                            dir = "󱧺 ",
+                            dir_open = "󰉖 ",
+                        },
+                    },
                     layout = {
                         preset = "sidebar",
                         preview = false,
@@ -258,16 +281,21 @@ return {
                                 ["c"] = "explorer_copy",
                                 ["m"] = "explorer_move",
                                 -- Dynamic interactive width resizing inside explorer
-                                ["+"] = function() vim.cmd("vertical resize +4") end,
-                                ["-"] = function() vim.cmd("vertical resize -4") end,
-                                [">"] = function() vim.cmd("vertical resize +4") end,
-                                ["<"] = function() vim.cmd("vertical resize -4") end,
+                                ["+"] = resize_explorer(4),
+                                ["."] = "explorer_hidden",
+                                ["-"] = resize_explorer(-4),
+                                [">"] = resize_explorer(4),
+                                ["<"] = resize_explorer(-4),
                                 ["w"] = function()
                                     local cur_w = vim.api.nvim_win_get_width(0)
                                     local next_w = 24
-                                    if cur_w <= 26 then next_w = 34
-                                    elseif cur_w <= 36 then next_w = 46
-                                    else next_w = 24 end
+                                    if cur_w <= 26 then
+                                        next_w = 34
+                                    elseif cur_w <= 36 then
+                                        next_w = 46
+                                    else
+                                        next_w = 24
+                                    end
                                     vim.cmd("vertical resize " .. next_w)
                                     vim.notify("Explorer Width: " .. next_w .. " columns", vim.log.levels.INFO)
                                 end,
@@ -277,37 +305,142 @@ return {
                 },
             },
         },
-        profiler = { enabled = false },
+        profiler = { enabled = false }, -- unused, no perf debugging needed currently
         quickfile = { enabled = true },
         scope = { enabled = true },
         scratch = { enabled = true },
-        scroll = { enabled = false }, -- cinnamon.nvim handles smooth scrolling
-        statuscolumn = { enabled = true },
+        scroll = {
+            enabled = true, -- animates <C-d>/<C-u>, mouse wheel, n/N, gg/G; auto-off for bigfiles
+            animate = {
+                duration = { step = 10, total = 150 },
+                easing = "outQuad",
+            },
+        },
+        statuscolumn = {
+            enabled = true,
+            left = { "sign", "fold" }, -- diagnostics and other signs, then fold markers
+            right = { "git" }, -- gitsigns bar
+            folds = { open = false, git_hl = false },
+            git = { patterns = { "GitSign" } },
+            refresh = 50, -- ms
+        },
         words = { enabled = true },
-        zen = { enabled = true },
+        zen = {
+            enabled = true,
+            -- Improve zen mode UX with better defaults
+            toggles = {
+                dim = false, -- Do not dim when entering zen mode
+                git_signs = false, -- Hide git signs in zen mode
+                diagnostics = false, -- Hide diagnostics in zen mode
+                line_number = false, -- Hide line numbers in zen mode (uses zen's own numbering)
+                cursorline = false, -- Hide cursorline in zen mode
+                cursorcolumn = false, -- Hide cursor column in zen mode
+                colorcolumn = false, -- Hide color column in zen mode
+                signcolumn = false, -- Hide sign column in zen mode
+            },
+            -- Better window sizing for zen mode
+            win = {
+                -- Width as percentage (0-1) or integer columns
+                width = 0.85,
+                -- Height as percentage (0-1) or integer rows
+                height = 0.9,
+                -- Options for the zen window
+                options = {
+                    -- Better wrapping for prose in zen mode
+                    wrap = true,
+                    linebreak = true,
+                    -- Keep signcolumn hidden but maintain proper spacing
+                    signcolumn = "no",
+                    -- Improve typing experience in zen mode
+                    breakindent = true,
+                    breakindentopt = "shift:2,min:20",
+                    -- Better scrolling experience
+                    sidescrolloff = 5,
+                },
+            },
+        },
     },
     init = function()
+        ----------------------------------------------------------------------
+        -- Transparent Snacks surfaces
+        --
+        -- Snacks pickers/explorer use their own highlight groups rather than
+        -- relying only on NormalFloat. Keep the existing foreground/border
+        -- colors, but remove the opaque backgrounds so the terminal/window
+        -- transparency underneath remains visible.
+        ----------------------------------------------------------------------
+
+        local function apply_snacks_transparency()
+            if vim.g.preferred_transparent ~= true then
+                return
+            end
+
+            local groups = {
+                -- Generic picker/container surfaces
+                "SnacksPicker",
+                "SnacksPickerBox",
+                "SnacksPickerInput",
+                "SnacksPickerList",
+                "SnacksPickerPreview",
+
+                -- Picker borders/titles/footers
+                "SnacksPickerBorder",
+                "SnacksPickerTitle",
+                "SnacksPickerFooter",
+                "SnacksPickerBoxBorder",
+                "SnacksPickerBoxTitle",
+                "SnacksPickerBoxFooter",
+                "SnacksPickerInputBorder",
+                "SnacksPickerInputTitle",
+                "SnacksPickerInputFooter",
+                "SnacksPickerListBorder",
+                "SnacksPickerListTitle",
+                "SnacksPickerListFooter",
+                "SnacksPickerPreviewBorder",
+                "SnacksPickerPreviewTitle",
+                "SnacksPickerPreviewFooter",
+
+                -- Snacks input style used by the current config
+                "SnacksInputNormal",
+                "SnacksInputBorder",
+                "SnacksInputTitle",
+            }
+
+            for _, group in ipairs(groups) do
+                local ok, hl = pcall(vim.api.nvim_get_hl, 0, {
+                    name = group,
+                    link = false,
+                })
+
+                hl = ok and hl or {}
+                hl.bg = "NONE"
+
+                pcall(vim.api.nvim_set_hl, 0, group, hl)
+            end
+        end
+
         apply_dashboard_gradients()
+        apply_snacks_transparency()
 
         vim.api.nvim_create_autocmd("ColorScheme", {
             group = vim.api.nvim_create_augroup("snacks_dashboard_gradient_sync", { clear = true }),
             pattern = "*",
-            callback = apply_dashboard_gradients,
-        })
+            callback = function()
+                apply_dashboard_gradients()
 
-        vim.api.nvim_create_autocmd("User", {
-            pattern = "OilActionsPost",
-            callback = function(event)
-                if event.data and event.data.actions and event.data.actions[1] and event.data.actions[1].type == "move" then
-                    Snacks.rename.on_rename_file(event.data.actions[1].src_url, event.data.actions[1].dest_url)
-                end
+                -- Snacks may restore its default highlights during the same
+                -- ColorScheme event, so apply transparency after everything
+                -- else has had a chance to run.
+                vim.schedule(apply_snacks_transparency)
             end,
         })
+
         vim.api.nvim_create_user_command("ImageToggle", function()
             if Snacks.image and Snacks.image.doc then
                 Snacks.image.doc.enabled = not Snacks.image.doc.enabled
                 vim.notify(
-                    Snacks.image.doc.enabled and "Hovering Image Previews ENABLED 󰋩 " or "Hovering Image Previews DISABLED 󰂭 ",
+                    Snacks.image.doc.enabled and "Hovering Image Previews ENABLED 󰋩 "
+                        or "Hovering Image Previews DISABLED 󰂭 ",
                     vim.log.levels.INFO,
                     { title = "Image Previews" }
                 )
@@ -315,8 +448,20 @@ return {
         end, { desc = "Toggle hovering image previews ON or OFF" })
     end,
     keys = {
-        { "<leader><space>", function() Snacks.picker.smart() end, desc = "Smart Find Files" },
-        { "<leader>e", function() Snacks.explorer() end, desc = "File Explorer" },
+        {
+            "<leader><space>",
+            function()
+                Snacks.picker.smart()
+            end,
+            desc = "Smart Find Files",
+        },
+        {
+            "<leader>e",
+            function()
+                Snacks.explorer()
+            end,
+            desc = "File Explorer",
+        },
         {
             "<leader>si",
             function()
@@ -328,14 +473,21 @@ return {
             end,
             desc = "Browse Images (Floating Preview)",
         },
-        { "<leader>ih", function() Snacks.image.hover() end, desc = "Hover Image Preview (Manual)" },
+        {
+            "<leader>ih",
+            function()
+                Snacks.image.hover()
+            end,
+            desc = "Hover Image Preview (Manual)",
+        },
         {
             "<leader>ui",
             function()
                 if Snacks.image and Snacks.image.doc then
                     Snacks.image.doc.enabled = not Snacks.image.doc.enabled
                     vim.notify(
-                        Snacks.image.doc.enabled and "Hovering Image Previews ENABLED 󰋩 " or "Hovering Image Previews DISABLED 󰂭 ",
+                        Snacks.image.doc.enabled and "Hovering Image Previews ENABLED 󰋩 "
+                            or "Hovering Image Previews DISABLED 󰂭 ",
                         vim.log.levels.INFO,
                         { title = "Image Previews" }
                     )
@@ -343,16 +495,68 @@ return {
             end,
             desc = "Toggle Hovering Image Previews",
         },
-        { "<leader>gl", function() Snacks.lazygit() end, desc = "Lazygit (VS Code-style panel)" },
-        { "<leader>gf", function() Snacks.lazygit.log_file() end, desc = "Lazygit Current File History" },
-        { "<leader>gB", function() Snacks.gitbrowse() end, desc = "Open Git Permalink in Browser" },
-        { "<leader>z", function() Snacks.zen() end, desc = "Toggle Zen Mode" },
-        { "<leader>uz", function() Snacks.zen() end, desc = "Toggle Zen Mode" },
-        { "<leader>.", function() Snacks.scratch() end, desc = "Toggle Scratch Buffer" },
-        { "<leader>S", function() Snacks.scratch.select() end, desc = "Select Scratch Buffer" },
-        { "<leader>cR", function() Snacks.rename.rename_file() end, desc = "Rename File (LSP)" },
-        { "]r", function() Snacks.words.jump(1, true) end, desc = "Next LSP Word Reference" },
-        { "[r", function() Snacks.words.jump(-1, true) end, desc = "Prev LSP Word Reference" },
-        { "<leader>un", "<cmd>Noice history<cr>", desc = "Notification History" },
+        {
+            "<leader>gl",
+            function()
+                Snacks.lazygit()
+            end,
+            desc = "Lazygit (VS Code-style panel)",
+        },
+        {
+            "<leader>gf",
+            function()
+                Snacks.lazygit.log_file()
+            end,
+            desc = "Lazygit Current File History",
+        },
+        {
+            "<leader>gB",
+            function()
+                Snacks.gitbrowse()
+            end,
+            desc = "Open Git Permalink in Browser",
+        },
+        {
+            "<leader>uz",
+            function()
+                Snacks.zen()
+            end,
+            desc = "Toggle Zen Mode",
+        },
+        {
+            "<leader>.",
+            function()
+                Snacks.scratch()
+            end,
+            desc = "Toggle Scratch Buffer",
+        },
+        {
+            "<leader>S",
+            function()
+                Snacks.scratch.select()
+            end,
+            desc = "Select Scratch Buffer",
+        },
+        {
+            "<leader>cR",
+            function()
+                Snacks.rename.rename_file()
+            end,
+            desc = "Rename File (LSP)",
+        },
+        {
+            "]r",
+            function()
+                Snacks.words.jump(1, true)
+            end,
+            desc = "Next LSP Word Reference",
+        },
+        {
+            "[r",
+            function()
+                Snacks.words.jump(-1, true)
+            end,
+            desc = "Prev LSP Word Reference",
+        },
     },
 }
