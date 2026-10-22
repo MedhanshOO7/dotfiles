@@ -64,14 +64,4 @@ function M.update()
     end)
 end
 
-function M.setup()
-    vim.api.nvim_create_user_command("ConfigUpdate", function()
-        M.update()
-    end, { desc = "Pull latest configuration changes from Git repository" })
-
-    vim.api.nvim_create_user_command("NvimUpdate", function()
-        M.update()
-    end, { desc = "Pull latest configuration changes from Git repository" })
-end
-
 return M
