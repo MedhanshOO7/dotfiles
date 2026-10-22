@@ -4,10 +4,11 @@
 -- ######## Layer rules ########
 -- vicinae
 hl.layer_rule({
-    match = { class = "vicinae" },
+    match = { namespace = "^vicinae$" },
     blur = true,
     xray = false,
     ignore_alpha = 0.1,
+    animation = "popin 90%",
 })
 -- rofi
 hl.layer_rule({
@@ -38,6 +39,53 @@ hl.layer_rule({
     animation = "slide bottom",
 })
 
+-- HUD glass: swaync, swayosd, waybar, alt-tab, wlogout.
+-- GTK 4.24 binds ext-background-effect-v1, and with it bound Hyprland 0.56 ignores
+-- these rules and blurs only the region the app sends (Renderer.cpp shouldBlur);
+-- swaync 0.12.6 sends none for popups. So swaync/swayosd run with
+-- GDK_WAYLAND_DISABLE=ext_background_effect_manager_v1 (swaync: systemd drop-in,
+-- swayosd: custom/execs.lua) and blur through the rules below. ignore_alpha = 0
+-- keeps the blur to painted pixels (swaync's surfaces are mostly transparent).
+hl.layer_rule({
+    match = { namespace = "^swaync-control-center$" },
+    blur = true,
+    ignore_alpha = 0,
+    xray = false,
+    animation = "slide right", -- glides in from the screen edge
+})
+hl.layer_rule({
+    match = { namespace = "^swaync-notification-window$" },
+    blur = true,
+    ignore_alpha = 0,
+    xray = false,
+    animation = "slide right",
+})
+-- alt-tab switcher + wlogout
+hl.layer_rule({
+    match = { namespace = "^(snappy-switcher|logout_dialog)$" },
+    blur = true,
+    xray = false,
+})
+hl.layer_rule({
+    match = { namespace = "^swayosd$" },
+    blur = true,
+    ignore_alpha = 0,
+    xray = false,
+    animation = "slide top", -- drops down out of the bar
+})
+-- ignore_alpha = 0: blur only behind painted pixels, not the transparent
+-- gaps around the pills / dock margin (otherwise a blurred rectangle shows)
+hl.layer_rule({
+    match = { namespace = "^waybar$" },
+    blur = true,
+    blur_popups = true, -- tooltips
+    xray = false,
+    ignore_alpha = 0,
+})
+
+-- hud-dock (Quickshell) needs no rule: it requests its own blur region through
+-- ext-background-effect and animates itself.
+
 -- ######## Window rules ########
 
 -- Disable blur for all xwayland apps:
@@ -54,6 +102,11 @@ hl.window_rule({
     size = { "monitor_w*0.44", "monitor_h*0.50" },
     no_blur = false,
     opacity = 0.94,
+})
+hl.window_rule({
+    match = { class = "org.kde.gwenview" },
+    float = true,
+    center = true,
 })
 hl.window_rule({
     match = { title = "^(HyprVox Dictionary)$" },
@@ -80,6 +133,11 @@ hl.window_rule({
     size = { "monitor_w*0.85", "monitor_h*0.85" },
 })
 
+hl.window_rule({
+    match = { class = "code" },
+    no_blur = false,
+    opacity = 0.86,
+})
 hl.window_rule({
     match = { class = "md.obsidian.Obsidian" },
     center = true,
@@ -211,4 +269,30 @@ hl.window_rule({
     immediate = true,
     no_blur = true,
     no_shadow = true,
+})
+
+-- Quickshell bar + dock
+hl.layer_rule({
+    match = { namespace = "quickshell:bar" },
+    blur = true,
+    ignore_alpha = 0.5,
+})
+hl.layer_rule({
+    match = { namespace = "quickshell:dock" },
+    blur = true,
+    ignore_alpha = 0.04,
+})
+
+-- Flameshot overlay rules
+hl.window_rule({
+    match = { class = "flameshot" },
+    float = true,
+    fullscreen = true,
+    pin = true,
+    no_anim = true,
+})
+
+hl.window_rule({
+    match = { class = "zen" },
+    no_blur = false,
 })
