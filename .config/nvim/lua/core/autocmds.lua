@@ -21,30 +21,50 @@ vim.api.nvim_create_autocmd("User", {
     end,
 })
 
+-- ── Clear search highlights on <Esc> ─────────────────────────
+vim.api.nvim_create_autocmd("User", {
+    group = vim.api.nvim_create_augroup("ClearSearchOnEsc", { clear = true }),
+    pattern = "VeryLazy",
+    once = true,
+    callback = function()
+        vim.keymap.set("n", "<Esc>", function()
+            vim.cmd("nohlsearch")
+        end, { desc = "Clear search highlights", silent = true })
+    end,
+})
+
 -- ── Quick Dismiss Windows (q & Esc) ───────────────────────────
-vim.api.nvim_create_autocmd({ "FileType", "BufEnter" }, {
+-- Explicit filetype list: matching every `buftype=nofile` buffer used to hijack
+-- `q` (macro recording) in scratch buffers and plugin UIs that own their keys.
+vim.api.nvim_create_autocmd("FileType", {
     group = vim.api.nvim_create_augroup("QuickDismissWindows", { clear = true }),
-    pattern = "*",
+    pattern = {
+        "qf",
+        "help",
+        "notify",
+        "noice",
+        "checkhealth",
+        "lspinfo",
+        "startuptime",
+        "query",
+        "dap-float",
+        "neotest-output",
+        "neotest-output-panel",
+        "OverseerList",
+        "OverseerForm",
+        "git",
+    },
     callback = function(event)
-        local bt = vim.bo[event.buf].buftype
-        local ft = vim.bo[event.buf].filetype or ""
-
-        -- Do not hijack keys in interactive explorer / DB buffers / terminal buffers
-        if ft == "dbui" or ft == "dbout" or ft == "dadbod" or ft == "oil" or ft:match("dbui") or bt == "terminal" then
-            return
-        end
-
-        if bt == "nofile" or bt == "quickfix" or ft:match("overseer") or ft:match("Overseer") or ft == "qf" or ft == "help" or ft == "notify" then
-            local function close_win()
-                if #vim.api.nvim_tabpage_list_wins(0) > 1 then
-                    pcall(vim.cmd, "close")
-                else
-                    pcall(vim.cmd, "bdelete")
-                end
+        local function close_win()
+            if #vim.api.nvim_tabpage_list_wins(0) > 1 then
+                pcall(vim.cmd, "close")
+            else
+                pcall(vim.cmd, "bdelete")
             end
-            pcall(vim.keymap.set, "n", "q", close_win, { buffer = event.buf, silent = true, desc = "Close window" })
-            pcall(vim.keymap.set, "n", "<Esc>", close_win, { buffer = event.buf, silent = true, desc = "Close window" })
         end
+        vim.bo[event.buf].buflisted = false
+        vim.keymap.set("n", "q", close_win, { buffer = event.buf, silent = true, desc = "Close window" })
+        vim.keymap.set("n", "<Esc>", close_win, { buffer = event.buf, silent = true, desc = "Close window" })
     end,
 })
 
@@ -102,46 +122,21 @@ vim.api.nvim_create_autocmd("FileType", {
         -- Use built-in regex syntax for manpages as Treesitter 'man' is unsupported
         vim.bo.syntax = "man"
 
-        -- ── Heuristic Code Highlighting ──────────────────────────
-        -- Since manpages don't have formal code block tags, we use regex
-        -- to find common C patterns in indented lines.
-        vim.cmd([[
-            syntax match manCInclude /^\s\+#include\s\+[<"].*[>"]/
-            syntax match manCKeyword /^\s\+\(if\|else\|while\|for\|return\|int\|char\|void\|static\|struct\|fprintf\|stdout\|printf\|NULL\)\>/
-            syntax region manCString start=/"/ skip=/\\"/ end=/"/ oneline
-            syntax match manCComment /^\s\+\/\/.*$/
-            syntax match manCComment /^\s\+\/\*.*\*\//
-
-            highlight link manCInclude PreProc
-            highlight link manCKeyword Statement
-            highlight link manCString String
-            highlight link manCComment Comment
-        ]])
-    end,
-})
-
--- ── Help Page Enhancements ───────────────────────────────────
-local help_group = vim.api.nvim_create_augroup("HelpPageSettings", { clear = true })
-
-vim.api.nvim_create_autocmd("FileType", {
-    group = help_group,
-    pattern = "help",
-    callback = function()
-        -- Help pages usually have their own keybindings, but we ensure 'q' works if not set
-        if vim.fn.maparg("q", "n") == "" then
-            vim.keymap.set("n", "q", "<cmd>close<cr>", { buffer = true, silent = true, desc = "Close Help" })
-        end
+        -- Note: Heuristic code highlighting removed for better performance.
+        -- Consider adding lightweight syntax via ftplugin if needed.
     end,
 })
 
 -- ── ANSI Color Support (Pager) ───────────────────────────────
 -- Automatically trigger colorizer if ANSI escape codes are detected
 -- in plain text buffers (common for piped output like 'git log | nvim')
+-- Optimized: Check fewer lines for better performance
 vim.api.nvim_create_autocmd({ "BufReadPost", "BufNewFile" }, {
     group = vim.api.nvim_create_augroup("AnsiColorDetection", { clear = true }),
     callback = function()
         if vim.bo.filetype == "" or vim.bo.filetype == "text" then
-            local lines = vim.api.nvim_buf_get_lines(0, 0, 50, false)
+            -- Check first 20 lines instead of 50 for better performance
+            local lines = vim.api.nvim_buf_get_lines(0, 0, 20, false)
             local content = table.concat(lines, "\n")
             if content:find("\27%[") then
                 -- Schedule to ensure plugin is loaded
@@ -242,3 +237,57 @@ vim.api.nvim_create_user_command("ExplorerSize", function(opts)
         vim.notify(string.format("Current Window Width: %d columns", w), vim.log.levels.INFO)
     end
 end, { nargs = "?", desc = "Show or set explorer / window width (e.g. :ExplorerSize 24)" })
+
+
+
+-- ── Quality of life ──────────────────────────────────────────
+local qol = vim.api.nvim_create_augroup("QualityOfLife", { clear = true })
+
+-- Pick up files changed outside Neovim (git checkout, formatters, other
+-- editors) before autosave can overwrite them.
+vim.api.nvim_create_autocmd({ "FocusGained", "TermClose", "TermLeave", "BufEnter" }, {
+    group = qol,
+    callback = function()
+        if vim.o.buftype ~= "nofile" and vim.fn.getcmdwintype() == "" then
+            vim.cmd("checktime")
+        end
+    end,
+})
+
+-- Reopen files where you left off
+vim.api.nvim_create_autocmd("BufReadPost", {
+    group = qol,
+    callback = function(event)
+        local ignore = { gitcommit = true, gitrebase = true, svn = true, hgcommit = true }
+        if ignore[vim.bo[event.buf].filetype] or vim.b[event.buf].last_pos_restored then
+            return
+        end
+        vim.b[event.buf].last_pos_restored = true
+        local mark = vim.api.nvim_buf_get_mark(event.buf, '"')
+        if mark[1] > 0 and mark[1] <= vim.api.nvim_buf_line_count(event.buf) then
+            pcall(vim.api.nvim_win_set_cursor, 0, mark)
+        end
+    end,
+})
+
+-- Keep splits balanced when the terminal is resized
+vim.api.nvim_create_autocmd("VimResized", {
+    group = qol,
+    callback = function()
+        local tab = vim.fn.tabpagenr()
+        vim.cmd("tabdo wincmd =")
+        vim.cmd("tabnext " .. tab)
+    end,
+})
+
+-- `:w new/dir/file.lua` creates the missing directories
+vim.api.nvim_create_autocmd("BufWritePre", {
+    group = qol,
+    callback = function(event)
+        if event.match:match("^%w%w+:[\\/][\\/]") then
+            return -- URLs (oil://, scp://, ...)
+        end
+        local file = vim.uv.fs_realpath(event.match) or event.match
+        vim.fn.mkdir(vim.fn.fnamemodify(file, ":p:h"), "p")
+    end,
+})
