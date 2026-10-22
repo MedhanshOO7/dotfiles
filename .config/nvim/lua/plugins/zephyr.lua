@@ -2,12 +2,12 @@ return {
     -- Zephyr / nRF Connect SDK integration
     -- Provides west build, flash, and menuconfig commands inside Neovim.
 
-    -- Overseer templates for west commands
+    -- Overseer templates for west commands (registered by lua/plugins/overseer.lua)
     {
         "stevearc/overseer.nvim",
         opts = function(_, opts)
-            opts.templates = opts.templates or {}
-            table.insert(opts.templates, {
+            opts.extra_templates = opts.extra_templates or {}
+            table.insert(opts.extra_templates, {
                 name = "west build",
                 builder = function()
                     return {
@@ -19,7 +19,7 @@ return {
                 end,
                 desc = "Build Zephyr project with west",
             })
-            table.insert(opts.templates, {
+            table.insert(opts.extra_templates, {
                 name = "west flash",
                 builder = function()
                     return {
@@ -31,7 +31,7 @@ return {
                 end,
                 desc = "Flash firmware to nRF board",
             })
-            table.insert(opts.templates, {
+            table.insert(opts.extra_templates, {
                 name = "west debug",
                 builder = function()
                     return {
@@ -43,7 +43,7 @@ return {
                 end,
                 desc = "Debug Zephyr with GDB",
             })
-            table.insert(opts.templates, {
+            table.insert(opts.extra_templates, {
                 name = "west flash --erase",
                 builder = function()
                     return {
@@ -54,18 +54,6 @@ return {
                     }
                 end,
                 desc = "Flash with mass erase",
-            })
-        end,
-    },
-
-    -- Keybinds and utility commands
-    {
-        "folke/which-key.nvim",
-        opts = function(_, opts)
-            -- Register group in which-key
-            local wk = require("which-key")
-            wk.add({
-                { "<leader>N", group = "Embedded / nRF" },
             })
         end,
     },
