@@ -1,0 +1,12 @@
+# swappy: annotation step of ~/.config/hypr/custom/scripts/screenshot.sh
+# (the capture is already saved + copied before swappy opens; Save overwrites it)
+[Default]
+save_dir=$HOME/Pictures/Screenshots
+save_filename_format=Screenshot_%Y-%m-%d_%H-%M-%S.png
+show_panel=true
+line_size=4
+text_size=18
+text_font=GeistMono Nerd Font Propo
+paint_mode=arrow
+early_exit=true
+fill_shape=false
