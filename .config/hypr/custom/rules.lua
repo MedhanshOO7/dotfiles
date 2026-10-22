@@ -44,19 +44,20 @@ hl.layer_rule({
 -- these rules and blurs only the region the app sends (Renderer.cpp shouldBlur);
 -- swaync 0.12.6 sends none for popups. So swaync/swayosd run with
 -- GDK_WAYLAND_DISABLE=ext_background_effect_manager_v1 (swaync: systemd drop-in,
--- swayosd: custom/execs.lua) and blur through the rules below. ignore_alpha = 0
--- keeps the blur to painted pixels (swaync's surfaces are mostly transparent).
+-- swayosd: custom/execs.lua) and blur through the rules below. ignore_alpha 0.4
+-- keeps the blur to the glass itself: their soft box-shadows (alpha <= 0.35) would
+-- otherwise get blurred too and the blur would leak past the panel edges.
 hl.layer_rule({
     match = { namespace = "^swaync-control-center$" },
     blur = true,
-    ignore_alpha = 0,
+    ignore_alpha = 0.4, -- above the shadows (≤0.35), below the glass (0.58+): no blur halo
     xray = false,
     animation = "slide right", -- glides in from the screen edge
 })
 hl.layer_rule({
     match = { namespace = "^swaync-notification-window$" },
     blur = true,
-    ignore_alpha = 0,
+    ignore_alpha = 0.4, -- above the shadows (≤0.35), below the glass (0.58+): no blur halo
     xray = false,
     animation = "slide right",
 })
@@ -69,7 +70,7 @@ hl.layer_rule({
 hl.layer_rule({
     match = { namespace = "^swayosd$" },
     blur = true,
-    ignore_alpha = 0,
+    ignore_alpha = 0.4, -- above the shadows (≤0.35), below the glass (0.58+): no blur halo
     xray = false,
     animation = "slide top", -- drops down out of the bar
 })
