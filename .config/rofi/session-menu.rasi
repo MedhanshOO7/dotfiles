@@ -1,0 +1,87 @@
+/* Session menu — used by ~/.config/hypr/custom/scripts/session-menu.sh
+ * Full-screen frosted backdrop (Hyprland blurs the "rofi" layer) with a row of
+ * HUD cards. Built on the shared HUD theme (hud.rasi, matugen colours). */
+
+@import "~/.config/rofi/hud.rasi"
+
+* {
+    font: "GeistMono Nerd Font Propo 13";
+}
+
+window {
+    fullscreen:       true;
+    width:            100%;
+    height:           100%;
+    border:           0;
+    border-radius:    0;
+    background-color: @hud-scrim;
+    background-image: @hud-backdrop-img;
+}
+
+mainbox {
+    padding:  0 20%;
+    spacing:  40px;
+    children: [ "spacer-top", "message", "listview", "spacer-bottom" ];
+}
+spacer-top, spacer-bottom {
+    expand: true;
+}
+
+/* ---------- Clock / prompt: no card, just the readout ---------- */
+message {
+    expand:           false;
+    padding:          0;
+    border:           0;
+    background-color: transparent;
+}
+textbox {
+    font:             "Orbitron Bold 54";
+    horizontal-align: 0.5;
+    text-color:       @primary;
+}
+
+/* ---------- Cards ---------- */
+listview {
+    columns:       5;
+    lines:         1;
+    spacing:       18px;
+    flow:          horizontal;
+    fixed-columns: true;
+    fixed-height:  true;
+    cycle:         true;
+    scrollbar:     false;
+    expand:        false;
+}
+
+element {
+    orientation:      vertical;
+    padding:          28px 10px;
+    border:           1px 1px 1px 3px;
+    border-color:     @hud-edge;
+    border-radius:    6px 22px 6px 22px;
+    background-color: @hud-card;
+}
+element selected.normal {
+    background-color: @hud-select;
+    border-color:     @primary;
+    text-color:       @primary;
+}
+
+element-text {
+    font:             "GeistMono Nerd Font Propo 30";
+    horizontal-align: 0.5;
+    vertical-align:   0.5;
+    highlight:        none;
+}
+
+/* Destructive option in the confirmation dialog */
+element normal.urgent, element alternate.urgent {
+    background-color: @hud-card;
+    border-color:     @hud-edge;
+    text-color:       @error;
+}
+element selected.urgent {
+    background-color: @hud-danger-a;
+    border-color:     @error;
+    text-color:       @error;
+}
