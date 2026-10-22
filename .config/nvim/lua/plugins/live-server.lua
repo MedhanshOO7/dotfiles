@@ -2,27 +2,19 @@ return {
     "barrett-ruth/live-server.nvim",
     ft = "html",
     cmd = { "LiveServerStart", "LiveServerStop", "LiveServerToggle" },
-    config = function()
-        local args = {
-            "--port=5500",
-            "--host=127.0.0.1",
+    init = function()
+        -- v0.2+ is configured through this global; setup() and the old `args`
+        -- (--browser=...) were removed. The page opens via vim.ui.open, i.e. the
+        -- system default browser.
+        vim.g.live_server = {
+            port = 5500,
         }
-        if vim.fn.executable("zen-browser") == 1 then
-            table.insert(args, "--browser=zen-browser")
-        elseif vim.fn.executable("zen") == 1 then
-            table.insert(args, "--browser=zen")
-        end
-
-        require("live-server").setup({
-            args = args,
-        })
     end,
     keys = {
         {
             "<leader>lv",
             function()
                 local dir = vim.fn.expand("%:p:h")
-                local file = vim.fn.expand("%:t")
                 if dir ~= "" and dir ~= "." then
                     vim.cmd("LiveServerStart " .. vim.fn.fnameescape(dir))
                     vim.notify("Live Server started serving: " .. vim.fn.expand("%:t"), vim.log.levels.INFO, { title = "Live Server" })
