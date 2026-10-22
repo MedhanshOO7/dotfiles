@@ -1,0 +1,90 @@
+/* ~/.config/swayosd/style.css
+ * Volume / brightness OSD. Follows the shared HUD design system
+ * (~/.config/hud/tokens.css): popup glass, chamfered lg corners,
+ * corner ticks, segmented meter, Orbitron readout.
+ * swayosd only reads this at startup — run ~/.config/hud/reload.sh after edits.
+ */
+
+@import url("../hud/tokens.css");
+
+* {
+  font-family: "GeistMono Nerd Font Propo", "Symbols Nerd Font", monospace;
+  font-weight: 600;
+}
+
+window#osd {
+  background-color: @popup;
+  border: 1px solid @edge;
+  border-radius: 6px 20px;
+  padding: 8px 16px;
+
+  background-image:
+    linear-gradient(@tick, @tick), linear-gradient(@tick, @tick),
+    linear-gradient(@tick, @tick), linear-gradient(@tick, @tick),
+    linear-gradient(to bottom, @sheen, alpha(@primary, 0)),
+    repeating-linear-gradient(to bottom, @scan 0px, @scan 1px, transparent 1px, transparent 4px);
+  background-size: 12px 2px, 2px 12px, 12px 2px, 2px 12px, 100% 100%, 100% 100%;
+  background-position: left top, left top, right bottom, right bottom, left top, left top;
+  background-repeat: no-repeat;
+
+  box-shadow:
+    inset 0 1px @highlight,
+    0 10px 30px alpha(@shadow, 0.35),
+    0 0 18px @glow-soft;
+}
+
+window#osd #container {
+  margin: 10px 14px;
+}
+
+window#osd image {
+  color: @primary;
+  -gtk-icon-size: 22px;
+  margin-right: 10px;
+  -gtk-icon-shadow: 0 0 8px @glow;
+}
+
+window#osd label {
+  font-family: "Orbitron", sans-serif;
+  color: @primary;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  min-width: 52px;
+  margin-left: 8px;
+}
+
+window#osd progressbar,
+window#osd image,
+window#osd label {
+  transition: opacity 150ms ease;
+}
+
+window#osd progressbar:disabled,
+window#osd image:disabled {
+  opacity: 0.4;
+}
+
+window#osd progressbar {
+  min-height: 10px;
+  min-width: 240px;
+  border-radius: 1px;
+  background: transparent;
+  border: none;
+}
+
+window#osd trough {
+  min-height: inherit;
+  border-radius: inherit;
+  border: none;
+  background-color: transparent;
+  background-image: repeating-linear-gradient(to right, @track 0px, @track 6px, transparent 6px, transparent 8px);
+}
+
+window#osd progress {
+  min-height: inherit;
+  border-radius: inherit;
+  border: none;
+  background-color: transparent;
+  background-image: repeating-linear-gradient(to right, @primary 0px, @primary 6px, transparent 6px, transparent 8px);
+}
