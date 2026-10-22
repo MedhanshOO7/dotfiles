@@ -1,33 +1,39 @@
 return {
     "stevearc/overseer.nvim",
-    cmd = "Overseer",
+    cmd = { "OverseerToggle", "OverseerOpen", "OverseerClose", "OverseerRun", "OverseerShell", "OverseerTaskAction" },
     keys = {
         { "<leader>tt", "<cmd>OverseerToggle<cr>", desc = "Open or close the task list" },
         { "<leader>tr", "<cmd>OverseerRun<cr>", desc = "Choose and run a project task" },
         { "<leader>ta", "<cmd>OverseerTaskAction<cr>", desc = "Run a task action on the current item" },
-        { "<leader>tl", "<cmd>OverseerLoadBundle<cr>", desc = "Load saved task runs" },
     },
-    config = function()
-        require("overseer").setup({
-            strategy = "terminal",
-            task_list = {
-                direction = "bottom",
-                min_height = 10,
-                max_height = 16,
-                default_detail = 1,
+    opts = {
+        task_list = {
+            direction = "bottom",
+            min_height = 10,
+            max_height = 16,
+        },
+        component_aliases = {
+            -- overseer v2 defaults, plus diagnostics parsed from task results
+            default = {
+                "on_exit_set_status",
+                "on_complete_notify",
+                { "on_complete_dispose", require_view = { "SUCCESS", "FAILURE" } },
+                "on_result_diagnostics",
             },
-            component_aliases = {
-                default = {
-                    { "display_duration", detail_level = 2 },
-                    "on_output_summarize",
-                    "on_result_diagnostics",
-                    "on_complete_notify",
-                    "default",
-                },
-            },
-        })
+        },
+        -- Template definitions contributed by other specs (lua/plugins/zephyr.lua).
+        -- Not an overseer option: registered after setup() below.
+        extra_templates = {},
+    },
+    config = function(_, opts)
+        local extra_templates = opts.extra_templates or {}
+        opts.extra_templates = nil
+        require("overseer").setup(opts)
 
         local overseer = require("overseer")
+        for _, template in ipairs(extra_templates) do
+            overseer.register_template(template)
+        end
 
         overseer.register_template({
             name = "cpp_run_current",
