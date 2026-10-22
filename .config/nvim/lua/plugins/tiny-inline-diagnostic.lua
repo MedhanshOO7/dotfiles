@@ -1,7 +1,8 @@
 return {
     "rachartier/tiny-inline-diagnostic.nvim",
-    event = "LspAttach",
-    priority = 1000,
+    -- virtual_text is off (lua/plugins/lsp.lua), so this is the only inline
+    -- renderer: load it for nvim-lint results in buffers without an LSP too.
+    event = { "LspAttach", "DiagnosticChanged" },
     opts = {
         preset = "modern",
         transparent_bg = false,
