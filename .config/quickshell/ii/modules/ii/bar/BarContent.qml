@@ -27,7 +27,7 @@ Item { // Bar content region
 
     // Background shadow
     Loader {
-        active: false
+        active: Config.options.bar.showBackground && Config.options.bar.cornerStyle === 1 && Config.options.bar.floatStyleShadow
         anchors.fill: barBackground
         sourceComponent: StyledRectangularShadow {
             anchors.fill: undefined // The loader's anchors act on this, and this should not have any anchor
@@ -41,10 +41,10 @@ Item { // Bar content region
             fill: parent
             margins: Config.options.bar.cornerStyle === 1 ? (Appearance.sizes.hyprlandGapsOut) : 0 // idk why but +1 is needed
         }
-        color: Config.options.bar.showBackground ? ColorUtils.transparentize(Appearance.colors.colLayer0, 0.75) : "transparent"
+        color: Config.options.bar.showBackground ? ColorUtils.transparentize(Appearance.colors.colLayer0, 0.30) : "transparent"
         radius: Config.options.bar.cornerStyle === 1 ? Appearance.rounding.windowRounding : 0
         border.width: Config.options.bar.cornerStyle === 1 ? 1 : 0
-        border.color: ColorUtils.transparentize(Appearance.colors.colLayer0Border, 0.5)
+        border.color: Appearance.colors.colLayer0Border
     }
 
     FocusedScrollMouseArea { // Left side | scroll to change brightness
@@ -199,9 +199,9 @@ Item { // Bar content region
         implicitWidth: rightSectionRowLayout.implicitWidth
         implicitHeight: Appearance.sizes.baseBarHeight
 
-        onScrollDown: Audio.decrementVolume();
-        onScrollUp: Audio.incrementVolume();
-        onMovedAway: GlobalStates.osdVolumeOpen = false;
+        onScrollDown: Audio.decrementVolume()
+        onScrollUp: Audio.incrementVolume()
+        onMovedAway: GlobalStates.osdVolumeOpen = false
         onPressed: event => {
             if (event.button === Qt.LeftButton) {
                 GlobalStates.sidebarRightOpen = !GlobalStates.sidebarRightOpen;
@@ -282,48 +282,6 @@ Item { // Bar content region
                             text: "mic_off"
                             iconSize: Appearance.font.pixelSize.larger
                             color: rightSidebarButton.colText
-                        }
-                    }
-                    Revealer {
-                        reveal: ScreenRecording.isRecording
-                        Layout.fillHeight: true
-                        Layout.rightMargin: reveal ? indicatorsRowLayout.realSpacing : 0
-                        Behavior on Layout.rightMargin {
-                            animation: Appearance.animation.elementMoveFast.numberAnimation.createObject(this)
-                        }
-                        MaterialSymbol {
-                            text: "screen_record"
-                            iconSize: Appearance.font.pixelSize.larger
-                            fill: 1
-                            color: Appearance.m3colors.m3error
-
-                            SequentialAnimation on opacity {
-                                running: ScreenRecording.isRecording
-                                loops: Animation.Infinite
-                                NumberAnimation { to: 0.35; duration: 700 }
-                                NumberAnimation { to: 1.0; duration: 700 }
-                            }
-                        }
-                    }
-                    Revealer {
-                        reveal: MicrophoneRecording.isRecording
-                        Layout.fillHeight: true
-                        Layout.rightMargin: reveal ? indicatorsRowLayout.realSpacing : 0
-                        Behavior on Layout.rightMargin {
-                            animation: Appearance.animation.elementMoveFast.numberAnimation.createObject(this)
-                        }
-                        MaterialSymbol {
-                            text: "mic"
-                            iconSize: Appearance.font.pixelSize.larger
-                            fill: 1
-                            color: Appearance.m3colors.m3error
-
-                            SequentialAnimation on opacity {
-                                running: MicrophoneRecording.isRecording
-                                loops: Animation.Infinite
-                                NumberAnimation { to: 0.35; duration: 700 }
-                                NumberAnimation { to: 1.0; duration: 700 }
-                            }
                         }
                     }
                     HyprlandXkbIndicator {
