@@ -1,8 +1,26 @@
 # zoxide: smarter cd
 eval "$(zoxide init zsh)"
 
-# muscle-memory optimization
-alias cd='z'
+# ==========================================
+# Directory aliases
+# ==========================================
+typeset -A CD_DIRS=(
+    dbms "$HOME/Downloads/Sem - III/Semester - III/Database Systems"
+    dsa "$HOME/Downloads/Sem - III/Semester - III/Data Structures"
+    web "$HOME/Downloads/Sem - III/Semester - III/Web Technologies"
+)
 
-# atuin
-#eval "$(atuin init zsh)"
+# ==========================================
+# cd → aliases first, zoxide fallback
+# ==========================================
+
+cd() {
+    local target="${CD_DIRS[$1]}"
+
+    if [[ -n "$target" ]]; then
+        builtin cd "$target"
+    else
+        z "$@"
+    fi
+}
+
