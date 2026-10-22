@@ -1,0 +1,409 @@
+/* ~/.config/waybar/style.css
+ * HUD-style glass bar. Colours, shapes and type follow the shared
+ * HUD design system in ~/.config/hud/tokens.css (matugen palette).
+ */
+
+@import url("../hud/tokens.css");
+
+@define-color glass-hover @card-hover;
+
+* {
+  font-family:
+    "GeistMono Nerd Font Propo",
+    "Symbols Nerd Font",
+    "Fluent Icons",
+    monospace;
+  font-size: 19px;
+  font-weight: 500;
+  min-height: 0;
+  border: none;
+  box-shadow: none;
+}
+
+window#waybar {
+  background: transparent;
+  color: @text;
+}
+
+tooltip {
+  background-color: @popup;
+  border: 1px solid @edge;
+  border-left: 3px solid @primary;
+  border-radius: 4px 14px;
+  box-shadow: 0 0 12px @glow-soft;
+}
+
+tooltip label {
+  color: @text;
+  font-size: 14px;
+  padding: 4px 6px;
+}
+
+/* ============================================================
+ * COLOUR RULE (applies to every module):
+ *   @text   labels and icons at rest        @muted  secondary info (window title)
+ *   @primary identity anchors (logo, clock) and live states only:
+ *            active workspace, notifications waiting, charging, fan boost
+ *   @warn / @danger alerts (low battery, hot CPU, recording, mic in use)
+ * ============================================================ */
+
+/* ============================================================
+ * PANELS
+ * Chamfered corners (tight top-left/bottom-right) give the
+ * pills a HUD silhouette instead of plain capsules.
+ * ============================================================ */
+
+#custom-arch,
+#window,
+#workspaces,
+#mpris,
+#clock,
+#tray,
+#network,
+#wireplumber,
+#bluetooth,
+#power-profiles-daemon,
+#custom-predator,
+#battery,
+#custom-notification,
+#custom-control {
+  background-color: @glass;
+  color: @text;
+
+  border: 1px solid @edge;
+  border-radius: 4px 14px;
+  box-shadow: inset 0 1px @highlight;
+
+  margin: 5px 3px;
+  min-height: 36px;
+  padding: 0 14px;
+
+  transition:
+    background-color 200ms ease,
+    border-color 200ms ease,
+    box-shadow 200ms ease,
+    color 200ms ease;
+}
+
+#custom-arch,
+#bluetooth,
+#power-profiles-daemon,
+#custom-notification,
+#custom-control,
+#tray {
+  padding: 0 12px;
+}
+
+#custom-arch:hover,
+#mpris:hover,
+#clock:hover,
+#network:hover,
+#wireplumber:hover,
+#bluetooth:hover,
+#power-profiles-daemon:hover,
+#custom-predator:hover,
+#custom-notification:hover,
+#custom-control:hover {
+  background-color: @glass-hover;
+  border-color: @edge-hot;
+  box-shadow:
+    inset 0 1px @highlight,
+    0 0 10px @glow;
+}
+
+/* HUD corner ticks on the anchor pills (logo, clock): small primary
+ * brackets on the two tight corners. */
+#custom-arch,
+#clock {
+  background-image:
+    linear-gradient(@tick, @tick), linear-gradient(@tick, @tick),
+    linear-gradient(@tick, @tick), linear-gradient(@tick, @tick);
+  background-size: 8px 1px, 1px 8px, 8px 1px, 1px 8px;
+  background-position: left top, left top, right bottom, right bottom;
+  background-repeat: no-repeat;
+}
+
+/* ============================================================
+ * ARCH LOGO
+ * ============================================================ */
+
+#custom-arch {
+  color: @primary;
+  font-size: 24px;
+  text-shadow: 0 0 8px @glow;
+}
+
+/* ============================================================
+ * WINDOW TITLE
+ * ============================================================ */
+
+#window {
+  color: @muted;
+}
+
+/* No focused window: collapse the pill instead of showing an empty box */
+window#waybar.empty #window {
+  background: none;
+  border-color: transparent;
+  box-shadow: none;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+}
+
+/* ============================================================
+ * WORKSPACES
+ * ============================================================ */
+
+#workspaces {
+  padding: 0 4px;
+}
+
+#workspaces button {
+  font-family: "Orbitron", sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: alpha(@text, 0.97);
+  background: transparent;
+
+  min-width: 22px;
+  margin: 4px 2px;
+  padding: 0 6px;
+  border-radius: 3px 9px;
+
+  transition:
+    background-color 180ms ease,
+    color 180ms ease,
+    min-width 180ms ease,
+    box-shadow 180ms ease;
+}
+
+#workspaces button.empty {
+  color: alpha(@text, 0.5); /* 0.3 vanished on bright wallpapers */
+}
+
+#workspaces button:hover {
+  background: alpha(@primary, 0.14);
+  color: @primary;
+}
+
+#workspaces button.active {
+  padding: 0 8px;
+  background: @primary;
+  color: @on-primary;
+  box-shadow: 0 0 10px @glow;
+}
+
+/* The workspace shown on the other (unfocused) monitor */
+#workspaces button.visible:not(.active) {
+  background: alpha(@primary, 0.12);
+  box-shadow: inset 0 -2px @primary;
+}
+
+/* Workspaces with windows show only their app icons; the number is
+ * kept just for empty workspaces. GTK3 has no display:none, so the
+ * label is collapsed to zero size instead. */
+#workspaces button:not(.empty) > box > label {
+  font-size: 0;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+}
+
+#workspaces button:not(.empty) .taskbar-window:first-child {
+  margin-left: 0;
+}
+
+/* App icons from workspace-taskbar */
+#workspaces .taskbar-window {
+  padding: 0 2px;
+  margin-left: 3px;
+  opacity: 0.7;
+  transition: opacity 180ms ease;
+}
+
+#workspaces button.active .taskbar-window {
+  opacity: 1;
+}
+
+#workspaces .taskbar-window.active {
+  opacity: 1;
+}
+
+#workspaces button.urgent {
+  background: @error-container;
+  color: @on-error-container;
+}
+
+/* ============================================================
+ * MEDIA
+ * ============================================================ */
+
+#mpris {
+  color: @text;
+}
+
+#mpris.paused,
+#mpris.stopped {
+  color: alpha(@muted, 0.6);
+}
+
+/* ============================================================
+ * CLOCK
+ * ============================================================ */
+
+#clock {
+  font-family: "Orbitron", sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: @primary;
+  text-shadow: 0 0 10px @glow;
+  padding: 0 18px;
+}
+
+/* ============================================================
+ * STATUS
+ * ============================================================ */
+
+#network.disconnected,
+#wireplumber.muted,
+#bluetooth.off,
+#bluetooth.disabled {
+  color: alpha(@muted, 0.55);
+}
+
+#battery.charging,
+#battery.plugged {
+  color: @primary;
+}
+
+#battery.warning:not(.charging) {
+  color: @warn;
+  border-color: alpha(@warn, 0.45);
+}
+
+#battery.critical:not(.charging) {
+  color: @danger;
+  border-color: alpha(@danger, 0.6);
+  animation: alert-pulse 1s ease-in-out infinite alternate;
+}
+
+/* Power profile: neutral in every mode; the icon shows which one */
+
+/* Predator: CPU temperature pill; fan boost lights it up like an active toggle */
+#custom-predator {
+  color: @text;
+}
+
+#custom-predator.warm {
+  color: @warn;
+}
+
+#custom-predator.hot {
+  color: @danger;
+  border-color: alpha(@danger, 0.6);
+}
+
+#custom-predator.boost {
+  color: @on-primary;
+  background-color: alpha(@primary, 0.85);
+  border-color: @primary;
+  box-shadow: 0 0 10px @glow;
+}
+
+#custom-predator.offline {
+  color: alpha(@muted, 0.55);
+}
+
+/* Accent only while notifications are waiting */
+#custom-notification.notification {
+  color: @primary;
+  text-shadow: 0 0 8px @glow;
+}
+
+#custom-notification.none,
+#custom-notification.dnd-none,
+#custom-notification.dnd-notification,
+#custom-notification.dnd-inhibited-notification {
+  color: alpha(@muted, 0.6);
+}
+
+
+
+/* ============================================================
+ * PRIVACY / RECORDING INDICATORS
+ * Hidden when inactive (empty text), so only the active
+ * state needs styling.
+ * ============================================================ */
+
+#privacy {
+  padding: 0;
+  margin: 0;
+}
+
+#privacy-item {
+  background-color: alpha(@danger, 0.14);
+  border: 1px solid alpha(@danger, 0.5);
+  border-radius: 4px 12px;
+  padding: 0 10px;
+  margin: 5px 3px;
+}
+
+#privacy-item.audio-in {
+  color: @danger;
+}
+
+#privacy-item.screenshare {
+  color: @warn;
+  background-color: alpha(@warn, 0.14);
+  border-color: alpha(@warn, 0.5);
+}
+
+#custom-camera.active,
+#custom-screenrecording.active {
+  border-radius: 4px 12px;
+  padding: 0 10px;
+  margin: 5px 3px;
+}
+
+#custom-camera.active {
+  color: @tertiary;
+  background-color: alpha(@tertiary, 0.14);
+  border: 1px solid alpha(@tertiary, 0.5);
+}
+
+#custom-screenrecording.active {
+  color: @danger;
+  background-color: alpha(@danger, 0.14);
+  border: 1px solid alpha(@danger, 0.6);
+  animation: alert-pulse 1.2s ease-in-out infinite alternate;
+}
+
+@keyframes alert-pulse {
+  from { box-shadow: 0 0 0 alpha(@danger, 0); }
+  to   { box-shadow: 0 0 12px alpha(@danger, 0.55); }
+}
+
+/* ============================================================
+ * TRAY
+ * ============================================================ */
+
+#tray > .passive {
+  -gtk-icon-effect: dim;
+}
+
+#tray > .needs-attention {
+  -gtk-icon-effect: highlight;
+}
+
+/* ============================================================
+ * CAVA OVERLAY (second bar)
+ * ============================================================ */
+
+window#waybar.cava-overlay #cava {
+  color: alpha(@primary, 0.45);
+  font-size: 11px;
+  padding: 0;
+  margin: 0;
+}
