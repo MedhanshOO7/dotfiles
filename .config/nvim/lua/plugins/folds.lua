@@ -10,14 +10,17 @@ return {
             "kevinhwang91/promise-async",
         },
         config = function()
-            vim.o.foldcolumn = "0"
-            vim.o.foldlevel = 99
+            -- Show fold column with better visibility for UX
+            vim.o.foldcolumn = "1" -- Show fold column with width 1
+            vim.o.foldlevel = 99 -- Start with folds open (can be closed with zm/zM)
             vim.o.foldlevelstart = 99
             vim.o.foldenable = true
 
+            -- Enhanced fold text handler with better UX
             local handler = function(virtText, lnum, endLnum, width, truncate)
                 local newVirtText = {}
-                local suffix = (" 󰁂 %d lines "):format(endLnum - lnum)
+                local lineCount = endLnum - lnum
+                local suffix = ("  %d lines "):format(lineCount)
                 local targetWidth = width - vim.fn.strdisplaywidth(suffix)
                 local curWidth = 0
                 for _, chunk in ipairs(virtText) do
@@ -37,7 +40,7 @@ return {
                     end
                     curWidth = curWidth + chunkWidth
                 end
-                table.insert(newVirtText, { suffix, "MoreMsg" })
+                table.insert(newVirtText, { suffix, "Comment" })
                 return newVirtText
             end
 
@@ -70,6 +73,28 @@ return {
                     return { "treesitter", "indent" }
                 end,
             })
+
+            -- Create commands for easier fold management (no keybind changes)
+            vim.api.nvim_create_user_command("FoldOpenAll", function()
+                require("ufo").openAllFolds()
+                vim.notify("All folds opened", vim.log.levels.INFO)
+            end, { desc = "Open all folds" })
+
+            vim.api.nvim_create_user_command("FoldCloseAll", function()
+                require("ufo").closeAllFolds()
+                vim.notify("All folds closed", vim.log.levels.INFO)
+            end, { desc = "Close all folds" })
+
+            vim.api.nvim_create_user_command("FoldToggle", function()
+                local wininfo = vim.fn.getwininfo(vim.api.nvim_get_current_win())[1]
+                if wininfo and wininfo.foldlevel > 0 then
+                    require("ufo").closeAllFolds()
+                    vim.notify("Folds closed", vim.log.levels.INFO)
+                else
+                    require("ufo").openAllFolds()
+                    vim.notify("Folds opened", vim.log.levels.INFO)
+                end
+            end, { desc = "Toggle folds open/closed" })
         end,
     },
 }
