@@ -1,0 +1,7 @@
+[server]
+# Matches the old wpctl limit of 150%
+max_volume = 150
+show_percentage = true
+# Position of the OSD's bottom edge as a fraction of screen height.
+# 0.14 puts it just under the waybar (56px bar + 6px gap + 78px OSD, on a 1000px-tall screen).
+top_margin = 0.14
