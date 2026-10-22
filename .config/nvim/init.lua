@@ -14,6 +14,16 @@ for _, p in ipairs(extra_paths) do
     end
 end
 
+-- ── XDG Runtime Dir safety ─────────────────────────────────────────
+-- Prevents "Failed to start server: operation not permitted" spam in nvim.log
+-- when $XDG_RUNTIME_DIR is unwritable (containers, restricted environments).
+if vim.fn.has("unix") == 1 then
+    local xdg_rt = vim.env.XDG_RUNTIME_DIR
+    if not xdg_rt or vim.fn.isdirectory(xdg_rt) ~= 1 or vim.fn.filewritable(xdg_rt) ~= 2 then
+        vim.env.XDG_RUNTIME_DIR = vim.fn.stdpath("run") or "/tmp"
+    end
+end
+
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
@@ -61,20 +71,17 @@ if not vim.g.user_state_writable then
     vim.opt.shadafile = "NONE"
 end
 
-vim.opt.runtimepath:append(vim.fn.stdpath("data") .. "/site")
+-- vim.opt.runtimepath:append(vim.fn.stdpath("data") .. "/site")
 
 require("core.options")
 require("core.autocmds")
 require("core.lazy")
+require("utils.status_style").load()
 require("utils.theme").setup()
 require("core.keymaps")
 
 -- Lazy-loaded utility commands (zero startup cost)
 vim.api.nvim_create_user_command("ConfigUpdate", function()
-    require("utils.updater").update()
-end, { desc = "Pull latest configuration changes from Git repository" })
-
-vim.api.nvim_create_user_command("NvimUpdate", function()
     require("utils.updater").update()
 end, { desc = "Pull latest configuration changes from Git repository" })
 
