@@ -11,11 +11,6 @@ return {
                 desc = "Maximize/Zoom Window",
             },
             {
-                "<C-w>=",
-                "<cmd>wincmd =<cr>",
-                desc = "Equalize Windows",
-            },
-            {
                 "<leader>wm",
                 function()
                     Snacks.zen.zoom()
