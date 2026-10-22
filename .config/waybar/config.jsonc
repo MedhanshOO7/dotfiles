@@ -1,0 +1,419 @@
+// ~/.config/waybar/config.jsonc
+
+[
+  {
+    "layer": "bottom",
+    "position": "top",
+    "reload_style_on_change": true,
+
+    "padding": 4,
+    "margin-left": 10,
+    "margin-right": 10,
+    "spacing": 4,
+
+    "modules-left": [
+      "custom/arch",
+      "hyprland/window",
+      "hyprland/workspaces"
+    ],
+
+    "modules-center": [
+      "mpris"
+    ],
+
+    "modules-right": [
+      "clock",
+      "custom/camera",
+      "custom/screenrecording",
+      "privacy",
+      "tray",
+      "network",
+      "wireplumber",
+      "bluetooth",
+      "power-profiles-daemon",
+      "custom/predator",
+      "battery",
+      "custom/notification",
+      "custom/control"
+    ],
+
+    // ============================================================
+    // CUSTOM ARCH
+    // ============================================================
+
+    "custom/arch": {
+      "format": "󰣇",
+      "tooltip-format": "Launcher  ·  right-click: session",
+      "on-click": "vicinae toggle",
+      "on-click-right": "$HOME/.config/hypr/custom/scripts/session-menu.sh"
+    },
+
+    // ============================================================
+    // WINDOW
+    // ============================================================
+
+    "hyprland/window": {
+      "format": "{}",
+      "format-empty": "Desktop",
+      "max-length": 24,
+
+      "icon": true,
+      "icon-size": 20,
+
+      "tooltip": true,
+      "tooltip-format": "{}",
+
+      "separate-outputs": true,
+      "offscreen-css": true
+    },
+
+    // ============================================================
+    // WORKSPACES
+    // ============================================================
+
+    "hyprland/workspaces": {
+      "format": "{icon}{windows}",
+      "on-click": "activate",
+
+      // Real app icons next to each workspace number
+      "workspace-taskbar": {
+        "enable": true,
+        "update-active-window": true,
+        "icon-size": 16,
+        "max-icons": 3,
+        // Without this, clicking an app icon does nothing
+        "on-click-window": "$HOME/.config/waybar/scripts/focus-window.sh {address}"
+      },
+
+      "persistent-workspaces": {
+        "*": 5
+      }
+    },
+
+    // ============================================================
+    // MPRIS
+    // ============================================================
+
+    "mpris": {
+      "format": "{player_icon} {dynamic}",
+      "format-paused": "{status_icon} {dynamic}",
+      "dynamic-len": 30,
+      "title-len": 30,
+      "artist-len": 18,
+      "tooltip-format": "{player}: {dynamic}",
+
+      "on-click": "playerctl play-pause",
+      "on-scroll-up": "playerctl next",
+      "on-scroll-down": "playerctl previous"
+    },
+
+    // ============================================================
+    // PRIVACY
+    // ============================================================
+
+    "privacy": {
+      "icon-spacing": 6,
+      "icon-size": 16,
+      "transition-duration": 200,
+
+      "ignore-monitor": true,
+
+      "ignore": [
+        {
+          "type": "audio-in",
+          "name": "waybar"
+        },
+        {
+          "type": "audio-in",
+          "name": "cava"
+        },
+        {
+          "type": "audio-in",
+          "name": "wf-recorder"
+        },
+        {
+          "type": "audio-in",
+          "name": "wl-screenrec"
+        },
+        {
+          "type": "audio-in",
+          "name": "gpu-screen-recorder"
+        },
+        {
+          "type": "audio-in",
+          "name": "simplescreenrecorder"
+        },
+        {
+          "type": "audio-in",
+          "name": "obs"
+        }
+      ],
+
+      "modules": [
+        {
+          "type": "audio-in",
+          "icon-name": "microphone-sensitivity-high-symbolic",
+          "tooltip": true,
+          "tooltip-icon-size": 22
+        },
+        {
+          "type": "screenshare",
+          "icon-name": "screen-shared-symbolic",
+          "tooltip": true,
+          "tooltip-icon-size": 22
+        }
+      ]
+    },
+
+    // ============================================================
+    // CAMERA
+    // ============================================================
+
+    "custom/camera": {
+      "exec": "$HOME/.config/waybar/scripts/camera.sh",
+      "interval": 2,
+
+      "return-type": "json",
+      "format": "{}",
+
+      "tooltip": true
+    },
+
+    // ============================================================
+    // SCREEN RECORDING
+    // ============================================================
+
+    "custom/screenrecording": {
+      "exec": "$HOME/.config/waybar/scripts/screenrecording.sh",
+      "interval": 2,
+
+      "return-type": "json",
+      "format": "{}",
+
+      "tooltip": true
+    },
+
+    // ============================================================
+    // NETWORK
+    // ============================================================
+
+    "network": {
+      "format-wifi": "󰤨 {essid}",
+      "format-ethernet": "󰈀 Wired",
+      "format-disconnected": "󰤭 Offline",
+
+      "tooltip-format-wifi": "{essid}\n{ifname} · {ipaddr}/{cidr}\n↑ {bandwidthUpBytes}  ↓ {bandwidthDownBytes}",
+      "tooltip-format-ethernet": "{ifname} · {ipaddr}/{cidr}\n↑ {bandwidthUpBytes}  ↓ {bandwidthDownBytes}",
+      "tooltip-format-disconnected": "Disconnected",
+
+      "on-click": "vicinae cmd launch @dagimg-dot/store.vicinae.wifi-commander:scan-wifi",
+      "on-click-right": "$HOME/.local/bin/hyprltm-net",
+
+      "max-length": 16
+    },
+
+    // ============================================================
+    // AUDIO
+    // ============================================================
+
+    "wireplumber": {
+      "format": "{icon} {volume}%",
+      "format-muted": "󰝟 muted",
+
+      "format-icons": [
+        "󰕿",
+        "󰖀",
+        "󰕾"
+      ],
+
+      "tooltip-format": "{node_name} · {volume}%",
+      "on-click": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle",
+      "on-click-right": "$HOME/.local/bin/toggle-audio --menu",
+      "scroll-step": 2,
+      "max-volume": 100
+    },
+
+    // ============================================================
+    // BLUETOOTH
+    // ============================================================
+
+    "bluetooth": {
+      "format": "󰂯",
+      "format-disabled": "",
+      "format-connected": "󰂱 {num_connections}",
+
+      "tooltip-format": "{controller_alias}\n{num_connections} connected",
+
+      "on-click": "blueman-manager"
+    },
+
+    // ============================================================
+    // NOTIFICATIONS
+    // ============================================================
+
+    "custom/notification": {
+      "tooltip": true,
+
+      "format": "{icon}",
+
+      "format-icons": {
+        "notification": "󰂚",
+        "none": "󰂜",
+
+        "dnd-notification": "󰂛",
+        "dnd-none": "󰪑",
+
+        "inhibited-notification": "󰂚",
+        "inhibited-none": "󰂜",
+
+        "dnd-inhibited-notification": "󰂛",
+        "dnd-inhibited-none": "󰪑"
+      },
+
+      "return-type": "json",
+
+      "exec-if": "which swaync-client",
+      "exec": "swaync-client -swb",
+
+      "on-click": "swaync-client -t -sw",
+      "on-click-right": "swaync-client -d -sw",
+
+      "escape": true
+    },
+
+    // ============================================================
+    // CONTROL
+    // ============================================================
+
+    "custom/control": {
+      "format": "",
+      "tooltip-format": "Control panel",
+      "on-click": "$HOME/.config/waybar/scripts/control-center.sh"
+    },
+
+    // ============================================================
+    // CLOCK
+    // ============================================================
+
+    "clock": {
+      "format": "{:%H:%M}",
+      "format-alt": "{:%A, %d %B %Y}",
+
+      "tooltip-format": "<tt><small>{calendar}</small></tt>",
+
+      "on-click": "mode"
+    },
+
+    // ============================================================
+    // BATTERY
+    // ============================================================
+
+    "battery": {
+      "format": "{icon} {capacity}%",
+      "format-time": "{H}h {M}m",
+      "tooltip-format": "{capacity}% · {timeTo}",
+      "smooth-power": true,
+
+      "format-icons": [
+        "󰁺",
+        "󰁼",
+        "󰁾",
+        "󰂀",
+        "󰁹"
+      ],
+
+      "format-charging": "󰂄 {capacity}%",
+
+      "states": {
+        "warning": 20,
+        "critical": 10
+      }
+    },
+
+    // ============================================================
+    // POWER PROFILE (served by tlp-pd over the power-profiles D-Bus API)
+    // click: cycle profiles  ·  SUPER+ALT+P: full battery saver (blur, video wallpaper, profile)
+    // ============================================================
+
+    "power-profiles-daemon": {
+      "format": "{icon}",
+      "tooltip-format": "Power profile: {profile}\nDriver: {driver}",
+      "tooltip": true,
+      "format-icons": {
+        "default": "󰗑",
+        "performance": "󰓅",
+        "balanced": "󰗑",
+        "power-saver": "󰌪"
+      }
+    },
+
+    // ============================================================
+    // PREDATOR (nekro-sense): CPU temp · fans · profile · charge limit
+    // click: Nekro Sense GUI · right-click: fan boost · middle: 80% charge limit
+    // ============================================================
+
+    "custom/predator": {
+      "exec": "$HOME/.config/hud/predator.sh status",
+      "return-type": "json",
+      "interval": 5,
+      "format": "{}",
+      "tooltip": true,
+      "on-click": "$HOME/.config/hud/predator.sh gui",
+      "on-click-right": "$HOME/.config/hud/predator.sh fan-toggle",
+      "on-click-middle": "$HOME/.config/hud/predator.sh limit-toggle",
+      "exec-on-event": true
+    },
+
+    // ============================================================
+    // TRAY
+    // ============================================================
+
+    "tray": {
+      "icon-size": 16,
+      "spacing": 8
+    }
+  },
+
+  {
+    "name": "cava-overlay",
+
+    "layer": "bottom",
+    "position": "top",
+
+    // thin band laid over the bottom edge of the main bar's media pill
+    // (main bar is 48px tall: 16px band at y=25..41, under the title text)
+    "height": 16,
+    "margin-top": -23,
+
+    "exclusive": false,
+    "passthrough": true,
+
+    "modules-center": [
+      "cava"
+    ],
+
+    "cava": {
+      "cava_config": "/home/medhansh/.config/cava/waybar.conf",
+
+      "framerate": 60,
+      "bars": 18,
+
+      "format-icons": [
+        "▁",
+        "▂",
+        "▃",
+        "▄",
+        "▅",
+        "▆",
+        "▇",
+        "█"
+      ],
+
+      "hide_on_silence": true,
+
+      "actions": {
+        "on-click-right": "mode"
+      }
+    }
+  }
+]
