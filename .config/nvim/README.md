@@ -2,7 +2,7 @@
 
 Built to understand the editor, not just use it. Engineered for embedded hardware, high-performance C/C++, full-stack web, Jupyter data science, and distraction-free writing.
 
-![Neovim](https://img.shields.io/badge/Neovim-0.10+-blue.svg?style=flat-square&logo=neovim) ![Lua](https://img.shields.io/badge/Written_in-Lua-blue.svg?style=flat-square&logo=lua) ![Startup Time](https://img.shields.io/badge/Startup_Time-~38ms-green.svg?style=flat-square) ![Plugins](https://img.shields.io/badge/Plugins-128-orange.svg?style=flat-square)
+![Neovim](https://img.shields.io/badge/Neovim-0.11+-blue.svg?style=flat-square&logo=neovim) ![Lua](https://img.shields.io/badge/Written_in-Lua-blue.svg?style=flat-square&logo=lua) ![Startup Time](https://img.shields.io/badge/Startup_Time-~150ms-green.svg?style=flat-square) ![Plugins](https://img.shields.io/badge/Plugins-113-orange.svg?style=flat-square)
 
 <p align="center">
   <img src="assets/screenshot.png" alt="Neovim Overview" width="100%" />
@@ -62,7 +62,7 @@ Built to understand the editor, not just use it. Engineered for embedded hardwar
 - **⚡ Ultra-Fast Cold Starts (~38ms)**: Aggressive bytecode caching, lazy loading, and lightweight pure Lua modules.
 - **🔍 Instant Search & Multi-Modal Pickers**: **`snacks.picker`** with image thumbnails, hidden dotfile search, and git status.
 - **🛡️ Interactive Diagnostic Callout Cards**: **`tiny-inline-diagnostic.nvim`** renders compiler-style curved callouts (`╭─`, `╰─`) directly under code errors.
-- **🤖 Multi-File Aware AI Agents**: **`CopilotChat.nvim`** + **`supermaven`** equipped with workspace read tools (`glob`, `grep`, `file`, `gitdiff`) and 1-key floating prompt modal (`<leader>cp`).
+- **🤖 Multi-File Aware AI Agents**: **`CopilotChat.nvim`** + **`copilot.lua`** equipped with workspace read tools (`glob`, `grep`, `file`, `gitdiff`) and 1-key floating prompt modal (`<leader>Cq`).
 - **🔬 Embedded & Zephyr RTOS Automation**: **`overseer.nvim`** templates for `west build`, `west flash --erase`, `west debug`, and bare-metal ARM GDB DAP debugging (`arm-none-eabi-gdb`).
 - **📊 Jupyter Data Science & REPL**: Cell-by-cell notebook execution with **`molten-nvim`**, inline image rendering, and **`vim-slime`**.
 - **📝 Obsidian & Markdown Studio**: Inline rendered callouts, Unicode tables, auto bullet lists, and live auto-sync preview (`<leader>np`).
@@ -104,7 +104,7 @@ If you just want something that works out of the box, there are better options �
 │   │   ├── lsp.lua             # LSP client setup
 │   │   ├── cmp.lua             # Completion engine
 │   │   ├── snacks.lua          # Snacks picker, explorer, dashboard, zen
-│   │   ├── copilot.lua         # AI assistants (Copilot, CopilotChat, Supermaven)
+│   │   ├── copilot.lua         # AI assistants (Copilot, CopilotChat)
 │   │   ├── treesitter.lua      # Syntax parsing & highlighting
 │   │   ├── zephyr.lua          # Zephyr RTOS overseer templates
 │   │   ├── dap.lua             # Debug Adapter Protocol
@@ -131,7 +131,7 @@ If you just want something that works out of the box, there are better options �
 
 ### Minimum Version
 
-- **Neovim v0.10.0+** (v0.11+ / v0.12+ recommended).
+- **Neovim v0.11.0+** (v0.12+ recommended).
 - **Python 3.11+** for Molten Jupyter notebook sync and Python provider.
 - **Node.js & npm** for GitHub Copilot and plugin build scripts.
 
@@ -210,7 +210,6 @@ Install these only if you need their specific workflows:
 | `lazygit` | snacks.lazygit | Floating Git TUI modal (`<leader>gl`) | `pacman -S lazygit` / `brew install lazygit` |
 | `cmake` + `ninja` | cmake-tools.nvim | C/C++ CMake build generation & debugging | `pacman -S cmake ninja` |
 | `git-delta` | tiny-code-action.nvim | Enhanced side-by-side diff in code actions | `pacman -S git-delta` |
-| `live-server` | live-server.nvim | Hot-reload web dev server (`<leader>lv`) | `npm install -g live-server` |
 | `west` | zephyr.lua | Embedded Zephyr RTOS building & flashing | `pip install west` (inside python venv) |
 | `arm-none-eabi-gdb` | nvim-dap | Bare-metal ARM Cortex MCU debugging | ARM GNU toolchain |
 | `zen-browser` | markdown-preview | Live Markdown & HTML preview browser | [zen-browser.app](https://zen-browser.app) |
@@ -312,8 +311,7 @@ On first launch, `lazy.nvim` will automatically bootstrap itself, clone all plug
 - **Top Tabline**: `barbar.nvim` with smooth pill separators, file icons, and diagnostic badges.
 - **Breadcrumbs**: `dropbar.nvim` for clickable LSP symbol breadcrumbs in the winbar.
 - **Bottom Statusline**: `lualine.nvim` with solid opaque sections and rounded pill geometry (`` / ``).
-- **Floating Filename**: `incline.nvim` renders the active filename floating over each split.
-- **Fluid Motion**: `smear-cursor.nvim` for smooth cursor trail animations, `cinnamon.nvim` for smooth scrolling.
+- **Fluid Motion**: `smear-cursor.nvim` for smooth cursor trail animations, `snacks.scroll` for smooth scrolling.
 - **Yank & Paste Flash**: `tiny-glimmer.nvim` highlights yanked and pasted regions with a flash animation.
 - **Delimiters**: `rainbow-delimiters.nvim` for colorful nested brackets and scopes.
 - **Window Separators**: `colorful-winsep.nvim` for vibrant active window borders.
@@ -333,7 +331,6 @@ On first launch, `lazy.nvim` will automatically bootstrap itself, clone all plug
 | [folke/which-key.nvim](https://github.com/folke/which-key.nvim) | Interactive keybinding discovery menu |
 | [nvim-lua/plenary.nvim](https://github.com/nvim-lua/plenary.nvim) | Core Lua utility functions |
 | [nvim-tree/nvim-web-devicons](https://github.com/nvim-tree/nvim-web-devicons) | Standard Nerd Font file icons |
-| [echasnovski/mini.icons](https://github.com/echasnovski/mini.icons) | Lightweight icon provider |
 
 ### LSP, Completion & Diagnostics
 
@@ -341,18 +338,15 @@ On first launch, `lazy.nvim` will automatically bootstrap itself, clone all plug
 | :--- | :--- |
 | [neovim/nvim-lspconfig](https://github.com/neovim/nvim-lspconfig) | Preconfigured language server configurations |
 | [mason-org/mason.nvim](https://github.com/mason-org/mason.nvim) | Portable package manager for LSPs, linters, and formatters |
-| [mason-org/mason-lspconfig.nvim](https://github.com/mason-org/mason-lspconfig.nvim) | Bridges mason.nvim with lspconfig |
 | [WhoIsSethDaniel/mason-tool-installer.nvim](https://github.com/WhoIsSethDaniel/mason-tool-installer.nvim) | Automatically ensures all tools are installed |
 | [folke/lazydev.nvim](https://github.com/folke/lazydev.nvim) | Full type signatures and autocompletion for Neovim Lua APIs |
 | [b0o/schemastore.nvim](https://github.com/b0o/schemastore.nvim) | JSON/YAML schema validation catalog |
-| [hrsh7th/nvim-cmp](https://github.com/hrsh7th/nvim-cmp) | Completion engine with LSP, buffer, path, and snippet sources |
-| [saghen/blink.cmp](https://github.com/saghen/blink.cmp) | High-performance alternative completion engine |
+| [saghen/blink.cmp](https://github.com/saghen/blink.cmp) | Completion engine (LSP, snippets, path, buffer, Copilot) |
 | [L3MON4D3/LuaSnip](https://github.com/L3MON4D3/LuaSnip) | Extensible snippet engine |
 | [rafamadriz/friendly-snippets](https://github.com/rafamadriz/friendly-snippets) | Comprehensive community snippet collection |
 | [rachartier/tiny-inline-diagnostic.nvim](https://github.com/rachartier/tiny-inline-diagnostic.nvim) | Modern compiler-style curved diagnostic callouts |
 | [dnlhc/glance.nvim](https://github.com/dnlhc/glance.nvim) | VS Code-style peek definition, references, and implementations |
 | [Bekaboo/dropbar.nvim](https://github.com/Bekaboo/dropbar.nvim) | Clickable LSP symbol breadcrumb bar |
-| [b0o/incline.nvim](https://github.com/b0o/incline.nvim) | Floating filename indicator per window |
 
 ### Editing, Formatting & Linting
 
@@ -360,7 +354,7 @@ On first launch, `lazy.nvim` will automatically bootstrap itself, clone all plug
 | :--- | :--- |
 | [nvim-treesitter/nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter) | Syntax parsing and highlighting |
 | [nvim-treesitter/nvim-treesitter-context](https://github.com/nvim-treesitter/nvim-treesitter-context) | Sticky function/struct context header at top of buffer |
-| [nvim-treesitter/nvim-treesitter-textobjects](https://github.com/nvim-treesitter/nvim-treesitter-textobjects) | Treesitter-aware functions, classes, and parameter textobjects |
+| [nvim-treesitter/nvim-treesitter-textobjects](https://github.com/nvim-treesitter/nvim-treesitter-textobjects) | Treesitter motions (`]m` `[m` `]]` `[[`); text objects come from mini.ai |
 | [windwp/nvim-ts-autotag](https://github.com/windwp/nvim-ts-autotag) | Auto close and rename HTML/JSX tags |
 | [folke/ts-comments.nvim](https://github.com/folke/ts-comments.nvim) | Treesitter-aware commenting |
 | [Wansmer/treesj](https://github.com/Wansmer/treesj) | Split and join code blocks |
@@ -369,7 +363,6 @@ On first launch, `lazy.nvim` will automatically bootstrap itself, clone all plug
 | [windwp/nvim-autopairs](https://github.com/windwp/nvim-autopairs) | Auto-close brackets and quotes |
 | [kylechui/nvim-surround](https://github.com/kylechui/nvim-surround) | Add, change, and delete surrounding delimiters (`ys`, `cs`, `ds`) |
 | [jake-stewart/multicursor.nvim](https://github.com/jake-stewart/multicursor.nvim) | True multiple cursors with mouse and keyboard bindings |
-| [smjonas/inc-rename.nvim](https://github.com/smjonas/inc-rename.nvim) | Live incremental symbol renaming |
 | [ThePrimeagen/refactoring.nvim](https://github.com/ThePrimeagen/refactoring.nvim) | Extract function, extract variable, and code refactoring |
 | [echasnovski/mini.ai](https://github.com/echasnovski/mini.ai) | Extended text objects for functions, classes, and tags |
 | [gbprod/yanky.nvim](https://github.com/gbprod/yanky.nvim) | Improved yank and put with cycle history ring |
@@ -387,7 +380,6 @@ On first launch, `lazy.nvim` will automatically bootstrap itself, clone all plug
 | [stevearc/aerial.nvim](https://github.com/stevearc/aerial.nvim) | Live code outline sidebar |
 | [folke/trouble.nvim](https://github.com/folke/trouble.nvim) | Diagnostics, references, and results list |
 | [folke/todo-comments.nvim](https://github.com/folke/todo-comments.nvim) | Highlight and search `TODO`, `NOTE`, `FIX`, `PERF` comments |
-| [stevearc/oil.nvim](https://github.com/stevearc/oil.nvim) | Edit your filesystem like a standard text buffer (`-`) |
 | [mbbill/undotree](https://github.com/mbbill/undotree) | Visual undo history graph |
 
 ### UI & Visual Polish
@@ -398,19 +390,14 @@ On first launch, `lazy.nvim` will automatically bootstrap itself, clone all plug
 | [romgrk/barbar.nvim](https://github.com/romgrk/barbar.nvim) | Sleek buffer tabline with close glyphs and diagnostic counters |
 | [folke/noice.nvim](https://github.com/folke/noice.nvim) | Modern cmdline popup, floating notifications, and doc borders |
 | [sphamba/smear-cursor.nvim](https://github.com/sphamba/smear-cursor.nvim) | Fluid cursor trail animation |
-| [declancm/cinnamon.nvim](https://github.com/declancm/cinnamon.nvim) | Smooth animated scrolling |
 | [HiPhish/rainbow-delimiters.nvim](https://github.com/HiPhish/rainbow-delimiters.nvim) | Vibrant rainbow-colored matching brackets |
 | [NvChad/nvim-colorizer.lua](https://github.com/NvChad/nvim-colorizer.lua) | Virtual text color swatches (`██`) without background clutter |
 | [kevinhwang91/nvim-ufo](https://github.com/kevinhwang91/nvim-ufo) | Ultra fold preview and provider |
-| [RRethy/vim-illuminate](https://github.com/RRethy/vim-illuminate) | Highlight other uses of the word under cursor |
-| [j-hui/fidget.nvim](https://github.com/j-hui/fidget.nvim) | Non-intrusive LSP progress spinner |
 | [m4xshen/smartcolumn.nvim](https://github.com/m4xshen/smartcolumn.nvim) | Smart color column that only appears past 80/100 chars |
 | [stevearc/quicker.nvim](https://github.com/stevearc/quicker.nvim) | Quickfix list enhancements with inline editing |
-| [kevinhwang91/nvim-bqf](https://github.com/kevinhwang91/nvim-bqf) | Better quickfix window with preview and fuzzy search |
 | [rachartier/tiny-code-action.nvim](https://github.com/rachartier/tiny-code-action.nvim) | Code actions menu with live diff preview |
 | [lewis6991/satellite.nvim](https://github.com/lewis6991/satellite.nvim) | Diagnostic-aware scrollbar |
 | [nvim-zh/colorful-winsep.nvim](https://github.com/nvim-zh/colorful-winsep.nvim) | Vibrant active window separator |
-| [gorbit99/codewindow.nvim](https://github.com/gorbit99/codewindow.nvim) | Code minimap sidebar |
 | [OXY2DEV/helpview.nvim](https://github.com/OXY2DEV/helpview.nvim) | Enhanced help file viewer with rich rendering |
 | [mrjones2014/smart-splits.nvim](https://github.com/mrjones2014/smart-splits.nvim) | Seamless window resizing and navigation across splits |
 
@@ -421,7 +408,6 @@ On first launch, `lazy.nvim` will automatically bootstrap itself, clone all plug
 | [lewis6991/gitsigns.nvim](https://github.com/lewis6991/gitsigns.nvim) | Inline git blame, gutter diff signs, hunk staging |
 | [NeogitOrg/neogit](https://github.com/NeogitOrg/neogit) | Magit-like full Git management panel |
 | [sindrets/diffview.nvim](https://github.com/sindrets/diffview.nvim) | Interactive side-by-side diff and merge viewer |
-| [FabijanZulj/blame.nvim](https://github.com/FabijanZulj/blame.nvim) | Full-file git blame viewer |
 | [akinsho/git-conflict.nvim](https://github.com/akinsho/git-conflict.nvim) | Highlight and resolve git conflict markers |
 | [folke/snacks.nvim](https://github.com/folke/snacks.nvim) (`lazygit`) | Floating Lazygit terminal panel (`<leader>gl`) |
 
@@ -450,8 +436,6 @@ On first launch, `lazy.nvim` will automatically bootstrap itself, clone all plug
 | :--- | :--- |
 | [zbirenbaum/copilot.lua](https://github.com/zbirenbaum/copilot.lua) | GitHub Copilot inline ghost text completion |
 | [CopilotC-Nvim/CopilotChat.nvim](https://github.com/CopilotC-Nvim/CopilotChat.nvim) | Multi-file aware Copilot Chat with workspace tools (`glob`, `grep`, `file`) |
-| [supermaven-inc/supermaven-nvim](https://github.com/supermaven-inc/supermaven-nvim) | Ultra-fast Supermaven inline AI completion |
-| [olimorris/codecompanion.nvim](https://github.com/olimorris/codecompanion.nvim) | AI inline assistant and prompt actions |
 
 ### Notes, Markdown & Jupyter
 
@@ -459,12 +443,10 @@ On first launch, `lazy.nvim` will automatically bootstrap itself, clone all plug
 | :--- | :--- |
 | [MeanderingProgrammer/render-markdown.nvim](https://github.com/MeanderingProgrammer/render-markdown.nvim) | Rich in-buffer rendered headings, callouts, checkboxes, and pipe tables |
 | [epwalsh/obsidian.nvim](https://github.com/epwalsh/obsidian.nvim) | Obsidian vault integration, wikilinks, daily notes, and tags |
-| [ice345/markdown-table-wrap.nvim](https://github.com/ice345/markdown-table-wrap.nvim) | Formatted markdown table viewer and wrapping |
 | [iamcco/markdown-preview.nvim](https://github.com/iamcco/markdown-preview.nvim) | Live auto-sync browser preview (`<leader>np`) |
 | [benlubas/molten-nvim](https://github.com/benlubas/molten-nvim) | Interactive Jupyter REPL and notebook runner |
 | [gaoDean/autolist.nvim](https://github.com/gaoDean/autolist.nvim) | Automatic bullet list continuation and smart renumbering |
 | [folke/twilight.nvim](https://github.com/folke/twilight.nvim) | Dim unfocused code for distraction-free focus |
-| [HakonHarnes/img-clip.nvim](https://github.com/HakonHarnes/img-clip.nvim) | Paste images from clipboard into markdown |
 | [3rd/image.nvim](https://github.com/3rd/image.nvim) | In-terminal image rendering |
 
 ### Terminal & Session
@@ -499,22 +481,22 @@ The leader key is set to `<Space>`.
 | :--- | :--- | :--- |
 | `<leader><space>` | Smart Find Files | snacks.picker |
 | `<leader>e` | Open Project File Explorer | snacks.explorer |
-| `-` | Edit filesystem as text buffer | oil.nvim |
 | `<leader>ff` | Find files by name | snacks.picker |
 | `<leader>fg` | Live grep workspace text | snacks.picker |
 | `<leader>fr` | Browse recent files | snacks.picker |
 | `<leader>f/` | Fuzzy search lines in current buffer | snacks.picker |
-| `<leader>fb` / `<leader>bb` | Browse open buffers | snacks.picker |
+| `<leader>fb` | Browse open buffers | snacks.picker |
+| `<leader>bb` | Pick a buffer by letter | barbar.nvim |
 | `<leader>bd` | Delete current buffer cleanly | snacks.bufdelete |
 | `<leader>bo` | Close all other buffers | barbar.nvim |
-| `<leader>bn` / `<S-l>` | Next buffer | barbar.nvim |
-| `<leader>bp` / `<S-h>` | Previous buffer | barbar.nvim |
+| `<leader>bn` / `<A-.>` | Next buffer | barbar.nvim |
+| `<leader>bp` / `<A-,>` | Previous buffer | barbar.nvim |
 | `<leader>fp` | Find tracked project files | snacks.picker |
 | `<leader>fS` / `<leader>lo` | Document symbols outline | snacks.picker |
 | `<leader>fw` / `<leader>ls` | Workspace symbols search | snacks.picker |
 | `<leader>fu` | Visual undo history | snacks.picker |
 | `<leader>ft` | Find TODO / NOTE / FIX comments | todo-comments |
-| `<leader>p` | Command palette | snacks.picker |
+| `<leader>:` | Command palette | snacks.picker |
 | `<leader>?` / `<leader>fk` | Interactive keymap finder | snacks.picker |
 | `<leader>sr` | Project-wide find and replace | grug-far |
 | `<leader>sw` | Search word under cursor (replace) | grug-far |
@@ -541,10 +523,10 @@ The leader key is set to `<Space>`.
 | `gi` | Go to implementation | LSP |
 | `gr` | List references | LSP |
 | `K` | Hover documentation | LSP |
-| `gpd` | **Peek Definition** in float overlay | glance.nvim |
-| `gpr` | **Peek References** in float overlay | glance.nvim |
-| `gpi` | **Peek Implementations** in float overlay | glance.nvim |
-| `gpt` | **Peek Type Definitions** in float overlay | glance.nvim |
+| `<leader>vd` | **Peek Definition** in float overlay | glance.nvim |
+| `<leader>vr` | **Peek References** in float overlay | glance.nvim |
+| `<leader>vi` | **Peek Implementations** in float overlay | glance.nvim |
+| `<leader>vt` | **Peek Type Definitions** in float overlay | glance.nvim |
 | `<leader>ca` | Code actions with live diff preview | tiny-code-action |
 | `<leader>cf` | Format current file | conform.nvim |
 | `<leader>rn` | Rename symbol everywhere | Built-in LSP |
@@ -561,38 +543,36 @@ The leader key is set to `<Space>`.
 
 | Key | Action |
 | :--- | :--- |
-| `<leader>fo` | Open fold under cursor completely |
-| `<leader>fc` | Close fold under cursor completely |
-| `<leader>fa` | Toggle fold under cursor |
-| `<leader>fv` | Preview folded lines |
-| `<leader>fR` | Open all folds in file |
-| `<leader>fM` | Close all folds in file |
+| `za` / `zo` / `zc` | Toggle / open / close fold under cursor (built-in) |
+| `<leader>zv` | Preview folded lines |
+| `<leader>zR` | Open all folds in file |
+| `<leader>zM` | Close all folds in file |
 
 ### Git & Conflict Resolution
 
 | Key | Action | Engine |
 | :--- | :--- | :--- |
 | `]h` / `[h` | Jump to next / previous hunk | gitsigns |
-| `<leader>gn` / `<leader>gp` | Jump to next / previous hunk | gitsigns |
+| `<leader>gn` / `<leader>gN` | Jump to next / previous hunk | gitsigns |
+| `<leader>gp` | Preview hunk | gitsigns |
 | `<leader>gs` | Stage current hunk | gitsigns |
 | `<leader>gu` | Undo staging for hunk | gitsigns |
 | `<leader>gr` | Discard / reset hunk | gitsigns |
 | `<leader>gb` | Line git blame | gitsigns |
-| `<leader>gd` | Preview hunk diff | gitsigns |
-| `<leader>gD` | Diff buffer against git index | gitsigns |
+| `<leader>gd` | Open side-by-side diffview | diffview.nvim |
 | `<leader>gh` | Current file commit history | diffview.nvim |
-| `<leader>gq` | Close diffview | diffview.nvim |
+| `<leader>gq` / `<leader>gD` | Close diffview | diffview.nvim |
 | `<leader>gg` | Open full Neogit panel | neogit |
 | `<leader>gc` | Start Neogit commit | neogit |
 | `<leader>gl` | Open floating Lazygit | snacks.lazygit |
 | `<leader>gf` | Lazygit current file history | snacks.lazygit |
 | `<leader>gB` | Open git permalink in browser | snacks.gitbrowse |
-| `<leader>gco` | **Conflict: Choose Ours** | git-conflict |
-| `<leader>gct` | **Conflict: Choose Theirs** | git-conflict |
-| `<leader>gcb` | **Conflict: Choose Both** | git-conflict |
-| `<leader>gc0` | **Conflict: Choose None** | git-conflict |
-| `<leader>gc]` / `<leader>gc[` | Next / previous conflict marker | git-conflict |
-| `<leader>gcq` | Send all conflicts to Quickfix list | git-conflict |
+| `<leader>gCo` | **Conflict: Choose Ours** | git-conflict |
+| `<leader>gCt` | **Conflict: Choose Theirs** | git-conflict |
+| `<leader>gCb` | **Conflict: Choose Both** | git-conflict |
+| `<leader>gC0` | **Conflict: Choose None** | git-conflict |
+| `<leader>gC]` / `<leader>gC[` | Next / previous conflict marker | git-conflict |
+| `<leader>gCq` | Send all conflicts to Quickfix list | git-conflict |
 | `]t` / `[t` | Next / previous TODO comment | todo-comments |
 
 ### Terminal & Code Runner
@@ -604,7 +584,7 @@ The leader key is set to `<Space>`.
 | `<leader>th` | Open bottom terminal panel | toggleterm |
 | `<leader>tv` | Open side terminal panel | toggleterm |
 | `<leader>tg` | Pick from active terminal sessions | toggleterm |
-| `<leader>ts` / `<leader>tS` | Choose terminal layout style | terminal_style |
+| `<leader>ts` / `<leader>uT` | Choose terminal layout style | terminal_style |
 | `<leader>rr` | **Run code selection / block** | code_runner |
 | `<leader>rf` | **Run current file** | code_runner |
 | `<leader>rp` | **Run project** | code_runner |
@@ -655,11 +635,8 @@ The leader key is set to `<Space>`.
 | `<leader>CM` | Switch Copilot Model | CopilotChat |
 | `<leader>Cp` | Copilot Open Panel | copilot.lua |
 | `<leader>Cs` | Copilot Status | copilot.lua |
-| `<leader>Cd` / `<leader>Cx` | Copilot Toggle Engine | copilot.lua |
+| `<leader>Cd` | Copilot Toggle Engine | copilot.lua |
 | `<leader>Ca` | Copilot Authenticate | copilot.lua |
-| `<M-a>` | **Toggle Supermaven AI Autocomplete** | supermaven-nvim |
-| `<leader>ac` | **Toggle CodeCompanion AI Chat** | codecompanion.nvim |
-| `<leader>aa` | **CodeCompanion AI Actions** | codecompanion.nvim |
 | `<M-w>` (insert) | Accept Copilot word | copilot.lua |
 | `<M-l>` (insert) | Accept Copilot line | copilot.lua |
 | `<M-]>` / `<M-[>` (insert) | Next / previous suggestion | copilot.lua |
@@ -679,8 +656,6 @@ The leader key is set to `<Space>`.
 | `<leader>nd` | Dismiss all notifications | snacks.notifier |
 | `<leader>nh` | Show notification history | snacks.notifier |
 | `<leader>ih` | Hover preview image under cursor | snacks.image |
-| `<leader>mTi` | Toggle markdown table inline view | markdown-table-wrap |
-| `<leader>mTr` | Toggle markdown table reader view | markdown-table-wrap |
 
 ### Obsidian
 
@@ -711,10 +686,13 @@ The leader key is set to `<Space>`.
 | `<F12>` / `<leader>dO` | Debug: Step Out | nvim-dap |
 | `<leader>dr` | Toggle Debug REPL Console | nvim-dap |
 | `<leader>du` | Toggle DAP Debugger UI | nvim-dap-ui |
-| `<leader>Tnr` | Run nearest unit test | neotest |
-| `<leader>Tnf` | Run current test file | neotest |
-| `<leader>rs` | Send selection to REPL | vim-slime |
+| `<leader>Tr` | Run nearest test | neotest |
+| `<leader>Tf` | Run current test file | neotest |
+| `<leader>Td` | Debug nearest test | neotest |
+| `<leader>Ts` / `<leader>To` | Toggle test summary / open output | neotest |
+| `<leader>rs` | Send paragraph (normal) / selection (visual) to REPL | vim-slime |
 | `<leader>rl` | Send line to REPL | vim-slime |
+| `<leader>rC` | Configure REPL target | vim-slime |
 | `<leader>mi` | Initialize Molten Jupyter kernel | molten-nvim |
 | `<leader>me` | Evaluate Molten cell operator | molten-nvim |
 | `<leader>ml` | Evaluate Molten line | molten-nvim |
