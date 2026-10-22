@@ -17,9 +17,7 @@ opt.showmode       = false -- mode is shown in the statusline instead
 opt.cmdheight      = 0     -- hide bottom command bar space (using floating spotlight cmdline)
 opt.laststatus     = 3     -- single statusline across all windows
 opt.showtabline    = 2     -- keep the bufferline visible as a stable navigation rail
-if vim.fn.has("nvim-0.11") == 1 then
-    opt.winborder      = "rounded" -- use a consistent premium border for native floats
-end
+opt.winborder      = "rounded" -- use a consistent premium border for native floats
 opt.synmaxcol      = 300   -- don't syntax highlight past column 300 (massive speedup on heavy/minified lines)
 opt.redrawtime     = 1500  -- limit syntax redraw time (prevents lag on complex regex)
 opt.mousemoveevent = true  -- enable mouse move events for interactive breadcrumbs and hover
@@ -32,11 +30,8 @@ opt.tabstop        = 4    -- how wide a real <Tab> looks
 opt.softtabstop    = 4    -- how wide <Tab>/<BS> feel in insert mode
 opt.smartindent    = true -- auto-indent new lines based on context
 opt.shiftround     = true -- round indents to nearest shiftwidth multiple
-opt.backspace      = { "indent", "eol", "start" } -- make <BS> work across autoindent and line joins
 
 -- ── Search ──────────────────────────────────────────────────
-opt.hlsearch       = true -- highlight all search matches
-opt.incsearch      = true -- show matches as you type
 opt.ignorecase     = true -- case-insensitive by default …
 opt.smartcase      = true -- … unless the pattern contains uppercase
 
@@ -45,7 +40,6 @@ opt.splitright     = true -- vertical splits open to the right
 opt.splitbelow     = true -- horizontal splits open below
 
 -- ── Files & buffers ─────────────────────────────────────────
-opt.hidden         = true                               -- allow switching away from unsaved buffers
 opt.autowrite      = true                               -- auto-save before :make / :next etc.
 opt.swapfile       = false                              -- no swap files
 opt.backup         = false                              -- no backup files
@@ -59,20 +53,24 @@ opt.pumheight      = 10                        -- max items in popup menu
 opt.pumblend       = 0                         -- crisp float edges matching theme background
 opt.shortmess:append("c")                      -- suppress completion messages
 opt.updatetime     = 250                       -- snappier diagnostics and git updates
-opt.timeoutlen     = 500                       -- faster which-key popup and mappings
+opt.timeoutlen     = 300                       -- faster which-key popup and mappings
 opt.splitkeep      = "screen"                  -- avoid layout jumps when opening or closing splits
 opt.inccommand     = "split"                   -- preview substitutions live
-opt.smoothscroll   = false                     -- disabled in favor of snacks.scroll
+opt.smoothscroll   = true                      -- scroll wrapped lines by screen line (snacks.scroll animates it)
 opt.showmatch      = true                      -- Show matching brackets
 opt.matchtime      = 2                         -- Tenths of a second to blink matching brackets
 vim.g.ft_man_open_mode = "vert"                -- open man pages in a vertical split
 vim.g.man_hardwrap     = 0                     -- soft-wrap man pages to window width
-opt.sessionoptions = "curdir,folds,help,tabpages,winsize,winpos,localoptions"
+opt.sessionoptions = "buffers,curdir,folds,globals,help,tabpages,terminal,winsize,winpos,localoptions" -- buffers+globals let auto-session restore barbar's tabs and order
 
 -- ── Clipboard ───────────────────────────────────────────────
 opt.clipboard      = "unnamedplus" -- sync with system clipboard
 opt.shada          = "!,'100,<0,s10,h" -- don't save registers across sessions
 opt.spell          = false -- disable spellcheck by default
+opt.spelloptions   = "camel" -- treat camelCase words as separate words when spell is on
+opt.undolevels     = 10000   -- deeper undo history (persisted via undofile)
+opt.grepprg        = "rg --vimgrep --smart-case --hidden" -- :grep uses ripgrep
+opt.grepformat     = "%f:%l:%c:%m"
 
 -- ── Folding (Managed lazily by nvim-ufo) ────────────────────
 opt.foldmethod     = "manual"
@@ -87,6 +85,7 @@ opt.fillchars:append({
     foldclose = "",
     foldsep = " ",
     eob = " ",
+    diff = "╱", -- diagonal hatching for deleted lines in diff/diffview
 })
 
 -- ── Misc ────────────────────────────────────────────────────
@@ -98,6 +97,8 @@ opt.listchars      = {    -- … configured as:
     tab   = "» ",
     trail = "·",
     nbsp  = "␣",
+    extends = "›", -- line continues past the right edge (shown when list is on)
+    precedes = "‹",
 }
 -- formatoptions:remove at init-time is overridden by ftplugins;
 -- use a FileType autocmd instead (see language_defaults group below).
