@@ -8,4 +8,4 @@ Actions=SetAsWallpaper;
 [Desktop Action SetAsWallpaper]
 Name=Set as Wallpaper
 Icon=preferences-desktop-wallpaper
-Exec=/home/medhansh/.config/quickshell/ii/scripts/colors/switchwall.sh --image %f
+Exec=/home/medhansh/.config/hypr/custom/scripts/set-wallpaper.sh %f
