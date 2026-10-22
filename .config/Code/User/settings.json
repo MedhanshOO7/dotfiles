@@ -12,7 +12,7 @@
     "files.autoSaveDelay": 500,
     "code-runner.runInTerminal": true,
     "editor.formatOnSave": true,
-    "workbench.colorTheme": "Catppuccin Mocha",
+    "workbench.colorTheme": "Night Owl",
     "workbench.colorCustomizations": {
         // "sideBar.background": "#252733",
         // "panel.background": "#252733",
@@ -37,7 +37,7 @@
     "editor.cursorSmoothCaretAnimation": "on",
     "editor.cursorBlinking": "smooth",
     "editor.smoothScrolling": true,
-    "window.menuBarVisibility": "classic",
+    "window.menuBarVisibility": "compact",
     "editor.minimap.enabled": false,
     "editor.autoClosingBrackets": "always",
     "editor.autoClosingDelete": "always",
@@ -70,15 +70,21 @@
     },
     "makefile.configureOnOpen": true,
     "git.enableSmartCommit": true,
-    "workbench.browser.showInTitleBar": true,
+    "workbench.browser.showInTitleBar": false,
     "git.confirmSync": false,
     "interactiveWindow.executeWithShiftEnter": true,
-    "material-code.primaryColor": "#5DA3EB",
+    "material-code.primaryColor": "#102930",
     "github.copilot.enable": {
-        "*": true,
+        "*": false,
         "plaintext": false,
         "markdown": true,
         "scminput": false
     },
-    "oneDarkPro.editorTheme": "Nord"
+    "oneDarkPro.editorTheme": "Nord",
+    "workbench.layoutControl.enabled": false,
+    "chat.titleBar.openInAgentsWindow.enabled": false,
+    "workbench.statusBar.visible": false,
+    "chat.viewSessions.enabled": false,
+    "chat.contextUsage.enabled": false,
+    "workbench.navigationControl.enabled": false
 }
