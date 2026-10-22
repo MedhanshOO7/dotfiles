@@ -1,0 +1,190 @@
+/* ~/.config/rofi/hud.rasi
+ * HUD design system for rofi — the default theme (config.rasi) and the base
+ * every menu imports (session menu, wallpaper picker, keybinds, network,
+ * audio). Same rules as ~/.config/hud/tokens.css:
+ *   colour   matugen (colors.rasi), never hardcoded
+ *   shape    chamfered corners "a b a b": xl 8/26 panels, md 4/14 rows
+ *   type     Orbitron for prompts/titles, GeistMono for everything else
+ *   accent   selected row carries a 3px primary bar on its leading edge
+ */
+
+@import "~/.config/rofi/colors.rasi"
+
+configuration {
+    show-icons:      true;
+    hover-select:    true;
+    me-select-entry: "";
+    me-accept-entry: "MousePrimary";
+    display-drun:    "APPS";
+    display-run:     "RUN";
+    display-window:  "WINDOWS";
+    display-filebrowser: "FILES";
+    drun-display-format: "{name}";
+}
+
+* {
+    font:             "GeistMono Nerd Font Propo 12";
+    background-color: transparent;
+    text-color:       @on-surface;
+}
+
+/* ---------- Panel ---------- */
+window {
+    location:         center;
+    anchor:           center;
+    width:            680px;
+    border:           1px;
+    border-color:     @hud-edge;
+    border-radius:    8px 26px 8px 26px;
+    background-color: @hud-panel;
+    background-image: @hud-sheen-img;
+    transparency:     "real";
+}
+
+mainbox {
+    padding:  18px 20px;
+    spacing:  12px;
+    children: [ "inputbar", "message", "listview", "mode-switcher" ];
+}
+
+/* ---------- Prompt line: PROMPT // query ........ 12/80 ---------- */
+inputbar {
+    padding:          4px 4px 12px 4px;
+    spacing:          10px;
+    border:           0 0 1px 0;
+    border-color:     @hud-edge-hot;
+    background-color: transparent;
+    children:         [ "prompt", "textbox-prompt-sep", "entry", "num-filtered-rows", "textbox-num-sep", "num-rows" ];
+}
+
+prompt {
+    font:           "Orbitron Bold 11";
+    text-color:     @primary;
+    vertical-align: 0.5;
+}
+
+textbox-prompt-sep {
+    expand:         false;
+    str:            "//";
+    text-color:     @hud-label;
+    vertical-align: 0.5;
+}
+
+entry {
+    placeholder:       "search…";
+    placeholder-color: @hud-muted;
+    cursor:            text;
+    cursor-color:      @primary;
+    vertical-align:    0.5;
+}
+
+num-filtered-rows, textbox-num-sep, num-rows {
+    expand:         false;
+    font:           "Orbitron 9";
+    text-color:     @hud-label;
+    vertical-align: 0.5;
+}
+
+textbox-num-sep {
+    str: "/";
+}
+
+/* ---------- Message (-mesg) ---------- */
+message {
+    padding:          10px 14px;
+    border:           0 0 0 3px;
+    border-color:     @primary;
+    border-radius:    4px 14px 4px 14px;
+    background-color: @hud-card;
+}
+
+textbox {
+    text-color:     @on-surface;
+    vertical-align: 0.5;
+    markup:         true;
+}
+
+/* ---------- List ---------- */
+listview {
+    lines:        8;
+    columns:      1;
+    spacing:      4px;
+    cycle:        true;
+    dynamic:      true;
+    fixed-height: false;
+    scrollbar:    false;
+}
+
+element {
+    padding:          9px 14px;
+    spacing:          12px;
+    border:           0 0 0 3px;
+    border-color:     transparent;
+    border-radius:    4px 14px 4px 14px;
+    background-color: transparent;
+    text-color:       @on-surface;
+    cursor:           pointer;
+}
+
+element normal.active, element alternate.active {
+    text-color: @primary;
+}
+
+element selected.normal, element selected.active {
+    background-color: @hud-select;
+    border-color:     @primary;
+    text-color:       @primary;
+}
+
+element normal.urgent, element alternate.urgent {
+    text-color: @error;
+}
+
+element selected.urgent {
+    background-color: @hud-danger-a;
+    border-color:     @error;
+    text-color:       @error;
+}
+
+element-icon {
+    size:           24px;
+    vertical-align: 0.5;
+    cursor:         inherit;
+}
+
+element-text {
+    text-color:      inherit;
+    highlight:       bold;
+    vertical-align:  0.5;
+    cursor:          inherit;
+}
+
+/* ---------- Mode switcher (drun/run/window) ---------- */
+mode-switcher {
+    spacing: 8px;
+}
+
+button {
+    padding:       6px 12px;
+    font:          "Orbitron Bold 9";
+    border:        1px;
+    border-color:  @hud-edge;
+    border-radius: 3px 10px 3px 10px;
+    text-color:    @hud-muted;
+    cursor:        pointer;
+}
+
+button selected {
+    background-color: @primary;
+    border-color:     @primary;
+    text-color:       @on-primary;
+}
+
+/* ---------- Errors ---------- */
+error-message {
+    padding:          14px;
+    border:           0 0 0 3px;
+    border-color:     @error;
+    border-radius:    8px 26px 8px 26px;
+    background-color: @hud-panel;
+}
