@@ -1,0 +1,297 @@
+{
+  "$schema": "/etc/xdg/swaync/configSchema.json",
+  "ignore-gtk-theme": true,
+  "cssPriority": "user",
+  "positionX": "right",
+  "positionY": "top",
+  "control-center-positionX": "right",
+  "control-center-positionY": "top",
+  "control-center-margin-top": 10,
+  "control-center-margin-right": 10,
+  "control-center-margin-bottom": 10,
+  "control-center-margin-left": 0,
+  "control-center-width": 450,
+  "control-center-height": 940,
+  "notification-window-width": 450,
+  "notification-window-height": -1,
+  "control-center-layer": "top",
+  "layer": "overlay",
+  "layer-shell": true,
+  "layer-shell-cover-screen": true,
+  "control-center-exclusive-zone": true,
+  "timeout": 6,
+  "timeout-low": 3,
+  "timeout-critical": 0,
+  "fit-to-screen": true,
+  "notification-2fa-action": true,
+  "notification-inline-replies": true,
+  "keyboard-shortcuts": true,
+  "notification-grouping": true,
+  "relative-timestamps": true,
+  "notification-icon-size": 48,
+  "notification-body-image-height": 140,
+  "notification-body-image-width": 220,
+  "image-visibility": "when-available",
+  "transition-time": 180,
+  "hide-on-clear": false,
+  "hide-on-action": true,
+  "text-empty": "NO SIGNALS  ·  ALL CLEAR",
+  "script-fail-notify": true,
+  "widgets": [
+    "label#hud-header",
+    "label#hud-system",
+    "buttons-grid#hud-toggles",
+    "volume",
+    "backlight",
+    "slider#hud-night",
+    "mpris",
+    "label#hud-tools",
+    "buttons-grid#hud-actions",
+    "label#hud-sound",
+    "buttons-grid#hud-sound",
+    "label#hud-predator",
+    "buttons-grid#hud-predator",
+    "buttons-grid#hud-power",
+    "title",
+    "notifications"
+  ],
+  "widget-config": {
+    "label#hud-header": {
+      "text": "CONTROL CENTER",
+      "max-lines": 1
+    },
+    "label#hud-system": {
+      "text": "SYSTEM",
+      "max-lines": 1
+    },
+    "buttons-grid#hud-toggles": {
+      "buttons-per-row": 3,
+      "actions": [
+        {
+          "label": "󰤨  Wi-Fi",
+          "type": "toggle",
+          "active": true,
+          "command": "bash -c '[[ $SWAYNC_TOGGLE_STATE == true ]] && nmcli radio wifi on || nmcli radio wifi off'",
+          "update-command": "bash -c '[[ $(nmcli radio wifi) == \"enabled\" ]] && echo true || echo false'"
+        },
+        {
+          "label": "󰂯  Bluetooth",
+          "type": "toggle",
+          "active": false,
+          "command": "bash -c '[[ $SWAYNC_TOGGLE_STATE == true ]] && bluetoothctl power on || bluetoothctl power off'",
+          "update-command": "bash -c '~/.config/swaync/scripts/bluetooth-status.sh'"
+        },
+        {
+          "label": "󰀝  Airplane",
+          "type": "toggle",
+          "active": false,
+          "command": "bash -c '[[ $SWAYNC_TOGGLE_STATE == true ]] && rfkill block all || rfkill unblock all'",
+          "update-command": "bash -c 'rfkill list | grep -q \"Soft blocked: no\" && echo false || echo true'"
+        },
+        {
+          "label": "󰂛  Silent",
+          "type": "toggle",
+          "active": false,
+          "command": "bash -c 'swaync-client -d >/dev/null'",
+          "update-command": "bash -c 'swaync-client -D'"
+        },
+        {
+          "label": "󰍭  Mic Off",
+          "type": "toggle",
+          "active": false,
+          "command": "bash -c 'wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle'",
+          "update-command": "bash -c 'wpctl get-volume @DEFAULT_AUDIO_SOURCE@ | grep -q MUTED && echo true || echo false'"
+        },
+        {
+          "label": "󰖔  Night",
+          "type": "toggle",
+          "active": false,
+          "command": "bash -c '~/.config/swaync/scripts/nightlight.sh toggle'",
+          "update-command": "bash -c '~/.config/swaync/scripts/nightlight.sh status'"
+        },
+        {
+          "label": "󰅶  Caffeine",
+          "type": "toggle",
+          "active": false,
+          "command": "bash -c 'if [[ -f /tmp/hypr_caffeine_active ]]; then rm -f /tmp/hypr_caffeine_active && pkill -CONT hypridle && notify-send -a System -u low -i caffeine-cup-empty \"Caffeine off\" \"Sleep timer resumed\"; else touch /tmp/hypr_caffeine_active && pkill -STOP hypridle && notify-send -a System -u low -i caffeine-cup-full \"Caffeine on\" \"Sleep timer paused\"; fi'",
+          "update-command": "bash -c '[[ -f /tmp/hypr_caffeine_active ]] && echo true || echo false'"
+        },
+        {
+          "label": "󰌪  Saver",
+          "type": "toggle",
+          "active": false,
+          "command": "bash -c '~/.config/hypr/custom/scripts/power_saver_toggle.sh'",
+          "update-command": "bash -c '[[ -f /tmp/hypr_power_saver_active ]] && echo true || echo false'"
+        },
+        {
+          "label": "󰔎  Dark",
+          "type": "toggle",
+          "active": true,
+          "command": "bash -c '~/.config/hypr/custom/scripts/toggle-dark-mode.sh'",
+          "update-command": "bash -c '[[ $(gsettings get org.gnome.desktop.interface color-scheme) == *dark* ]] && echo true || echo false'"
+        }
+      ]
+    },
+    "volume": {
+      "label": "󰕾",
+      "show-per-app": true,
+      "show-per-app-icon": true,
+      "show-per-app-label": true,
+      "expand-per-app": false,
+      "expand-button-label": "󰅀",
+      "collapse-button-label": "󰅃"
+    },
+    "backlight": {
+      "label": "󰃟",
+      "device": "nvidia_wmi_ec_backlight",
+      "subsystem": "backlight"
+    },
+    "slider#hud-night": {
+      "label": "󰖔",
+      "cmd_getter": "bash -c '~/.config/swaync/scripts/nightlight.sh get'",
+      "cmd_setter": "bash -c '~/.config/swaync/scripts/nightlight.sh set $value'",
+      "min": 2500,
+      "max": 6500,
+      "min_limit": 2500,
+      "max_limit": 6500
+    },
+    "mpris": {
+      "show-album-art": "when-available",
+      "autohide": true,
+      "loop-carousel": false
+    },
+    "label#hud-tools": {
+      "text": "TOOLS",
+      "max-lines": 1
+    },
+    "buttons-grid#hud-actions": {
+      "buttons-per-row": 3,
+      "actions": [
+        {
+          "label": "󰹑  Capture",
+          "command": "bash -c 'swaync-client -cp; sleep 0.2; ~/.config/hypr/custom/scripts/screenshot.sh'"
+        },
+        {
+          "label": "󰑊  Record",
+          "type": "toggle",
+          "active": false,
+          "command": "bash -c 'swaync-client -cp; ~/.config/hypr/custom/scripts/record.sh --sound'",
+          "update-command": "bash -c 'pgrep -x wf-recorder >/dev/null && echo true || echo false'"
+        },
+        {
+          "label": "󰅍  Clipboard",
+          "command": "bash -c 'swaync-client -cp; vicinae cmd launch clipboard:history'"
+        },
+        {
+          "label": "󰸉  Wallpaper",
+          "command": "bash -c 'swaync-client -cp; ~/.config/hypr/custom/scripts/wallpaper-picker.sh'"
+        },
+        {
+          "label": "󱂇  Network",
+          "command": "bash -c 'swaync-client -cp; ~/.local/bin/hyprltm-net'"
+        },
+        {
+          "label": "󰓃  Output",
+          "command": "bash -c 'swaync-client -cp; ~/.local/bin/toggle-audio --menu'"
+        }
+      ]
+    },
+    "buttons-grid#hud-power": {
+      "buttons-per-row": 5,
+      "actions": [
+        {
+          "label": "󰌾",
+          "command": "bash -c 'swaync-client -cp; pidof hyprlock || hyprlock'"
+        },
+        {
+          "label": "󰤄",
+          "command": "bash -c 'swaync-client -cp; systemctl suspend'"
+        },
+        {
+          "label": "󰍃",
+          "command": "bash -c 'swaync-client -cp; ~/.config/hypr/custom/scripts/session-menu.sh --confirm logout'"
+        },
+        {
+          "label": "󰜉",
+          "command": "bash -c 'swaync-client -cp; ~/.config/hypr/custom/scripts/session-menu.sh --confirm reboot'"
+        },
+        {
+          "label": "󰐥",
+          "command": "bash -c 'swaync-client -cp; ~/.config/hypr/custom/scripts/session-menu.sh --confirm poweroff'"
+        }
+      ]
+    },
+    "title": {
+      "text": "SIGNALS",
+      "clear-all-button": true,
+      "button-text": "󰎟  CLEAR"
+    },
+    "notifications": {
+      "vexpand": true
+    },
+    "label#hud-predator": {
+      "text": "PREDATOR",
+      "max-lines": 1
+    },
+    "buttons-grid#hud-predator": {
+      "buttons-per-row": 4,
+      "actions": [
+        {
+          "label": "󰈐  Boost",
+          "type": "toggle",
+          "active": false,
+          "command": "bash -c '~/.config/hud/predator.sh fan-toggle'",
+          "update-command": "bash -c '~/.config/hud/predator.sh fan-state'"
+        },
+        {
+          "label": "󰂃  80%",
+          "type": "toggle",
+          "active": true,
+          "command": "bash -c '~/.config/hud/predator.sh limit-toggle'",
+          "update-command": "bash -c '~/.config/hud/predator.sh limit-state'"
+        },
+        {
+          "label": "󰌌  Sync",
+          "type": "toggle",
+          "active": false,
+          "command": "bash -c '[[ $SWAYNC_TOGGLE_STATE == true ]] && ~/.config/hud/predator.sh kbd-sync on || ~/.config/hud/predator.sh kbd-sync off'",
+          "update-command": "bash -c '~/.config/hud/predator.sh kbd-sync state'"
+        },
+        {
+          "label": "󰻠  Open",
+          "command": "bash -c 'swaync-client -cp; ~/.config/hud/predator.sh gui'"
+        }
+      ]
+    },
+    "label#hud-sound": {
+      "text": "SOUND",
+      "max-lines": 1
+    },
+    "buttons-grid#hud-sound": {
+      "buttons-per-row": 3,
+      "actions": [
+        {
+          "label": "󰝚  Music",
+          "type": "toggle",
+          "active": false,
+          "command": "bash -c '~/.config/hud/audio-mode.sh music'",
+          "update-command": "bash -c '~/.config/hud/audio-mode.sh state music'"
+        },
+        {
+          "label": "󰿎  Movie",
+          "type": "toggle",
+          "active": false,
+          "command": "bash -c '~/.config/hud/audio-mode.sh movie'",
+          "update-command": "bash -c '~/.config/hud/audio-mode.sh state movie'"
+        },
+        {
+          "label": "󰕾  Flat",
+          "type": "toggle",
+          "active": false,
+          "command": "bash -c '~/.config/hud/audio-mode.sh flat'",
+          "update-command": "bash -c '~/.config/hud/audio-mode.sh state flat'"
+        }
+      ]
+    }
+  }
+}
