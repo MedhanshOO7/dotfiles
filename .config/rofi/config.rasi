@@ -33,7 +33,7 @@ configuration {
 	/*---------- Drun settings ----------*/
 	drun-categories: "";
 	drun-match-fields: "name,generic,exec,categories,keywords";
-	drun-display-format: "{name} [<span weight='light' size='small'><i>({generic})</i></span>]";
+	drun-display-format: "{name}";
 	drun-show-actions: false;
 	drun-url-launcher: "xdg-open";
 	drun-use-desktop-cache: false;
@@ -83,7 +83,7 @@ configuration {
 
 	/*---------- Misc setting ----------*/
 	terminal: "rofi-sensible-terminal";
-	font: "Mono 12";
+	font: "GeistMono Nerd Font Propo 12";
 	sort: false;
 	threads: 0;
 	click-to-exit: true;
@@ -180,4 +180,5 @@ configuration {
 */
 }
 
-@theme "/usr/share/rofi/themes/material.rasi"
+/* HUD design system — see hud.rasi */
+@theme "~/.config/rofi/hud.rasi"
