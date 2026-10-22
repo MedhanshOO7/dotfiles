@@ -1,9 +1,5 @@
-local function detect_image_backend()
-    -- User explicitly uses Kitty, force backend
-    return "kitty"
-end
-
-local image_backend = detect_image_backend()
+-- Kitty graphics protocol is the configured image backend
+local image_backend = "kitty"
 local image_enabled = image_backend ~= "none"
 
 local function jupytext_bin()
@@ -121,7 +117,8 @@ end
 return {
     {
         "3rd/image.nvim",
-        ft = { "markdown", "norg" },
+        -- Loaded only as Molten's output renderer; snacks.image handles markdown images
+        lazy = true,
         enabled = image_enabled,
         opts = function()
             return {
@@ -146,17 +143,9 @@ return {
         "benlubas/molten-nvim",
         build = ":UpdateRemotePlugins",
         ft = { "python", "jupyter" },
-        cmd = {
-            "MoltenInit",
-            "MoltenEvaluateOperator",
-            "MoltenEvaluateLine",
-            "MoltenEvaluateVisual",
-            "MoltenDelete",
-            "MoltenHideOutput",
-            "MoltenShowOutput",
-            "MoltenRestart",
-            "MoltenOpenInBrowser",
-        },
+        -- No `cmd` list: Molten's commands come from the remote-plugin manifest
+        -- (:UpdateRemotePlugins) and exist from startup. lazy.nvim's cmd stubs
+        -- would replace them and then delete them when the plugin loads.
         dependencies = image_enabled and { "3rd/image.nvim" } or {},
         init = function()
             ensure_jupyter_dirs()
