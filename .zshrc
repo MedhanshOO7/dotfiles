@@ -13,11 +13,6 @@ fpath=(
     $fpath
 )
 
-# 1. Environment & Paths (Deduplicated)
-export PATH="$HOME/.local/bin:$HOME/.lmstudio/bin:$HOME/.kimi-code/bin:$PATH"
-export CLAUDE_CODE_USE_BEDROCK=1
-export AWS_REGION=us-east-1
-
 # 2. Define Directory dynamically & Disable Oh My Zsh auto-updates
 ZSH_MOD_DIR="${ZDOTDIR:-$HOME}/.zsh"
 DISABLE_AUTO_UPDATE="true"
@@ -45,3 +40,16 @@ zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza --icons $realpath'
 if [[ -f ~/.config/zshrc.d/dots-hyprland.zsh ]]; then
     source ~/.config/zshrc.d/dots-hyprland.zsh
 fi
+
+# Qwen Code PATH block begin
+export PATH='/home/medhansh/.local/bin':$PATH
+# Qwen Code PATH block end
+
+
+# Added by Antigravity CLI installer
+export PATH="/home/medhansh/.local/bin:$PATH"
+
+# Added by LM Studio CLI (lms)
+export PATH="$PATH:/home/medhansh/.lmstudio/bin"
+# End of LM Studio CLI section
+
