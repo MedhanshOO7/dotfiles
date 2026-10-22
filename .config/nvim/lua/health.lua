@@ -89,7 +89,9 @@ M.check = function()
     elseif has_cl then
         vim.health.ok("MSVC compiler detected: " .. vim.fn.exepath("cl"))
     else
-        vim.health.warn("No C/C++ compiler detected in PATH (clang/gcc/cl). Required for Treesitter parser compilation.")
+        vim.health.warn(
+            "No C/C++ compiler detected in PATH (clang/gcc/cl). Required for Treesitter parser compilation."
+        )
     end
 
     -- ── System Clipboard ───────────────────────────────────────────
