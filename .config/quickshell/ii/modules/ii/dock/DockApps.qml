@@ -204,11 +204,11 @@ Item {
                                     ScreencopyView {
                                         id: screencopyView
                                         anchors.centerIn: parent
-                                        captureSource: previewPopup.show ? windowButton.modelData : null
-                                        live: previewPopup.show
+                                        captureSource: windowButton.modelData
+                                        live: true
                                         paintCursor: true
                                         constraintSize: Qt.size(root.maxWindowPreviewWidth, root.maxWindowPreviewHeight)
-                                        layer.enabled: previewPopup.show
+                                        layer.enabled: true
                                         layer.effect: OpacityMask {
                                             maskSource: Rectangle {
                                                 width: screencopyView.width
