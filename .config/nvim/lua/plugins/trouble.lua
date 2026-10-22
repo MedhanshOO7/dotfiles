@@ -16,6 +16,23 @@ return {
             focus = true,
             warn_no_results = false,
             open_no_results = true,
+            modes = {
+                diagnostics = {
+                    format = "{lsp_code} {message}",
+                },
+            },
+            icons = {
+                error = " ",
+                warning = " ",
+                information = " ",
+                hint = " ",
+                other = " ",
+            },
+            win = {
+                position = "right",
+                width = 0.3,
+                height = 0.6,
+            },
         })
     end,
 }
