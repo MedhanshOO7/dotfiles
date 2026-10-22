@@ -1,0 +1,677 @@
+/* ~/.config/swaync/style.css
+ * HUD control center + notification popups.
+ * Colours, shapes and type come from the shared HUD design system
+ * (~/.config/hud/tokens.css, matugen palette) — see that file for the rules.
+ *
+ * Widgets named "x#name" in config.json get the CSS class .name
+ * (hud-header, hud-system, hud-tools, hud-predator, hud-toggles, hud-actions, hud-power,
+ *  hud-night).
+ */
+
+@import url("../hud/tokens.css");
+
+* {
+  font-family: "GeistMono Nerd Font Propo", "Symbols Nerd Font", monospace;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* ============================================================
+   WINDOWS — transparent, the panel and cards carry the glass
+   ============================================================ */
+
+notificationwindow,
+blankwindow,
+.blank-window,
+.floating-notifications {
+  background: transparent;
+  box-shadow: none;
+}
+
+/* ============================================================
+   CONTROL CENTER PANEL
+   ============================================================ */
+
+.control-center {
+  background-color: @panel;
+  color: @text;
+
+  border: 1px solid @edge;
+  border-radius: 8px 26px;
+  padding: 14px 16px 12px 16px;
+
+  /* corner ticks on the two tight corners, a top-down sheen, faint scanlines */
+  background-image:
+    linear-gradient(@tick, @tick), linear-gradient(@tick, @tick),
+    linear-gradient(@tick, @tick), linear-gradient(@tick, @tick),
+    linear-gradient(to bottom, @sheen, alpha(@primary, 0) 220px),
+    repeating-linear-gradient(to bottom, @scan 0px, @scan 1px, transparent 1px, transparent 4px);
+  background-size: 18px 2px, 2px 18px, 18px 2px, 2px 18px, 100% 100%, 100% 100%;
+  background-position: left top, left top, right bottom, right bottom, left top, left top;
+  background-repeat: no-repeat;
+
+  box-shadow:
+    inset 0 1px @highlight,
+    0 18px 48px alpha(@shadow, 0.35),
+    0 0 32px @glow-soft;
+}
+
+.control-center-list,
+.control-center-list viewport,
+.widgets {
+  background: transparent;
+}
+
+.control-center-list-placeholder {
+  font-family: "Orbitron", sans-serif;
+  color: alpha(@muted, 0.5);
+  font-size: 11px;
+  letter-spacing: 3px;
+  margin: 28px 0;
+}
+
+/* ============================================================
+   HEADER + SECTION LABELS
+   ============================================================ */
+
+.widget-label {
+  margin: 10px 2px 4px 2px;
+}
+
+.widget-label > label {
+  font-family: "Orbitron", sans-serif;
+  color: alpha(@primary, 0.7);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 3px;
+}
+
+/* Panel header: big tracked title over a fading scan line */
+.widget-label.hud-header {
+  margin: 0 2px 2px 2px;
+  padding-bottom: 10px;
+  background-image: linear-gradient(to right, @tick, alpha(@primary, 0));
+  background-size: 100% 1px;
+  background-position: left bottom;
+  background-repeat: no-repeat;
+}
+
+.widget-label.hud-header > label {
+  color: @primary;
+  font-size: 17px;
+  letter-spacing: 4px;
+  text-shadow: 0 0 12px @glow;
+}
+
+/* ============================================================
+   NOTIFICATIONS HEADER (title widget)
+   ============================================================ */
+
+.widget-title {
+  margin: 10px 2px 2px 2px;
+}
+
+.widget-title > label {
+  font-family: "Orbitron", sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  color: alpha(@primary, 0.7);
+}
+
+.widget-title > button {
+  background-color: transparent;
+  color: @muted;
+
+  border: 1px solid @edge;
+  border-radius: 3px 10px;
+  padding: 4px 10px;
+
+  font-family: "Orbitron", sans-serif;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 2px;
+
+  transition: all 150ms ease;
+}
+
+.widget-title > button:hover {
+  background-color: alpha(@danger, 0.14);
+  color: @danger;
+  border-color: alpha(@danger, 0.5);
+}
+
+
+/* ============================================================
+   BUTTON GRIDS
+   ============================================================ */
+
+.widget-buttons-grid {
+  background: transparent;
+  margin: 0;
+  padding: 0;
+}
+
+.widget-buttons-grid flowboxchild {
+  padding: 2px;
+}
+
+.widget-buttons-grid flowboxchild > button {
+  background-color: @card;
+  color: @text;
+
+  border: 1px solid @edge;
+  border-radius: 4px 14px;
+
+  min-height: 38px;
+  padding: 4px 8px;
+
+  box-shadow: inset 0 1px @highlight;
+
+  transition:
+    background-color 150ms ease,
+    border-color 150ms ease,
+    box-shadow 150ms ease,
+    color 150ms ease;
+}
+
+.widget-buttons-grid flowboxchild > button label {
+  font-size: 13px;
+}
+
+.widget-buttons-grid flowboxchild > button:hover {
+  background-color: @card-hover;
+  border-color: @edge-hot;
+  box-shadow: 0 0 10px @glow;
+}
+
+.widget-buttons-grid flowboxchild > button:active {
+  background-color: alpha(@primary, 0.25);
+}
+
+/* Toggles: dim when off, lit when on */
+.hud-toggles flowboxchild > button {
+  min-height: 40px;
+  color: @muted;
+}
+
+.widget-buttons-grid flowboxchild > button.toggle:checked {
+  background-color: alpha(@primary, 0.88);
+  color: @on-primary;
+  border-color: @primary;
+  box-shadow: 0 0 14px @glow;
+}
+
+.widget-buttons-grid flowboxchild > button.toggle:checked label {
+  font-weight: 700;
+}
+
+/* Tool buttons: lighter cards */
+.hud-actions flowboxchild > button {
+  background-color: alpha(@surface-container-high, 0.3);
+}
+
+/* Power row: icon-only, compact; the destructive ones glow red on hover */
+.hud-power {
+  margin-top: 4px;
+}
+
+.hud-power flowboxchild > button {
+  background-color: transparent;
+  color: @muted;
+  min-height: 34px;
+  padding: 0;
+}
+
+.hud-power flowboxchild > button label {
+  font-size: 17px;
+}
+
+.hud-power flowboxchild:nth-child(n+3) > button:hover {
+  background-color: alpha(@danger, 0.14);
+  color: @danger;
+  border-color: alpha(@danger, 0.55);
+  box-shadow: 0 0 10px alpha(@danger, 0.3);
+}
+
+/* ============================================================
+   SLIDERS (volume / backlight / night light)
+   Segmented HUD meters: the fill is cut into 6px cells.
+   ============================================================ */
+
+.widget-volume,
+.widget-backlight,
+.widget-slider {
+  background-color: @card;
+  border: 1px solid @edge;
+  border-radius: 4px 14px;
+  padding: 3px 14px;
+  margin: 2px 0;
+}
+
+/* backlight/slider put their icon label directly in the widget,
+ * volume nests it in a box — match both so every icon gets spacing. */
+.widget-volume > box > label,
+.widget-backlight label,
+.widget-slider label {
+  color: @primary;
+  font-size: 18px;
+  min-width: 24px;
+  margin-right: 12px;
+  text-shadow: 0 0 8px @glow;
+}
+
+.widget-volume scale,
+.widget-backlight scale,
+.widget-slider scale {
+  padding: 0;
+  margin: 0;
+}
+
+.widget-volume scale trough,
+.widget-backlight scale trough,
+.widget-slider scale trough {
+  background-color: transparent;
+  background-image: repeating-linear-gradient(to right, @track 0px, @track 6px, transparent 6px, transparent 8px);
+  border-radius: 1px;
+  min-height: 8px;
+}
+
+.widget-volume scale highlight,
+.widget-backlight scale highlight {
+  background-color: transparent;
+  background-image: repeating-linear-gradient(to right, @primary 0px, @primary 6px, transparent 6px, transparent 8px);
+  border-radius: 1px;
+  min-height: 8px;
+}
+
+.widget-volume scale slider,
+.widget-backlight scale slider,
+.widget-slider scale slider {
+  background-color: @primary;
+  border: none;
+  border-radius: 1px;
+  min-width: 4px;
+  min-height: 18px;
+  margin: -5px 0;
+  box-shadow: 0 0 10px @glow;
+}
+
+/* Night light: warm amber instead of the theme accent */
+.widget-slider scale highlight {
+  background-color: transparent;
+  background-image: repeating-linear-gradient(to right, @warm 0px, @warm 6px, transparent 6px, transparent 8px);
+  border-radius: 1px;
+  min-height: 8px;
+}
+
+.widget-slider label {
+  color: @warm;
+  text-shadow: 0 0 8px alpha(@warm, 0.35);
+}
+
+.widget-slider scale slider {
+  background-color: @warm;
+  box-shadow: 0 0 10px alpha(@warm, 0.4);
+}
+
+.widget-volume row image {
+  -gtk-icon-size: 20px;
+}
+
+.widget-volume > box > button {
+  background: transparent;
+  color: @muted;
+  border: none;
+  border-radius: 3px 10px;
+  padding: 2px 6px;
+}
+
+.widget-volume > box > button:hover {
+  color: @primary;
+  background-color: alpha(@primary, 0.12);
+}
+
+.per-app-volume {
+  background-color: alpha(@surface-container-low, 0.5);
+  border: 1px solid @edge;
+  border-radius: 3px 10px;
+  margin-top: 8px;
+  padding: 6px 8px;
+}
+
+.per-app-volume label {
+  color: @muted;
+  font-size: 12px;
+}
+
+/* ============================================================
+   MPRIS
+   ============================================================ */
+
+.widget-mpris {
+  background: transparent;
+  margin: 6px 0 0 0;
+  padding: 0;
+}
+
+.widget-mpris .widget-mpris-player {
+  background-color: @card;
+  border: 1px solid @edge;
+  border-left: 3px solid @primary;
+  border-radius: 4px 14px;
+  margin: 0;
+  box-shadow: 0 0 16px @glow-soft;
+}
+
+.widget-mpris .widget-mpris-player .mpris-overlay {
+  background-color: alpha(@surface-container-low, 0.72);
+  border-radius: 4px 14px;
+  padding: 8px 10px;
+}
+
+.widget-mpris .widget-mpris-player .widget-mpris-album-art {
+  border-radius: 3px 10px;
+  margin-right: 12px;
+  -gtk-icon-size: 56px;
+  box-shadow: 0 0 12px alpha(@shadow, 0.5);
+}
+
+.widget-mpris .widget-mpris-player .widget-mpris-title {
+  color: @text;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.widget-mpris .widget-mpris-player .widget-mpris-subtitle {
+  color: @muted;
+  font-size: 12px;
+  margin-top: 2px;
+}
+
+.widget-mpris button {
+  background: transparent;
+  color: @muted;
+  border: none;
+  border-radius: 3px 10px;
+  padding: 6px;
+  margin: 1px;
+  transition: all 140ms ease;
+}
+
+.widget-mpris button:hover {
+  background-color: alpha(@primary, 0.18);
+  color: @primary;
+}
+
+.widget-mpris button:disabled {
+  opacity: 0.3;
+}
+
+/* ============================================================
+   NOTIFICATIONS (control center + popups)
+   ============================================================ */
+
+.notification-row {
+  background: transparent;
+  outline: none;
+  margin: 3px 0;
+}
+
+.notification-row:focus .notification {
+  border-color: @edge-hot;
+}
+
+.notification-row .notification-background {
+  background: transparent;
+  padding: 4px 2px;
+  margin: 0;
+}
+
+.notification-row .notification-background .notification {
+  background-color: @card;
+  color: @text;
+
+  border: 1px solid @edge;
+  border-left: 3px solid alpha(@primary, 0.85);
+  border-radius: 4px 14px;
+
+  padding: 0;
+
+  box-shadow: inset 0 1px @highlight;
+
+  transition:
+    background-color 150ms ease,
+    border-color 150ms ease,
+    box-shadow 150ms ease;
+}
+
+.notification-row .notification-background .notification.low {
+  border-left-color: alpha(@muted, 0.4);
+}
+
+.notification-row .notification-background .notification.critical {
+  background-color: alpha(@error-container, 0.45);
+  border-color: alpha(@danger, 0.5);
+  border-left-color: @danger;
+  box-shadow: 0 0 14px alpha(@danger, 0.25);
+}
+
+.notification-row .notification-background .notification .notification-default-action {
+  background: transparent;
+  color: @text;
+  border: none;
+  border-radius: 4px 14px;
+  padding: 8px;
+  transition: background-color 150ms ease;
+}
+
+.notification-row .notification-background .notification .notification-default-action:hover {
+  background-color: alpha(@primary, 0.07);
+}
+
+.notification-row .notification-background .notification .notification-content {
+  background: transparent;
+  padding: 2px;
+}
+
+.notification-row .notification-background .notification .image,
+.notification-row .notification-background .notification .app-icon {
+  border-radius: 3px 10px;
+  margin: 4px 10px 4px 2px;
+}
+
+.notification-row .notification-background .notification .body-image {
+  border-radius: 3px 10px;
+  margin-top: 6px;
+}
+
+.notification-row .notification-background .notification .summary {
+  color: @text;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.notification-row .notification-background .notification .body {
+  color: @muted;
+  font-size: 12.5px;
+  font-weight: 400;
+  margin-top: 3px;
+}
+
+.notification-row .notification-background .notification .time {
+  font-family: "Orbitron", sans-serif;
+  color: alpha(@primary, 0.6);
+  font-size: 9px;
+  letter-spacing: 1px;
+  margin-right: 4px;
+}
+
+.notification-row .notification-background .notification .notification-action > button {
+  background-color: transparent;
+  color: @primary;
+  border: 1px solid @edge;
+  border-radius: 3px 10px;
+  padding: 5px 10px;
+  margin: 4px 3px;
+  font-size: 11px;
+  letter-spacing: 1px;
+  transition: all 150ms ease;
+}
+
+.notification-row .notification-background .notification .notification-action > button:hover {
+  background-color: @card-hover;
+  border-color: @edge-hot;
+  box-shadow: 0 0 8px @glow;
+}
+
+.notification-row .notification-background .notification .inline-reply-entry {
+  background-color: alpha(@surface-container-lowest, 0.6);
+  color: @text;
+  border: 1px solid @edge;
+  border-radius: 3px 10px;
+  padding: 4px 8px;
+}
+
+.notification-row .notification-background .notification .inline-reply-entry:focus-within {
+  border-color: @edge-hot;
+}
+
+.notification-row .notification-background .notification .inline-reply-button {
+  background-color: @primary;
+  color: @on-primary;
+  border: none;
+  border-radius: 3px 10px;
+  margin-left: 4px;
+  padding: 4px 10px;
+}
+
+.notification-row .notification-background .notification .inline-reply-button:disabled {
+  background-color: @track;
+  color: alpha(@muted, 0.5);
+}
+
+.notification-row .notification-background .notification progressbar trough {
+  background-color: transparent;
+  background-image: repeating-linear-gradient(to right, @track 0px, @track 6px, transparent 6px, transparent 8px);
+  border-radius: 1px;
+  min-height: 4px;
+}
+
+.notification-row .notification-background .notification progressbar progress {
+  background-color: transparent;
+  background-image: repeating-linear-gradient(to right, @primary 0px, @primary 6px, transparent 6px, transparent 8px);
+  border-radius: 1px;
+  min-height: 4px;
+}
+
+/* Popups float alone on the desktop: popup glass + stronger shadow */
+.floating-notifications .notification-row .notification-background .notification {
+  background-color: @popup;
+  background-image: linear-gradient(to bottom, @sheen, alpha(@primary, 0) 60%);
+  box-shadow:
+    inset 0 1px @highlight,
+    0 10px 30px alpha(@shadow, 0.3),
+    0 0 18px @glow-soft;
+}
+
+/* ============================================================
+   NOTIFICATION GROUPS
+   ============================================================ */
+
+.notification-group {
+  background: transparent;
+  outline: none;
+}
+
+.notification-group .notification-group-headers {
+  margin: 6px 6px 2px 6px;
+}
+
+.notification-group .notification-group-headers .notification-group-header {
+  color: @muted;
+  font-size: 12px;
+  letter-spacing: 1px;
+}
+
+.notification-group .notification-group-headers .notification-group-icon {
+  color: @primary;
+  -gtk-icon-size: 18px;
+  margin-right: 6px;
+}
+
+.notification-group .notification-group-buttons button {
+  background: transparent;
+  color: @muted;
+  border: 1px solid @edge;
+  border-radius: 2px 7px;
+  padding: 2px 6px;
+  margin-left: 4px;
+}
+
+.notification-group .notification-group-buttons button:hover {
+  color: @primary;
+  border-color: @edge-hot;
+}
+
+/* Cards stacked behind a collapsed group: plain outlines, no accent bar */
+.notification-group.collapsed .notification-row:not(:last-child) .notification {
+  background-color: alpha(@surface-container-high, 0.35);
+  border-left-width: 1px;
+  border-left-color: @edge;
+  box-shadow: none;
+}
+
+/* ============================================================
+   CLOSE BUTTON
+   ============================================================ */
+
+.close-button {
+  background-color: alpha(@surface-container-high, 0.8);
+  color: @muted;
+  border: 1px solid @edge;
+  border-radius: 2px 7px;
+  padding: 2px;
+  margin: 6px;
+  min-width: 20px;
+  min-height: 20px;
+  transition: all 150ms ease;
+}
+
+.close-button:hover {
+  background-color: alpha(@danger, 0.2);
+  color: @danger;
+  border-color: alpha(@danger, 0.55);
+}
+
+/* ============================================================
+   SCROLLBAR / FOCUS
+   ============================================================ */
+
+scrollbar {
+  background: transparent;
+  margin: 2px;
+}
+
+scrollbar trough {
+  background: transparent;
+}
+
+scrollbar slider {
+  background-color: alpha(@primary, 0.2);
+  border-radius: 1px;
+  min-width: 3px;
+  min-height: 30px;
+}
+
+scrollbar slider:hover {
+  background-color: alpha(@primary, 0.6);
+}
+
+button:focus {
+  outline: none;
+}
+
+button:focus-visible {
+  border-color: @edge-hot;
+}
