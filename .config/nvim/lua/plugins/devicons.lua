@@ -10,7 +10,7 @@ return {
             strict = true,
             override = {
                 default_icon = {
-                    icon = "󰈔",
+                    icon = "",
                     color = "#cdd6f4",
                     name = "Default",
                 },
@@ -32,6 +32,16 @@ return {
                 ["docker-compose.yml"] = { icon = "󰡨", color = "#2496ed", name = "DockerCompose" },
                 ["Makefile"] = { icon = "", color = "#6d8086", name = "Makefile" },
                 ["CMakeLists.txt"] = { icon = "", color = "#064f8c", name = "CMakeLists" },
+                ["CMakePresets.json"] = { icon = "", color = "#064f8c", name = "CMakePresets" },
+                ["CMakeUserPresets.json"] = { icon = "", color = "#064f8c", name = "CMakeUserPresets" },
+                ["compile_commands.json"] = { icon = "", color = "#f9e2af", name = "CompileCommands" },
+                [".clangd"] = { icon = "󰘦", color = "#a6e3a1", name = "Clangd" },
+                [".clang-format"] = { icon = "", color = "#a6e3a1", name = "ClangFormat" },
+                [".clang-tidy"] = { icon = "", color = "#a6e3a1", name = "ClangTidy" },
+                ["conanfile.txt"] = { icon = "", color = "#a6e3a1", name = "Conan" },
+                ["conanfile.py"] = { icon = "", color = "#a6e3a1", name = "ConanPy" },
+                ["vcpkg.json"] = { icon = "", color = "#91b4d5", name = "Vcpkg" },
+                ["meson.build"] = { icon = "", color = "#a6e3a1", name = "Meson" },
             },
             override_by_extension = {
                 lua = { icon = "", color = "#51a0cf", name = "Lua" },
@@ -56,8 +66,8 @@ return {
                 go = { icon = "", color = "#00add8", name = "Go" },
                 c = { icon = "", color = "#599eff", name = "C" },
                 cpp = { icon = "", color = "#519aba", name = "Cpp" },
-                h = { icon = "", color = "#a074c4", name = "H" },
-                hpp = { icon = "", color = "#a074c4", name = "Hpp" },
+                h = { icon = "", color = "#a074c4", name = "H" },
+                hpp = { icon = "", color = "#a074c4", name = "Hpp" },
                 sql = { icon = "󰆼", color = "#dad8d8", name = "Sql" },
             },
         })
