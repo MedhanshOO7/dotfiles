@@ -2,7 +2,6 @@ return {
     {
         "zbirenbaum/copilot.lua",
         cmd = "Copilot",
-        event = "VeryLazy",
         opts = {
             panel = {
                 enabled = true,
@@ -34,12 +33,9 @@ return {
             },
             filetypes = {
                 ["*"] = true,
-                yaml = false,
-                markdown = false,
                 help = false,
                 gitcommit = true,
                 gitrebase = true,
-                hgcommit = false,
                 svn = false,
                 cvs = false,
                 ["."] = false,
@@ -54,7 +50,6 @@ return {
             { "<leader>Cp", "<cmd>Copilot panel<cr>", desc = "Copilot: Open Panel" },
             { "<leader>Cs", "<cmd>Copilot status<cr>", desc = "Copilot: Status" },
             { "<leader>Cd", "<cmd>CopilotToggle<cr>", desc = "Copilot: Disable / Toggle Engine" },
-            { "<leader>Cx", "<cmd>CopilotToggle<cr>", desc = "Copilot: Toggle Engine" },
             { "<leader>uC", "<cmd>CopilotToggle<cr>", desc = "Toggle Copilot AI Engine" },
             { "<leader>Ca", "<cmd>Copilot auth<cr>", desc = "Copilot: Authenticate" },
             {
@@ -88,11 +83,6 @@ return {
             local function toggle_copilot()
                 local client = require("copilot.client")
                 if client.is_disabled() then
-                    -- Stop Supermaven before enabling Copilot to avoid dual ghost-text
-                    pcall(function()
-                        local sm_api = require("supermaven-nvim.api")
-                        if sm_api.is_running() then sm_api.stop() end
-                    end)
                     vim.cmd("Copilot enable")
                     vim.notify("Copilot Engine ENABLED 󱐌", vim.log.levels.INFO, { title = "Copilot" })
                 else
