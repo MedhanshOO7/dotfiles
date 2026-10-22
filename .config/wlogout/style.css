@@ -1,0 +1,41 @@
+/* ~/.config/wlogout/style.css
+ * Fallback session screen (the main one is the rofi session menu).
+ * Follows the shared HUD design system: ~/.config/hud/tokens.css.
+ */
+
+@import url("../hud/tokens.css");
+
+* {
+	all: unset;
+	background-image: none;
+	transition: 180ms ease;
+}
+
+window {
+	background-color: @scrim-a;
+}
+
+button {
+	font-family: "Material Symbols Outlined";
+	font-size: 7rem;
+	color: @muted;
+	background-color: @card;
+	border: 1px solid @edge;
+	border-left: 3px solid @edge;
+	border-radius: 6px 22px;
+	margin: 2rem;
+	padding: 3rem;
+	box-shadow: inset 0 1px @highlight;
+}
+
+button:focus,
+button:hover {
+	color: @primary;
+	background-color: alpha(@primary, 0.14);
+	border-color: @primary;
+	box-shadow: 0 0 18px @glow;
+}
+
+button:active {
+	background-color: alpha(@primary, 0.28);
+}
