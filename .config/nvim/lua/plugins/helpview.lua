@@ -3,7 +3,7 @@ return {
     ft = "help",
     dependencies = {
         "nvim-treesitter/nvim-treesitter",
-        "echasnovski/mini.icons",
+        "nvim-tree/nvim-web-devicons",
     },
     opts = {
         preview = {
