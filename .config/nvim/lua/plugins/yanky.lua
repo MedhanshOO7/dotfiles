@@ -1,10 +1,9 @@
 return {
     "gbprod/yanky.nvim",
-    event = "VeryLazy",
     opts = {
         ring = {
             history_length = 100,
-            storage = "shada",
+            storage = "memory",
             sync_with_numbered_registers = true,
             cancel_event = "update",
         },
@@ -13,7 +12,7 @@ return {
         },
         highlight = {
             on_put = true,
-            on_yank = true,
+            on_yank = false, -- tiny-glimmer animates yanks
             timer = 200,
         },
         preserve_cursor_position = {
