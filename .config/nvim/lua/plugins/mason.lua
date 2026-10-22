@@ -17,7 +17,7 @@ return {
     },
     {
         "WhoIsSethDaniel/mason-tool-installer.nvim",
-        event = "VeryLazy",
+        event = "BufReadPre",
         dependencies = {
             {
                 "mason-org/mason.nvim",
@@ -25,19 +25,34 @@ return {
             },
         },
         opts = {
+            -- Mason package names (not lspconfig names). Servers are enabled from
+            -- lua/lsp/servers.lua; keep both lists in sync.
             ensure_installed = {
+                -- Language servers
+                "basedpyright",
+                "bash-language-server",
+                "clangd",
+                "css-lsp",
+                "emmet-language-server",
+                "html-lsp",
+                "json-lsp",
+                "lua-language-server",
+                "marksman",
+                "qmlls",
+                "tailwindcss-language-server",
+                "vtsls",
+                "yaml-language-server",
+
+                -- Debuggers, formatters, linters
                 "debugpy",
                 "codelldb",
                 "clang-format",
-                "emmet-language-server",
                 "eslint_d",
                 "js-debug-adapter",
                 "markdownlint",
-                "marksman",
                 "prettierd",
                 "prettier",
                 "ruff",
-                "qmlls",
                 "selene",
                 "shellcheck",
                 "shfmt",
