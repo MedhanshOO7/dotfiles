@@ -1,0 +1,70 @@
+/* ~/.config/hud/tokens.css
+ * ─────────────────────────────────────────────────────────────────
+ *  HUD design system — shared by waybar, swaync, swayosd, wlogout.
+ *  Rofi mirrors the same rules in ~/.config/rofi/hud.rasi.
+ * ─────────────────────────────────────────────────────────────────
+ *
+ *  COLOUR   Everything comes from colors.css (matugen, follows the
+ *           wallpaper). Never hardcode a hex in a component.
+ *
+ *  SHAPE    Chamfered corners: tight top-left / bottom-right, wide
+ *           top-right / bottom-left. Written as "a b" in GTK CSS.
+ *             xs  2px 7px    close buttons, switch knobs
+ *             sm  3px 10px   chips, small buttons, workspaces
+ *             md  4px 14px   pills, cards, notifications
+ *             lg  6px 20px   OSD, popups
+ *             xl  8px 26px   panels (control center, menus)
+ *           Things that can only do a uniform radius (Hyprland windows,
+ *           hyprlock, vicinae, snappy-switcher) use 12px.
+ *
+ *  TYPE     Orbitron — display only: clocks, titles, section labels
+ *           (tracked 2–3px). GeistMono Nerd Font Propo — everything else.
+ *
+ *  EDGES    1px @edge at rest, @edge-hot + @glow on hover/focus.
+ *           The active/selected item carries a 3px @primary bar on its
+ *           leading edge. Major panels get @primary corner ticks.
+ *
+ *  METERS   Segmented fills: repeating-linear-gradient, 6px cell / 2px gap.
+ *
+ *  GLASS    Every HUD surface is translucent and blurred by Hyprland layer
+ *           rules (hypr/custom/rules.lua, ignore_alpha 0 = only painted pixels).
+ *           GTK4 apps (swaync, swayosd) run with
+ *           GDK_WAYLAND_DISABLE=ext_background_effect_manager_v1: with that
+ *           protocol bound, Hyprland ignores layer rules, and swaync 0.12.6
+ *           never sends a blur region for popups. The Quickshell dock asks for
+ *           its own blur region. Major panels also get a @sheen gradient from
+ *           the top and faint @scan lines.
+ *
+ *  MOTION   150ms ease for state changes. Layer animations live in
+ *           ~/.config/hypr/custom/rules.lua.
+ */
+
+@import url("colors.css");
+
+/* Role aliases */
+@define-color text        @on-surface;
+@define-color muted       @on-surface-variant;
+@define-color danger      @error;
+@define-color warn        #f2c46d;   /* Material has no warning role */
+@define-color warm        #ff9a3c;   /* night light */
+
+/* Surfaces (all blurred underneath, so text stays readable at these alphas).
+ * Keep @popup above decoration:blur:popups_ignorealpha (0.6) or tooltips and
+ * menus lose their blur. */
+@define-color glass       alpha(@surface-container-lowest, 0.55);  /* bar pills: enough to keep @text legible on bright wallpapers */
+@define-color panel       alpha(@surface-dim, 0.58);               /* control center, dock, menus */
+@define-color popup       alpha(@surface-container-low, 0.68);     /* notifications, OSD, tooltips */
+@define-color card        alpha(@surface-container-high, 0.45);    /* cards inside panels */
+@define-color card-hover  alpha(@primary-container, 0.55);
+@define-color scrim-a     alpha(@scrim, 0.55);                     /* full-screen backdrops */
+
+/* Lines and light */
+@define-color edge        alpha(@primary, 0.16);
+@define-color edge-hot    alpha(@primary, 0.55);
+@define-color tick        alpha(@primary, 0.85);
+@define-color glow        alpha(@primary, 0.35);
+@define-color glow-soft   alpha(@primary, 0.08);
+@define-color track       alpha(@on-surface, 0.08);
+@define-color highlight   alpha(#ffffff, 0.06);                    /* 1px inner top light */
+@define-color sheen       alpha(@primary, 0.07);                   /* top-down light on panels */
+@define-color scan        alpha(@primary, 0.035);                  /* scanline texture */
