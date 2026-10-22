@@ -1,105 +1,98 @@
 #!/usr/bin/env bash
-set -uo pipefail
+# Screenshots for Hyprland, native wlroots tools (grim + slurp), cursor-aware.
+#
+#   screenshot.sh [area]   click a window to take exactly that window, or drag a region;
+#                          works on every monitor at once (no monitor picker).
+#                          Copied to the clipboard right away, then opened in swappy to
+#                          annotate (Ctrl+S save, Ctrl+C copy again, Esc close)
+#   screenshot.sh --full   the monitor under the cursor -> file + clipboard
+#   screenshot.sh --window the window under the cursor -> file + clipboard
+#   screenshot.sh --pin    Flameshot pin-to-screen
+#
+# Why not Flameshot for capture: on this setup (fractional 1.33 scale on eDP-1 plus a
+# second monitor) it can't see Wayland windows, asks which monitor to use, and upscales
+# laptop captures to 3840x2400 with region coordinates that don't line up.
 
-SAVE_DIR="$HOME/Pictures/HyprlandSnips"
-mkdir -p "$SAVE_DIR"
+set -u
 
-# Temporary file to store the name of the new screenshot
-TMP_OUT=$(mktemp)
+DIR="$HOME/Pictures/Screenshots"
+mkdir -p "$DIR"
+FILE="$DIR/Screenshot_$(date '+%Y-%m-%d_%H-%M-%S').png"
+COLORS="$HOME/.config/hud/colors.css"
 
-# Start inotifywait in the background to watch the directory
-# Note: we redirect stdout to the temp file so we can read it after wait finishes.
-inotifywait -q -t 60 -e create -e moved_to --format '%f' "$SAVE_DIR" > "$TMP_OUT" 2>/dev/null &
-WATCH_PID=$!
-
-# Give inotifywait a tiny moment to start up
-sleep 0.1
-
-# Trigger quickshell's pretty region selector
-hyprctl dispatch 'hl.dsp.global("quickshell:regionScreenshot")'
-
-# Monitor the selector layer and the inotifywait process
-HAS_BEEN_OPEN=false
-STARTUP_COUNT=0
-MAX_STARTUP_LIMIT=30 # 3 seconds at 0.1s interval
-
-while kill -0 $WATCH_PID 2>/dev/null; do
-    if hyprctl layers | grep -q "quickshell:regionSelector"; then
-        HAS_BEEN_OPEN=true
-    else
-        if [ "$HAS_BEEN_OPEN" = "true" ]; then
-            # The selector was open but is now closed.
-            # Give it a tiny moment to ensure the file event isn't just slightly delayed.
-            sleep 0.15
-            if ! kill -0 $WATCH_PID 2>/dev/null; then
-                # inotifywait finished (file created)
-                break
-            fi
-            # Otherwise, the user cancelled. Kill inotifywait and exit.
-            kill $WATCH_PID 2>/dev/null || true
-            break
-        fi
-        
-        # If it hasn't opened yet, check if we hit the startup limit
-        STARTUP_COUNT=$((STARTUP_COUNT + 1))
-        if [ $STARTUP_COUNT -ge $MAX_STARTUP_LIMIT ]; then
-            # Quickshell took too long to open the selector, or it closed instantly.
-            # We stop active layer checking and just wait on inotifywait to exit or time out.
-            wait $WATCH_PID 2>/dev/null || true
-            break
-        fi
-    fi
-    sleep 0.1
+for cmd in grim slurp jq wl-copy notify-send; do
+    command -v "$cmd" >/dev/null || { notify-send -u critical "Screenshot" "Missing: $cmd"; exit 1; }
 done
 
-NEW_FILE=$(cat "$TMP_OUT")
-rm -f "$TMP_OUT"
+# HUD palette for the slurp overlay (falls back to neutral colours)
+hud() { sed -n "s/^@define-color $1[[:space:]]*#\([0-9a-fA-F]\{6\}\);.*/\1/p" "$COLORS" 2>/dev/null | head -1; }
+PRIMARY=$(hud primary); PRIMARY=${PRIMARY:-bdc7d4}
 
-if [ -z "$NEW_FILE" ]; then
-    exit 0
-fi
+# "x,y wxh" (logical, global) of the monitor under the cursor
+monitor_under_cursor() {
+    local cx cy
+    read -r cx cy < <(hyprctl cursorpos -j | jq -r '"\(.x|floor) \(.y|floor)"')
+    hyprctl monitors -j | jq -r --argjson cx "$cx" --argjson cy "$cy" '
+        .[] | . as $m
+        | ($m.width / $m.scale | floor) as $w | ($m.height / $m.scale | floor) as $h
+        | if ($m.transform % 2) == 1 then {w: $h, h: $w} else {w: $w, h: $h} end
+        | select($cx >= $m.x and $cx < $m.x + .w and $cy >= $m.y and $cy < $m.y + .h)
+        | $m.name' | head -1
+}
 
-FILEPATH="$SAVE_DIR/$NEW_FILE"
+# Boxes of every window on a visible workspace, topmost first (floating, then most recently
+# focused), in slurp's "x,y wxh" format. A plain click in slurp picks the box under the cursor.
+window_boxes() {
+    local visible
+    visible=$(hyprctl monitors -j | jq -c '[.[] | .activeWorkspace.id, .specialWorkspace.id] | map(select(. != 0))')
+    hyprctl clients -j | jq -r --argjson vis "$visible" '
+        map(select(.mapped and (.hidden | not) and (.workspace.id as $w | $vis | index($w))))
+        | sort_by([(if .floating then 0 else 1 end), .focusHistoryID])
+        | .[] | "\(.at[0]),\(.at[1]) \(.size[0])x\(.size[1])"'
+}
 
-# Wait dynamically for the file to exist and be non-empty (up to 2 seconds)
-for i in {1..20}; do
-    if [ -s "$FILEPATH" ]; then
-        break
-    fi
-    sleep 0.1
-done
+window_under_cursor() {
+    local cx cy
+    read -r cx cy < <(hyprctl cursorpos -j | jq -r '"\(.x|floor) \(.y|floor)"')
+    window_boxes | while read -r pos size; do
+        local x=${pos%,*} y=${pos#*,} w=${size%x*} h=${size#*x}
+        if (( cx >= x && cx < x + w && cy >= y && cy < y + h )); then echo "$pos $size"; break; fi
+    done
+}
 
-if [ ! -s "$FILEPATH" ]; then
-    exit 0
-fi
+saved() {  # $1 = what was captured
+    wl-copy --type image/png < "$FILE"
+    notify-send -e -a "Screenshot" -i "$FILE" -t 3000 "Screenshot" "$1 saved and copied"
+}
 
-# Show the notification with Open / Edit actions
-ACTION=$(
-    notify-send \
-        "Screenshot Saved" \
-        "$NEW_FILE" \
-        -a "Screenshot" \
-        -i "$FILEPATH" \
-        -u critical \
-        -t 5000 \
-        --action="open=Open" \
-        --action="edit=Edit" \
-        --wait 2>/dev/null
-) || ACTION=""
-
-case "$ACTION" in
-    open)
-        xdg-open "$FILEPATH" >/dev/null 2>&1 & disown
-        ;;
-    edit)
-        EDITED_FILE="$(mktemp --suffix=.png /tmp/swappy-output-XXXXXX)"
-        if swappy -f "$FILEPATH" -o "$EDITED_FILE"; then
-            mv "$EDITED_FILE" "$FILEPATH"
-            wl-copy --type image/png < "$FILEPATH"
-            notify-send "Screenshot Updated" "$NEW_FILE" \
-                -a "Screenshot" -i "$FILEPATH" -u low -t 2000 >/dev/null 2>&1 || true
+case "${1:-area}" in
+    area|gui|--gui|--area)
+        geom=$(window_boxes | slurp -d -w 2 \
+            -c "${PRIMARY}ff" -b "00000066" -s "${PRIMARY}22" -B "${PRIMARY}33" \
+            -F "GeistMono Nerd Font Propo") || exit 0   # Esc / right-click cancels
+        grim -g "$geom" "$FILE" || { notify-send -u critical "Screenshot" "grim failed"; exit 1; }
+        wl-copy --type image/png < "$FILE"
+        if command -v swappy >/dev/null; then
+            swappy -f "$FILE" -o "$FILE" &>/dev/null &   # annotate; saving overwrites the same file
+            disown
         else
-            rm -f "$EDITED_FILE"
+            saved "Selection"
         fi
+        ;;
+    full|--full)
+        mon=$(monitor_under_cursor)
+        grim ${mon:+-o "$mon"} "$FILE" && saved "${mon:-Screen}"
+        ;;
+    window|--window)
+        geom=$(window_under_cursor)
+        [[ -n $geom ]] || { notify-send -e -a "Screenshot" "Screenshot" "No window under the cursor"; exit 1; }
+        grim -g "$geom" "$FILE" && saved "Window"
+        ;;
+    pin|--pin)
+        flameshot gui --pin
+        ;;
+    *)
+        sed -n '2,10p' "$0" | sed 's/^# \{0,1\}//'
+        exit 1
         ;;
 esac
