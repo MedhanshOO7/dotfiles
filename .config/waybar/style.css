@@ -187,17 +187,23 @@ window#waybar.empty #window {
   color: @primary;
 }
 
+/* Active: tint + accent edge + 3px accent bar, never a solid fill. The icon
+ * theme (YAMIS) is light/monochrome, so icons and numbers vanished on a
+ * solid @primary background. */
 #workspaces button.active {
   padding: 0 8px;
-  background: @primary;
-  color: @on-primary;
-  box-shadow: 0 0 10px @glow;
+  background: alpha(@primary, 0.22);
+  color: @primary;
+  box-shadow:
+    inset 0 -3px @primary,
+    inset 0 0 0 1px alpha(@primary, 0.55),
+    0 0 10px @glow;
 }
 
-/* The workspace shown on the other (unfocused) monitor */
+/* The workspace shown on the other (unfocused) monitor: same idea, quieter */
 #workspaces button.visible:not(.active) {
-  background: alpha(@primary, 0.12);
-  box-shadow: inset 0 -2px @primary;
+  background: alpha(@primary, 0.10);
+  box-shadow: inset 0 -2px alpha(@primary, 0.7);
 }
 
 /* Workspaces with windows show only their app icons; the number is
