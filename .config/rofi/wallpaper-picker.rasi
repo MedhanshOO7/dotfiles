@@ -1,0 +1,57 @@
+/* Wallpaper picker — used by ~/.config/hypr/custom/scripts/wallpaper-picker.sh
+ * Thumbnail grid on top of the shared HUD theme (hud.rasi, matugen colours).
+ * The translucent background relies on Hyprland's blur layer rule for namespace "rofi". */
+
+@import "~/.config/rofi/hud.rasi"
+
+window {
+    width: 1100px;
+}
+
+mainbox {
+    children: [ "inputbar", "listview" ];
+}
+
+entry {
+    placeholder: "search wallpapers…";
+}
+
+/* ---------- Grid ---------- */
+listview {
+    columns:       5;
+    lines:         3;
+    spacing:       14px;
+    flow:          horizontal;
+    fixed-height:  true;
+    fixed-columns: true;
+    cycle:         false;
+}
+
+element {
+    orientation:      vertical;
+    padding:          8px;
+    spacing:          8px;
+    border:           1px;
+    border-color:     @hud-edge;
+    border-radius:    4px 16px 4px 16px;
+    background-color: @hud-card;
+}
+element selected.normal {
+    border:           2px;
+    border-color:     @primary;
+    background-color: @hud-select;
+}
+
+element-icon {
+    size:             170px;
+    border-radius:    3px 12px 3px 12px;
+    horizontal-align: 0.5;
+}
+element-text {
+    font:             "GeistMono Nerd Font Propo 9";
+    horizontal-align: 0.5;
+    text-color:       @hud-muted;
+}
+element-text selected.normal {
+    text-color: @primary;
+}
