@@ -83,33 +83,13 @@ Singleton {
         updateAll();
     }
 
-    Timer {
-        id: debounceUpdateTimer
-        // Hyprland can emit several related events for one window action.
-        // Coalescing them prevents a burst of five JSON-producing hyprctl
-        // processes without making panel state feel delayed.
-        interval: 150
-        repeat: false
-        onTriggered: root.updateAll()
-    }
-
     Connections {
         target: Hyprland
 
         function onRawEvent(event) {
-            // Most raw events do not alter the data this service exposes.
-            // Refreshing clients, monitors, layers and workspaces for all of
-            // them keeps the QML scene unnecessarily busy.
-            const stateChangingEvents = [
-                "openwindow", "closewindow", "movewindow", "movewindowv2",
-                "activewindow", "activewindowv2", "changefloatingmode",
-                "fullscreen", "workspace", "workspacev2", "focusedmon",
-                "createworkspace", "destroyworkspace", "renameworkspace",
-                "monitoradded", "monitoraddedv2", "monitorremoved",
-                "configreloaded"
-            ];
-            if (!stateChangingEvents.includes(event.name)) return;
-            debounceUpdateTimer.restart();
+            // console.log("Hyprland raw event:", event.name);
+            if (["openlayer", "closelayer", "screencast"].includes(event.name)) return;
+            updateAll()
         }
     }
 
