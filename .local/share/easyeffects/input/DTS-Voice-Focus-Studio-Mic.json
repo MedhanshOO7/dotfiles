@@ -1,0 +1,208 @@
+{
+    "input": {
+        "blocklist": [],
+        "plugins_order": [
+            "rnnoise#0",
+            "gate#0",
+            "deesser#0",
+            "equalizer#0",
+            "compressor#0",
+            "limiter#0"
+        ],
+        "rnnoise#0": {
+            "bypass": false,
+            "enable-vad": true,
+            "model-name": "",
+            "release": 20.0,
+            "vad-thres": 50.0,
+            "wet": 0.0
+        },
+        "gate#0": {
+            "attack": 10.0,
+            "bypass": false,
+            "curve-threshold": -42.0,
+            "curve-zone": -6.0,
+            "dry": -80.0,
+            "gain-reduction": 0.0,
+            "hpf-frequency": 80.0,
+            "hpf-mode": "12 dB/oct",
+            "hysteresis": true,
+            "hysteresis-threshold": -48.0,
+            "hysteresis-zone": -6.0,
+            "knee": 6.0,
+            "lpf-frequency": 16000.0,
+            "lpf-mode": "12 dB/oct",
+            "makeup": 0.0,
+            "match-signal-level": false,
+            "max-attenuation": -24.0,
+            "range": -90.0,
+            "reduction": 0.0,
+            "release": 150.0,
+            "sidechain": {
+                "input": "Feed-forward",
+                "lookahead": 0.0,
+                "mode": "RMS",
+                "preamp": 0.0,
+                "reactivity": 10.0,
+                "source": "Middle",
+                "type": "Feed-forward"
+            },
+            "wet": 0.0
+        },
+        "deesser#0": {
+            "bypass": false,
+            "detection": "RMS",
+            "f1-freq": 5500.0,
+            "f1-level": 0.0,
+            "f2-freq": 8500.0,
+            "f2-level": 0.0,
+            "f2-q": 1.4,
+            "laxity": 15,
+            "makeup": 0.0,
+            "mode": "Wide",
+            "ratio": 4.0,
+            "sc-listen": false,
+            "threshold": -20.0
+        },
+        "equalizer#0": {
+            "balance": 0.0,
+            "bypass": false,
+            "mode": "IIR",
+            "num-bands": 5,
+            "left": {
+                "band0": {
+                    "frequency": 80.0,
+                    "gain": -12.0,
+                    "mode": "RLC (BT)",
+                    "mute": false,
+                    "q": 0.7,
+                    "slope": "x1",
+                    "solo": false,
+                    "type": "High-pass",
+                    "width": 4.0
+                },
+                "band1": {
+                    "frequency": 220.0,
+                    "gain": 2.0,
+                    "mode": "RLC (BT)",
+                    "mute": false,
+                    "q": 1.4,
+                    "slope": "x1",
+                    "solo": false,
+                    "type": "Bell",
+                    "width": 4.0
+                },
+                "band2": {
+                    "frequency": 500.0,
+                    "gain": -1.5,
+                    "mode": "RLC (BT)",
+                    "mute": false,
+                    "q": 1.4,
+                    "slope": "x1",
+                    "solo": false,
+                    "type": "Bell",
+                    "width": 4.0
+                },
+                "band3": {
+                    "frequency": 3200.0,
+                    "gain": 3.5,
+                    "mode": "RLC (BT)",
+                    "mute": false,
+                    "q": 1.4,
+                    "slope": "x1",
+                    "solo": false,
+                    "type": "Bell",
+                    "width": 4.0
+                },
+                "band4": {
+                    "frequency": 12000.0,
+                    "gain": 1.5,
+                    "mode": "RLC (BT)",
+                    "mute": false,
+                    "q": 1.0,
+                    "slope": "x1",
+                    "solo": false,
+                    "type": "High-shelf",
+                    "width": 4.0
+                }
+            },
+            "right": {
+                "band0": {
+                    "frequency": 80.0,
+                    "gain": -12.0,
+                    "mode": "RLC (BT)",
+                    "mute": false,
+                    "q": 0.7,
+                    "slope": "x1",
+                    "solo": false,
+                    "type": "High-pass",
+                    "width": 4.0
+                },
+                "band1": {
+                    "frequency": 220.0,
+                    "gain": 2.0,
+                    "mode": "RLC (BT)",
+                    "mute": false,
+                    "q": 1.4,
+                    "slope": "x1",
+                    "solo": false,
+                    "type": "Bell",
+                    "width": 4.0
+                },
+                "band2": {
+                    "frequency": 500.0,
+                    "gain": -1.5,
+                    "mode": "RLC (BT)",
+                    "mute": false,
+                    "q": 1.4,
+                    "slope": "x1",
+                    "solo": false,
+                    "type": "Bell",
+                    "width": 4.0
+                },
+                "band3": {
+                    "frequency": 3200.0,
+                    "gain": 3.5,
+                    "mode": "RLC (BT)",
+                    "mute": false,
+                    "q": 1.4,
+                    "slope": "x1",
+                    "solo": false,
+                    "type": "Bell",
+                    "width": 4.0
+                },
+                "band4": {
+                    "frequency": 12000.0,
+                    "gain": 1.5,
+                    "mode": "RLC (BT)",
+                    "mute": false,
+                    "q": 1.0,
+                    "slope": "x1",
+                    "solo": false,
+                    "type": "High-shelf",
+                    "width": 4.0
+                }
+            }
+        },
+        "compressor#0": {
+            "attack": 15.0,
+            "boost-amount": 4.0,
+            "boost-threshold": -45.0,
+            "bypass": false,
+            "knee": -12.0,
+            "makeup": 2.5,
+            "mode": "Downward",
+            "ratio": 3.5,
+            "release": 100.0,
+            "threshold": -18.0
+        },
+        "limiter#0": {
+            "attack": 2.0,
+            "bypass": false,
+            "lookahead": 4.0,
+            "mode": "Herm Thin",
+            "release": 20.0,
+            "threshold": -1.0
+        }
+    }
+}
