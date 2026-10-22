@@ -17,7 +17,6 @@ import Quickshell.Hyprland
 import qs.modules.ii.background.widgets
 import qs.modules.ii.background.widgets.clock
 import qs.modules.ii.background.widgets.weather
-import qs.modules.ii.background.widgets.todo
 
 Variants {
     id: root
@@ -133,11 +132,7 @@ Variants {
                 id: wallpaper
                 visible: opacity > 0 && !blurLoader.active
                 opacity: (status === Image.Ready && !bgRoot.wallpaperIsVideo) ? 1 : 0
-                // The wallpaper normally remains unchanged for the whole
-                // session. Keeping it cached avoids decoding it again when
-                // this layer is re-exposed.
-                cache: true
-                asynchronous: true
+                cache: false
                 smooth: false
 
                 property int workspaceIndex: (bgRoot.monitor.activeWorkspace?.id ?? 1) - 1
@@ -279,17 +274,6 @@ Variants {
                         scaledScreenHeight: bgRoot.screen.height
                         wallpaperScale: 1
                         wallpaperSafetyTriggered: bgRoot.wallpaperSafetyTriggered
-                    }
-                }
-
-                FadeLoader {
-                    shown: Config.options.background.widgets.todo.enable
-                    sourceComponent: TodoWidget {
-                        screenWidth: bgRoot.screen.width
-                        screenHeight: bgRoot.screen.height
-                        scaledScreenWidth: bgRoot.screen.width
-                        scaledScreenHeight: bgRoot.screen.height
-                        wallpaperScale: 1
                     }
                 }
             }
